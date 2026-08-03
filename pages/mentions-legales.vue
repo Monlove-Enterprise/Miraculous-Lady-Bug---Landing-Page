@@ -12,70 +12,86 @@ useHead({
   <LegalPage :title="locale === 'fr' ? 'Mentions légales' : 'Legal Notice'">
     <!-- FRENCH -->
     <template v-if="locale === 'fr'">
-      <h2>Éditeur du site</h2>
+      <p class="updated">Dernière mise à jour : 15 juillet 2026</p>
+
+      <h2>Éditeur</h2>
       <p>
-        <span class="todo">[À compléter : raison sociale, forme juridique et capital, adresse du
-        siège social, numéro d'immatriculation (RCS / registre équivalent), numéro de TVA,
-        directeur de la publication, e-mail et téléphone de contact.]</span>
+        Belle &amp; Bright Management Inc., exerçant sous le nom commercial Monlove International
+        («&nbsp;MONLOVE&nbsp;»)<br />
+        1597 Berges du Nord<br />
+        Wentworth‑Nord (Québec) J0T 1Y0<br />
+        Canada<br />
+        NEQ 1177091189<br />
+        <a href="mailto:info@monlove.com">info@monlove.com</a>
       </p>
 
-      <h2>Hébergement</h2>
-      <p><span class="todo">[À compléter : nom et adresse de l'hébergeur du site.]</span></p>
-
-      <h2>Propriété intellectuelle</h2>
+      <h2>Hébergeur</h2>
       <p>
-        « Miraculous », « Ladybug &amp; Cat Noir », les visuels, logos et l'ensemble des éléments
-        du site sont protégés par le droit de la propriété intellectuelle et demeurent la propriété
-        de leurs titulaires respectifs.
-        <span class="todo">[À compléter : mention des licences / titulaires de droits, ZAG,
-        etc.]</span>
-        Toute reproduction sans autorisation est interdite.
+        IONOS Inc.<br />
+        2 Logan Square, 100 N. 18th Street, Suite 400<br />
+        Philadelphia, PA 19103<br />
+        États-Unis
       </p>
 
-      <h2>Données personnelles</h2>
+      <h2>Droits d'auteur et marques</h2>
       <p>
-        Le traitement de vos données personnelles est décrit dans notre
-        <NuxtLink to="/confidentialite">politique de confidentialité</NuxtLink>.
+        L'ensemble du contenu du site est protégé par le droit d'auteur et les autres droits de
+        propriété intellectuelle. Miraculous®, Ladybug®, Cat Noir® et les éléments de propriété
+        intellectuelle associés sont la propriété de MIRACULOUS CORP. et/ou de leurs titulaires de
+        droits respectifs et sont utilisés sous licence. Toutes les autres marques appartiennent à
+        leurs propriétaires respectifs. Aucun élément de ce site ne peut être reproduit, distribué
+        ou autrement utilisé sans autorisation écrite préalable, sauf dans les cas permis par la loi
+        applicable.
       </p>
 
-      <h2>Contact</h2>
+      <h2>Documents liés</h2>
       <p>
-        Pour toute question relative au site, écrivez-nous à
-        <span class="todo">[adresse e-mail de contact]</span>.
+        Les présentes mentions légales doivent être lues conjointement avec nos
+        <NuxtLink to="/conditions">conditions d'utilisation</NuxtLink> et notre
+        <NuxtLink to="/confidentialite">politique de confidentialité</NuxtLink>, qui régissent
+        ensemble votre utilisation de MiraculousLadybugLive.com.
       </p>
     </template>
 
     <!-- ENGLISH -->
     <template v-else>
-      <h2>Site publisher</h2>
+      <p class="updated">Last updated: 15 July 2026</p>
+
+      <h2>Publisher</h2>
       <p>
-        <span class="todo">[To complete: company name, legal form and share capital, registered
-        office address, registration number, VAT number, publication director, contact email and
-        phone.]</span>
+        Belle &amp; Bright Management Inc., operating under the trade name Monlove International
+        ("MONLOVE")<br />
+        1597 Berges du Nord<br />
+        Wentworth‑Nord, Québec J0T 1Y0<br />
+        Canada<br />
+        NEQ 1177091189<br />
+        <a href="mailto:info@monlove.com">info@monlove.com</a>
       </p>
 
-      <h2>Hosting</h2>
-      <p><span class="todo">[To complete: name and address of the site's host.]</span></p>
-
-      <h2>Intellectual property</h2>
+      <h2>Hosting Provider</h2>
       <p>
-        "Miraculous", "Ladybug &amp; Cat Noir", the artwork, logos and all elements of this site
-        are protected by intellectual property law and remain the property of their respective
-        owners.
-        <span class="todo">[To complete: mention of licences / rights holders, ZAG, etc.]</span>
-        Any reproduction without authorisation is prohibited.
+        IONOS Inc.<br />
+        2 Logan Square, 100 N. 18th Street, Suite 400<br />
+        Philadelphia, PA 19103<br />
+        United States
       </p>
 
-      <h2>Personal data</h2>
+      <h2>Copyright &amp; Trademarks</h2>
       <p>
-        The processing of your personal data is described in our
-        <NuxtLink to="/confidentialite">privacy policy</NuxtLink>.
+        All website content is protected by copyright and other intellectual property laws.
+        Miraculous®, Ladybug®, Cat Noir® and related intellectual property are owned by MIRACULOUS
+        CORP. and/or their respective rights holders and are used under licence. All other
+        trademarks belong to their respective owners. No material on this Site may be reproduced,
+        distributed or otherwise used without prior written permission, except as permitted by
+        applicable law.
       </p>
 
-      <h2>Contact</h2>
+      <h2>Related Documents</h2>
       <p>
-        For any question about this site, write to us at
-        <span class="todo">[contact email address]</span>.
+        This Legal Notice should be read together with our
+        <NuxtLink to="/conditions">Terms of Use</NuxtLink> and
+        <NuxtLink to="/confidentialite">Privacy Notice</NuxtLink>, which together govern your use of
+        MiraculousLadybugLive.com.
       </p>
     </template>
   </LegalPage>

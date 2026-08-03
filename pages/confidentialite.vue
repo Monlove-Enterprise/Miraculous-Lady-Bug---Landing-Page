@@ -4,147 +4,230 @@ useHead({
   title: () =>
     locale.value === 'fr'
       ? 'Politique de confidentialité — Miraculous : Le Spectacle Live'
-      : 'Privacy Policy — Miraculous: The Live Stage Spectacular',
+      : 'Privacy Notice — Miraculous: The Live Stage Spectacular',
 })
 </script>
 
 <template>
-  <LegalPage :title="locale === 'fr' ? 'Politique de confidentialité' : 'Privacy Policy'">
+  <LegalPage :title="locale === 'fr' ? 'Politique de confidentialité' : 'Privacy Notice'">
     <!-- FRENCH -->
     <template v-if="locale === 'fr'">
-      <p>
-        La présente politique explique quelles données personnelles nous collectons via ce site,
-        pourquoi, et quels sont vos droits. Elle s'applique à tous les visiteurs, où qu'ils se
-        trouvent dans le monde.
-      </p>
+      <p class="updated">Dernière mise à jour : 15 juillet 2026</p>
 
       <h2>Responsable du traitement</h2>
       <p>
-        <span class="todo">[À compléter : raison sociale, forme juridique, adresse du siège,
-        e-mail de contact du responsable / DPO.]</span>
+        Belle &amp; Bright Management Inc., exerçant sous le nom commercial Monlove International
+        («&nbsp;MONLOVE&nbsp;»).
       </p>
 
-      <h2>Données que nous collectons</h2>
-      <p>Lorsque vous vous inscrivez à nos actualités, nous collectons :</p>
+      <h2>Informations que nous collectons</h2>
+      <p>
+        Prénom, adresse e-mail, ville, numéro de téléphone facultatif, pays / indicatif
+        téléphonique, choix de consentement, métadonnées d'inscription, et informations techniques
+        limitées telles que l'adresse IP, les informations relatives au navigateur et les journaux
+        de sécurité.
+      </p>
+
+      <h2>Utilisation des informations</h2>
+      <p>
+        Pour gérer la liste d'attente, communiquer avec vous si vous y consentez, comprendre la
+        demande du public, sécuriser le site et respecter nos obligations légales.
+      </p>
+
+      <h2>Bases légales</h2>
+      <p>
+        Le consentement, votre demande de rejoindre la liste d'attente, les intérêts légitimes et
+        les obligations légales, selon le cas.
+      </p>
+
+      <h2>E-mail et SMS</h2>
+      <p>
+        L'e-mail et le SMS sont facultatifs. Vous pouvez vous désinscrire à tout moment. Nous
+        prévoyons de n'envoyer que des mises à jour occasionnelles concernant la production.
+      </p>
+
+      <h2>Partage</h2>
+      <p>
+        Les informations peuvent être partagées avec des prestataires de services autorisés
+        agissant dans le cadre d'un contrat, tels qu'identifiés ci-dessous.
+      </p>
+
+      <h2>Sous-traitants</h2>
       <ul>
-        <li>votre prénom (facultatif) ;</li>
-        <li>votre adresse e-mail (obligatoire) ;</li>
-        <li>votre code postal (facultatif) ;</li>
-        <li>votre numéro de téléphone (facultatif, uniquement si vous le fournissez) ;</li>
-        <li>vos choix de consentement (e-mail et/ou SMS).</li>
+        <li>IONOS (hébergement)</li>
+        <li>Supabase (base de données et infrastructure applicative)</li>
+        <li>Twilio (SMS, le cas échéant)</li>
+        <li>Resend (e-mail, le cas échéant)</li>
       </ul>
 
-      <h2>Finalités et base légale</h2>
+      <h2>Transferts internationaux</h2>
       <p>
-        Ces données sont utilisées uniquement pour vous envoyer les communications que vous avez
-        expressément acceptées (actualités, dates, billetterie, coulisses). La base légale est
-        votre <strong>consentement</strong>, recueilli au moyen de cases à cocher distinctes et
-        décochées par défaut. Vous pouvez le retirer à tout moment.
+        Les informations peuvent être traitées au Canada, dans l'EEE, aux États-Unis et dans
+        d'autres juridictions, en recourant aux clauses contractuelles types (le cas échéant) et à
+        d'autres garanties appropriées lorsque cela est requis.
       </p>
 
-      <h2>Hébergement et transferts internationaux</h2>
+      <h2>Conservation</h2>
       <p>
-        Nos communications sont gérées via le prestataire <strong>Brevo</strong>, qui stocke les
-        contacts pour notre compte. Le spectacle étant présenté à l'international, vos données
-        peuvent être traitées dans plusieurs pays. Nous veillons à ce que ces traitements
-        bénéficient de garanties appropriées.
-        <span class="todo">[À compléter : localisation des serveurs, mécanismes de transfert le
-        cas échéant — clauses contractuelles types, etc.]</span>
-      </p>
-
-      <h2>Durée de conservation</h2>
-      <p>
-        Vos données sont conservées tant que vous êtes inscrit·e, puis supprimées ou anonymisées
-        dans un délai raisonnable après votre désinscription.
-        <span class="todo">[À compléter : durée précise selon votre politique interne.]</span>
+        Les enregistrements de la liste d'attente sont généralement conservés jusqu'à 36 mois après
+        votre dernière interaction significative, sauf si une durée plus longue est requise par la
+        loi.
       </p>
 
       <h2>Vos droits</h2>
       <p>
-        Conformément aux réglementations applicables (dont le RGPD dans l'Union européenne, et des
-        droits équivalents dans d'autres juridictions), vous disposez d'un droit d'accès, de
-        rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données.
-        Pour les exercer, écrivez-nous à
-        <span class="todo">[adresse e-mail de contact]</span>.
-      </p>
-      <p>
-        Vous pouvez vous désinscrire à tout moment via le lien présent dans chaque e-mail, ou en
-        répondant STOP à un SMS. Vous avez également le droit d'introduire une réclamation auprès
-        de l'autorité de protection des données compétente.
+        Selon votre juridiction, vous pouvez demander l'accès, la rectification, la suppression, la
+        limitation, la portabilité, vous opposer à certains traitements ou retirer votre
+        consentement.
       </p>
 
-      <h2>Mise à jour</h2>
+      <h2>Suppression des données</h2>
       <p>
-        Cette politique pourra être mise à jour. La version en vigueur est celle publiée sur cette
-        page. <span class="todo">[Dernière mise à jour : date.]</span>
+        Vous pouvez demander la suppression de vos informations personnelles à tout moment en
+        écrivant à <a href="mailto:info@monlove.com">info@monlove.com</a>.
+      </p>
+
+      <h2>Décisions automatisées</h2>
+      <p>
+        Nous n'utilisons pas vos informations pour prendre des décisions fondées uniquement sur un
+        traitement automatisé produisant des effets juridiques ou vous affectant de manière
+        significative.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        Seules des technologies strictement nécessaires sont utilisées, sauf si des technologies
+        facultatives sont introduites avec le consentement requis.
+      </p>
+
+      <h2>Sécurité</h2>
+      <p>
+        Des mesures techniques et organisationnelles raisonnables sont mises en œuvre, bien
+        qu'aucun système ne soit totalement sécurisé.
+      </p>
+
+      <h2>Enfants</h2>
+      <p>Le site n'est pas destiné aux enfants de moins de 16 ans.</p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions relatives à la confidentialité :
+        <a href="mailto:info@monlove.com">info@monlove.com</a>.
+      </p>
+
+      <h2>Documents liés</h2>
+      <p>
+        La présente politique de confidentialité doit être lue conjointement avec nos
+        <NuxtLink to="/conditions">conditions d'utilisation</NuxtLink> et nos
+        <NuxtLink to="/mentions-legales">mentions légales</NuxtLink>, qui régissent ensemble votre
+        utilisation de MiraculousLadybugLive.com.
       </p>
     </template>
 
     <!-- ENGLISH -->
     <template v-else>
+      <p class="updated">Last updated: 15 July 2026</p>
+
+      <h2>Data Controller</h2>
       <p>
-        This policy explains what personal data we collect through this site, why, and what your
-        rights are. It applies to all visitors, wherever they are in the world.
+        Belle &amp; Bright Management Inc., operating under the trade name Monlove International
+        ("MONLOVE").
       </p>
 
-      <h2>Data controller</h2>
+      <h2>Information We Collect</h2>
       <p>
-        <span class="todo">[To complete: company name, legal form, registered address, contact
-        email of the controller / DPO.]</span>
+        First name, email, city, optional phone number, country/dialling code, consent choices,
+        registration metadata, limited technical information such as IP address, browser information
+        and security logs.
       </p>
 
-      <h2>Data we collect</h2>
-      <p>When you sign up for our updates, we collect:</p>
+      <h2>How We Use Information</h2>
+      <p>
+        To manage the waitlist, communicate with you if you consent, understand audience demand,
+        secure the Site and comply with legal obligations.
+      </p>
+
+      <h2>Legal Bases</h2>
+      <p>
+        Consent, your request to join the waitlist, legitimate interests and legal obligations, as
+        applicable.
+      </p>
+
+      <h2>Email &amp; SMS</h2>
+      <p>
+        Email and SMS are optional. You may unsubscribe at any time. We expect to send only
+        occasional production updates.
+      </p>
+
+      <h2>Sharing</h2>
+      <p>
+        Information may be shared with authorized service providers acting under contract, as
+        identified below.
+      </p>
+
+      <h2>Data Processors</h2>
       <ul>
-        <li>your first name (optional);</li>
-        <li>your email address (required);</li>
-        <li>your postal code (optional);</li>
-        <li>your phone number (optional, only if you provide it);</li>
-        <li>your consent choices (email and/or SMS).</li>
+        <li>IONOS (hosting)</li>
+        <li>Supabase (database and application infrastructure)</li>
+        <li>Twilio (SMS, if used)</li>
+        <li>Resend (email, if used)</li>
       </ul>
 
-      <h2>Purpose and legal basis</h2>
+      <h2>International Transfers</h2>
       <p>
-        This data is used solely to send you the communications you have expressly agreed to
-        (news, dates, ticketing, behind-the-scenes). The legal basis is your
-        <strong>consent</strong>, collected via separate checkboxes that are unticked by default.
-        You may withdraw it at any time.
-      </p>
-
-      <h2>Hosting and international transfers</h2>
-      <p>
-        Our communications are managed through the provider <strong>Brevo</strong>, which stores
-        contacts on our behalf. As the show is presented internationally, your data may be
-        processed in several countries. We ensure such processing benefits from appropriate
-        safeguards.
-        <span class="todo">[To complete: server locations, transfer mechanisms where applicable —
-        standard contractual clauses, etc.]</span>
+        Information may be processed in Canada, the EEA, the United States and other jurisdictions
+        using Standard Contractual Clauses (where applicable) and other appropriate safeguards where
+        required.
       </p>
 
       <h2>Retention</h2>
       <p>
-        Your data is kept for as long as you remain subscribed, then deleted or anonymised within
-        a reasonable period after you unsubscribe.
-        <span class="todo">[To complete: precise duration per your internal policy.]</span>
+        Waitlist records are generally retained for up to 36 months after your last meaningful
+        interaction unless a longer period is required by law.
       </p>
 
-      <h2>Your rights</h2>
+      <h2>Your Rights</h2>
       <p>
-        In accordance with applicable regulations (including the GDPR in the European Union, and
-        equivalent rights in other jurisdictions such as the UK GDPR, CCPA/CPRA, PIPEDA and LGPD),
-        you have the right to access, rectify, erase, restrict, object to and port your data. To
-        exercise these rights, write to us at
-        <span class="todo">[contact email address]</span>.
-      </p>
-      <p>
-        You can unsubscribe at any time via the link in every email, or by replying STOP to a SMS.
-        You also have the right to lodge a complaint with the competent data protection authority.
+        Depending on your jurisdiction you may request access, correction, deletion, restriction,
+        portability, object to certain processing or withdraw consent.
       </p>
 
-      <h2>Updates</h2>
+      <h2>Data Deletion</h2>
       <p>
-        This policy may be updated. The version in force is the one published on this page.
-        <span class="todo">[Last updated: date.]</span>
+        You may request deletion of your personal information at any time by contacting
+        <a href="mailto:info@monlove.com">info@monlove.com</a>.
+      </p>
+
+      <h2>Automated Decisions</h2>
+      <p>
+        We do not use your information to make decisions based solely on automated processing that
+        produce legal or similarly significant effects.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        Only strictly necessary technologies are used unless optional technologies are introduced
+        with required consent.
+      </p>
+
+      <h2>Security</h2>
+      <p>
+        Reasonable technical and organizational safeguards are implemented, although no system is
+        completely secure.
+      </p>
+
+      <h2>Children</h2>
+      <p>The Site is not intended for children under 16.</p>
+
+      <h2>Contact</h2>
+      <p>Privacy questions: <a href="mailto:info@monlove.com">info@monlove.com</a>.</p>
+
+      <h2>Related Documents</h2>
+      <p>
+        This Privacy Notice should be read together with our
+        <NuxtLink to="/conditions">Terms of Use</NuxtLink> and
+        <NuxtLink to="/mentions-legales">Legal Notice</NuxtLink>, which together govern your use of
+        MiraculousLadybugLive.com.
       </p>
     </template>
   </LegalPage>

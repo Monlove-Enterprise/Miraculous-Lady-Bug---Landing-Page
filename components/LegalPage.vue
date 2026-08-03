@@ -1,11 +1,14 @@
 <script setup lang="ts">
 defineProps<{ title: string }>()
+const { locale } = useLocale()
 </script>
 
 <template>
   <main class="legal-page">
     <div class="container">
-      <NuxtLink to="/" class="back">← Retour à l'accueil</NuxtLink>
+      <NuxtLink to="/" class="back">
+        ← {{ locale === 'fr' ? "Retour à l'accueil" : 'Back to home' }}
+      </NuxtLink>
       <h1 class="legal-page__title">{{ title }}</h1>
       <div class="legal-page__body">
         <slot />
@@ -46,6 +49,11 @@ defineProps<{ title: string }>()
   font-size: 0.98rem;
   line-height: 1.7;
 }
+.legal-page__body :deep(.updated) {
+  color: rgba(203, 192, 174, 0.55);
+  font-size: 0.85rem;
+  margin-bottom: 2rem;
+}
 .legal-page__body :deep(h2) {
   font-family: var(--font-display);
   color: var(--cream);
@@ -68,9 +76,5 @@ defineProps<{ title: string }>()
 }
 .legal-page__body :deep(a:hover) {
   color: var(--red);
-}
-.legal-page__body :deep(.todo) {
-  color: #ffcf5c;
-  font-style: italic;
 }
 </style>
