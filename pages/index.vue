@@ -413,7 +413,6 @@ function copyTune() {
   background:
     radial-gradient(80% 60% at 20% 0%, rgba(168, 0, 32, 0.25), transparent 60%),
     var(--ink-soft);
-  border-top: 1px solid rgba(228, 3, 46, 0.25);
 }
 .signup-section__inner {
   display: grid;
@@ -519,6 +518,17 @@ function copyTune() {
   .hero__tagline {
     max-width: none;
     white-space: nowrap;
+  }
+  /* Melt the bottom of the hero into the dark "Help bring…" section so the
+     Ladybug (bottom-left, cut by the section edge) and the CTA don't float over
+     a hard red/dark line. Desktop only: on mobile the lockup sits at the hero
+     bottom, so a fade there would dim the button/credit. */
+  .hero {
+    background: linear-gradient(180deg, #f40e04 0%, #f40e04 70%, var(--ink-soft) 100%);
+  }
+  .hero__art img {
+    -webkit-mask-image: linear-gradient(180deg, #000 68%, transparent 96%);
+    mask-image: linear-gradient(180deg, #000 68%, transparent 96%);
   }
 }
 
