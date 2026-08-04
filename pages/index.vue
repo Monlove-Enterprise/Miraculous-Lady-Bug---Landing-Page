@@ -250,11 +250,11 @@ function copyTune() {
   gap: 1.75rem;
   padding: 5rem 1.5rem 3.5rem;
   overflow: hidden;
-  /* Exact scarlet of the delivered key-art assets (Background.png / Orange
-     Background.png) — matches the Ladybug's suit so it melts into the bg.
-     NOT the brand --red (#E4032E), which is a different crimson and left a
-     visible seam around the character. */
-  background: var(--scarlet);
+  /* Scarlet of the key-art assets (matches the Ladybug's suit so it melts into
+     the bg). Fades to the dark "Help bring…" section from ~78% — the bottom of
+     her suit — so her whole suit stays on scarlet and only the CTA/credit band
+     melts to dark. Same stacked layout + fade on desktop and mobile. */
+  background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
 }
 
 /* Miraculous ladybug emblem, top-left */
@@ -515,11 +515,6 @@ function copyTune() {
     min-height: auto; /* fit content — no empty gap before the signup */
     padding: 4.5rem 1.25rem 2.5rem;
     gap: 1.25rem;
-    /* Mobile-only fade into the dark "Help bring…" section. Solid scarlet down
-       to the very bottom of the Ladybug's suit (~78%) so her whole suit blends
-       into the bg; only the short bottom band (behind the CTA/credit) melts to
-       dark. */
-    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
   }
   .hero__bug {
     width: 34px; /* match the visual weight of the FR/EN toggle */
