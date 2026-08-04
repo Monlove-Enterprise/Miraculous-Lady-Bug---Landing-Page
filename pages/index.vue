@@ -116,7 +116,7 @@ function copyTune() {
         </button>
         <p class="hero__credit">
           <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
-          <span class="hero__credit-names">Ella Louise Allaire &amp; Martin Lord Ferguson</span>
+          <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
         </p>
       </div>
     </section>
@@ -244,13 +244,11 @@ function copyTune() {
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
-  min-height: 88svh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1.6rem;
-  padding: 5rem 1.5rem 3.25rem;
+  gap: 1.75rem;
+  padding: 5rem 1.5rem 3.5rem;
   overflow: hidden;
   /* Exact scarlet of the delivered key-art assets (Background.png / Orange
      Background.png) — matches the Ladybug's suit so it melts into the bg.
@@ -270,13 +268,11 @@ function copyTune() {
   filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
 }
 
-/* Ladybug portrait — absolute bottom-left overlay on desktop. */
+/* Ladybug portrait — in-flow, centred, stacked below the title at every width
+   (same arrangement as mobile). Width tunable via --art-w. */
 .hero__art {
-  position: absolute;
-  /* Defaults are the baked values; ?tune=1 overrides via --art-* live. */
-  left: var(--art-left, 4vw);
-  bottom: var(--art-bottom, 16px);
-  width: var(--art-w, clamp(240px, 28vw, 520px));
+  align-self: center;
+  width: var(--art-w, clamp(260px, 24vw, 400px));
   z-index: 1;
   pointer-events: none;
 }
@@ -290,9 +286,8 @@ function copyTune() {
 .hero__logo {
   position: relative;
   z-index: 2;
-  width: var(--title-w, clamp(280px, 32.5vw, 560px));
+  width: var(--title-w, clamp(300px, 32vw, 480px));
   height: auto;
-  transform: translateY(6px); /* title + text nudged down 6px */
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
 
@@ -309,7 +304,6 @@ function copyTune() {
   align-items: center;
   gap: 1.5rem;
   text-align: center;
-  transform: translateY(6px); /* keep in step with the title's 6px nudge */
 }
 .hero__tagline {
   font-size: clamp(1.05rem, 1.5vw, 1.6rem);
@@ -509,11 +503,6 @@ function copyTune() {
   .hero__tagline {
     max-width: none;
     white-space: nowrap;
-  }
-  /* Lower the whole centred block (title + tagline + CTA + credit) on desktop */
-  .hero__logo,
-  .hero__lockup {
-    transform: translateY(30px);
   }
 }
 
