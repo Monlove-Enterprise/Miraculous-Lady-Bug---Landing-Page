@@ -19,6 +19,9 @@
   /* Miraculous palette */
   --red: #e4032e;
   --red-deep: #a80020;
+  /* Scarlet of the 2026-08 key-art assets (hero bg + Ladybug suit). Use this
+     for anything that should match the new artwork, not the crimson --red. */
+  --scarlet: #f40e04;
   --cream: #f3e9d8;
   --cream-dim: #cbc0ae;
   --ink: #0a0507;

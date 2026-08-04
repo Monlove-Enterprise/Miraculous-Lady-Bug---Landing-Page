@@ -195,7 +195,7 @@ function copyTune() {
   backdrop-filter: blur(6px);
 }
 .lang span.on {
-  color: var(--red);
+  color: var(--scarlet);
 }
 .lang .sep {
   opacity: 0.4;
@@ -268,7 +268,7 @@ function copyTune() {
      Background.png) — matches the Ladybug's suit so it melts into the bg.
      NOT the brand --red (#E4032E), which is a different crimson and left a
      visible seam around the character. */
-  background: #f40e04;
+  background: var(--scarlet);
 }
 
 /* Miraculous ladybug emblem, top-left */
@@ -285,9 +285,9 @@ function copyTune() {
 /* Ladybug portrait — absolute bottom-left overlay on desktop. */
 .hero__art {
   position: absolute;
-  left: 0;
+  left: 1.8vw;
   bottom: 0;
-  width: clamp(300px, 32vw, 640px);
+  width: clamp(270px, 26vw, 500px);
   z-index: 1;
   pointer-events: none;
 }
@@ -301,7 +301,7 @@ function copyTune() {
 .hero__logo {
   position: relative;
   z-index: 2;
-  width: clamp(300px, 44vw, 700px);
+  width: clamp(300px, 39vw, 620px);
   height: auto;
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
@@ -338,7 +338,7 @@ function copyTune() {
 }
 .hero__credit-label {
   display: block;
-  color: #300a0d;
+  color: #fff;
   font-size: clamp(0.72rem, 0.9vw, 0.92rem);
   letter-spacing: 0.05em;
   margin-bottom: 0.25em;
@@ -524,7 +524,7 @@ function copyTune() {
      a hard red/dark line. Desktop only: on mobile the lockup sits at the hero
      bottom, so a fade there would dim the button/credit. */
   .hero {
-    background: linear-gradient(180deg, #f40e04 0%, #f40e04 70%, var(--ink-soft) 100%);
+    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 70%, var(--ink-soft) 100%);
   }
   .hero__art img {
     -webkit-mask-image: linear-gradient(180deg, #000 68%, transparent 96%);
