@@ -251,7 +251,7 @@ async function submit() {
   max-width: 460px;
   margin-inline: auto;
   background: var(--ink-panel);
-  border: 1px solid rgba(228, 3, 46, 0.35);
+  border: 1px solid rgba(244, 14, 4, 0.35);
   border-radius: 18px;
   padding: 2rem 1.75rem 2.25rem;
   box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
@@ -307,7 +307,7 @@ async function submit() {
 .select:focus {
   outline: none;
   border-color: var(--red);
-  box-shadow: 0 0 0 3px rgba(228, 3, 46, 0.25);
+  box-shadow: 0 0 0 3px rgba(244, 14, 4, 0.25);
 }
 
 /* Native select styling */
@@ -355,7 +355,7 @@ async function submit() {
   cursor: pointer;
 }
 .suggest__item:hover {
-  background: rgba(228, 3, 46, 0.18);
+  background: rgba(244, 14, 4, 0.18);
 }
 
 .phone-group {

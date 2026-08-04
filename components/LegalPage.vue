@@ -22,7 +22,7 @@ const { locale } = useLocale()
   min-height: 100dvh;
   padding: 4rem 0 6rem;
   background:
-    radial-gradient(80% 50% at 20% 0%, rgba(168, 0, 32, 0.18), transparent 60%),
+    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
     var(--ink);
 }
 .legal-page .container {

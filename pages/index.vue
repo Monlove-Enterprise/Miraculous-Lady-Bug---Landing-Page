@@ -201,7 +201,7 @@ function copyTune() {
   width: 230px;
   padding: 0.9rem 1rem;
   background: rgba(10, 5, 7, 0.85);
-  border: 1px solid rgba(228, 3, 46, 0.5);
+  border: 1px solid rgba(244, 14, 4, 0.5);
   border-radius: 12px;
   color: var(--cream);
   font-size: 0.78rem;
@@ -402,7 +402,7 @@ function copyTune() {
   position: relative;
   padding: 5rem 0 4rem;
   background:
-    radial-gradient(80% 60% at 20% 0%, rgba(168, 0, 32, 0.25), transparent 60%),
+    radial-gradient(80% 60% at 20% 0%, rgba(244, 14, 4, 0.22), transparent 60%),
     var(--ink-soft);
 }
 .signup-section__inner {
