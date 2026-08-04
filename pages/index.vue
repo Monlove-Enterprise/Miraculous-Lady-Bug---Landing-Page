@@ -264,7 +264,11 @@ function copyTune() {
   gap: 1.6rem;
   padding: 5rem 1.5rem 3.25rem;
   overflow: hidden;
-  background: var(--red);
+  /* Exact scarlet of the delivered key-art assets (Background.png / Orange
+     Background.png) — matches the Ladybug's suit so it melts into the bg.
+     NOT the brand --red (#E4032E), which is a different crimson and left a
+     visible seam around the character. */
+  background: #f40e04;
 }
 
 /* Miraculous ladybug emblem, top-left */
