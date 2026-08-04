@@ -108,36 +108,29 @@ function copyTune() {
     </div>
 
     <!-- ===================== HERO ===================== -->
-    <!-- Public site uses the fluid CSS defaults; ?tune=1 overrides them live -->
-    <section class="hero" :style="tuning ? heroStyle : undefined">
+    <!-- DOM order (title, art, lockup) drives both layouts: on desktop the art
+         is an absolute bottom-left overlay so title+lockup centre; on mobile the
+         art returns to flow, giving title → Ladybug → tagline/CTA/credit. -->
+    <section class="hero">
       <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
-      <div class="hero__glow" aria-hidden="true"></div>
 
-      <!-- Key art + composer credit. The credit lives INSIDE the art box and is
-           positioned/sized in % + cqw of that box, so it scales with the artwork
-           and stays pinned to the same spot at any viewport — one set of values
-           for both desktop and mobile. -->
-      <div class="hero__art">
-        <img src="/images/keyart-0808-trans.png" alt="" aria-hidden="true" />
-        <p class="hero__credit">
-          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
-          <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
-        </p>
+      <img class="hero__logo" src="/images/title-treatment.png" :alt="t('hero.logoAlt')" />
+
+      <div class="hero__art" aria-hidden="true">
+        <img src="/images/ladybug-hero.png" alt="" />
       </div>
 
-      <!-- Content (right) -->
-      <div class="hero__content container">
-        <img class="hero__logo" src="/images/logo.png" :alt="t('hero.logoAlt')" />
+      <div class="hero__lockup">
         <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <button class="cta" type="button" @click="scrollToSignup">
           {{ t('hero.cta') }}
           <span class="cta__arrow" aria-hidden="true">↓</span>
         </button>
+        <p class="hero__credit">
+          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
+          <span class="hero__credit-names">Ella Louise Allaire &amp; Martin Lord Ferguson</span>
+        </p>
       </div>
-
-      <button class="scroll-hint" type="button" :aria-label="t('hero.scrollAria')" @click="scrollToSignup">
-        <span></span>
-      </button>
     </section>
 
     <!-- ===================== SIGNUP ===================== -->
@@ -178,6 +171,7 @@ function copyTune() {
 <style scoped>
 .page {
   min-height: 100dvh;
+  overflow-x: clip; /* no horizontal scroll from full-bleed hero elements */
 }
 
 /* --------------------------- LANG TOGGLE --------------------------- */
@@ -262,20 +256,15 @@ function copyTune() {
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
-  /* The art is ~60vw wide and ~1.33:1, so it is ~45vw tall. If the hero is
-     taller than that, the red curtain stops short of the top — which is exactly
-     the jump you saw when narrowing the window (it only "came back" at the
-     mobile breakpoint, where the art switches to 132%). Cap the hero at the
-     art's height so the curtain always reaches the top, without oversizing the
-     artwork and shoving the characters into the copy. */
-  min-height: min(var(--hero-h, 72svh), 45vw);
+  min-height: 88svh;
   display: flex;
-  align-items: flex-start;
-  padding-top: var(--hero-pt, 7vh);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: 5rem 1.5rem 3.25rem;
   overflow: hidden;
-  background:
-    radial-gradient(90% 80% at 22% 42%, rgba(168, 0, 32, 0.28), transparent 55%),
-    linear-gradient(180deg, #140809 0%, var(--ink) 70%);
+  background: var(--red);
 }
 
 /* Miraculous ladybug emblem, top-left */
@@ -286,103 +275,76 @@ function copyTune() {
   width: 58px;
   height: auto;
   z-index: 6;
-  /* Dark halo so the emblem stays legible even over the red key art */
-  filter: drop-shadow(0 0 12px rgba(10, 5, 7, 0.95)) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
 }
 
-/* Red "spotlight" sun-glow behind the art, echoing the key-art sun */
-.hero__glow {
-  position: absolute;
-  left: -12%;
-  top: 46%;
-  transform: translateY(-50%);
-  width: 56%;
-  aspect-ratio: 1;
-  background: radial-gradient(circle, rgba(228, 3, 46, 0.5) 0%, rgba(228, 3, 46, 0.12) 38%, transparent 66%);
-  filter: blur(10px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Key art anchored BOTTOM-LEFT, right edge feathered into the dark.
-   Size/position driven by CSS vars so the ?tune=1 panel can adjust them live. */
+/* Ladybug portrait — absolute bottom-left overlay on desktop. */
 .hero__art {
   position: absolute;
   left: 0;
   bottom: 0;
-  top: auto;
-  transform: translate(var(--art-x, -4%), var(--art-y, 0%));
-  /* Characters read bigger and the red curtain reaches the top */
-  width: var(--art-w, clamp(440px, 60vw, 1150px));
+  width: clamp(300px, 32vw, 640px);
   z-index: 1;
-  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
-  /* Container for the credit: makes cqw = 1% of the artwork's width, so the
-     credit scales with the art instead of with the viewport. */
-  container-type: inline-size;
+  pointer-events: none;
 }
 .hero__art img {
   width: 100%;
   height: auto;
   display: block;
-  /* Feather the right edge into the dark. Masking the IMG (not the box) keeps
-     the credit text — a sibling inside the box — fully opaque. */
-  -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
 }
 
-/* Content centered */
-.hero__content {
+/* Title treatment */
+.hero__logo {
+  position: relative;
+  z-index: 2;
+  width: clamp(300px, 44vw, 700px);
+  height: auto;
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
+}
+
+/* Tagline + CTA + credit, centred. Width-constrained so long lines (tagline,
+   composer names) wrap on narrow screens instead of being clipped by the hero's
+   overflow; on desktop the cap is wide enough to keep them on one line. */
+.hero__lockup {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: clamp(560px, 46vw, 900px);
-  margin: 0 auto;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   text-align: center;
-  transform: scale(var(--content-scale, 1));
-  transform-origin: top center;
-}
-.hero__logo {
-  width: clamp(260px, 30vw, 600px);
-  margin: 0 auto 1.5rem;
-  filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.6));
 }
 .hero__tagline {
-  font-size: clamp(1.05rem, 1.5vw, 1.7rem);
-  color: var(--cream);
-  max-width: 30ch;
-  margin: 0 auto 2rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+  font-size: clamp(1.05rem, 1.5vw, 1.6rem);
+  color: #fff;
+  width: 100%;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
 }
 
-/* Composer credit — pinned to the artwork at the Eiffel-tower base.
-   Position is a % of the art box and type is sized in cqw (1cqw = 1% of the
-   art's width), so the whole lockup scales with the art and holds its spot at
-   every screen size. These same values drive desktop AND mobile. */
+/* Composer credit — centred under the CTA (part of the lockup). */
 .hero__credit {
-  position: absolute;
-  left: var(--credit-x, 23%);
-  top: var(--credit-y, 82%);
-  z-index: 4; /* above the art image, below the emblem */
-  margin: 0;
-  text-align: left;
+  width: 100%;
+  margin: 0.25rem 0 0;
+  text-align: center;
   font-family: var(--font-display);
-  line-height: 1.15;
-  text-shadow: 0 0.15em 0.5em rgba(0, 0, 0, 0.95);
+  line-height: 1.25;
 }
 .hero__credit-label {
   display: block;
-  color: var(--red);
-  font-size: var(--credit-label-size, 1.45cqw);
-  letter-spacing: 0.06em;
-  margin-bottom: 0.15em;
+  color: #300a0d;
+  font-size: clamp(0.72rem, 0.9vw, 0.92rem);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25em;
 }
 .hero__credit-names {
   display: block;
-  color: var(--cream);
-  font-size: var(--credit-names-size, 1.7cqw);
-  letter-spacing: 0.03em;
+  color: #fff;
+  font-size: clamp(0.9rem, 1.15vw, 1.2rem);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .cta {
@@ -392,17 +354,17 @@ function copyTune() {
   padding: 1rem 2.2rem;
   border: none;
   border-radius: 999px;
-  background: var(--red);
+  background: #150a0b;
   color: #fff;
   font-family: var(--font-display);
   font-size: 1.25rem;
   letter-spacing: 0.03em;
   cursor: pointer;
-  box-shadow: 0 12px 30px -8px rgba(228, 3, 46, 0.7);
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.6);
   transition: transform 0.15s ease, background 0.15s ease;
 }
 .cta:hover {
-  background: #ff1f4a;
+  background: #000;
   transform: translateY(-2px);
 }
 .cta__arrow {
@@ -561,62 +523,25 @@ function copyTune() {
    art) collides with the characters, so the stacked layout has to take over. */
 @media (max-width: 859px) {
   .hero {
-    flex-direction: column;
-    align-items: stretch;
     justify-content: flex-start;
     min-height: auto; /* fit content — no empty gap before the signup */
-    padding: 0 0 2.5rem; /* no side padding so the art can bleed to the edge */
-    text-align: center;
+    padding: 4.5rem 1.25rem 2.5rem;
+    gap: 1.25rem;
   }
   .hero__bug {
     width: 34px; /* match the visual weight of the FR/EN toggle */
     top: 1.1rem;
     left: 1.1rem;
   }
-  .hero__art {
-    /* relative (not static) so the credit inside still anchors to the art */
-    position: relative;
-    order: -1;
-    width: 132%; /* full-bleed: the red curtain fills the top of the phone */
-    max-width: none;
-    align-self: start;
-    margin-left: -18%; /* keep the red flush left, characters toward centre */
-    left: auto;
-    top: auto;
-    bottom: auto;
-    transform: none;
-    opacity: 1;
-    margin-top: 0; /* red curtain reaches the very top on mobile too */
-    filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.55));
-  }
-  /* Melt the bottom of the art into the content below (mask the img, not the
-     box, so the credit stays opaque) */
-  .hero__art img {
-    -webkit-mask-image: linear-gradient(180deg, #000 66%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 66%, transparent 100%);
-  }
-  .hero__glow {
-    left: 50%;
-    top: 34%;
-    width: 110%;
-    transform: translate(-50%, -50%);
-    opacity: 0.75;
-  }
-  .hero__content {
-    /* Was -4.5rem: that pulled the logo up into the credit's zone under the
-       characters' feet. Keep a light overlap only. */
-    margin: -1.5rem auto 0;
-    text-align: center;
-  }
+  /* Title on top, then the Ladybug returns to flow below it (DOM order) */
   .hero__logo {
-    width: min(80%, 340px);
-    margin-inline: auto;
+    width: min(84%, 380px);
   }
-  .hero__tagline {
-    margin-inline: auto;
+  .hero__art {
+    position: static;
+    width: min(74%, 340px);
+    align-self: center;
   }
-  /* No credit overrides here: it's pinned inside the art box in % + cqw, so it
-     scales and holds its spot automatically. */
 
   /* Less gap before the signup section; "Be Miraculous" sits higher */
   .signup-section {
