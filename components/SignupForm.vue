@@ -412,7 +412,7 @@ async function submit() {
   transition: transform 0.12s ease, background 0.15s ease;
 }
 .btn:hover:not(:disabled) {
-  background: #ff1f4a;
+  background: #ff3a1f;
   transform: translateY(-1px);
 }
 .btn:disabled {

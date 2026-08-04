@@ -7,26 +7,24 @@ function scrollToSignup() {
 }
 
 // ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
+// Desktop hero only: tune the Ladybug size/position and the title width live,
+// then bake the chosen values into the CSS defaults below.
 const tuning = computed(() => route.query.tune !== undefined)
-const heroH = ref(72) // hero height (svh)
-const topPad = ref(7) // space above the content (vh)
-const artW = ref(60) // key-art width (% of viewport)
-const artX = ref(-5) // key-art horizontal offset (%)
-const artY = ref(0) // key-art vertical offset (%)
-const textScale = ref(1) // scale of the centered logo/tagline/CTA block
+const artW = ref(26) // Ladybug width (vw)
+const artLeft = ref(1.8) // Ladybug left offset (vw)
+const artBottom = ref(0) // Ladybug bottom offset (px, + = higher)
+const titleW = ref(39) // Title width (vw)
 
 const heroStyle = computed(() => ({
-  '--hero-h': heroH.value + 'svh',
-  '--hero-pt': topPad.value + 'vh',
-  '--art-w': artW.value + '%',
-  '--art-x': artX.value + '%',
-  '--art-y': artY.value + '%',
-  '--content-scale': String(textScale.value),
+  '--art-w': artW.value + 'vw',
+  '--art-left': artLeft.value + 'vw',
+  '--art-bottom': artBottom.value + 'px',
+  '--title-w': titleW.value + 'vw',
 }))
 
 const tuneSummary = computed(
   () =>
-    `hero-h:${heroH.value}svh top:${topPad.value}vh art-w:${artW.value}% x:${artX.value}% y:${artY.value}% text:${textScale.value}`,
+    `art-w:${artW.value}vw art-left:${artLeft.value}vw art-bottom:${artBottom.value}px title-w:${titleW.value}vw`,
 )
 const copied = ref(false)
 
@@ -37,25 +35,21 @@ onMounted(() => {
   try {
     const s = JSON.parse(localStorage.getItem('heroTune') || 'null')
     if (s) {
-      heroH.value = s.heroH ?? heroH.value
-      topPad.value = s.topPad ?? topPad.value
       artW.value = s.artW ?? artW.value
-      artX.value = s.artX ?? artX.value
-      artY.value = s.artY ?? artY.value
-      textScale.value = s.textScale ?? textScale.value
+      artLeft.value = s.artLeft ?? artLeft.value
+      artBottom.value = s.artBottom ?? artBottom.value
+      titleW.value = s.titleW ?? titleW.value
     }
   } catch {}
-  watch([heroH, topPad, artW, artX, artY, textScale], () => {
+  watch([artW, artLeft, artBottom, titleW], () => {
     try {
       localStorage.setItem(
         'heroTune',
         JSON.stringify({
-          heroH: heroH.value,
-          topPad: topPad.value,
           artW: artW.value,
-          artX: artX.value,
-          artY: artY.value,
-          textScale: textScale.value,
+          artLeft: artLeft.value,
+          artBottom: artBottom.value,
+          titleW: titleW.value,
         }),
       )
     } catch {}
@@ -80,26 +74,20 @@ function copyTune() {
       <span :class="{ on: locale === 'en' }">EN</span>
     </button>
 
-    <!-- Live layout tuner — add ?tune=1 to the URL to show it -->
+    <!-- Live layout tuner — add ?tune=1 to the URL to show it (desktop hero) -->
     <div v-if="tuning" class="tuner">
-      <strong>Réglages hero</strong>
-      <label>Hauteur&nbsp;: {{ heroH }}svh
-        <input v-model.number="heroH" type="range" min="45" max="100" />
+      <strong>Réglages hero (desktop)</strong>
+      <label>Ladybug largeur&nbsp;: {{ artW }}vw
+        <input v-model.number="artW" type="range" min="14" max="42" step="0.5" />
       </label>
-      <label>Haut (air)&nbsp;: {{ topPad }}vh
-        <input v-model.number="topPad" type="range" min="0" max="24" />
+      <label>Ladybug ← gauche&nbsp;: {{ artLeft }}vw
+        <input v-model.number="artLeft" type="range" min="-6" max="24" step="0.5" />
       </label>
-      <label>Image&nbsp;: {{ artW }}%
-        <input v-model.number="artW" type="range" min="20" max="80" />
+      <label>Ladybug ↑ hauteur&nbsp;: {{ artBottom }}px
+        <input v-model.number="artBottom" type="range" min="-30" max="180" step="2" />
       </label>
-      <label>Image X&nbsp;: {{ artX }}%
-        <input v-model.number="artX" type="range" min="-25" max="40" />
-      </label>
-      <label>Image Y&nbsp;: {{ artY }}%
-        <input v-model.number="artY" type="range" min="-20" max="20" />
-      </label>
-      <label>Texte&nbsp;: {{ textScale }}×
-        <input v-model.number="textScale" type="range" min="0.6" max="1.6" step="0.05" />
+      <label>Titre largeur&nbsp;: {{ titleW }}vw
+        <input v-model.number="titleW" type="range" min="24" max="56" step="0.5" />
       </label>
       <code>{{ tuneSummary }}</code>
       <button type="button" class="tuner__copy" @click="copyTune">
@@ -111,7 +99,7 @@ function copyTune() {
     <!-- DOM order (title, art, lockup) drives both layouts: on desktop the art
          is an absolute bottom-left overlay so title+lockup centre; on mobile the
          art returns to flow, giving title → Ladybug → tagline/CTA/credit. -->
-    <section class="hero">
+    <section class="hero" :style="tuning ? heroStyle : undefined">
       <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
 
       <img class="hero__logo" src="/images/title-treatment.png" :alt="t('hero.logoAlt')" />
@@ -285,9 +273,10 @@ function copyTune() {
 /* Ladybug portrait — absolute bottom-left overlay on desktop. */
 .hero__art {
   position: absolute;
-  left: 1.8vw;
-  bottom: 0;
-  width: clamp(270px, 26vw, 500px);
+  /* Defaults are the baked values; ?tune=1 overrides via --art-* live. */
+  left: var(--art-left, 1.8vw);
+  bottom: var(--art-bottom, 0px);
+  width: var(--art-w, clamp(270px, 26vw, 500px));
   z-index: 1;
   pointer-events: none;
 }
@@ -301,7 +290,7 @@ function copyTune() {
 .hero__logo {
   position: relative;
   z-index: 2;
-  width: clamp(300px, 39vw, 620px);
+  width: var(--title-w, clamp(300px, 39vw, 620px));
   height: auto;
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
@@ -530,10 +519,10 @@ function copyTune() {
     min-height: auto; /* fit content — no empty gap before the signup */
     padding: 4.5rem 1.25rem 2.5rem;
     gap: 1.25rem;
-    /* Mobile-only fade into the dark "Help bring…" section. Fixed distance from
-       the bottom so it starts below the CTA (which stays on scarlet) and only
-       the credit + edge melt into the dark. */
-    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) calc(100% - 165px), var(--ink-soft) 100%);
+    /* Mobile-only fade into the dark "Help bring…" section — a long, gradual
+       gradient that starts around the Ladybug's polka-dot suit and melts all
+       the way down through the CTA/credit into the dark. */
+    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 46%, var(--ink-soft) 100%);
   }
   .hero__bug {
     width: 34px; /* match the visual weight of the FR/EN toggle */

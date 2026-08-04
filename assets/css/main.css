@@ -16,11 +16,11 @@
 }
 
 :root {
-  /* Miraculous palette */
-  --red: #e4032e;
-  --red-deep: #a80020;
-  /* Scarlet of the 2026-08 key-art assets (hero bg + Ladybug suit). Use this
-     for anything that should match the new artwork, not the crimson --red. */
+  /* Miraculous palette. --red is the 2026-08 key-art scarlet (updated from the
+     old crimson #e4032e) so every red accent — form button, checkboxes, focus,
+     links, section titles — matches the hero. --scarlet is kept as an alias. */
+  --red: #f40e04;
+  --red-deep: #b30f02;
   --scarlet: #f40e04;
   --cream: #f3e9d8;
   --cream-dim: #cbc0ae;
