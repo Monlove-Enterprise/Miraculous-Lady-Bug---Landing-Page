@@ -526,10 +526,11 @@ function copyTune() {
     min-height: auto; /* fit content — no empty gap before the signup */
     padding: 4.5rem 1.25rem 2.5rem;
     gap: 1.25rem;
-    /* Mobile-only fade into the dark "Help bring…" section — a long, gradual
-       gradient that starts around the Ladybug's polka-dot suit and melts all
-       the way down through the CTA/credit into the dark. */
-    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 46%, var(--ink-soft) 100%);
+    /* Mobile-only fade into the dark "Help bring…" section. Solid scarlet down
+       to the very bottom of the Ladybug's suit (~78%) so her whole suit blends
+       into the bg; only the short bottom band (behind the CTA/credit) melts to
+       dark. */
+    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
   }
   .hero__bug {
     width: 34px; /* match the visual weight of the FR/EN toggle */
