@@ -274,9 +274,9 @@ function copyTune() {
 .hero__art {
   position: absolute;
   /* Defaults are the baked values; ?tune=1 overrides via --art-* live. */
-  left: var(--art-left, 1.8vw);
-  bottom: var(--art-bottom, 0px);
-  width: var(--art-w, clamp(270px, 26vw, 500px));
+  left: var(--art-left, 4vw);
+  bottom: var(--art-bottom, 16px);
+  width: var(--art-w, clamp(240px, 28vw, 520px));
   z-index: 1;
   pointer-events: none;
 }
@@ -290,8 +290,9 @@ function copyTune() {
 .hero__logo {
   position: relative;
   z-index: 2;
-  width: var(--title-w, clamp(300px, 39vw, 620px));
+  width: var(--title-w, clamp(280px, 32.5vw, 560px));
   height: auto;
+  transform: translateY(6px); /* title + text nudged down 6px */
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
 
@@ -308,6 +309,7 @@ function copyTune() {
   align-items: center;
   gap: 1.5rem;
   text-align: center;
+  transform: translateY(6px); /* keep in step with the title's 6px nudge */
 }
 .hero__tagline {
   font-size: clamp(1.05rem, 1.5vw, 1.6rem);
