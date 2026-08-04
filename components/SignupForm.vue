@@ -250,8 +250,8 @@ async function submit() {
   width: 100%;
   max-width: 460px;
   margin-inline: auto;
-  background: var(--red);
-  border: 1px solid rgba(0, 0, 0, 0.22);
+  background: var(--ink-panel);
+  border: 1px solid rgba(244, 14, 4, 0.35);
   border-radius: 18px;
   padding: 2rem 1.75rem 2.25rem;
   box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
@@ -259,11 +259,11 @@ async function submit() {
 
 .form__title {
   font-size: clamp(1.6rem, 5vw, 2.1rem);
-  color: #fff;
+  color: var(--cream);
   margin-bottom: 0.4rem;
 }
 .form__lead {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--cream-dim);
   font-size: 0.95rem;
   margin-bottom: 1.5rem;
 }
@@ -276,11 +276,11 @@ async function submit() {
   font-size: 0.8rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--cream-dim);
   margin-bottom: 0.4rem;
 }
 .req {
-  color: #fff;
+  color: var(--red);
 }
 .opt {
   text-transform: none;
@@ -292,22 +292,22 @@ async function submit() {
 .select {
   width: 100%;
   padding: 0.85rem 1rem;
-  background: rgba(0, 0, 0, 0.32);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
-  color: #fff;
+  color: var(--cream);
   font-size: 1rem;
   font-family: var(--font-body);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .field input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(203, 192, 174, 0.4);
 }
 .field input:focus,
 .select:focus {
   outline: none;
-  border-color: #fff;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(244, 14, 4, 0.25);
 }
 
 /* Native select styling */
@@ -321,7 +321,7 @@ async function submit() {
   padding-right: 2.4rem;
 }
 .select.empty {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(203, 192, 174, 0.4);
 }
 .select option {
   color: #111;
@@ -350,7 +350,7 @@ async function submit() {
 .suggest__item {
   padding: 0.6rem 0.75rem;
   border-radius: 7px;
-  color: #fff;
+  color: var(--cream);
   font-size: 0.95rem;
   cursor: pointer;
 }
@@ -375,7 +375,7 @@ async function submit() {
   gap: 0.65rem;
   align-items: flex-start;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--cream-dim);
   margin: 0.5rem 0 0.75rem;
   cursor: pointer;
 }
@@ -383,7 +383,7 @@ async function submit() {
   margin-top: 0.2rem;
   width: 18px;
   height: 18px;
-  accent-color: #150a0b;
+  accent-color: var(--red);
   flex: none;
 }
 .check--required {
@@ -393,7 +393,7 @@ async function submit() {
 .sms-note {
   font-size: 0.72rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(203, 192, 174, 0.5);
   margin: -0.35rem 0 1rem;
   padding-left: 1.85rem;
 }
@@ -403,7 +403,7 @@ async function submit() {
   padding: 0.95rem 1rem;
   border: none;
   border-radius: 999px;
-  background: #150a0b;
+  background: var(--red);
   color: #fff;
   font-family: var(--font-display);
   font-size: 1.15rem;
@@ -412,7 +412,7 @@ async function submit() {
   transition: transform 0.12s ease, background 0.15s ease;
 }
 .btn:hover:not(:disabled) {
-  background: #000;
+  background: #ff3a1f;
   transform: translateY(-1px);
 }
 .btn:disabled {
@@ -430,14 +430,14 @@ async function submit() {
   margin-top: 1rem;
   font-size: 0.72rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(203, 192, 174, 0.55);
 }
 .legal a {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--cream-dim);
   text-decoration: underline;
 }
 .legal a:hover {
-  color: #fff;
+  color: var(--red);
 }
 
 .done {
