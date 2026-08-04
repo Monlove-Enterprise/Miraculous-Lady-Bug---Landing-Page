@@ -519,17 +519,6 @@ function copyTune() {
     max-width: none;
     white-space: nowrap;
   }
-  /* Melt the bottom of the hero into the dark "Help bring…" section so the
-     Ladybug (bottom-left, cut by the section edge) and the CTA don't float over
-     a hard red/dark line. Desktop only: on mobile the lockup sits at the hero
-     bottom, so a fade there would dim the button/credit. */
-  .hero {
-    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 70%, var(--ink-soft) 100%);
-  }
-  .hero__art img {
-    -webkit-mask-image: linear-gradient(180deg, #000 68%, transparent 96%);
-    mask-image: linear-gradient(180deg, #000 68%, transparent 96%);
-  }
 }
 
 /* Mobile: key art sits at the TOP, full and sharp; content stacks below.
@@ -541,6 +530,10 @@ function copyTune() {
     min-height: auto; /* fit content — no empty gap before the signup */
     padding: 4.5rem 1.25rem 2.5rem;
     gap: 1.25rem;
+    /* Mobile-only fade into the dark "Help bring…" section. Fixed distance from
+       the bottom so it starts below the CTA (which stays on scarlet) and only
+       the credit + edge melt into the dark. */
+    background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) calc(100% - 165px), var(--ink-soft) 100%);
   }
   .hero__bug {
     width: 34px; /* match the visual weight of the FR/EN toggle */
