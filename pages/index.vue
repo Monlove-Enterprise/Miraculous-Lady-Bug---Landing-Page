@@ -510,6 +510,11 @@ function copyTune() {
     max-width: none;
     white-space: nowrap;
   }
+  /* Lower the whole centred block (title + tagline + CTA + credit) on desktop */
+  .hero__logo,
+  .hero__lockup {
+    transform: translateY(30px);
+  }
 }
 
 /* Mobile: key art sits at the TOP, full and sharp; content stacks below.
