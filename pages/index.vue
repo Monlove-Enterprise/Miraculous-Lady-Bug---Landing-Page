@@ -530,6 +530,13 @@ function copyTune() {
     width: min(74%, 340px);
     align-self: center;
   }
+  /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
+     width (measured), so scale the font with the viewport below ~560px where the
+     fixed 1.05rem would wrap. Capped at 1.05rem on wider phones. */
+  .hero__tagline {
+    font-size: min(1.05rem, 3vw);
+    white-space: nowrap;
+  }
 
   /* Less gap before the signup section; "Be Miraculous" sits higher */
   .signup-section {
