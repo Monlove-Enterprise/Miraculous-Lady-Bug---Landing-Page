@@ -513,7 +513,7 @@ function copyTune() {
   .hero {
     justify-content: flex-start;
     min-height: auto; /* fit content — no empty gap before the signup */
-    padding: 4.5rem 1.25rem 2.5rem;
+    padding: 4.5rem 1rem 2.5rem;
     gap: 1.25rem;
   }
   .hero__bug {
@@ -534,7 +534,7 @@ function copyTune() {
      width (measured), so scale the font with the viewport below ~560px where the
      fixed 1.05rem would wrap. Capped at 1.05rem on wider phones. */
   .hero__tagline {
-    font-size: min(1.05rem, 3vw);
+    font-size: min(1.05rem, 3.2vw);
     white-space: nowrap;
   }
 
