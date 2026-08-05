@@ -196,7 +196,7 @@ async function submit() {
         <div class="phone-group">
           <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
             <option v-for="c in dialOptions" :key="c.code" :value="c.dial">
-              {{ c.code }} {{ c.dial }}
+              {{ c[locale] }} ({{ c.dial }})
             </option>
           </select>
           <input
@@ -360,14 +360,14 @@ async function submit() {
 
 .phone-group {
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 }
 .phone-group .dial {
-  width: 7rem;
-  flex: none;
+  width: 100%;
 }
 .phone-group input {
-  flex: 1;
+  width: 100%;
 }
 
 .check {
