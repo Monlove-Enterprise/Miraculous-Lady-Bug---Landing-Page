@@ -292,8 +292,10 @@ function copyTune() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.75rem;
-  padding: 5rem 1.5rem 3.5rem;
+  justify-content: center;
+  gap: 1.2rem;
+  min-height: 100svh;
+  padding: 3.5rem 1.5rem 2rem;
   overflow: hidden;
   /* Scarlet of the key-art assets (matches the Ladybug's suit so it melts into
      the bg). Fades to the dark "Help bring…" section from ~78% — the bottom of
@@ -317,7 +319,7 @@ function copyTune() {
    (same arrangement as mobile). Width tunable via --art-w. */
 .hero__art {
   align-self: center;
-  width: var(--art-w, clamp(260px, 24vw, 400px));
+  width: var(--art-w, clamp(230px, 19vw, 340px));
   z-index: 1;
   pointer-events: none;
 }
@@ -331,7 +333,7 @@ function copyTune() {
 .hero__logo {
   position: relative;
   z-index: 2;
-  width: var(--title-w, clamp(300px, 32vw, 480px));
+  width: var(--title-w, clamp(280px, 28vw, 430px));
   height: auto;
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
@@ -347,7 +349,7 @@ function copyTune() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.1rem;
   text-align: center;
 }
 .hero__tagline {
@@ -583,10 +585,10 @@ function copyTune() {
    art) collides with the characters, so the stacked layout has to take over. */
 @media (max-width: 859px) {
   .hero {
-    justify-content: flex-start;
-    min-height: auto; /* fit content — no empty gap before the signup */
-    padding: 4.5rem 1rem 2.5rem;
-    gap: 1.25rem;
+    justify-content: center;
+    min-height: 100svh; /* CTA visible above the fold on phones too */
+    padding: 3.25rem 1rem 1.75rem;
+    gap: 0.9rem;
   }
   .hero__bug {
     width: 34px; /* match the visual weight of the FR/EN toggle */
@@ -595,11 +597,11 @@ function copyTune() {
   }
   /* Title on top, then the Ladybug returns to flow below it (DOM order) */
   .hero__logo {
-    width: min(84%, 380px);
+    width: min(76%, 330px);
   }
   .hero__art {
     position: static;
-    width: min(74%, 340px);
+    width: min(60%, 250px);
     align-self: center;
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
