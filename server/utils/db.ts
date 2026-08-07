@@ -54,6 +54,7 @@ export function ensureSchema(): Promise<void> {
           utm_source         text,
           utm_medium         text,
           utm_campaign       text,
+          referrer           text,
           ip                 text,
           crm_synced         boolean NOT NULL DEFAULT false,
           created_at         timestamptz NOT NULL DEFAULT now(),
@@ -65,6 +66,7 @@ export function ensureSchema(): Promise<void> {
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS email_consent_text text`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS sms_consent_text text`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS locale text`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS referrer text`
 
       // Fast lookups for per-country export / CRM backfill.
       await db`CREATE INDEX IF NOT EXISTS subscribers_country_idx ON subscribers (country)`

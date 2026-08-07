@@ -32,6 +32,7 @@ interface SubscribeBody {
   utmSource?: string
   utmMedium?: string
   utmCampaign?: string
+  referrer?: string
 }
 
 export default defineEventHandler(async (event) => {
@@ -76,6 +77,14 @@ export default defineEventHandler(async (event) => {
   const locale = body.locale?.trim().slice(0, 5) || undefined
   const ip = getRequestIP(event, { xForwardedFor: true }) || undefined
 
+  // Attribution: an explicit UTM always wins; otherwise derive the source from
+  // the referrer so untagged social traffic (Facebook, TikTok…) is still
+  // attributed in the export instead of landing as NULL.
+  const referrer = body.referrer?.trim() || undefined
+  const derived = deriveSource(referrer)
+  const utmSource = body.utmSource?.trim() || derived?.source
+  const utmMedium = body.utmMedium?.trim() || derived?.medium
+
   // ---- 1. Persist to Postgres (source of truth) ----
   const subscriber: SubscriberInput = {
     email,
@@ -91,9 +100,10 @@ export default defineEventHandler(async (event) => {
     smsConsentText,
     ageConfirmed: true,
     locale,
-    utmSource: body.utmSource?.trim() || undefined,
-    utmMedium: body.utmMedium?.trim() || undefined,
+    utmSource,
+    utmMedium,
     utmCampaign: body.utmCampaign?.trim() || undefined,
+    referrer,
     ip,
   }
 
@@ -160,4 +170,45 @@ function normalizePhone(raw?: string): string | undefined {
   // A bare dialing code with no real number is not a phone.
   if (digits.replace('+', '').length < 4) return undefined
   return digits.startsWith('+') ? digits : '+' + digits
+}
+
+/**
+ * Map a referrer URL to a marketing source/medium so untagged traffic is still
+ * attributed. Explicit UTM always takes precedence. Own-domain (internal
+ * navigation) and unparsable referrers return undefined ("direct"); an unknown
+ * external referrer keeps its bare host so nothing is lost.
+ */
+function deriveSource(referrer?: string): { source: string; medium: string } | undefined {
+  if (!referrer) return undefined
+  let host: string
+  try {
+    host = new URL(referrer).hostname.replace(/^www\./, '').toLowerCase()
+  } catch {
+    return undefined
+  }
+  if (host === 'miraculousladybuglive.com' || host.endsWith('.miraculousladybuglive.com')) {
+    return undefined // internal navigation isn't an external source
+  }
+
+  const social = 'social'
+  const map: Record<string, { source: string; medium: string }> = {
+    'instagram.com': { source: 'ig', medium: social },
+    'facebook.com': { source: 'fb', medium: social },
+    'm.facebook.com': { source: 'fb', medium: social },
+    'l.facebook.com': { source: 'fb', medium: social },
+    'tiktok.com': { source: 'tt', medium: social },
+    'youtube.com': { source: 'youtube', medium: social },
+    'youtu.be': { source: 'youtube', medium: social },
+    't.co': { source: 'twitter', medium: social },
+    'twitter.com': { source: 'twitter', medium: social },
+    'x.com': { source: 'twitter', medium: social },
+    'google.com': { source: 'google', medium: 'organic' },
+    'bing.com': { source: 'bing', medium: 'organic' },
+  }
+  if (map[host]) return map[host]
+  for (const key of Object.keys(map)) {
+    if (host.endsWith('.' + key)) return map[key]
+  }
+  // Unknown external referrer: keep the bare host so it's still attributable.
+  return { source: host, medium: 'referral' }
 }

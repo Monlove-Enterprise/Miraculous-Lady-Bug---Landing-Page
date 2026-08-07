@@ -120,6 +120,9 @@ async function submit() {
         utmSource: utm.source,
         utmMedium: utm.medium,
         utmCampaign: utm.campaign,
+        // Where they came from — lets the server attribute untagged traffic
+        // (FB, TikTok…) by referrer when no UTM is present.
+        referrer: typeof document !== 'undefined' ? document.referrer : '',
       },
     })
     done.value = true

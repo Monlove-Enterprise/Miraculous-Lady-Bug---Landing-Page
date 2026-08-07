@@ -22,6 +22,8 @@ export interface SubscriberInput {
   utmSource?: string
   utmMedium?: string
   utmCampaign?: string
+  /** Raw document.referrer — used to attribute the source when no UTM is present. */
+  referrer?: string
   ip?: string
 }
 
@@ -34,12 +36,12 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
       email, first_name, city, country, postal_code, phone,
       email_consent, email_consent_at, email_consent_text,
       sms_consent, sms_consent_at, sms_consent_text,
-      age_confirmed, locale, utm_source, utm_medium, utm_campaign, ip, crm_synced
+      age_confirmed, locale, utm_source, utm_medium, utm_campaign, referrer, ip, crm_synced
     ) VALUES (
       ${input.email}, ${input.firstName ?? null}, ${input.city}, ${input.country ?? null}, ${input.postalCode ?? null}, ${input.phone ?? null},
       ${input.emailConsent}, ${input.emailConsentAt ?? null}, ${input.emailConsentText ?? null},
       ${input.smsConsent}, ${input.smsConsentAt ?? null}, ${input.smsConsentText ?? null},
-      ${input.ageConfirmed}, ${input.locale ?? null}, ${input.utmSource ?? null}, ${input.utmMedium ?? null}, ${input.utmCampaign ?? null},
+      ${input.ageConfirmed}, ${input.locale ?? null}, ${input.utmSource ?? null}, ${input.utmMedium ?? null}, ${input.utmCampaign ?? null}, ${input.referrer ?? null},
       ${input.ip ?? null}, false
     )
     ON CONFLICT (email) DO UPDATE SET
@@ -59,6 +61,7 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
       utm_source         = COALESCE(EXCLUDED.utm_source, subscribers.utm_source),
       utm_medium         = COALESCE(EXCLUDED.utm_medium, subscribers.utm_medium),
       utm_campaign       = COALESCE(EXCLUDED.utm_campaign, subscribers.utm_campaign),
+      referrer           = COALESCE(EXCLUDED.referrer, subscribers.referrer),
       ip                 = EXCLUDED.ip,
       crm_synced         = false,
       updated_at         = now()
