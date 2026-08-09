@@ -22,7 +22,7 @@ const messages: Record<Locale, Dict> = {
 
     'form.title': 'Rejoins la liste d’attente officielle',
     'form.lead':
-      'Sois parmi les premiers informés des dates de tournée, des ventes de billets et des annonces spéciales quand Miraculous Live arrive près de chez toi.',
+      'Sois parmi les premiers informés des dates de tournée, de la mise en vente des billets et des annonces spéciales lorsque le spectacle arrivera près de chez toi.',
     'form.firstName': 'Prénom',
     'form.firstNamePlaceholder': 'Ton prénom',
     'form.email': 'E-mail',
