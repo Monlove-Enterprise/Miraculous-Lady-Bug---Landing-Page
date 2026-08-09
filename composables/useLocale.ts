@@ -16,7 +16,7 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'Miraculous Ladybug & Cat Noir',
     'signup.introTitleC': 'dans ta ville',
     'signup.introText':
-      'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular dans ta ville ? Rejoins la liste d’attente officielle pour manifester ton intérêt et être parmi les premiers informés des ventes de billets et des annonces spéciales.',
+      'Envie de voir Miraculous Ladybug & Cat Noir: The Live Stage Spectacular dans ta ville? Rejoins la liste d’attente officielle pour manifester ton intérêt et être parmi les premiers informés de la mise en vente des billets et des annonces spéciales.',
     'signup.microcopy':
       'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
