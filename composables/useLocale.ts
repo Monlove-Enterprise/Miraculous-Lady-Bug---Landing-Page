@@ -20,6 +20,17 @@ const messages: Record<Locale, Dict> = {
     'signup.microcopy':
       'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
+    'cast.title': 'Distribution & Équipe créative',
+    'cast.metaDescription':
+      'Découvre les artistes et l’équipe créative de Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
+    'cast.back': "Retour à l’accueil",
+    'cast.intro': 'Les artistes et l’équipe qui donnent vie au spectacle sur scène.',
+    'cast.note': 'Contenu provisoire — photos et biographies en attente de validation par la marque.',
+    'cast.creativeHeading': 'Équipe créative',
+    'cast.castHeading': 'Distribution',
+    'cast.tba': 'Casting à venir',
+    'cast.tbaBio': 'Interprète bientôt annoncé·e.',
+
     'form.title': 'Rejoins la liste d’attente officielle',
     'form.lead':
       'Sois parmi les premiers informés des dates de tournée, de la mise en vente des billets et des annonces spéciales lorsque le spectacle arrivera près de chez toi.',
@@ -73,6 +84,17 @@ const messages: Record<Locale, Dict> = {
       'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular in your city? Join the official waitlist to show your interest and be among the first to hear about ticket sales and special announcements.',
     'signup.microcopy':
       'Every registration helps us bring the show to more cities around the world.',
+
+    'cast.title': 'Cast & Creative',
+    'cast.metaDescription':
+      'Meet the artists and creative team behind Miraculous Ladybug & Cat Noir: The Live Stage Spectacular.',
+    'cast.back': 'Back to home',
+    'cast.intro': 'The artists and team bringing the show to life on stage.',
+    'cast.note': 'Placeholder content — photos and bios pending brand approval.',
+    'cast.creativeHeading': 'Creative Team',
+    'cast.castHeading': 'Cast',
+    'cast.tba': 'Casting to be announced',
+    'cast.tbaBio': 'Performer to be announced soon.',
 
     'form.title': 'Join the official waitlist',
     'form.lead':
