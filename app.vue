@@ -13,4 +13,5 @@ useHead({
 <template>
   <NuxtRouteAnnouncer />
   <NuxtPage />
+  <CookieBanner />
 </template>

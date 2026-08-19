@@ -58,6 +58,13 @@ const messages: Record<Locale, Dict> = {
     'footer.terms': 'Conditions d’utilisation',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. Tous droits réservés.',
     'footer.trademark': 'Miraculous® est une marque déposée de MIRACULOUS CORP.',
+
+    'cookie.text':
+      'On utilise des cookies de mesure d’audience (Meta) pour comprendre d’où viennent nos visiteurs. Tu peux accepter ou refuser.',
+    'cookie.accept': 'Accepter',
+    'cookie.decline': 'Refuser',
+    'cookie.link': 'En savoir plus',
+    'cookie.aria': 'Bandeau de consentement aux cookies',
   },
   en: {
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
@@ -112,6 +119,13 @@ const messages: Record<Locale, Dict> = {
     'footer.terms': 'Terms of Use',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. All rights reserved.',
     'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
+
+    'cookie.text':
+      'We use audience-measurement cookies (Meta) to understand where our visitors come from. You can accept or decline.',
+    'cookie.accept': 'Accept',
+    'cookie.decline': 'Decline',
+    'cookie.link': 'Learn more',
+    'cookie.aria': 'Cookie consent banner',
   },
 }
 

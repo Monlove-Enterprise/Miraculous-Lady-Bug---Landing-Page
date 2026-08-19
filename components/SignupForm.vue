@@ -13,6 +13,8 @@ interface CitySuggestion {
 
 const { t, locale } = useLocale()
 const route = useRoute()
+// Meta pixel conversion — fires only if the visitor accepted cookies.
+const { trackLead } = useMetaPixel()
 
 const loading = ref(false)
 const done = ref(false)
@@ -126,6 +128,8 @@ async function submit() {
       },
     })
     done.value = true
+    // Report the sign-up to Meta (no-op unless the pixel was consented to).
+    trackLead()
   } catch (err: any) {
     errorMsg.value =
       err?.data?.statusMessage || err?.statusMessage || t('form.errGeneric')
