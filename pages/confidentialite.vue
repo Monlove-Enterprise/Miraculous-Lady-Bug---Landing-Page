@@ -12,7 +12,7 @@ useHead({
   <LegalPage :title="locale === 'fr' ? 'Politique de confidentialité' : 'Privacy Notice'">
     <!-- FRENCH -->
     <template v-if="locale === 'fr'">
-      <p class="updated">Dernière mise à jour : 15 juillet 2026</p>
+      <p class="updated">Dernière mise à jour : 19 août 2026</p>
 
       <h2>Responsable du traitement</h2>
       <p>
@@ -58,6 +58,10 @@ useHead({
         <li>Supabase (base de données et infrastructure applicative)</li>
         <li>Twilio (SMS, le cas échéant)</li>
         <li>Resend (e-mail, le cas échéant)</li>
+        <li>
+          Meta Platforms (pixel Meta — mesure d'audience et publicité, uniquement avec votre
+          consentement)
+        </li>
       </ul>
 
       <h2>Transferts internationaux</h2>
@@ -94,10 +98,16 @@ useHead({
         significative.
       </p>
 
-      <h2>Cookies</h2>
+      <h2>Cookies et mesure d'audience</h2>
       <p>
-        Seules des technologies strictement nécessaires sont utilisées, sauf si des technologies
-        facultatives sont introduites avec le consentement requis.
+        Nous utilisons des technologies strictement nécessaires au fonctionnement du site. Avec
+        votre consentement, nous utilisons également le pixel Meta (Facebook), fourni par Meta
+        Platforms, qui dépose des cookies afin de mesurer la fréquentation du site et les
+        inscriptions, d'évaluer l'efficacité de nos campagnes publicitaires et de permettre le
+        reciblage publicitaire. Ce pixel ne se charge qu'après votre acceptation via le bandeau de
+        consentement affiché sur le site. Le refuser n'a aucune conséquence sur votre inscription,
+        et vous pouvez retirer votre consentement à tout moment en supprimant les cookies de votre
+        navigateur ou en nous écrivant à <a href="mailto:info@monlove.com">info@monlove.com</a>.
       </p>
 
       <h2>Sécurité</h2>
@@ -126,7 +136,7 @@ useHead({
 
     <!-- ENGLISH -->
     <template v-else>
-      <p class="updated">Last updated: 15 July 2026</p>
+      <p class="updated">Last updated: 19 August 2026</p>
 
       <h2>Data Controller</h2>
       <p>
@@ -171,6 +181,7 @@ useHead({
         <li>Supabase (database and application infrastructure)</li>
         <li>Twilio (SMS, if used)</li>
         <li>Resend (email, if used)</li>
+        <li>Meta Platforms (Meta Pixel — analytics and advertising, only with your consent)</li>
       </ul>
 
       <h2>International Transfers</h2>
@@ -204,10 +215,15 @@ useHead({
         produce legal or similarly significant effects.
       </p>
 
-      <h2>Cookies</h2>
+      <h2>Cookies &amp; Analytics</h2>
       <p>
-        Only strictly necessary technologies are used unless optional technologies are introduced
-        with required consent.
+        We use strictly necessary technologies to operate the Site. With your consent, we also use
+        the Meta (Facebook) Pixel, provided by Meta Platforms, which sets cookies to measure site
+        visits and sign-ups, assess the effectiveness of our advertising campaigns and enable ad
+        retargeting. The pixel loads only after you accept it via the consent banner shown on the
+        Site. Declining has no effect on your registration, and you may withdraw your consent at any
+        time by clearing your browser cookies or by emailing
+        <a href="mailto:info@monlove.com">info@monlove.com</a>.
       </p>
 
       <h2>Security</h2>
