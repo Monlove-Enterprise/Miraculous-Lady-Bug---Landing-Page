@@ -38,7 +38,7 @@ const messages: Record<Locale, Dict> = {
     'form.emailConsentNotice':
       'En vous inscrivant, vous acceptez de recevoir par e-mail les actualités et mises à jour concernant le spectacle, ainsi que toute autre communication sélectionnée. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre politique de confidentialité.',
     'form.smsConsent':
-      "J'accepte de recevoir par SMS les actualités, mises à jour et offres liées à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular. En fournissant ton numéro, tu acceptes de recevoir des SMS concernant le spectacle. Des frais de message et de données peuvent s'appliquer. Réponds STOP pour te désinscrire.",
+      "J'accepte de recevoir par SMS les actualités, mises à jour et offres du spectacle. Des frais de message et de données peuvent s'appliquer. Réponds STOP pour te désinscrire.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
     'form.smsNote': '',
     'form.submit': 'Rejoindre la liste d’attente',
@@ -105,7 +105,7 @@ const messages: Record<Locale, Dict> = {
     'form.emailConsentNotice':
       'By signing up, you agree to receive news and updates about the show by email, plus any other communications you selected. You can unsubscribe at any time. To learn more, see our privacy policy.',
     'form.smsConsent':
-      'I agree to receive news, updates and offers related to Miraculous Ladybug & Cat Noir: The Live Stage Spectacular by SMS. By providing your number, you agree to receive SMS communications about the show. Message and data rates may apply. Reply STOP to opt out.',
+      'I agree to receive show news, updates and offers by SMS. Message and data rates may apply. Reply STOP to opt out.',
     'form.age': 'I confirm I am 16 or older.',
     'form.smsNote': '',
     'form.submit': 'Join the waitlist',
