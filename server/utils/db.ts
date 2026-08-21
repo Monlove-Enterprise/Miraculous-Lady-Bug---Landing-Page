@@ -41,6 +41,7 @@ export function ensureSchema(): Promise<void> {
           first_name        text,
           city              text,
           country           text,
+          country_code      text,
           postal_code       text,
           phone             text,
           email_consent      boolean NOT NULL DEFAULT false,
@@ -67,9 +68,11 @@ export function ensureSchema(): Promise<void> {
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS sms_consent_text text`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS locale text`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS referrer text`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS country_code text`
 
       // Fast lookups for per-country export / CRM backfill.
       await db`CREATE INDEX IF NOT EXISTS subscribers_country_idx ON subscribers (country)`
+      await db`CREATE INDEX IF NOT EXISTS subscribers_country_code_idx ON subscribers (country_code)`
       await db`CREATE INDEX IF NOT EXISTS subscribers_crm_synced_idx ON subscribers (crm_synced)`
 
       // Lock the table to server-only access (this table is created via raw SQL,

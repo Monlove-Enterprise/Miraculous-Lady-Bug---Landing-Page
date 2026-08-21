@@ -14,6 +14,7 @@
 import { getEmailProvider, getSmsProvider, type CrmContact } from '../utils/crm'
 import { upsertSubscriber, markCrmSynced, type SubscriberInput } from '../utils/subscribers'
 import { resolveCountryForCity } from '../utils/geocode'
+import { nameToCode } from '../utils/countryCode'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -50,10 +51,17 @@ export default defineEventHandler(async (event) => {
 
   // The form only sends a country when the visitor picked an autocomplete
   // suggestion. When they just typed the city, resolve the country server-side
-  // so it's never left NULL.
+  // so it's never left NULL. We also derive the ISO country_code — from the
+  // country name (local map, no extra network) when we have it, else from the
+  // same geocode lookup — for reliable per-country segmentation.
   let country = (body?.country || '').trim() || undefined
+  let countryCode: string | undefined
   if (!country) {
-    country = (await resolveCountryForCity(city)).country
+    const resolved = await resolveCountryForCity(city)
+    country = resolved.country
+    countryCode = resolved.countryCode?.toUpperCase()
+  } else {
+    countryCode = nameToCode(country)
   }
 
   if (body?.ageConfirmed !== true) {
@@ -91,6 +99,7 @@ export default defineEventHandler(async (event) => {
     firstName: body.firstName?.trim() || undefined,
     city,
     country,
+    countryCode,
     phone,
     emailConsent,
     emailConsentAt: emailConsent ? now : undefined,
