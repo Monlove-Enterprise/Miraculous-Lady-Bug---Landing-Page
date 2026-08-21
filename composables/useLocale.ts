@@ -66,6 +66,9 @@ const messages: Record<Locale, Dict> = {
     'cookie.decline': 'Refuser',
     'cookie.link': 'En savoir plus',
     'cookie.aria': 'Bandeau de consentement aux cookies',
+    'cookie.gpcNotice':
+      'Signal « Global Privacy Control » détecté — nous respectons ton choix : aucun cookie publicitaire n’est chargé.',
+    'cookie.close': 'Fermer',
   },
   en: {
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
@@ -128,6 +131,9 @@ const messages: Record<Locale, Dict> = {
     'cookie.decline': 'Decline',
     'cookie.link': 'Learn more',
     'cookie.aria': 'Cookie consent banner',
+    'cookie.gpcNotice':
+      'Global Privacy Control signal detected — we respect your choice: no advertising cookies are loaded.',
+    'cookie.close': 'Close',
   },
 }
 

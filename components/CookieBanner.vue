@@ -2,18 +2,24 @@
 // Cookie-consent banner. Shows once until the visitor accepts or declines.
 // On accept it loads the Meta pixel (PageView); on decline nothing loads.
 const { t } = useLocale()
-const { consent, load, set } = useConsent()
+const { consent, load, set, gpc } = useConsent()
 const { enable } = useMetaPixel()
 
 // Render only after mount so the server never emits the banner (avoids a flash
 // for returning visitors whose choice is stored client-side).
 const ready = ref(false)
+const dismissedGpc = ref(false)
 onMounted(() => {
   load()
   ready.value = true
 })
 
-const show = computed(() => ready.value && consent.value === 'unset')
+// Normal accept/decline prompt when undecided and no GPC signal; a passive GPC
+// notice (no re-ask) when the browser signals an opt-out.
+const showPrompt = computed(() => ready.value && consent.value === 'unset' && !gpc.value)
+const showGpc = computed(
+  () => ready.value && consent.value === 'unset' && gpc.value && !dismissedGpc.value,
+)
 
 function accept() {
   set('accepted')
@@ -27,7 +33,7 @@ function decline() {
 <template>
   <Transition name="cookie">
     <div
-      v-if="show"
+      v-if="showPrompt"
       class="cookie"
       role="dialog"
       aria-live="polite"
@@ -45,6 +51,20 @@ function decline() {
           {{ t('cookie.accept') }}
         </button>
       </div>
+    </div>
+    <div v-else-if="showGpc" class="cookie cookie--gpc" role="status" aria-live="polite">
+      <p class="cookie__text">
+        {{ t('cookie.gpcNotice') }}
+        <NuxtLink to="/confidentialite" class="cookie__link">{{ t('cookie.link') }}</NuxtLink>.
+      </p>
+      <button
+        type="button"
+        class="cookie__close"
+        :aria-label="t('cookie.close')"
+        @click="dismissedGpc = true"
+      >
+        ×
+      </button>
     </div>
   </Transition>
 </template>
@@ -115,6 +135,23 @@ function decline() {
 }
 .cookie__btn--solid:hover {
   background: #ff3a1f;
+}
+
+/* GPC passive notice */
+.cookie__close {
+  flex: none;
+  margin-left: auto;
+  padding: 0 0.35rem;
+  background: none;
+  border: none;
+  color: var(--cream-dim);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.cookie__close:hover {
+  color: var(--cream);
 }
 
 /* Entrance */

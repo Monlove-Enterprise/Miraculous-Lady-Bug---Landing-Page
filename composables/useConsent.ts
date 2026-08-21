@@ -27,5 +27,13 @@ export function useConsent() {
     if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY)
   }
 
-  return { consent, load, set, reset }
+  // Global Privacy Control (set by plugins/gpc.ts). It only downgrades an
+  // *undecided* visitor to a refusal — it never overrides an explicit choice.
+  const gpc = useState<boolean>('gpc', () => false)
+  const effectiveConsent = computed<ConsentState>(() => {
+    if (consent.value === 'accepted' || consent.value === 'declined') return consent.value
+    return gpc.value ? 'declined' : 'unset'
+  })
+
+  return { consent, load, set, reset, gpc, effectiveConsent }
 }
