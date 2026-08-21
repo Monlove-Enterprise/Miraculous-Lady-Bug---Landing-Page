@@ -18,6 +18,13 @@ import { nameToCode } from '../utils/countryCode'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+// Fallback for the implicit email-consent proof text, per language, used only if
+// the client somehow omits it. The client normally sends the exact notice shown.
+const EMAIL_CONSENT_NOTICE: Record<string, string> = {
+  fr: 'En vous inscrivant, vous acceptez de recevoir par e-mail les actualités et mises à jour concernant le spectacle, ainsi que toute autre communication sélectionnée. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre politique de confidentialité.',
+  en: 'By signing up, you agree to receive news and updates about the show by email, plus any other communications you selected. You can unsubscribe at any time. To learn more, see our privacy policy.',
+}
+
 interface SubscribeBody {
   email?: string
   firstName?: string
@@ -77,10 +84,14 @@ export default defineEventHandler(async (event) => {
   }
 
   const now = new Date().toISOString()
-  const emailConsent = Boolean(body.emailConsent)
+  // Email consent is IMPLICIT: submitting the form IS the consent, so it is
+  // always recorded (true + timestamp + the exact notice shown). This is the
+  // sole proof, so it must never be conditional.
+  const emailConsent = true
+  const emailConsentLang = (body.locale || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en'
+  const emailConsentText = body.emailConsentText?.trim() || EMAIL_CONSENT_NOTICE[emailConsentLang]
   const smsConsent = Boolean(body.smsConsent)
-  // Archive the exact wording only when the matching box was actually ticked.
-  const emailConsentText = emailConsent ? body.emailConsentText?.trim() || undefined : undefined
+  // SMS wording archived only when the (still optional) box was ticked.
   const smsConsentText = smsConsent ? body.smsConsentText?.trim() || undefined : undefined
   const locale = body.locale?.trim().slice(0, 5) || undefined
   const ip = getRequestIP(event, { xForwardedFor: true }) || undefined

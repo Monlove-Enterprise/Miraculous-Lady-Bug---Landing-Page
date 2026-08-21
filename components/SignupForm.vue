@@ -16,6 +16,20 @@ const route = useRoute()
 // Meta pixel conversion — fires only if the visitor accepted cookies.
 const { trackLead } = useMetaPixel()
 
+// The email-consent notice is stored verbatim as the proof; for display we turn
+// its trailing "privacy policy" phrase into a link without duplicating it.
+const consentBefore = computed(() => {
+  const full = t('form.emailConsentNotice')
+  const i = full.lastIndexOf(t('form.legalLink'))
+  return i >= 0 ? full.slice(0, i) : full
+})
+const consentAfter = computed(() => {
+  const full = t('form.emailConsentNotice')
+  const link = t('form.legalLink')
+  const i = full.lastIndexOf(link)
+  return i >= 0 ? full.slice(i + link.length) : ''
+})
+
 const loading = ref(false)
 const done = ref(false)
 const errorMsg = ref('')
@@ -27,7 +41,6 @@ const city = ref('') // required — normalised city name (set on pick, or free-
 const cityCountry = ref('') // country that came with the picked city
 const dialCode = ref('+33')
 const phone = ref('')
-const emailConsent = ref(false)
 const smsConsent = ref(false)
 const ageConfirmed = ref(false)
 
@@ -112,9 +125,10 @@ async function submit() {
         city: city.value,
         country: cityCountry.value,
         phone: `${dialCode.value} ${phone.value.trim()}`,
-        emailConsent: emailConsent.value,
-        // Exact wording shown to the user, archived as consent proof.
-        emailConsentText: emailConsent.value ? t('form.emailConsent') : undefined,
+        // Email consent is implicit on submit (no checkbox); the notice shown
+        // under the button is archived verbatim as the consent proof.
+        emailConsent: true,
+        emailConsentText: t('form.emailConsentNotice'),
         smsConsent: smsConsent.value,
         smsConsentText: smsConsent.value ? t('form.smsConsent') : undefined,
         ageConfirmed: ageConfirmed.value,
@@ -217,11 +231,6 @@ async function submit() {
       </div>
 
       <label class="check">
-        <input v-model="emailConsent" type="checkbox" />
-        <span>{{ t('form.emailConsent') }}</span>
-      </label>
-
-      <label class="check">
         <input v-model="smsConsent" type="checkbox" />
         <span>{{ t('form.smsConsent') }}</span>
       </label>
@@ -237,10 +246,7 @@ async function submit() {
         {{ loading ? t('form.submitting') : t('form.submit') }}
       </button>
 
-      <p class="legal">
-        {{ t('form.legalPre') }}
-        <NuxtLink to="/confidentialite">{{ t('form.legalLink') }}</NuxtLink>.
-      </p>
+      <p class="consent-note">{{ consentBefore }}<NuxtLink to="/confidentialite">{{ t('form.legalLink') }}</NuxtLink>{{ consentAfter }}</p>
     </form>
 
     <!-- DONE -->
@@ -433,17 +439,17 @@ async function submit() {
   margin-bottom: 1rem;
 }
 
-.legal {
+.consent-note {
   margin-top: 1rem;
-  font-size: 0.72rem;
-  line-height: 1.5;
-  color: rgba(203, 192, 174, 0.55);
-}
-.legal a {
+  font-size: 0.9rem;
+  line-height: 1.55;
   color: var(--cream-dim);
+}
+.consent-note a {
+  color: var(--cream);
   text-decoration: underline;
 }
-.legal a:hover {
+.consent-note a:hover {
   color: var(--red);
 }
 
