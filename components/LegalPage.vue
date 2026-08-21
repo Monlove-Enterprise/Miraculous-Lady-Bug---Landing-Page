@@ -13,6 +13,9 @@ const { locale } = useLocale()
       <div class="legal-page__body">
         <slot />
       </div>
+      <footer class="legal-page__footer">
+        <CookiesLink />
+      </footer>
     </div>
   </main>
 </template>
@@ -76,5 +79,12 @@ const { locale } = useLocale()
 }
 .legal-page__body :deep(a:hover) {
   color: var(--red);
+}
+.legal-page__footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(243, 233, 216, 0.1);
+  text-align: center;
+  font-size: 0.85rem;
 }
 </style>

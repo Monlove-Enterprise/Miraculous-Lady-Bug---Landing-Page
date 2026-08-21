@@ -188,6 +188,8 @@ function copyTune() {
           <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
           <span aria-hidden="true">·</span>
           <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
+          <span aria-hidden="true">·</span>
+          <CookiesLink />
         </nav>
         <p class="footer__license">{{ t('footer.copyright') }}</p>
         <p class="footer__license">{{ t('footer.trademark') }}</p>

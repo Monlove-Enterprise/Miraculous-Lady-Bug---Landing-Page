@@ -56,6 +56,7 @@ const messages: Record<Locale, Dict> = {
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
     'footer.terms': 'Conditions d’utilisation',
+    'footer.cookies': 'Cookies',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. Tous droits réservés.',
     'footer.trademark': 'Miraculous® est une marque déposée de MIRACULOUS CORP.',
 
@@ -117,6 +118,7 @@ const messages: Record<Locale, Dict> = {
     'footer.legal': 'Legal notice',
     'footer.privacy': 'Privacy policy',
     'footer.terms': 'Terms of Use',
+    'footer.cookies': 'Cookies',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. All rights reserved.',
     'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
 
