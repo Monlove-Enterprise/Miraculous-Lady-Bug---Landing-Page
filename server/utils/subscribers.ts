@@ -73,8 +73,30 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
   return rows[0]!.id
 }
 
-/** Mark a subscriber as successfully pushed to the CRM. */
-export async function markCrmSynced(email: string): Promise<void> {
+/** Mark a subscriber as successfully pushed to the CRM (Brevo), storing its id. */
+export async function markCrmSynced(email: string, brevoContactId?: number): Promise<void> {
   const db = getSql()
-  await db`UPDATE subscribers SET crm_synced = true, updated_at = now() WHERE email = ${email}`
+  await db`
+    UPDATE subscribers
+    SET crm_synced = true, crm_synced_at = now(), updated_at = now(),
+        brevo_contact_id = COALESCE(${brevoContactId ?? null}, brevo_contact_id),
+        crm_last_error = null
+    WHERE email = ${email}`
+}
+
+/** Record a CRM sync failure — row stays crm_synced = false for later retry. */
+export async function markCrmError(email: string, message: string): Promise<void> {
+  const db = getSql()
+  await db`
+    UPDATE subscribers
+    SET crm_last_error = ${message.slice(0, 500)}, updated_at = now()
+    WHERE email = ${email}`
+}
+
+/** True if this phone is shared by more than one subscriber (Brevo dedupes SMS). */
+export async function isPhoneDuplicate(phone: string): Promise<boolean> {
+  const db = getSql()
+  const rows = await db<{ n: number }[]>`
+    SELECT count(*)::int n FROM subscribers WHERE phone = ${phone}`
+  return (rows[0]?.n ?? 0) > 1
 }

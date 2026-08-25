@@ -109,6 +109,11 @@ export default defineNuxtConfig({
     crmSmsCountryRouting: process.env.CRM_SMS_COUNTRY_ROUTING || '', // JSON: {"US":"klaviyo"}
     brevoApiKey: process.env.BREVO_API_KEY || '',
     brevoListId: process.env.BREVO_LIST_ID || '',
+    // Per-consent Brevo list routing (defaults match the 4 lists imported 2026-08-25).
+    brevoListEmailSms: process.env.BREVO_LIST_EMAIL_SMS || '3',
+    brevoListEmail: process.env.BREVO_LIST_EMAIL || '4',
+    brevoListSms: process.env.BREVO_LIST_SMS || '5',
+    brevoListNoconsent: process.env.BREVO_LIST_NOCONSENT || '6',
     klaviyoApiKey: process.env.KLAVIYO_API_KEY || '',
     // DATABASE_URL is read directly from process.env in server/utils/db.ts
     public: {},

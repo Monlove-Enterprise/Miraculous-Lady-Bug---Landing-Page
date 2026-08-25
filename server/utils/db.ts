@@ -69,11 +69,15 @@ export function ensureSchema(): Promise<void> {
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS locale text`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS referrer text`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS country_code text`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS brevo_contact_id bigint`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS crm_synced_at timestamptz`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS crm_last_error text`
 
       // Fast lookups for per-country export / CRM backfill.
       await db`CREATE INDEX IF NOT EXISTS subscribers_country_idx ON subscribers (country)`
       await db`CREATE INDEX IF NOT EXISTS subscribers_country_code_idx ON subscribers (country_code)`
       await db`CREATE INDEX IF NOT EXISTS subscribers_crm_synced_idx ON subscribers (crm_synced)`
+      await db`CREATE INDEX IF NOT EXISTS idx_subscribers_crm_pending ON subscribers (crm_synced) WHERE crm_synced = false`
 
       // Lock the table to server-only access (this table is created via raw SQL,
       // so Supabase's automatic RLS doesn't apply to it). Our connection role

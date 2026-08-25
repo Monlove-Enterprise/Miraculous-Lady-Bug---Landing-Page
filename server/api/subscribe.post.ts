@@ -11,8 +11,14 @@
  *
  * Required: valid email, city, phone, age confirmation (16+).
  */
-import { getEmailProvider, getSmsProvider, type CrmContact } from '../utils/crm'
-import { upsertSubscriber, markCrmSynced, type SubscriberInput } from '../utils/subscribers'
+import {
+  upsertSubscriber,
+  markCrmSynced,
+  markCrmError,
+  isPhoneDuplicate,
+  type SubscriberInput,
+} from '../utils/subscribers'
+import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
 import { resolveCountryForCity } from '../utils/geocode'
 import { nameToCode } from '../utils/countryCode'
 
@@ -137,40 +143,44 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // ---- 2. Best-effort CRM sync (channel-routed) ----
-  const contact: CrmContact = {
-    email,
-    firstName: subscriber.firstName,
-    city,
-    country,
-    phone,
-    emailConsent,
-    emailConsentDate: subscriber.emailConsentAt,
-    smsConsent,
-    smsConsentDate: subscriber.smsConsentAt,
-    utmSource: subscriber.utmSource,
-    utmMedium: subscriber.utmMedium,
-    utmCampaign: subscriber.utmCampaign,
-    signupDate: now,
-  }
-
-  try {
-    const emailProvider = getEmailProvider()
-    await emailProvider.upsertContact(contact)
-
-    // SMS goes to its own platform only when consented; skip the second call
-    // if it's the same platform as email (already covered above).
-    if (smsConsent && phone) {
-      const smsProvider = getSmsProvider()
-      if (smsProvider.name !== emailProvider.name) {
-        await smsProvider.upsertContact(contact)
-      }
+  // ---- 2. Best-effort sync to Brevo, routed to the consent-based list ----
+  const config = useRuntimeConfig()
+  if (config.brevoApiKey) {
+    try {
+      const listId = listForConsent(emailConsent, smsConsent, {
+        emailSms: Number(config.brevoListEmailSms),
+        email: Number(config.brevoListEmail),
+        sms: Number(config.brevoListSms),
+        noConsent: Number(config.brevoListNoconsent),
+      })
+      // A duplicate phone would be rejected by Brevo (SMS dedupe) → push email-only.
+      const omitSms = Boolean(smsConsent && phone && (await isPhoneDuplicate(phone)))
+      const brevoId = await syncSubscriberToBrevo(
+        {
+          email,
+          firstName: subscriber.firstName,
+          city,
+          country,
+          countryCode,
+          phone,
+          emailConsent,
+          emailConsentAt: subscriber.emailConsentAt,
+          smsConsent,
+          smsConsentAt: subscriber.smsConsentAt,
+          utmSource: subscriber.utmSource,
+          utmMedium: subscriber.utmMedium,
+          utmCampaign: subscriber.utmCampaign,
+          createdAt: now,
+        },
+        { apiKey: config.brevoApiKey, listId, omitSms },
+      )
+      await markCrmSynced(email, brevoId)
+    } catch (err: any) {
+      // Kept in Postgres with crm_synced = false → retried later. Not fatal.
+      const msg = err?.data?.message || err?.message || String(err)
+      console.error('[subscribe] Brevo sync failed (kept for retry):', msg)
+      await markCrmError(email, msg).catch(() => {})
     }
-
-    await markCrmSynced(email)
-  } catch (err: any) {
-    // Kept in Postgres with crm_synced = false → resynced later. Not fatal.
-    console.error('[subscribe] CRM sync failed (kept for retry):', err?.message || err)
   }
 
   return { ok: true }
