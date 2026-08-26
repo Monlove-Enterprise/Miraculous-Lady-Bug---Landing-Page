@@ -84,9 +84,13 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  // Phone is optional — required only when the visitor consented to SMS.
   const phone = normalizePhone(body.phone)
-  if (!phone) {
-    throw createError({ statusCode: 400, statusMessage: 'Un numéro de téléphone valide est requis.' })
+  if (Boolean(body.smsConsent) && !phone) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Un numéro de téléphone valide est requis pour recevoir les SMS.',
+    })
   }
 
   const now = new Date().toISOString()

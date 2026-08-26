@@ -46,10 +46,15 @@ const ageConfirmed = ref(false)
 
 const dialOptions = computed(() => sortedCountries(locale.value))
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
-// Phone is required. The dial code lives in its own select, so this checks the
-// national number only — at least 6 digits rejects obvious junk without being
-// so strict it blocks valid short national formats.
-const phoneValid = computed(() => phone.value.replace(/\D/g, '').length >= 6)
+// Phone is OPTIONAL — required only when the SMS box is ticked (can't opt into
+// SMS without a number). If provided it must still look real (≥6 digits). The
+// dial code lives in its own select, so this checks the national number only.
+const phoneDigits = computed(() => phone.value.replace(/\D/g, ''))
+const phoneValid = computed(() =>
+  smsConsent.value
+    ? phoneDigits.value.length >= 6
+    : phoneDigits.value.length === 0 || phoneDigits.value.length >= 6,
+)
 
 // ---- City autocomplete (server-proxied Places provider) ----
 const suggestions = ref<CitySuggestion[]>([])
@@ -112,7 +117,13 @@ async function submit() {
   if (!city.value && cityQuery.value.trim()) city.value = cityQuery.value.trim()
   if (!emailValid.value) return void (errorMsg.value = t('form.errEmail'))
   if (!city.value) return void (errorMsg.value = t('form.errCity'))
-  if (!phoneValid.value) return void (errorMsg.value = t('form.errPhone'))
+  if (!phoneValid.value) {
+    errorMsg.value =
+      smsConsent.value && phoneDigits.value.length === 0
+        ? t('form.errPhoneSms')
+        : t('form.errPhone')
+    return
+  }
   if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
@@ -124,7 +135,7 @@ async function submit() {
         email: email.value,
         city: city.value,
         country: cityCountry.value,
-        phone: `${dialCode.value} ${phone.value.trim()}`,
+        phone: phone.value.trim() ? `${dialCode.value} ${phone.value.trim()}` : undefined,
         // Email consent is implicit on submit (no checkbox); the notice shown
         // under the button is archived verbatim as the consent proof.
         emailConsent: true,
@@ -213,7 +224,11 @@ async function submit() {
       </div>
 
       <div class="field">
-        <label for="phone">{{ t('form.phone') }} <span class="req">*</span></label>
+        <label for="phone">
+          {{ t('form.phone') }}
+          <span v-if="smsConsent" class="req">*</span>
+          <span v-else class="opt">{{ t('form.optional') }}</span>
+        </label>
         <div class="phone-group">
           <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
             <option v-for="c in dialOptions" :key="c.code" :value="c.dial">
