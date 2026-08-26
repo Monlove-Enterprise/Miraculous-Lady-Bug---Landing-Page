@@ -227,7 +227,6 @@ async function submit() {
         <label for="phone">
           {{ t('form.phone') }}
           <span v-if="smsConsent" class="req">*</span>
-          <span v-else class="opt">{{ t('form.optional') }}</span>
         </label>
         <div class="phone-group">
           <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
