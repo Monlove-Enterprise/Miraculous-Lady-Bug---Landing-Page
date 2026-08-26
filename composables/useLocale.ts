@@ -38,7 +38,7 @@ const messages: Record<Locale, Dict> = {
     'form.emailConsentNotice':
       'En vous inscrivant, vous acceptez de recevoir par e-mail les actualités et mises à jour concernant le spectacle, ainsi que toute autre communication sélectionnée. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre politique de confidentialité.',
     'form.smsConsent':
-      "J'accepte de recevoir par SMS les actualités, mises à jour et offres du spectacle. Des frais de message et de données peuvent s'appliquer. Réponds STOP pour te désinscrire.",
+      "Oui, envoyez-moi des SMS sur les dates et billets de Miraculous Ladybug Live. La fréquence des messages peut varier. Des frais de messagerie et de données peuvent s'appliquer. Répondez STOP pour vous désabonner, HELP pour de l'aide. Vos coordonnées mobiles ne seront ni vendues ni partagées à des fins promotionnelles.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
     'form.smsNote': '',
     'form.submit': 'Rejoindre la liste d’attente',
@@ -105,7 +105,7 @@ const messages: Record<Locale, Dict> = {
     'form.emailConsentNotice':
       'By signing up, you agree to receive news and updates about the show by email, plus any other communications you selected. You can unsubscribe at any time. To learn more, see our privacy policy.',
     'form.smsConsent':
-      'I agree to receive show news, updates and offers by SMS. Message and data rates may apply. Reply STOP to opt out.',
+      'Yes, text me about Miraculous Ladybug Live tour dates and tickets. Message frequency may vary. Standard message and data rates may apply. Reply STOP to opt out, HELP for help. We will not sell or share your mobile information with third parties for promotional purposes.',
     'form.age': 'I confirm I am 16 or older.',
     'form.smsNote': '',
     'form.submit': 'Join the waitlist',

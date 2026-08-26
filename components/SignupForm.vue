@@ -30,6 +30,21 @@ const consentAfter = computed(() => {
   return i >= 0 ? full.slice(i + link.length) : ''
 })
 
+// SMS consent: the full carrier-required text is ONE i18n string (also what's
+// stored verbatim in sms_consent_text). For display we show its first sentence
+// next to the checkbox and the mandatory disclosures just below — smaller but
+// still legible (screenshot serves as proof to the carrier).
+const smsFirst = computed(() => {
+  const full = t('form.smsConsent')
+  const i = full.indexOf('. ')
+  return i >= 0 ? full.slice(0, i + 1) : full
+})
+const smsRest = computed(() => {
+  const full = t('form.smsConsent')
+  const i = full.indexOf('. ')
+  return i >= 0 ? full.slice(i + 2) : ''
+})
+
 const loading = ref(false)
 const done = ref(false)
 const errorMsg = ref('')
@@ -232,8 +247,9 @@ async function submit() {
 
       <label class="check">
         <input v-model="smsConsent" type="checkbox" />
-        <span>{{ t('form.smsConsent') }}</span>
+        <span>{{ smsFirst }}</span>
       </label>
+      <p class="sms-note">{{ smsRest }}</p>
 
       <label class="check check--required">
         <input v-model="ageConfirmed" type="checkbox" />
@@ -404,11 +420,11 @@ async function submit() {
 }
 
 .sms-note {
-  font-size: 0.72rem;
-  line-height: 1.4;
-  color: rgba(203, 192, 174, 0.5);
-  margin: -0.35rem 0 1rem;
-  padding-left: 1.85rem;
+  margin: -0.35rem 0 0.9rem;
+  padding-left: 1.85rem; /* align under the checkbox label text */
+  font-size: 0.82rem; /* ~13px — legible for the carrier screenshot */
+  line-height: 1.5;
+  color: var(--cream-dim);
 }
 
 .btn {
