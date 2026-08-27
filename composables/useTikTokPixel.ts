@@ -58,11 +58,14 @@ export function useTikTokPixel() {
     ttq.page()
   }
 
-  /** Fire the sign-up conversion. No-op if consent was not accepted. */
-  function trackRegistration() {
+  /** Fire the sign-up conversion. No-op if consent was not accepted. The
+   *  event_id lets the browser event dedupe against the server-side one. */
+  function trackRegistration(eventId?: string) {
     if (typeof window === 'undefined') return
     const ttq = (window as any).ttq
-    if (injected && ttq) ttq.track('CompleteRegistration')
+    if (injected && ttq) {
+      ttq.track('CompleteRegistration', {}, eventId ? { event_id: eventId } : undefined)
+    }
   }
 
   return { enable, trackRegistration }

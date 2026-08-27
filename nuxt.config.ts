@@ -115,6 +115,9 @@ export default defineNuxtConfig({
     brevoListSms: process.env.BREVO_LIST_SMS || '5',
     brevoListNoconsent: process.env.BREVO_LIST_NOCONSENT || '6',
     klaviyoApiKey: process.env.KLAVIYO_API_KEY || '',
+    // TikTok Events API (server-side conversions). Token is a secret (Vercel env).
+    tiktokAccessToken: process.env.TIKTOK_ACCESS_TOKEN || '',
+    tiktokPixelId: process.env.TIKTOK_PIXEL_ID || 'DA86VHJC77U6VIRE2RS0',
     // DATABASE_URL is read directly from process.env in server/utils/db.ts
     public: {},
   },

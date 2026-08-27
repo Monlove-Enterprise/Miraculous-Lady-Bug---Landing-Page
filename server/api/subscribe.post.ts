@@ -21,6 +21,7 @@ import {
 import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
 import { resolveCountryForCity } from '../utils/geocode'
 import { nameToCode } from '../utils/countryCode'
+import { sendTikTokEvent } from '../utils/tiktok-events'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -47,6 +48,10 @@ interface SubscribeBody {
   utmMedium?: string
   utmCampaign?: string
   referrer?: string
+  /** Shared id to dedupe the server-side TikTok event with the browser one. */
+  tiktokEventId?: string
+  /** TikTok click id from the ad landing URL (?ttclid=), for match quality. */
+  ttclid?: string
 }
 
 export default defineEventHandler(async (event) => {
@@ -184,6 +189,28 @@ export default defineEventHandler(async (event) => {
       const msg = err?.data?.message || err?.message || String(err)
       console.error('[subscribe] Brevo sync failed (kept for retry):', msg)
       await markCrmError(email, msg).catch(() => {})
+    }
+  }
+
+  // ---- 3. Best-effort TikTok Events API (server-side, no PII) ----
+  // Fires only when the client sent an event_id (i.e. cookies were accepted).
+  // Matches on the pixel cookie / click id / IP / UA — never email or phone.
+  if (config.tiktokAccessToken && body.tiktokEventId) {
+    try {
+      await sendTikTokEvent(
+        'CompleteRegistration',
+        {
+          eventId: body.tiktokEventId,
+          ttp: getCookie(event, '_ttp') || undefined,
+          ttclid: body.ttclid?.trim() || undefined,
+          ip,
+          userAgent: getRequestHeader(event, 'user-agent') || undefined,
+          url: getRequestHeader(event, 'referer') || undefined,
+        },
+        { accessToken: config.tiktokAccessToken, pixelId: config.tiktokPixelId },
+      )
+    } catch (err: any) {
+      console.error('[subscribe] TikTok Events API failed:', err?.data || err?.message || err)
     }
   }
 

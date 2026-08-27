@@ -16,6 +16,7 @@ const route = useRoute()
 // Ad-pixel conversions — fire only if the visitor accepted cookies.
 const { trackLead } = useMetaPixel()
 const { trackRegistration } = useTikTokPixel()
+const { consent } = useConsent()
 
 // The email-consent notice is stored verbatim as the proof; for display we turn
 // its trailing "privacy policy" phrase into a link without duplicating it.
@@ -128,6 +129,13 @@ async function submit() {
   if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
+  // Shared id so the browser + server CompleteRegistration events dedupe.
+  // Only generated when cookies were accepted (otherwise no tracking at all).
+  const tiktokEventId =
+    consent.value === 'accepted'
+      ? globalThis.crypto?.randomUUID?.() ||
+        Date.now().toString(36) + Math.random().toString(36).slice(2)
+      : undefined
   try {
     await $fetch('/api/subscribe', {
       method: 'POST',
@@ -151,12 +159,14 @@ async function submit() {
         // Where they came from — lets the server attribute untagged traffic
         // (FB, TikTok…) by referrer when no UTM is present.
         referrer: typeof document !== 'undefined' ? document.referrer : '',
+        tiktokEventId,
+        ttclid: (route.query.ttclid as string) || undefined,
       },
     })
     done.value = true
     // Report the sign-up to the ad pixels (no-op unless consented to).
     trackLead()
-    trackRegistration()
+    trackRegistration(tiktokEventId)
   } catch (err: any) {
     errorMsg.value =
       err?.data?.statusMessage || err?.statusMessage || t('form.errGeneric')
