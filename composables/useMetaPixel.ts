@@ -41,10 +41,12 @@ export function useMetaPixel() {
   }
 
   /** Fire the sign-up conversion. No-op if consent was not accepted. */
-  function trackLead() {
+  function trackLead(eventId?: string) {
     if (typeof window === 'undefined') return
     const f = window as any
-    if (injected && f.fbq) f.fbq('track', 'Lead')
+    if (injected && f.fbq) {
+      f.fbq('track', 'Lead', {}, eventId ? { eventID: eventId } : undefined)
+    }
   }
 
   return { enable, trackLead }

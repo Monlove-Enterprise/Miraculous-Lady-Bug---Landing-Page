@@ -22,6 +22,7 @@ import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
 import { resolveCountryForCity } from '../utils/geocode'
 import { nameToCode } from '../utils/countryCode'
 import { sendTikTokEvent } from '../utils/tiktok-events'
+import { sendMetaEvent } from '../utils/meta-capi'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -48,8 +49,8 @@ interface SubscribeBody {
   utmMedium?: string
   utmCampaign?: string
   referrer?: string
-  /** Shared id to dedupe the server-side TikTok event with the browser one. */
-  tiktokEventId?: string
+  /** Shared id to dedupe the server-side conversion events with the browser. */
+  eventId?: string
   /** TikTok click id from the ad landing URL (?ttclid=), for match quality. */
   ttclid?: string
 }
@@ -195,12 +196,12 @@ export default defineEventHandler(async (event) => {
   // ---- 3. Best-effort TikTok Events API (server-side, no PII) ----
   // Fires only when the client sent an event_id (i.e. cookies were accepted).
   // Matches on the pixel cookie / click id / IP / UA — never email or phone.
-  if (config.tiktokAccessToken && body.tiktokEventId) {
+  if (config.tiktokAccessToken && body.eventId) {
     try {
       await sendTikTokEvent(
         'CompleteRegistration',
         {
-          eventId: body.tiktokEventId,
+          eventId: body.eventId,
           ttp: getCookie(event, '_ttp') || undefined,
           ttclid: body.ttclid?.trim() || undefined,
           ip,
@@ -211,6 +212,26 @@ export default defineEventHandler(async (event) => {
       )
     } catch (err: any) {
       console.error('[subscribe] TikTok Events API failed:', err?.data || err?.message || err)
+    }
+  }
+
+  // ---- 4. Best-effort Meta Conversions API (server-side, no PII) ----
+  if (config.metaCapiToken && body.eventId) {
+    try {
+      await sendMetaEvent(
+        'Lead',
+        {
+          eventId: body.eventId,
+          fbp: getCookie(event, '_fbp') || undefined,
+          fbc: getCookie(event, '_fbc') || undefined,
+          ip,
+          userAgent: getRequestHeader(event, 'user-agent') || undefined,
+          url: getRequestHeader(event, 'referer') || undefined,
+        },
+        { accessToken: config.metaCapiToken, pixelId: config.metaPixelId },
+      )
+    } catch (err: any) {
+      console.error('[subscribe] Meta CAPI failed:', err?.data || err?.message || err)
     }
   }
 

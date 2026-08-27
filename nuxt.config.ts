@@ -118,6 +118,9 @@ export default defineNuxtConfig({
     // TikTok Events API (server-side conversions). Token is a secret (Vercel env).
     tiktokAccessToken: process.env.TIKTOK_ACCESS_TOKEN || '',
     tiktokPixelId: process.env.TIKTOK_PIXEL_ID || 'DA86VHJC77U6VIRE2RS0',
+    // Meta Conversions API (server-side conversions). Token is a secret (Vercel env).
+    metaCapiToken: process.env.META_CAPI_TOKEN || '',
+    metaPixelId: process.env.META_PIXEL_ID || '1686724105767256',
     // DATABASE_URL is read directly from process.env in server/utils/db.ts
     public: {},
   },

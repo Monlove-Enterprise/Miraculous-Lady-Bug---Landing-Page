@@ -129,9 +129,9 @@ async function submit() {
   if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
-  // Shared id so the browser + server CompleteRegistration events dedupe.
+  // Shared id so the browser + server conversion events dedupe (Meta + TikTok).
   // Only generated when cookies were accepted (otherwise no tracking at all).
-  const tiktokEventId =
+  const eventId =
     consent.value === 'accepted'
       ? globalThis.crypto?.randomUUID?.() ||
         Date.now().toString(36) + Math.random().toString(36).slice(2)
@@ -159,14 +159,14 @@ async function submit() {
         // Where they came from — lets the server attribute untagged traffic
         // (FB, TikTok…) by referrer when no UTM is present.
         referrer: typeof document !== 'undefined' ? document.referrer : '',
-        tiktokEventId,
+        eventId,
         ttclid: (route.query.ttclid as string) || undefined,
       },
     })
     done.value = true
     // Report the sign-up to the ad pixels (no-op unless consented to).
-    trackLead()
-    trackRegistration(tiktokEventId)
+    trackLead(eventId)
+    trackRegistration(eventId)
   } catch (err: any) {
     errorMsg.value =
       err?.data?.statusMessage || err?.statusMessage || t('form.errGeneric')
