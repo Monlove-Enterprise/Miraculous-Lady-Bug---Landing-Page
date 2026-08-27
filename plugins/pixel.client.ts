@@ -4,7 +4,11 @@
 // calls enable() when they accept.
 export default defineNuxtPlugin(() => {
   const { consent, load } = useConsent()
-  const { enable } = useMetaPixel()
+  const meta = useMetaPixel()
+  const tiktok = useTikTokPixel()
   load()
-  if (consent.value === 'accepted') enable()
+  if (consent.value === 'accepted') {
+    meta.enable()
+    tiktok.enable()
+  }
 })

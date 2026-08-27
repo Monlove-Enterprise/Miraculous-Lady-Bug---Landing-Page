@@ -3,7 +3,8 @@
 // On accept it loads the Meta pixel (PageView); on decline nothing loads.
 const { t } = useLocale()
 const { consent, load, set, gpc } = useConsent()
-const { enable } = useMetaPixel()
+const meta = useMetaPixel()
+const tiktok = useTikTokPixel()
 
 // Render only after mount so the server never emits the banner (avoids a flash
 // for returning visitors whose choice is stored client-side).
@@ -23,7 +24,8 @@ const showGpc = computed(
 
 function accept() {
   set('accepted')
-  enable()
+  meta.enable()
+  tiktok.enable()
 }
 function decline() {
   set('declined')

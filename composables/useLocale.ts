@@ -64,7 +64,7 @@ const messages: Record<Locale, Dict> = {
     'footer.trademark': 'Miraculous® est une marque déposée de MIRACULOUS CORP.',
 
     'cookie.text':
-      'On utilise des cookies de mesure d’audience (Meta) pour comprendre d’où viennent nos visiteurs. Tu peux accepter ou refuser.',
+      'On utilise des cookies de mesure d’audience (Meta et TikTok) pour comprendre d’où viennent nos visiteurs. Tu peux accepter ou refuser.',
     'cookie.accept': 'Accepter',
     'cookie.decline': 'Refuser',
     'cookie.link': 'En savoir plus',
@@ -132,7 +132,7 @@ const messages: Record<Locale, Dict> = {
     'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
 
     'cookie.text':
-      'We use audience-measurement cookies (Meta) to understand where our visitors come from. You can accept or decline.',
+      'We use audience-measurement cookies (Meta and TikTok) to understand where our visitors come from. You can accept or decline.',
     'cookie.accept': 'Accept',
     'cookie.decline': 'Decline',
     'cookie.link': 'Learn more',

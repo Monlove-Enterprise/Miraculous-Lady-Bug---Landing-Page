@@ -13,8 +13,9 @@ interface CitySuggestion {
 
 const { t, locale } = useLocale()
 const route = useRoute()
-// Meta pixel conversion — fires only if the visitor accepted cookies.
+// Ad-pixel conversions — fire only if the visitor accepted cookies.
 const { trackLead } = useMetaPixel()
+const { trackRegistration } = useTikTokPixel()
 
 // The email-consent notice is stored verbatim as the proof; for display we turn
 // its trailing "privacy policy" phrase into a link without duplicating it.
@@ -153,8 +154,9 @@ async function submit() {
       },
     })
     done.value = true
-    // Report the sign-up to Meta (no-op unless the pixel was consented to).
+    // Report the sign-up to the ad pixels (no-op unless consented to).
     trackLead()
+    trackRegistration()
   } catch (err: any) {
     errorMsg.value =
       err?.data?.statusMessage || err?.statusMessage || t('form.errGeneric')

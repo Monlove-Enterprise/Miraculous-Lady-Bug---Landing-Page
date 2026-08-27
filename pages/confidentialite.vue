@@ -62,6 +62,9 @@ useHead({
           Meta Platforms (pixel Meta — mesure d'audience et publicité, uniquement avec votre
           consentement)
         </li>
+        <li>
+          TikTok (pixel TikTok — mesure d’audience et publicité, uniquement avec votre consentement)
+        </li>
       </ul>
 
       <h2>Transferts internationaux</h2>
@@ -101,8 +104,8 @@ useHead({
       <h2>Cookies et mesure d'audience</h2>
       <p>
         Nous utilisons des technologies strictement nécessaires au fonctionnement du site. Avec
-        votre consentement, nous utilisons également le pixel Meta (Facebook), fourni par Meta
-        Platforms, qui dépose des cookies afin de mesurer la fréquentation du site et les
+        votre consentement, nous utilisons également les pixels Meta (Facebook) et TikTok, fournis par
+        Meta Platforms et TikTok, qui déposent des cookies afin de mesurer la fréquentation du site et les
         inscriptions, d'évaluer l'efficacité de nos campagnes publicitaires et de permettre le
         reciblage publicitaire. Ce pixel ne se charge qu'après votre acceptation via le bandeau de
         consentement affiché sur le site. Le refuser n'a aucune conséquence sur votre inscription,
@@ -182,6 +185,7 @@ useHead({
         <li>Twilio (SMS, if used)</li>
         <li>Resend (email, if used)</li>
         <li>Meta Platforms (Meta Pixel — analytics and advertising, only with your consent)</li>
+        <li>TikTok (TikTok Pixel — analytics and advertising, only with your consent)</li>
       </ul>
 
       <h2>International Transfers</h2>
@@ -218,7 +222,7 @@ useHead({
       <h2>Cookies &amp; Analytics</h2>
       <p>
         We use strictly necessary technologies to operate the Site. With your consent, we also use
-        the Meta (Facebook) Pixel, provided by Meta Platforms, which sets cookies to measure site
+        the Meta (Facebook) and TikTok pixels, provided by Meta Platforms and TikTok, which set cookies to measure site
         visits and sign-ups, assess the effectiveness of our advertising campaigns and enable ad
         retargeting. The pixel loads only after you accept it via the consent banner shown on the
         Site. Declining has no effect on your registration, and you may withdraw your consent at any
