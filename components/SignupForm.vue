@@ -266,8 +266,6 @@ async function submit() {
         <span>{{ t('form.age') }} <span class="req">*</span></span>
       </label>
 
-      <p class="operated-by">{{ t('form.operatedBy') }}</p>
-
       <p v-if="errorMsg" class="error" role="alert">{{ errorMsg }}</p>
 
       <button class="btn" type="submit" :disabled="loading">
@@ -437,12 +435,6 @@ async function submit() {
   font-size: 0.82rem; /* ~13px — legible for the carrier screenshot */
   line-height: 1.5;
   color: var(--cream-dim);
-}
-.operated-by {
-  margin: -0.25rem 0 1rem;
-  font-size: 0.82rem; /* ~13px — legible on the carrier screenshot */
-  line-height: 1.5;
-  color: var(--cream-dim); /* full opacity, no reduced opacity */
 }
 
 .btn {

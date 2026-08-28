@@ -38,10 +38,8 @@ const messages: Record<Locale, Dict> = {
     'form.emailConsentNotice':
       'En vous inscrivant, vous acceptez de recevoir par e-mail les actualités et mises à jour concernant le spectacle, ainsi que toute autre communication sélectionnée. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre politique de confidentialité.',
     'form.smsConsent':
-      "Envoyez-moi des SMS sur les dates et billets de Miraculous Ladybug Live. La fréquence des messages peut varier. Des frais de messagerie et de données peuvent s'appliquer. Répondez STOP pour vous désabonner, HELP pour de l'aide. Vos coordonnées mobiles ne seront ni vendues ni partagées à des fins promotionnelles.",
+      "En cochant cette case, je consens à recevoir des SMS de Gestion Belle & Bright Inc., exploitant de Miraculous Ladybug Live, au sujet des dates de tournée, de la mise en vente des billets et des annonces spéciales. La fréquence des messages peut varier. Des frais standards de messagerie et de données peuvent s'appliquer. Répondez STOP pour vous désabonner. Répondez HELP pour de l'aide. Vos coordonnées mobiles ne seront ni vendues ni partagées à des tiers à des fins promotionnelles.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
-    'form.operatedBy':
-      'Miraculous Ladybug Live: The Live Stage Spectacular est exploité par Gestion Belle & Bright Inc.',
     'form.smsNote': '',
     'form.submit': 'Rejoindre la liste d’attente',
     'form.submitting': 'Un instant…',
@@ -108,10 +106,8 @@ const messages: Record<Locale, Dict> = {
     'form.emailConsentNotice':
       'By signing up, you agree to receive news and updates about the show by email, plus any other communications you selected. You can unsubscribe at any time. To learn more, see our privacy policy.',
     'form.smsConsent':
-      'Text me about Miraculous Ladybug Live tour dates and tickets. Message frequency may vary. Standard message and data rates may apply. Reply STOP to opt out, HELP for help. We will not sell or share your mobile information with third parties for promotional purposes.',
+      'By checking this box, I consent to receive text messages from Gestion Belle & Bright Inc., operator of Miraculous Ladybug Live, about tour dates, ticket sales, and special announcements. Message frequency may vary. Standard message and data rates may apply. Reply STOP to opt out. Reply HELP for help. Your mobile information will not be sold or shared with third parties for promotional purposes.',
     'form.age': 'I confirm I am 16 or older.',
-    'form.operatedBy':
-      'Miraculous Ladybug Live: The Live Stage Spectacular is operated by Gestion Belle & Bright Inc.',
     'form.smsNote': '',
     'form.submit': 'Join the waitlist',
     'form.submitting': 'One moment…',
