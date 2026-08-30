@@ -19,6 +19,7 @@ import {
   type SubscriberInput,
 } from '../utils/subscribers'
 import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
+import { sendBrevoWelcomeEmail } from '../utils/crm/brevo-welcome'
 import { resolveCountryForCity } from '../utils/geocode'
 import { nameToCode } from '../utils/countryCode'
 import { sendTikTokEvent } from '../utils/tiktok-events'
@@ -190,6 +191,25 @@ export default defineEventHandler(async (event) => {
       const msg = err?.data?.message || err?.message || String(err)
       console.error('[subscribe] Brevo sync failed (kept for retry):', msg)
       await markCrmError(email, msg).catch(() => {})
+    }
+  }
+
+  // ---- 2b. Best-effort welcome email (Brevo transactional template) ----
+  // English-only; subject/sender/content live in the Brevo template so the
+  // brand edits copy without a deploy. Inert until BREVO_WELCOME_TEMPLATE_ID is
+  // set. Never fatal: a failed email must not block the sign-up.
+  if (config.brevoApiKey && config.brevoWelcomeTemplateId) {
+    try {
+      await sendBrevoWelcomeEmail({
+        apiKey: config.brevoApiKey,
+        templateId: Number(config.brevoWelcomeTemplateId),
+        email,
+        firstName: subscriber.firstName,
+        city,
+      })
+    } catch (err: any) {
+      const msg = err?.data?.message || err?.message || String(err)
+      console.error('[subscribe] Welcome email failed (non-fatal):', msg)
     }
   }
 

@@ -47,7 +47,10 @@ function buildAttributes(s: BrevoSyncInput, omitSms: boolean): Record<string, un
     OPT_IN_EMAIL: s.emailConsent,
     OPT_IN_SMS: s.smsConsent && !omitSms,
   }
-  if (s.firstName) a.PRENOM = s.firstName
+  if (s.firstName) {
+    a.PRENOM = s.firstName // legacy attribute (kept for existing data/segments)
+    a.FIRSTNAME = s.firstName // read by the welcome template: {{ contact.FIRSTNAME }}
+  }
   if (s.city) a.VILLE = s.city
   if (s.country) a.PAYS = s.country
   if (s.countryCode) a.COUNTRY_CODE = s.countryCode

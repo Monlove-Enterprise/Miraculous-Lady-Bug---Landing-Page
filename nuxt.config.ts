@@ -114,6 +114,9 @@ export default defineNuxtConfig({
     brevoListEmail: process.env.BREVO_LIST_EMAIL || '4',
     brevoListSms: process.env.BREVO_LIST_SMS || '5',
     brevoListNoconsent: process.env.BREVO_LIST_NOCONSENT || '6',
+    // Transactional "welcome" email sent on sign-up (Brevo template id 5:
+    // "Welcome - Confirmation Email"). Empty disables the send.
+    brevoWelcomeTemplateId: process.env.BREVO_WELCOME_TEMPLATE_ID || '5',
     klaviyoApiKey: process.env.KLAVIYO_API_KEY || '',
     // TikTok Events API (server-side conversions). Token is a secret (Vercel env).
     tiktokAccessToken: process.env.TIKTOK_ACCESS_TOKEN || '',
