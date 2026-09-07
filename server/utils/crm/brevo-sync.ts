@@ -36,31 +36,38 @@ export interface BrevoSyncInput {
   emailConsentAt?: string | null
   smsConsent: boolean
   smsConsentAt?: string | null
+  locale?: string | null
   utmSource?: string | null
   utmMedium?: string | null
   utmCampaign?: string | null
   createdAt?: string | null
 }
 
+// Attribute names match the ones already defined in the Brevo account (created
+// by the 2026-08-25 CSV import) — NOT invented ones. Brevo silently drops any
+// attribute key it doesn't already know, with no error, so using an unlisted
+// name (the previous VILLE/PAYS/OPT_IN_*/DATE_INSCRIPTION scheme) meant every
+// real-time sign-up since 2026-08-25 lost city/country/consent/date at Brevo
+// even though the API call "succeeded". SMS_CONSENT presence + EMAIL_CONSENT_AT
+// presence is what the account uses for consent — no separate OPT_IN_EMAIL flag.
 function buildAttributes(s: BrevoSyncInput, omitSms: boolean): Record<string, unknown> {
   const a: Record<string, unknown> = {
-    OPT_IN_EMAIL: s.emailConsent,
-    OPT_IN_SMS: s.smsConsent && !omitSms,
+    SMS_CONSENT: s.smsConsent && !omitSms,
   }
   if (s.firstName) {
     a.PRENOM = s.firstName // legacy attribute (kept for existing data/segments)
     a.FIRSTNAME = s.firstName // read by the welcome template: {{ contact.FIRSTNAME }}
   }
-  if (s.city) a.VILLE = s.city
-  if (s.country) a.PAYS = s.country
-  if (s.countryCode) a.COUNTRY_CODE = s.countryCode
+  if (s.city) a.CITY = s.city
+  if (s.countryCode) a.COUNTRY = s.countryCode
   if (s.phone && !omitSms) a.SMS = s.phone
-  if (s.emailConsentAt) a.OPT_IN_EMAIL_DATE = s.emailConsentAt
-  if (s.smsConsentAt && !omitSms) a.OPT_IN_SMS_DATE = s.smsConsentAt
+  if (s.emailConsentAt) a.EMAIL_CONSENT_AT = s.emailConsentAt
+  if (s.smsConsentAt && !omitSms) a.SMS_CONSENT_AT = s.smsConsentAt
+  if (s.locale) a.LOCALE = s.locale
   if (s.utmSource) a.UTM_SOURCE = s.utmSource
   if (s.utmMedium) a.UTM_MEDIUM = s.utmMedium
   if (s.utmCampaign) a.UTM_CAMPAIGN = s.utmCampaign
-  if (s.createdAt) a.DATE_INSCRIPTION = s.createdAt
+  if (s.createdAt) a.CREATED_AT = s.createdAt
   return a
 }
 

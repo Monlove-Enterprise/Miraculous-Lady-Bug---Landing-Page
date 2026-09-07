@@ -178,6 +178,7 @@ export default defineEventHandler(async (event) => {
           emailConsentAt: subscriber.emailConsentAt,
           smsConsent,
           smsConsentAt: subscriber.smsConsentAt,
+          locale,
           utmSource: subscriber.utmSource,
           utmMedium: subscriber.utmMedium,
           utmCampaign: subscriber.utmCampaign,
@@ -260,7 +261,12 @@ export default defineEventHandler(async (event) => {
 
 /**
  * Light normalisation to E.164. The phone already carries an international
- * dialing code from the front-end; this strips formatting characters.
+ * dialing code from the front-end (dial-code select + typed number); this
+ * strips formatting characters. If the visitor pasted their own full
+ * international number (with its own leading +) into the number field, the
+ * result carries two dialing codes back to back (e.g. "+33 +19165487427") —
+ * keep only from the last "+" on, since that's the number the visitor actually
+ * typed/pasted and is authoritative over the stale dial-code select.
  */
 function normalizePhone(raw?: string): string | undefined {
   if (!raw) return undefined
@@ -268,6 +274,8 @@ function normalizePhone(raw?: string): string | undefined {
   if (!trimmed) return undefined
 
   let digits = trimmed.replace(/[^\d+]/g, '')
+  const lastPlus = digits.lastIndexOf('+')
+  if (lastPlus > 0) digits = digits.slice(lastPlus)
   if (digits.startsWith('00')) digits = '+' + digits.slice(2)
   // A bare dialing code with no real number is not a phone.
   if (digits.replace('+', '').length < 4) return undefined

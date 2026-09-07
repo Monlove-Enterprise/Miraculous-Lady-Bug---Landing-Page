@@ -49,7 +49,7 @@ const dupRows = await sql`
 const dupPhones = new Set(dupRows.map((r) => r.phone))
 
 const pending = await sql`
-  select email, first_name, city, country, country_code, phone,
+  select email, first_name, city, country, country_code, phone, locale,
          email_consent, email_consent_at, sms_consent, sms_consent_at,
          utm_source, utm_medium, utm_campaign, created_at
   from subscribers
@@ -75,19 +75,26 @@ if (!COMMIT) {
   process.exit(0)
 }
 
+// Attribute names match what already exists in the Brevo account (the
+// 2026-08-25 CSV import's mapping) — Brevo silently drops unknown attribute
+// keys, so this must NOT reintroduce the old VILLE/PAYS/OPT_IN_*/DATE_INSCRIPTION
+// scheme (see brevo-sync.ts for the same fix on the real-time path).
 function buildAttrs(r, omit) {
-  const a = { OPT_IN_EMAIL: r.email_consent, OPT_IN_SMS: r.sms_consent && !omit }
-  if (r.first_name) a.PRENOM = r.first_name
-  if (r.city) a.VILLE = r.city
-  if (r.country) a.PAYS = r.country
-  if (r.country_code) a.COUNTRY_CODE = r.country_code
+  const a = { SMS_CONSENT: r.sms_consent && !omit }
+  if (r.first_name) {
+    a.PRENOM = r.first_name
+    a.FIRSTNAME = r.first_name
+  }
+  if (r.city) a.CITY = r.city
+  if (r.country_code) a.COUNTRY = r.country_code
   if (r.phone && !omit) a.SMS = r.phone
-  if (r.email_consent_at) a.OPT_IN_EMAIL_DATE = r.email_consent_at
-  if (r.sms_consent_at && !omit) a.OPT_IN_SMS_DATE = r.sms_consent_at
+  if (r.email_consent_at) a.EMAIL_CONSENT_AT = r.email_consent_at
+  if (r.sms_consent_at && !omit) a.SMS_CONSENT_AT = r.sms_consent_at
+  if (r.locale) a.LOCALE = r.locale
   if (r.utm_source) a.UTM_SOURCE = r.utm_source
   if (r.utm_medium) a.UTM_MEDIUM = r.utm_medium
   if (r.utm_campaign) a.UTM_CAMPAIGN = r.utm_campaign
-  if (r.created_at) a.DATE_INSCRIPTION = r.created_at
+  if (r.created_at) a.CREATED_AT = r.created_at
   return a
 }
 
