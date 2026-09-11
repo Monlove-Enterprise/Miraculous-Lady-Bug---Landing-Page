@@ -69,6 +69,8 @@ function monogram(p: Person): string {
 
 <template>
   <main class="cast">
+    <SiteNav />
+
     <!-- Language toggle (same control as the landing page) -->
     <button class="lang" type="button" @click="toggle">
       <span :class="{ on: locale === 'fr' }">FR</span>

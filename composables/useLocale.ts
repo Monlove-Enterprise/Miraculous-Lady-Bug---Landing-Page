@@ -6,6 +6,11 @@ type Dict = Record<string, string>
 
 const messages: Record<Locale, Dict> = {
   fr: {
+    'nav.ariaLabel': 'Navigation du site',
+    'nav.home': 'Accueil',
+    'nav.cast': 'Distribution',
+    'nav.cities': 'Villes',
+
     'hero.tagline': 'Tes héros préférés prennent enfin vie sur scène.',
     'hero.musicalBy': 'Une comédie musicale par',
     'hero.cta': "Je m'inscris",
@@ -30,6 +35,36 @@ const messages: Record<Locale, Dict> = {
     'cast.castHeading': 'Distribution',
     'cast.tba': 'Casting à venir',
     'cast.tbaBio': 'Interprète bientôt annoncé·e.',
+
+    'villes.title': 'Le spectacle près de chez toi',
+    'villes.metaDescription':
+      'Toutes les villes où Miraculous Ladybug & Cat Noir: The Live Stage Spectacular pourrait se produire.',
+    'villes.back': "Retour à l’accueil",
+    'villes.intro': 'Retrouve toutes les villes envisagées, confirmées ou déjà en vente.',
+    'villes.note':
+      'Exemple de mise en page — aucune date de tournée n’est confirmée à ce jour.',
+    'villes.status.envisagee': 'À l’étude',
+    'villes.status.confirmee': 'Confirmée',
+    'villes.status.en_vente': 'En vente',
+    'villes.status.epuisee': 'Complet',
+    'villes.openingTbd': 'Ouverture des ventes à venir',
+    'villes.openingOn': 'Billets en vente le {date}',
+    'villes.cta.buy': 'Acheter mes billets',
+    'villes.cta.interest': 'Manifester mon intérêt',
+    'villes.cta.soldout': 'Complet',
+    'villes.cta.pending': 'Bientôt plus d’infos',
+    'villes.backToList': 'Toutes les villes',
+    'villes.countdownAria': 'Compte à rebours avant la mise en vente',
+    'villes.countdown.days': 'jours',
+    'villes.countdown.hours': 'h',
+    'villes.countdown.minutes': 'min',
+    'villes.countdown.seconds': 'sec',
+    'villes.detail.envisageeText':
+      'Cette ville est à l’étude. Manifeste ton intérêt pour nous aider à confirmer une date près de chez toi.',
+    'villes.detail.confirmeeText': 'Billets en vente dans :',
+    'villes.detail.enVenteText': 'Les billets sont en vente dès maintenant.',
+    'villes.detail.epuiseeText':
+      'Cette date est complète. Inscris-toi pour être informé·e d’une éventuelle date supplémentaire.',
 
     'form.title': 'Rejoins la liste d’attente officielle',
     'form.lead':
@@ -71,6 +106,11 @@ const messages: Record<Locale, Dict> = {
     'footer.trademark': 'Miraculous® est une marque déposée de MIRACULOUS CORP.',
   },
   en: {
+    'nav.ariaLabel': 'Site navigation',
+    'nav.home': 'Home',
+    'nav.cast': 'Cast',
+    'nav.cities': 'Cities',
+
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
     'hero.musicalBy': 'A musical by',
     'hero.cta': 'Count me in',
@@ -95,6 +135,35 @@ const messages: Record<Locale, Dict> = {
     'cast.castHeading': 'Cast',
     'cast.tba': 'Casting to be announced',
     'cast.tbaBio': 'Performer to be announced soon.',
+
+    'villes.title': 'The show near you',
+    'villes.metaDescription':
+      'Every city where Miraculous Ladybug & Cat Noir: The Live Stage Spectacular might play.',
+    'villes.back': 'Back to home',
+    'villes.intro': 'Browse every city that’s being considered, confirmed, or already on sale.',
+    'villes.note': 'Layout example — no tour dates are confirmed yet.',
+    'villes.status.envisagee': 'Being Considered',
+    'villes.status.confirmee': 'Confirmed',
+    'villes.status.en_vente': 'On Sale',
+    'villes.status.epuisee': 'Sold Out',
+    'villes.openingTbd': 'On sale date to be announced',
+    'villes.openingOn': 'Tickets on sale {date}',
+    'villes.cta.buy': 'Get Tickets',
+    'villes.cta.interest': 'I’m Interested',
+    'villes.cta.soldout': 'Sold Out',
+    'villes.cta.pending': 'More info soon',
+    'villes.backToList': 'All cities',
+    'villes.countdownAria': 'Countdown to ticket sale opening',
+    'villes.countdown.days': 'days',
+    'villes.countdown.hours': 'hrs',
+    'villes.countdown.minutes': 'min',
+    'villes.countdown.seconds': 'sec',
+    'villes.detail.envisageeText':
+      'This city is being considered. Let us know you’re interested to help us confirm a date near you.',
+    'villes.detail.confirmeeText': 'Tickets go on sale in:',
+    'villes.detail.enVenteText': 'Tickets are on sale now.',
+    'villes.detail.epuiseeText':
+      'This date is sold out. Sign up to be notified if another date is added.',
 
     'form.title': 'Join the official waitlist',
     'form.lead':

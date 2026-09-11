@@ -67,6 +67,8 @@ function copyTune() {
 
 <template>
   <div class="page">
+    <SiteNav />
+
     <!-- Language toggle (French launch default; English for client review) -->
     <button class="lang" type="button" @click="toggle">
       <span :class="{ on: locale === 'fr' }">FR</span>
