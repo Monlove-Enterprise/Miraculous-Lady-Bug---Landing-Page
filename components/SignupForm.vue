@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { sortedCountries } from '~/utils/countries'
+import { isValidPhoneNumber, type CountryCode } from 'libphonenumber-js/min'
 
 // Mirrors the shape returned by GET /api/city-search (kept local to avoid a
 // client→server type import across Nuxt's split tsconfigs).
@@ -41,7 +42,10 @@ const email = ref('')
 const cityQuery = ref('') // what the user typed in the city field
 const city = ref('') // required — normalised city name (set on pick, or free-text fallback)
 const cityCountry = ref('') // country that came with the picked city
-const dialCode = ref('+33')
+// Stores the ISO 3166-1 alpha-2 code (not the dial prefix) — several dial
+// codes are shared by multiple countries (+1: 14 of them, +7: 2), so only the
+// ISO code tells libphonenumber-js which numbering plan to validate against.
+const phoneCountry = ref('FR')
 const phone = ref('')
 const smsConsent = ref(false)
 const ageConfirmed = ref(false)
@@ -49,14 +53,16 @@ const ageConfirmed = ref(false)
 const dialOptions = computed(() => sortedCountries(locale.value))
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
 // Phone is OPTIONAL — required only when the SMS box is ticked (can't opt into
-// SMS without a number). If provided it must still look real (≥6 digits). The
-// dial code lives in its own select, so this checks the national number only.
-const phoneDigits = computed(() => phone.value.replace(/\D/g, ''))
-const phoneValid = computed(() =>
-  smsConsent.value
-    ? phoneDigits.value.length >= 6
-    : phoneDigits.value.length === 0 || phoneDigits.value.length >= 6,
-)
+// SMS without a number). If provided (whether or not SMS is ticked) it must be
+// a real, valid number for the selected country — libphonenumber-js applies
+// that country's own rules (e.g. whether a leading national "0" is dropped).
+// A number the visitor pastes with its own "+"/"00" is validated on its own
+// terms, ignoring the (possibly stale) country select.
+const phoneValid = computed(() => {
+  const p = phone.value.trim()
+  if (!p) return !smsConsent.value
+  return isValidPhoneNumber(p, phoneCountry.value as CountryCode)
+})
 
 // ---- City autocomplete (server-proxied Places provider) ----
 const suggestions = ref<CitySuggestion[]>([])
@@ -121,7 +127,7 @@ async function submit() {
   if (!city.value) return void (errorMsg.value = t('form.errCity'))
   if (!phoneValid.value) {
     errorMsg.value =
-      smsConsent.value && phoneDigits.value.length === 0
+      smsConsent.value && !phone.value.trim()
         ? t('form.errPhoneSms')
         : t('form.errPhone')
     return
@@ -144,7 +150,8 @@ async function submit() {
         email: email.value,
         city: city.value,
         country: cityCountry.value,
-        phone: phone.value.trim() ? `${dialCode.value} ${phone.value.trim()}` : undefined,
+        phone: phone.value.trim() || undefined,
+        phoneCountry: phone.value.trim() ? phoneCountry.value : undefined,
         // Email consent is implicit on submit (no checkbox); the notice shown
         // under the button is archived verbatim as the consent proof.
         emailConsent: true,
@@ -241,8 +248,8 @@ async function submit() {
           <span v-if="smsConsent" class="req">*</span>
         </label>
         <div class="phone-group">
-          <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
-            <option v-for="c in dialOptions" :key="c.code" :value="c.dial">
+          <select v-model="phoneCountry" class="select dial" :aria-label="t('form.dialCode')">
+            <option v-for="c in dialOptions" :key="c.code" :value="c.code">
               {{ c[locale] }} ({{ c.dial }})
             </option>
           </select>

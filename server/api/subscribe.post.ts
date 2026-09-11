@@ -24,6 +24,7 @@ import { resolveCountryForCity } from '../utils/geocode'
 import { nameToCode } from '../utils/countryCode'
 import { sendTikTokEvent } from '../utils/tiktok-events'
 import { sendMetaEvent } from '../utils/meta-capi'
+import { parsePhoneNumberFromString, type CountryCode } from 'libphonenumber-js'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -40,6 +41,9 @@ interface SubscribeBody {
   city?: string
   country?: string
   phone?: string
+  /** ISO 3166-1 alpha-2 of the dial-code select — needed to apply that
+   *  country's national-prefix rules when parsing `phone`. */
+  phoneCountry?: string
   emailConsent?: boolean
   emailConsentText?: string
   smsConsent?: boolean
@@ -91,8 +95,19 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // Phone is optional — required only when the visitor consented to SMS.
-  const phone = normalizePhone(body.phone)
+  // Phone is optional — required only when the visitor consented to SMS. But
+  // if one IS provided (consented or not), it must be a genuinely valid
+  // number for the selected country — reject rather than store garbage.
+  let phone: string | undefined
+  if (body.phone?.trim()) {
+    phone = normalizePhone(body.phone, body.phoneCountry)
+    if (!phone) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Merci d’indiquer un numéro de téléphone valide.',
+      })
+    }
+  }
   if (Boolean(body.smsConsent) && !phone) {
     throw createError({
       statusCode: 400,
@@ -260,26 +275,28 @@ export default defineEventHandler(async (event) => {
 })
 
 /**
- * Light normalisation to E.164. The phone already carries an international
- * dialing code from the front-end (dial-code select + typed number); this
- * strips formatting characters. If the visitor pasted their own full
- * international number (with its own leading +) into the number field, the
- * result carries two dialing codes back to back (e.g. "+33 +19165487427") —
- * keep only from the last "+" on, since that's the number the visitor actually
- * typed/pasted and is authoritative over the stale dial-code select.
+ * Parses to E.164 via libphonenumber-js, using the country picked in the
+ * dial-code select to apply that country's own numbering-plan rules — in
+ * particular whether a leading national "0" is part of the number or a trunk
+ * prefix to drop (this varies by country, e.g. FR/GB drop it, others don't).
+ * Also handles the "00" international prefix and any spaces/dashes/dots/
+ * parens. If the visitor pasted their own full international number (leading
+ * "+" or "00") into the field, it's parsed on its own terms — self-contained,
+ * ignoring a possibly-stale country selection (this is what used to produce a
+ * doubled dialing code, e.g. "+33 +19165487427", under the old string-based
+ * normalisation). Returns undefined if empty or not a valid number for the
+ * given (or self-declared) country — callers must reject rather than store it.
  */
-function normalizePhone(raw?: string): string | undefined {
-  if (!raw) return undefined
-  const trimmed = raw.trim()
+function normalizePhone(raw?: string, isoCountry?: string): string | undefined {
+  const trimmed = raw?.trim()
   if (!trimmed) return undefined
 
-  let digits = trimmed.replace(/[^\d+]/g, '')
-  const lastPlus = digits.lastIndexOf('+')
-  if (lastPlus > 0) digits = digits.slice(lastPlus)
-  if (digits.startsWith('00')) digits = '+' + digits.slice(2)
-  // A bare dialing code with no real number is not a phone.
-  if (digits.replace('+', '').length < 4) return undefined
-  return digits.startsWith('+') ? digits : '+' + digits
+  const selfContained = /^(\+|00)/.test(trimmed)
+  const input = selfContained ? trimmed.replace(/^00/, '+') : trimmed
+  const country = selfContained ? undefined : (isoCountry as CountryCode | undefined)
+
+  const parsed = parsePhoneNumberFromString(input, country)
+  return parsed?.isValid() ? parsed.number : undefined
 }
 
 /**
