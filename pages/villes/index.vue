@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cities, type City } from '~/utils/toursCitiesPlaceholder'
 
-const { t, locale, toggle } = useLocale()
+const { t, locale } = useLocale()
 
 useHead(() => ({
   title: `${t('villes.title')} — Miraculous Live`,
@@ -31,13 +31,7 @@ function openingLabel(c: City) {
 
 <template>
   <main class="villes">
-    <SiteNav />
-
-    <button class="lang" type="button" @click="toggle">
-      <span :class="{ on: locale === 'fr' }">FR</span>
-      <span class="sep">/</span>
-      <span :class="{ on: locale === 'en' }">EN</span>
-    </button>
+    <SiteHeader />
 
     <div class="container">
       <NuxtLink to="/" class="back">← {{ t('villes.back') }}</NuxtLink>

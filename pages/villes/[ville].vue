@@ -2,7 +2,7 @@
 import { findCity, withTicketUtm, type CityStatus } from '~/utils/toursCitiesPlaceholder'
 
 const route = useRoute()
-const { t, locale, toggle } = useLocale()
+const { t, locale } = useLocale()
 
 const city = findCity(String(route.params.ville))
 
@@ -35,13 +35,7 @@ const ticketHref = computed(() =>
 
 <template>
   <main v-if="city" class="ville">
-    <SiteNav />
-
-    <button class="lang" type="button" @click="toggle">
-      <span :class="{ on: locale === 'fr' }">FR</span>
-      <span class="sep">/</span>
-      <span :class="{ on: locale === 'en' }">EN</span>
-    </button>
+    <SiteHeader />
 
     <div class="container">
       <NuxtLink to="/villes" class="back">← {{ t('villes.backToList') }}</NuxtLink>

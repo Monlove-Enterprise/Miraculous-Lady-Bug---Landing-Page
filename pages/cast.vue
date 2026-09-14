@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { t, locale, toggle } = useLocale()
+const { t, locale } = useLocale()
 
 useHead(() => ({
   title: `${t('cast.title')} — Miraculous Live`,
@@ -69,14 +69,7 @@ function monogram(p: Person): string {
 
 <template>
   <main class="cast">
-    <SiteNav />
-
-    <!-- Language toggle (same control as the landing page) -->
-    <button class="lang" type="button" @click="toggle">
-      <span :class="{ on: locale === 'fr' }">FR</span>
-      <span class="sep">/</span>
-      <span :class="{ on: locale === 'en' }">EN</span>
-    </button>
+    <SiteHeader />
 
     <div class="container">
       <NuxtLink to="/" class="back">← {{ t('cast.back') }}</NuxtLink>

@@ -67,8 +67,6 @@ function copyTune() {
 
 <template>
   <div class="page">
-    <SiteNav />
-
     <!-- Language toggle (French launch default; English for client review) -->
     <button class="lang" type="button" @click="toggle">
       <span :class="{ on: locale === 'fr' }">FR</span>
@@ -112,10 +110,17 @@ function copyTune() {
 
       <div class="hero__lockup">
         <p class="hero__tagline">{{ t('hero.tagline') }}</p>
-        <button class="cta" type="button" @click="scrollToSignup">
-          {{ t('hero.cta') }}
-          <span class="cta__arrow" aria-hidden="true">↓</span>
-        </button>
+        <div class="hero__ctas">
+          <button class="cta" type="button" @click="scrollToSignup">
+            {{ t('hero.cta') }}
+            <span class="cta__arrow" aria-hidden="true">↓</span>
+          </button>
+          <!-- Added per Math: doesn't replace the signup CTA, just gives
+               visitors with an already-on-sale city a direct path to /villes. -->
+          <NuxtLink to="/villes" class="cta cta--secondary">
+            {{ t('hero.bookNow') }}
+          </NuxtLink>
+        </div>
         <p class="hero__credit">
           <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
           <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
@@ -407,6 +412,23 @@ function copyTune() {
 }
 .cta__arrow {
   animation: bob 1.6s ease-in-out infinite;
+}
+
+.hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+}
+.cta--secondary {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  box-shadow: none;
+  text-decoration: none;
+}
+.cta--secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
 }
 
 .scroll-hint {
