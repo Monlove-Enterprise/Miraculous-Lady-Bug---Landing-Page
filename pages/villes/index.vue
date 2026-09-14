@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { cities, type City } from '~/utils/toursCitiesPlaceholder'
+import { countryNameByCode } from '~/utils/countries'
+import type { CityRow } from '~/server/api/cities.get'
 
 const { t, locale } = useLocale()
 
@@ -8,23 +9,33 @@ useHead(() => ({
   meta: [{ name: 'description', content: t('villes.metaDescription') }],
 }))
 
-function cityName(c: City) {
-  return locale.value === 'fr' ? c.cityFr : c.cityEn
+const { data } = await useFetch<CityRow[]>('/api/cities')
+const cities = computed(() => data.value ?? [])
+
+function countryName(c: CityRow) {
+  return countryNameByCode(c.countryCode, locale.value)
 }
-function countryName(c: City) {
-  return locale.value === 'fr' ? c.countryFr : c.countryEn
-}
-function statusLabel(c: City) {
+function statusLabel(c: CityRow) {
   return t(`villes.status.${c.status}`)
 }
-function openingLabel(c: City) {
-  if (!c.openingDate) return t('villes.openingTbd')
-  const d = new Date(c.openingDate)
-  const formatted = d.toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+function datesLabel(c: CityRow) {
+  if (!c.startDate) return null
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+  return c.endDate && c.endDate !== c.startDate
+    ? `${fmt(c.startDate)} – ${fmt(c.endDate)}`
+    : fmt(c.startDate)
+}
+function openingLabel(c: CityRow) {
+  if (!c.openingAt) return t('villes.openingTbd')
+  const formatted = new Date(c.openingAt).toLocaleDateString(
+    locale.value === 'fr' ? 'fr-FR' : 'en-US',
+    { day: 'numeric', month: 'long', year: 'numeric' },
+  )
   return t('villes.openingOn').replace('{date}', formatted)
 }
 </script>
@@ -45,13 +56,14 @@ function openingLabel(c: City) {
       <ul class="list">
         <li v-for="c in cities" :key="c.slug" class="row" :class="`row--${c.status}`">
           <NuxtLink :to="`/villes/${c.slug}`" class="row__place">
-            <p class="row__city">{{ cityName(c) }}</p>
+            <p class="row__city">{{ c.city }}</p>
             <p class="row__country">{{ countryName(c) }}</p>
           </NuxtLink>
 
           <div class="row__details">
             <p v-if="c.venue" class="row__venue">{{ c.venue }}</p>
-            <p v-if="c.dates" class="row__dates">{{ c.dates }}</p>
+            <p v-if="c.format === 'residence'" class="row__dates">{{ t('villes.residencyBadge') }}</p>
+            <p v-else-if="datesLabel(c)" class="row__dates">{{ datesLabel(c) }}</p>
             <p v-if="c.status === 'confirmee'" class="row__opening">{{ openingLabel(c) }}</p>
           </div>
 

@@ -32,6 +32,8 @@ const { t, locale, toggle } = useLocale()
             <NuxtLink to="/reviews">{{ t('nav.reviews') }}</NuxtLink>
           </div>
         </details>
+
+        <NuxtLink to="/faq" class="siteheader__link">{{ t('nav.faq') }}</NuxtLink>
       </nav>
 
       <button class="siteheader__lang" type="button" @click="toggle">
@@ -77,6 +79,19 @@ const { t, locale, toggle } = useLocale()
   flex: 1;
   justify-content: center;
 }
+
+.siteheader__link {
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  color: var(--cream-dim);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.siteheader__link:hover { color: var(--cream); background: rgba(243, 233, 216, 0.06); }
+.siteheader__link.router-link-active { color: var(--red); }
 
 .navdrop { position: relative; }
 .navdrop summary {

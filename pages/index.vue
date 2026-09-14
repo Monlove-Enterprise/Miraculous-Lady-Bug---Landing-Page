@@ -1,6 +1,11 @@
 <script setup lang="ts">
-const { t, locale, toggle } = useLocale()
+import type { CityRow } from '~/server/api/cities.get'
+
+const { t } = useLocale()
 const route = useRoute()
+
+const { data: citiesData } = await useFetch<CityRow[]>('/api/cities')
+const cities = computed(() => citiesData.value ?? [])
 
 function scrollToSignup() {
   document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })
@@ -67,12 +72,7 @@ function copyTune() {
 
 <template>
   <div class="page">
-    <!-- Language toggle (French launch default; English for client review) -->
-    <button class="lang" type="button" @click="toggle">
-      <span :class="{ on: locale === 'fr' }">FR</span>
-      <span class="sep">/</span>
-      <span :class="{ on: locale === 'en' }">EN</span>
-    </button>
+    <SiteHeader />
 
     <!-- Live layout tuner — add ?tune=1 to the URL to show it (desktop hero) -->
     <div v-if="tuning" class="tuner">
@@ -139,6 +139,48 @@ function copyTune() {
           <p class="signup-section__microcopy">{{ t('signup.microcopy') }}</p>
         </div>
         <SignupForm />
+      </div>
+    </section>
+
+    <!-- ===================== MAP ===================== -->
+    <section class="map-section">
+      <div class="container">
+        <h2 class="section-title">{{ t('map.heading') }}</h2>
+        <p class="section-lead">{{ t('map.lead') }}</p>
+        <WorldMap :cities="cities" />
+        <div class="map-legend">
+          <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--tournee" />{{ t('map.legendTour') }}</span>
+          <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--residence" />{{ t('map.legendResidency') }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TRAILER ===================== -->
+    <!-- TODO: swap the placeholder for the real YouTube/Vimeo embed once the
+         brand delivers a trailer (CLAUDE.md: never self-hosted video). -->
+    <section class="trailer-section">
+      <div class="container">
+        <h2 class="section-title">{{ t('trailer.heading') }}</h2>
+        <div class="trailer-placeholder">
+          <span class="trailer-placeholder__play" aria-hidden="true">▶</span>
+          <p class="trailer-placeholder__text">{{ t('trailer.comingSoon') }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SOCIAL / FOLLOW ===================== -->
+    <section class="social-section">
+      <div class="container">
+        <h2 class="section-title">{{ t('social.heading') }}</h2>
+        <p class="section-lead">{{ t('social.lead') }}</p>
+        <div class="social-grid" aria-hidden="true">
+          <div v-for="i in 8" :key="i" class="social-grid__tile" />
+        </div>
+        <div class="social-links">
+          <a href="https://www.instagram.com/miraculousladybuglive/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.facebook.com/miraculousladybuglive/" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://www.tiktok.com/@miraculousladybuglive_" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </div>
       </div>
     </section>
 
@@ -420,15 +462,18 @@ function copyTune() {
   justify-content: center;
   gap: 0.9rem;
 }
+/* Solid, high-contrast — matches how Wicked treats "BOOK NOW" (their brand
+   accent, bold, not an outline/ghost button). Ours uses cream-on-black so it
+   still reads as a clear second action next to the red "Je m'inscris" CTA. */
 .cta--secondary {
-  background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.7);
-  box-shadow: none;
+  background: var(--cream);
+  color: #150a0b;
+  border: none;
   text-decoration: none;
 }
 .cta--secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #fff;
+  background: #fff;
+  transform: translateY(-2px);
 }
 
 .scroll-hint {
@@ -499,6 +544,107 @@ function copyTune() {
   font-weight: 600;
   border-left: 3px solid var(--red);
   padding-left: 0.9rem;
+}
+
+/* ---------------------------- MAP / TRAILER / SOCIAL ---------------------------- */
+.map-section,
+.trailer-section,
+.social-section {
+  padding: 4rem 0;
+  background: var(--ink);
+}
+.trailer-section { background: var(--ink-soft); }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+.section-lead {
+  color: var(--cream-dim);
+  text-align: center;
+  max-width: 46ch;
+  margin: 0 auto 2rem;
+}
+
+.map-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.6rem;
+  margin-top: 1.2rem;
+}
+.map-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cream-dim);
+  font-size: 0.85rem;
+}
+.map-legend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.map-legend__dot--tournee { background: var(--red); }
+.map-legend__dot--residence { background: var(--cream); }
+
+.trailer-placeholder {
+  max-width: 780px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  background: var(--ink-panel);
+  border: 1px dashed rgba(244, 14, 4, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.trailer-placeholder__play {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(244, 14, 4, 0.16);
+  color: var(--red);
+  font-size: 1.4rem;
+}
+.trailer-placeholder__text { color: var(--cream-dim); font-size: 0.9rem; }
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  max-width: 760px;
+  margin: 0 auto 2rem;
+}
+.social-grid__tile {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(244, 14, 4, 0.14), rgba(243, 233, 216, 0.06));
+}
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.social-links a {
+  color: var(--cream);
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: color 0.15s ease;
+}
+.social-links a:hover { color: var(--red); }
+
+@media (max-width: 560px) {
+  .social-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ------------------------------ FOOTER ------------------------------ */

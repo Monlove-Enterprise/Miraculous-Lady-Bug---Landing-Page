@@ -77,6 +77,47 @@ export function ensureSchema(): Promise<void> {
       // owns the table and bypasses RLS, so writes are unaffected; the public
       // PostgREST API is blocked. Idempotent — safe to run on every cold start.
       await db`ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY`
+
+      // Tour cities / residency performances (see migrations/003_cities.sql
+      // for the full comment on the "tournee" vs "residence" format).
+      await db`
+        CREATE TABLE IF NOT EXISTS cities (
+          id           serial PRIMARY KEY,
+          slug         text UNIQUE NOT NULL,
+          city         text NOT NULL,
+          region       text,
+          country_code text NOT NULL,
+          venue        text,
+          promoter     text,
+          format       text NOT NULL DEFAULT 'tournee' CHECK (format IN ('tournee', 'residence')),
+          status       text NOT NULL DEFAULT 'envisagee' CHECK (status IN ('envisagee', 'confirmee', 'en_vente', 'epuisee')),
+          start_date   date,
+          end_date     date,
+          opening_at   timestamptz,
+          ticket_url   text,
+          lat          numeric,
+          lng          numeric,
+          created_at   timestamptz NOT NULL DEFAULT now(),
+          updated_at   timestamptz NOT NULL DEFAULT now()
+        )
+      `
+      await db`
+        CREATE TABLE IF NOT EXISTS performances (
+          id         serial PRIMARY KEY,
+          city_id    integer NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+          starts_at  timestamptz NOT NULL,
+          sold_out   boolean NOT NULL DEFAULT false,
+          ticket_url text,
+          created_at timestamptz NOT NULL DEFAULT now()
+        )
+      `
+      await db`CREATE INDEX IF NOT EXISTS performances_city_id_idx ON performances (city_id)`
+      // Public read-only content, no PII — safe under RLS with an open SELECT
+      // policy so the site can read it without a server-only connection if
+      // ever needed; writes still require the owning role (bypasses RLS).
+      await db`ALTER TABLE cities ENABLE ROW LEVEL SECURITY`
+      await db`DROP POLICY IF EXISTS cities_public_read ON cities`
+      await db`CREATE POLICY cities_public_read ON cities FOR SELECT USING (true)`
     })().catch((err) => {
       // Reset so a later request can retry schema creation.
       schemaReady = null

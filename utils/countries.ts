@@ -216,3 +216,7 @@ export const countries: Country[] = [
 export function sortedCountries(locale: 'fr' | 'en'): Country[] {
   return [...countries].sort((a, b) => a[locale].localeCompare(b[locale], locale))
 }
+
+export function countryNameByCode(code: string, locale: 'fr' | 'en'): string {
+  return countries.find((c) => c.code === code)?.[locale] ?? code
+}

@@ -1,40 +1,87 @@
 <script setup lang="ts">
-import { findCity, withTicketUtm, type CityStatus } from '~/utils/toursCitiesPlaceholder'
+import { countryNameByCode } from '~/utils/countries'
+import type { CityRow } from '~/server/api/cities.get'
+import type { PerformanceRow } from '~/server/api/cities/[slug].get'
 
 const route = useRoute()
 const { t, locale } = useLocale()
+const slug = String(route.params.ville)
 
-const city = findCity(String(route.params.ville))
+const { data } = await useFetch<{ city: CityRow; performances: PerformanceRow[] }>(
+  `/api/cities/${slug}`,
+)
 
-if (!city) {
+if (!data.value) {
   throw createError({ statusCode: 404, statusMessage: 'Ville introuvable', fatal: false })
 }
 
-useHead(() => ({
-  title: city ? `${cityName()} — Miraculous Live` : 'Miraculous Live',
-}))
+const city = computed(() => data.value!.city)
+const performances = computed(() => data.value!.performances)
+
+useHead(() => ({ title: `${city.value.city} — Miraculous Live` }))
 
 // Local, possibly-flipped status: the countdown reaching zero switches the
 // displayed state to "en_vente" for everyone at the same instant (date-driven,
 // never the visitor's clock/IP) without a page reload.
-const status = ref<CityStatus>(city!.status)
+const status = ref(city.value.status)
+watch(city, (c) => (status.value = c.status))
 
-function cityName() {
-  return locale.value === 'fr' ? city!.cityFr : city!.cityEn
-}
 function countryName() {
-  return locale.value === 'fr' ? city!.countryFr : city!.countryEn
+  return countryNameByCode(city.value.countryCode, locale.value)
 }
 function onCountdownZero() {
   status.value = 'en_vente'
 }
-const ticketHref = computed(() =>
-  city!.ticketUrl ? withTicketUtm(city!.ticketUrl, city!.slug) : '#',
-)
+function datesLabel() {
+  const c = city.value
+  if (!c.startDate) return null
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+  return c.endDate && c.endDate !== c.startDate ? `${fmt(c.startDate)} – ${fmt(c.endDate)}` : fmt(c.startDate)
+}
+// Ticket links always carry UTM so ticketing-platform traffic is attributable.
+function withUtm(url: string): string {
+  if (!/^https?:\/\//.test(url)) return url
+  try {
+    const u = new URL(url)
+    u.searchParams.set('utm_source', 'miraculousladybuglive')
+    u.searchParams.set('utm_medium', 'villes')
+    u.searchParams.set('utm_campaign', city.value.slug)
+    return u.toString()
+  } catch {
+    return url
+  }
+}
+const ticketHref = computed(() => (city.value.ticketUrl ? withUtm(city.value.ticketUrl) : '#'))
+
+// Group performances by calendar day for the weekly-strip layout.
+const performancesByDay = computed(() => {
+  const groups = new Map<string, PerformanceRow[]>()
+  for (const p of performances.value) {
+    const key = new Date(p.startsAt).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+    })
+    if (!groups.has(key)) groups.set(key, [])
+    groups.get(key)!.push(p)
+  }
+  return [...groups.entries()]
+})
+function perfTime(p: PerformanceRow) {
+  return new Date(p.startsAt).toLocaleTimeString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+}
 </script>
 
 <template>
-  <main v-if="city" class="ville">
+  <main class="ville">
     <SiteHeader />
 
     <div class="container">
@@ -42,12 +89,29 @@ const ticketHref = computed(() =>
 
       <header class="ville__head">
         <span class="badge" :class="`badge--${status}`">{{ t(`villes.status.${status}`) }}</span>
-        <h1 class="ville__title">{{ cityName() }}</h1>
+        <span v-if="city.format === 'residence'" class="badge badge--residence">
+          {{ t('villes.residencyBadge') }}
+        </span>
+        <h1 class="ville__title">{{ city.city }}</h1>
         <p class="ville__country">{{ countryName() }}</p>
         <p v-if="city.venue" class="ville__venue">{{ city.venue }}</p>
-        <p v-if="city.dates" class="ville__dates">{{ city.dates }}</p>
+        <p v-if="datesLabel()" class="ville__dates">{{ datesLabel() }}</p>
         <p class="ville__note">{{ t('villes.note') }}</p>
       </header>
+
+      <!-- ---- Résidence : calendrier de représentations ---- -->
+      <section v-if="city.format === 'residence'" class="ville__panel ville__panel--wide">
+        <h2 class="ville__panel-heading">{{ t('villes.calendarHeading') }}</h2>
+        <div v-if="performancesByDay.length" class="calendar">
+          <div v-for="[day, perfs] in performancesByDay" :key="day" class="calendar__day">
+            <p class="calendar__date">{{ day }}</p>
+            <p v-for="p in perfs" :key="p.id" class="calendar__time" :class="{ 'is-soldout': p.soldOut }">
+              {{ p.soldOut ? t('villes.perfSoldOut') : perfTime(p) }}
+            </p>
+          </div>
+        </div>
+        <p v-else class="ville__panel-text">{{ t('villes.calendarEmpty') }}</p>
+      </section>
 
       <!-- ---- État : à l'étude ---- -->
       <section v-if="status === 'envisagee'" class="ville__panel">
@@ -57,9 +121,9 @@ const ticketHref = computed(() =>
 
       <!-- ---- État : confirmée (countdown si date connue) ---- -->
       <section v-else-if="status === 'confirmee'" class="ville__panel">
-        <template v-if="city.openingDate">
+        <template v-if="city.openingAt">
           <p class="ville__panel-text">{{ t('villes.detail.confirmeeText') }}</p>
-          <CityCountdown :target="city.openingDate" @reached-zero="onCountdownZero" />
+          <CityCountdown :target="city.openingAt" @reached-zero="onCountdownZero" />
         </template>
         <p v-else class="ville__panel-text">{{ t('villes.openingTbd') }}</p>
       </section>
@@ -71,7 +135,7 @@ const ticketHref = computed(() =>
       </section>
 
       <!-- ---- État : complet ---- -->
-      <section v-else class="ville__panel">
+      <section v-else-if="status === 'epuisee'" class="ville__panel">
         <p class="ville__panel-text">{{ t('villes.detail.epuiseeText') }}</p>
         <NuxtLink to="/#signup" class="btn btn--interest">{{ t('villes.cta.interest') }}</NuxtLink>
       </section>
@@ -93,33 +157,12 @@ const ticketHref = computed(() =>
 <style scoped>
 .ville {
   min-height: 100dvh;
-  padding: 4rem 0 6rem;
+  padding-bottom: 6rem;
   background:
     radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
     var(--ink);
 }
-
-.lang {
-  position: fixed;
-  top: 1.1rem;
-  right: 1.1rem;
-  z-index: 50;
-  display: flex;
-  gap: 0.35rem;
-  align-items: center;
-  padding: 0.4rem 0.75rem;
-  background: rgba(10, 5, 7, 0.6);
-  border: 1px solid rgba(243, 233, 216, 0.25);
-  border-radius: 999px;
-  color: var(--cream-dim);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-}
-.lang span.on { color: var(--scarlet); }
-.lang .sep { opacity: 0.4; }
+.container { padding-top: 3rem; }
 
 .back {
   display: inline-block;
@@ -153,6 +196,7 @@ const ticketHref = computed(() =>
 
 .badge {
   display: inline-block;
+  margin-right: 0.5rem;
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
   font-size: 0.72rem;
@@ -164,15 +208,39 @@ const ticketHref = computed(() =>
 .badge--confirmee { background: rgba(243, 233, 216, 0.12); color: var(--cream); }
 .badge--envisagee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
 .badge--epuisee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
+.badge--residence { background: rgba(244, 14, 4, 0.16); color: var(--red); }
 
 .ville__panel {
   padding: 2.2rem;
   border-radius: 16px;
   background: var(--ink-panel);
   max-width: 620px;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+}
+.ville__panel--wide { max-width: 900px; }
+.ville__panel-heading {
+  font-family: var(--font-display);
+  color: var(--red);
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
 }
 .ville__panel-text { color: var(--cream); margin-bottom: 1.4rem; }
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.6rem;
+}
+.calendar__day {
+  padding: 0.8rem 0.7rem;
+  background: rgba(243, 233, 216, 0.05);
+  border-radius: 10px;
+  text-align: center;
+}
+.calendar__date { color: var(--cream-dim); font-size: 0.78rem; margin-bottom: 0.5rem; }
+.calendar__time { color: var(--red); font-weight: 700; font-size: 0.9rem; }
+.calendar__time.is-soldout { color: var(--cream-dim); text-decoration: line-through; font-weight: 500; }
 
 .btn {
   display: inline-flex;
