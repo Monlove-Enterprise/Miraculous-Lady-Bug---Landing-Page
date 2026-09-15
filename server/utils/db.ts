@@ -118,6 +118,13 @@ export function ensureSchema(): Promise<void> {
       await db`ALTER TABLE cities ENABLE ROW LEVEL SECURITY`
       await db`DROP POLICY IF EXISTS cities_public_read ON cities`
       await db`CREATE POLICY cities_public_read ON cities FOR SELECT USING (true)`
+      // Same treatment for performances — was missed in the first pass (RLS
+      // wasn't enabled at all here, which under Supabase's default anon/
+      // authenticated grants left it publicly writable via PostgREST; fixed
+      // 2026-09-15).
+      await db`ALTER TABLE performances ENABLE ROW LEVEL SECURITY`
+      await db`DROP POLICY IF EXISTS performances_public_read ON performances`
+      await db`CREATE POLICY performances_public_read ON performances FOR SELECT USING (true)`
     })().catch((err) => {
       // Reset so a later request can retry schema creation.
       schemaReady = null

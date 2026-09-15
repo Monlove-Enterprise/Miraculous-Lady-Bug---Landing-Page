@@ -42,3 +42,15 @@ CREATE TABLE IF NOT EXISTS performances (
 );
 
 CREATE INDEX IF NOT EXISTS performances_city_id_idx ON performances (city_id);
+
+-- Public, read-only content (city/venue/date/showtime — no PII, no financial
+-- figures, those are never stored here at all). RLS on with a SELECT-only
+-- policy: the public PostgREST API can read, nothing else; writes still
+-- require the server's owning DB role, which bypasses RLS entirely.
+ALTER TABLE cities ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS cities_public_read ON cities;
+CREATE POLICY cities_public_read ON cities FOR SELECT USING (true);
+
+ALTER TABLE performances ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS performances_public_read ON performances;
+CREATE POLICY performances_public_read ON performances FOR SELECT USING (true);
