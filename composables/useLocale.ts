@@ -56,6 +56,23 @@ const messages: Record<Locale, Dict> = {
     'cast.tba': 'Casting à venir',
     'cast.tbaBio': 'Interprète bientôt annoncé·e.',
 
+    // Real brand copy from Math (2026-09-15) — EN is verbatim as provided.
+    // FR is a straight translation, kept in the site's "tu" voice; flag for a
+    // brand check on the translation specifically before it's final.
+    'story.intro':
+      'L’univers Miraculous s’agrandit : Miraculous : Les Aventures de Ladybug et Chat Noir prend vie sur scène ! Miraculous Corp et Monlove s’associent pour lancer en 2027 un spectacle scénique spectaculaire et rempli d’action, qui amène nos super-héros parisiens préférés devant des publics du monde entier.',
+    'story.mastermindsHeading': 'Les cerveaux créatifs derrière le spectacle',
+    'story.mastermindsText':
+      'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé derrière « Ice Age Live! », « Scooby-Doo! and The Lost City of Gold » et « All Systems Are Go! ». Grâce à leur passion pour la narration et une mise en scène à la pointe de l’innovation, cette production promet d’être unique en son genre.',
+    'story.spectacleHeading': 'Un vrai spectacle Miraculous',
+    'story.spectacleText':
+      'Imagine de l’acrobatie, des chorégraphies aériennes éblouissantes, des illusions à couper le souffle, de la danse énergique et même des marionnettes, le tout tissé dans une toute nouvelle aventure originale où Ladybug et Chat Noir affrontent une nouvelle menace palpitante ! Avec des interactions scène-vidéo et des chansons exclusives, ce sera une expérience Miraculous pour les générations.',
+    'story.nextHeading': 'Et ensuite ?',
+    'story.nextText':
+      'Les détails sur les villes, les salles et la mise en vente des billets seront dévoilés cette année. Reste à l’affût juste ici sur Miraculousladybug.com pour les dernières nouvelles — ne manque pas ta chance de voir Ladybug et Chat Noir passer de l’écran à la scène !',
+    'story.closing':
+      'Prêt·e à vivre Miraculous LIVE ? Partage ton enthousiasme et reste à l’affût pour d’autres nouvelles exclusives sur le spectacle sur scène de Miraculous Ladybug !',
+
     'villes.title': 'Le spectacle près de chez toi',
     'villes.metaDescription':
       'Toutes les villes où Miraculous Ladybug & Cat Noir: The Live Stage Spectacular pourrait se produire.',
@@ -180,6 +197,21 @@ const messages: Record<Locale, Dict> = {
     'cast.castHeading': 'Cast',
     'cast.tba': 'Casting to be announced',
     'cast.tbaBio': 'Performer to be announced soon.',
+
+    // Real brand copy from Math (2026-09-15), verbatim.
+    'story.intro':
+      'The Miraculous universe is expanding, Miraculous: Tales of Ladybug & Cat Noir is going LIVE! Miraculous Corp and Monlove are teaming up to launch a jaw-dropping, action-packed stage show in 2027, bringing our favorite Parisian superheroes to audiences around the globe.',
+    'story.mastermindsHeading': 'Meet the Masterminds',
+    'story.mastermindsText':
+      'The show will be driven by the creative genius of Ella Louise Allaire and Martin Lord Ferguson, the award-winning duo behind “Ice Age Live!”, “Scooby-Doo! and The Lost City of Gold”, and “All Systems Are Go!”. With their passion for storytelling and cutting-edge stagecraft, this production promises to be unlike anything fans have ever seen.',
+    'story.spectacleHeading': 'A True Miraculous Spectacle',
+    'story.spectacleText':
+      'Imagine acrobatics, dazzling aerial choreography, jaw-dropping illusions, energetic dance, and even puppetry, all woven into an all-new, original adventure featuring Ladybug and Cat Noir as they face an exciting new threat! With stage-to-video interaction and exclusive songs, this will be a Miraculous experience for the ages.',
+    'story.nextHeading': 'What’s Next?',
+    'story.nextText':
+      'Details on cities, venues, and ticket sales will be revealed this year. Stay tuned right here on Miraculousladybug.com for the latest updates, don’t miss your chance to see Ladybug and Cat Noir leap from screen to stage!',
+    'story.closing':
+      'Are you ready to be Miraculous LIVE? Share your excitement and keep watching this space for more exclusive news on the Miraculous Ladybug live stage show!',
 
     'villes.title': 'The show near you',
     'villes.metaDescription':
