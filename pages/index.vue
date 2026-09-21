@@ -391,8 +391,8 @@ function copyTune() {
   padding: 1rem 2.2rem;
   border: none;
   border-radius: 999px;
-  background: #150a0b;
-  color: #fff;
+  background: var(--cream);
+  color: #150a0b;
   font-family: var(--font-display);
   font-size: 1.25rem;
   letter-spacing: 0.03em;
@@ -401,7 +401,7 @@ function copyTune() {
   transition: transform 0.15s ease, background 0.15s ease;
 }
 .cta:hover {
-  background: #000;
+  background: #fff;
   transform: translateY(-2px);
 }
 .cta__arrow {

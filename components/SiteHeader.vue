@@ -196,6 +196,7 @@ watch(
   border-radius: 3px;
   background: var(--cream);
   color: #150a0b;
+  font-family: var(--font-display);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.05em;
