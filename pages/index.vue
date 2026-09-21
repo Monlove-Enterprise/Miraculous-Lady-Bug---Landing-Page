@@ -127,12 +127,9 @@ function copyTune() {
       <div class="hero__lockup">
         <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <div class="hero__ctas">
-          <NuxtLink to="/signup" class="cta">
-            {{ t('hero.cta') }}
-          </NuxtLink>
-          <!-- Added per Math: doesn't replace the signup CTA, just gives
-               visitors with an already-on-sale city a direct path to /villes. -->
-          <NuxtLink to="/villes" class="cta cta--secondary">
+          <!-- Single hero CTA per Math — the waitlist sign-up now lives in its
+               own section/page (subscribe band + /signup), not competing here. -->
+          <NuxtLink to="/villes" class="cta">
             {{ t('villes.cta.buy') }}
           </NuxtLink>
         </div>
@@ -417,20 +414,6 @@ function copyTune() {
   justify-content: center;
   gap: 0.9rem;
 }
-/* Solid, high-contrast — matches how Wicked treats "BOOK NOW" (their brand
-   accent, bold, not an outline/ghost button). Ours uses cream-on-black so it
-   still reads as a clear second action next to the red "Je m'inscris" CTA. */
-.cta--secondary {
-  background: var(--cream);
-  color: #150a0b;
-  border: none;
-  text-decoration: none;
-}
-.cta--secondary:hover {
-  background: #fff;
-  transform: translateY(-2px);
-}
-
 .scroll-hint {
   display: none; /* removed: overlapped the CTA on the compact hero */
   position: absolute;
@@ -549,6 +532,7 @@ function copyTune() {
   justify-content: center;
   padding: 0.6rem 1.3rem;
   border-radius: 999px;
+  font-family: var(--font-display);
   font-size: 0.85rem;
   font-weight: 700;
   text-decoration: none;
@@ -651,7 +635,7 @@ function copyTune() {
 .subscribe-band__text {
   color: rgba(255, 255, 255, 0.9);
   max-width: 50ch;
-  margin: 0 auto 1.6rem;
+  margin: 0 auto 2.4rem;
 }
 .btn--buy {
   background: #150a0b;

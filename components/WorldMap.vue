@@ -5,6 +5,7 @@
 // projection used to bake the outline, so they line up). Zoom/pan is done by
 // mutating the SVG viewBox directly — no mapping library needed for that either.
 import { WORLD_LAND_PATH, WORLD_MAP_WIDTH, WORLD_MAP_HEIGHT, projectLatLng } from '~/utils/worldMapPath'
+import { COUNTRY_BORDERS_PATH, US_STATE_BORDERS_PATH } from '~/utils/worldMapBorders'
 import type { CityRow } from '~/server/api/cities.get'
 
 const props = defineProps<{ cities: CityRow[] }>()
@@ -51,11 +52,9 @@ function zoomAt(clientX: number, clientY: number, factor: number) {
   clampView()
 }
 
-function onWheel(e: WheelEvent) {
-  e.preventDefault()
-  zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? 1.18 : 1 / 1.18)
-}
-
+// No wheel-to-zoom on purpose: hijacking the wheel event breaks normal page
+// scroll for anyone whose cursor happens to be over the map — zoom is
+// buttons + drag-to-pan only.
 function zoomButton(factor: number) {
   const el = svgRoot.value
   if (!el) return
@@ -104,7 +103,6 @@ function onPointerUp() {
       :viewBox="viewBoxAttr"
       role="img"
       aria-hidden="true"
-      @wheel="onWheel"
       @pointerdown="onPointerDown"
       @pointermove="onPointerMove"
       @pointerup="onPointerUp"
@@ -112,6 +110,15 @@ function onPointerUp() {
       @pointerleave="onPointerUp"
     >
       <path :d="WORLD_LAND_PATH" class="worldmap__land" />
+      <path :d="COUNTRY_BORDERS_PATH" class="worldmap__country-border" vector-effect="non-scaling-stroke" />
+      <!-- US state lines only past ~2.5x zoom — clutter at world scale,
+           useful once several nearby tour cities need telling apart. -->
+      <path
+        v-if="zoomPct >= 250"
+        :d="US_STATE_BORDERS_PATH"
+        class="worldmap__state-border"
+        vector-effect="non-scaling-stroke"
+      />
       <g v-for="p in pins" :key="p.id">
         <NuxtLink :to="`/villes/${p.slug}`" class="worldmap__pin-link">
           <circle
@@ -164,6 +171,17 @@ function onPointerUp() {
   fill: rgba(243, 233, 216, 0.1);
   stroke: rgba(243, 233, 216, 0.16);
   stroke-width: 0.5;
+}
+.worldmap__country-border {
+  fill: none;
+  stroke: rgba(243, 233, 216, 0.22);
+  stroke-width: 0.6;
+}
+.worldmap__state-border {
+  fill: none;
+  stroke: rgba(243, 233, 216, 0.15);
+  stroke-width: 0.5;
+  stroke-dasharray: 2 2;
 }
 .worldmap__pin-link { cursor: pointer; }
 .worldmap__pin {

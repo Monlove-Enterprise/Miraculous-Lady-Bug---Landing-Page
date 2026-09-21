@@ -43,7 +43,6 @@ const messages: Record<Locale, Dict> = {
     'social.lead': 'Retrouve les coulisses, les annonces et les nouveautés sur nos réseaux.',
     'hero.tagline': 'Tes héros préférés prennent enfin vie sur scène.',
     'hero.musicalBy': 'Une comédie musicale par',
-    'hero.cta': "Je m'inscris",
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
@@ -163,8 +162,8 @@ const messages: Record<Locale, Dict> = {
     'footer.english': 'Anglais',
     'footer.socialAria': 'Réseaux sociaux',
 
-    'subscribe.heading': 'Reste informé·e',
-    'subscribe.text': 'Rejoins la liste d’attente officielle pour les annonces de billets et les nouveautés du spectacle.',
+    'subscribe.heading': 'Accède au contenu exclusif',
+    'subscribe.text': 'Rejoins la liste d’attente officielle et sois parmi les premiers informés des annonces de billets, des nouveautés et du contenu exclusif du spectacle.',
     'subscribe.cta': 'Je m’inscris',
 
     'upcoming.heading': 'Prochaines dates',
@@ -209,7 +208,6 @@ const messages: Record<Locale, Dict> = {
     'social.lead': 'Behind the scenes, announcements and updates on our socials.',
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
     'hero.musicalBy': 'A musical by',
-    'hero.cta': 'Count me in',
     'hero.logoAlt': 'Miraculous: Ladybug & Cat Noir — The Live Stage Spectacular',
     'hero.scrollAria': 'Go to sign-up',
 
@@ -326,8 +324,8 @@ const messages: Record<Locale, Dict> = {
     'footer.english': 'English',
     'footer.socialAria': 'Social media',
 
-    'subscribe.heading': 'Stay in the loop',
-    'subscribe.text': 'Join the official waitlist for ticket announcements and show updates.',
+    'subscribe.heading': 'Get Exclusive Content',
+    'subscribe.text': 'Join the official waitlist and be among the first to hear about ticket announcements, show updates, and exclusive content.',
     'subscribe.cta': 'Count me in',
 
     'upcoming.heading': 'Upcoming Dates',

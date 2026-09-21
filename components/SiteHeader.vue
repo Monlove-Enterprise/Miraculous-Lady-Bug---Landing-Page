@@ -100,7 +100,7 @@ watch(
    edge columns stay equal width, keeping the nav dead-centre at any size. */
 .siteheader__bar {
   width: 100%;
-  padding: 0.9rem clamp(1.2rem, 4vw, 3.5rem);
+  padding: 0.9rem clamp(1rem, 2vw, 1.75rem);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -194,8 +194,8 @@ watch(
   overflow: hidden;
   padding: 0.65rem 1.3rem;
   border-radius: 3px;
-  background: var(--red);
-  color: #fff;
+  background: var(--cream);
+  color: #150a0b;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.05em;
@@ -207,7 +207,7 @@ watch(
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.55) 50%, transparent 60%);
+  background: linear-gradient(115deg, transparent 40%, rgba(244, 14, 4, 0.35) 50%, transparent 60%);
   transform: translateX(-120%);
   transition: transform 0.55s ease;
 }
