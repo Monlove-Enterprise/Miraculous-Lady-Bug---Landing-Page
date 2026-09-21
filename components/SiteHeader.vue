@@ -140,6 +140,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 .siteheader__burger {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   justify-content: center;
   gap: 4px;
   width: 34px;
@@ -148,12 +149,15 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
   background: transparent;
   border: none;
   cursor: pointer;
+  flex-shrink: 0;
 }
 .siteheader__burger span {
   display: block;
+  width: 100%;
   height: 2px;
   background: var(--cream);
   border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .siteheader__mobile {
