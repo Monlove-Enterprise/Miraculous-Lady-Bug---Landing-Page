@@ -16,8 +16,60 @@ if (!url) {
   process.exit(1)
 }
 
+// From https://monlove.com/miraculous-news/ (2026-09-21) — Monlove mirrors
+// the original outlets' press coverage on its own site rather than linking
+// out, so `url` points there. Two dates (Variety, Toy Book) weren't shown on
+// the page — 2026-01-08 is inferred from the other same-wave articles + a
+// ToyBook image-upload timestamp, not confirmed; fix if Math has the real ones.
 const rows = [
-  // { title: '...', source: 'Variety', url: 'https://...', published_at: '2027-01-15', excerpt: '...', image_url: null },
+  {
+    title: '‘Miraculous: Tales of Ladybug & Cat Noir’ Getting Live Stage Show for 2027 World Tour',
+    source: 'Variety',
+    url: 'https://monlove.com/miraculous-variety',
+    published_at: '2026-01-08', // inferred, not confirmed on page
+    excerpt:
+      'Miraculous Corp and Monlove have partnered to develop a new live stage production based on the global animated franchise "Miraculous," set to launch worldwide in 2027.',
+  },
+  {
+    title: 'Miraculous Ladybug Reveals Brand-New Story in Major Theatrical Release',
+    source: 'CBR',
+    url: 'https://monlove.com/miraculous-cbr',
+    published_at: '2026-01-08',
+    excerpt:
+      'The piece announces an upcoming stage play adaptation of the animated series, set to debut in 2027, created by Martin Lord Ferguson and Ella Louise Allaire.',
+  },
+  {
+    title: 'MIRACULOUS: TALES OF LADYBUG & CAT NOIR Coming to the Stage in New Live Show',
+    source: 'BroadwayWorld',
+    url: 'https://monlove.com/miraculous-bw',
+    published_at: '2026-01-08',
+    excerpt:
+      'Miraculous Corp and Monlove have partnered to create a stage production called "Miraculous Live Stage Spectacular," premiering in 2027. City and venue announcements are planned for 2026.',
+  },
+  {
+    title: '‘Miraculous’ Set To Make Its Theatrical Debut with ‘Miraculous Live Stage Spectacular’',
+    source: 'Toy Book',
+    url: 'https://monlove.com/miraculous-toybook',
+    published_at: '2026-01-08', // inferred, not confirmed on page
+    excerpt:
+      'Miraculous Corp is partnering with Montreal-based production company Monlove to present a theatrical live experience. The global tour begins in early 2027.',
+  },
+  {
+    title: 'Miraculous Corp & Monlove Announce ‘Miraculous’ Stage Show',
+    source: 'Animation Magazine',
+    url: 'https://monlove.com/miraculous-animationmag',
+    published_at: '2026-01-07',
+    excerpt:
+      'The announcement details a new live stage spectacular featuring Ladybug and Cat Noir, set to premiere in 2027.',
+  },
+  {
+    title: 'Miraculous: Tales of Ladybug & Cat Noir Announces Live-Action Adaptation',
+    source: 'ComicBook.com',
+    url: 'https://monlove.com/miraculous-comicbook',
+    published_at: '2026-01-08',
+    excerpt:
+      'The animated series about young crime fighters is getting a stage play adaptation in 2027, developed by Martin Lord Ferguson and Ella Louise Allaire.',
+  },
 ]
 
 const sql = postgres(url, { prepare: false, max: 1 })
