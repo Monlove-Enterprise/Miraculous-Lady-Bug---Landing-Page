@@ -107,6 +107,7 @@ useHead(() => ({
   justify-content: center;
   padding: 0.7rem 1.6rem;
   border-radius: 999px;
+  font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 700;
   border: none;

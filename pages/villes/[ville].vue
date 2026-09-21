@@ -212,6 +212,7 @@ const calendarEvents = computed(() =>
   justify-content: center;
   padding: 0.55rem 1.2rem;
   border-radius: 999px;
+  font-family: var(--font-display);
   font-size: 0.85rem;
   font-weight: 700;
   border: none;
