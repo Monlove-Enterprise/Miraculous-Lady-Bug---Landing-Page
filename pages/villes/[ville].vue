@@ -57,6 +57,21 @@ function withUtm(url: string): string {
   }
 }
 const ticketHref = computed(() => (city.value.ticketUrl ? withUtm(city.value.ticketUrl) : '#'))
+
+// Performances -> generic calendar events (showtime as the label).
+const calendarEvents = computed(() =>
+  performances.value.map((p) => ({
+    id: p.id,
+    date: p.startsAt,
+    label: p.soldOut
+      ? t('villes.perfSoldOut')
+      : new Date(p.startsAt).toLocaleTimeString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+    muted: p.soldOut,
+  })),
+)
 </script>
 
 <template>
@@ -81,7 +96,7 @@ const ticketHref = computed(() => (city.value.ticketUrl ? withUtm(city.value.tic
       <!-- ---- Résidence : calendrier de représentations ---- -->
       <section v-if="city.format === 'residence'" class="ville__panel ville__panel--wide">
         <h2 class="ville__panel-heading">{{ t('villes.calendarHeading') }}</h2>
-        <MonthCalendar v-if="performances.length" :performances="performances" />
+        <MonthCalendar v-if="performances.length" :events="calendarEvents" />
         <p v-else class="ville__panel-text">{{ t('villes.calendarEmpty') }}</p>
       </section>
 
