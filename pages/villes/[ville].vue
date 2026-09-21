@@ -116,7 +116,7 @@ function perfTime(p: PerformanceRow) {
       <!-- ---- État : à l'étude ---- -->
       <section v-if="status === 'envisagee'" class="ville__panel">
         <p class="ville__panel-text">{{ t('villes.detail.envisageeText') }}</p>
-        <NuxtLink to="/#signup" class="btn btn--interest">{{ t('villes.cta.interest') }}</NuxtLink>
+        <NuxtLink to="/signup" class="btn btn--interest">{{ t('villes.cta.interest') }}</NuxtLink>
       </section>
 
       <!-- ---- État : confirmée (countdown si date connue) ---- -->
@@ -137,20 +137,11 @@ function perfTime(p: PerformanceRow) {
       <!-- ---- État : complet ---- -->
       <section v-else-if="status === 'epuisee'" class="ville__panel">
         <p class="ville__panel-text">{{ t('villes.detail.epuiseeText') }}</p>
-        <NuxtLink to="/#signup" class="btn btn--interest">{{ t('villes.cta.interest') }}</NuxtLink>
+        <NuxtLink to="/signup" class="btn btn--interest">{{ t('villes.cta.interest') }}</NuxtLink>
       </section>
 
-      <footer class="ville__footer">
-        <nav class="ville__footer-links">
-          <NuxtLink to="/mentions-legales">{{ t('footer.legal') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
-        </nav>
-        <p class="ville__footer-license">{{ t('footer.copyright') }}</p>
-      </footer>
     </div>
+    <SiteFooter />
   </main>
 </template>
 

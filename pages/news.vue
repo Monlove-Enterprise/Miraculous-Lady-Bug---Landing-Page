@@ -48,17 +48,8 @@ function dateLabel(d: string) {
         </li>
       </ul>
 
-      <footer class="news__footer">
-        <nav class="news__footer-links">
-          <NuxtLink to="/mentions-legales">{{ t('footer.legal') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
-        </nav>
-        <p class="news__footer-license">{{ t('footer.copyright') }}</p>
-      </footer>
     </div>
+    <SiteFooter />
   </main>
 </template>
 

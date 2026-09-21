@@ -36,20 +36,11 @@ useHead(() => ({
 
       <section class="story__cta">
         <p class="story__closing">{{ t('story.closing') }}</p>
-        <NuxtLink to="/#signup" class="btn btn--buy">{{ t('form.submit') }}</NuxtLink>
+        <NuxtLink to="/signup" class="btn btn--buy">{{ t('form.submit') }}</NuxtLink>
       </section>
 
-      <footer class="story__footer">
-        <nav class="story__footer-links">
-          <NuxtLink to="/mentions-legales">{{ t('footer.legal') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
-        </nav>
-        <p class="story__footer-license">{{ t('footer.copyright') }}</p>
-      </footer>
     </div>
+    <SiteFooter />
   </main>
 </template>
 

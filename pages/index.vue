@@ -1,14 +1,32 @@
 <script setup lang="ts">
 import type { CityRow } from '~/server/api/cities.get'
+import { countryNameByCode } from '~/utils/countries'
 
-const { t } = useLocale()
+const { t, locale } = useLocale()
 const route = useRoute()
 
 const { data: citiesData } = await useFetch<CityRow[]>('/api/cities')
 const cities = computed(() => citiesData.value ?? [])
 
-function scrollToSignup() {
-  document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })
+// Next few dates across all tour stops (residency cities have no single
+// start_date, so they're naturally excluded — the Lido gets its own page).
+const upcomingCities = computed(() =>
+  cities.value
+    .filter((c) => c.format === 'tournee' && c.startDate)
+    .sort((a, b) => new Date(a.startDate!).getTime() - new Date(b.startDate!).getTime())
+    .slice(0, 6),
+)
+
+function dateLabel(c: CityRow) {
+  if (!c.startDate) return ''
+  return new Date(c.startDate).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+function countryName(c: CityRow) {
+  return countryNameByCode(c.countryCode, locale.value)
 }
 
 // ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
@@ -100,8 +118,6 @@ function copyTune() {
          is an absolute bottom-left overlay so title+lockup centre; on mobile the
          art returns to flow, giving title → Ladybug → tagline/CTA/credit. -->
     <section class="hero" :style="tuning ? heroStyle : undefined">
-      <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
-
       <img class="hero__logo" src="/images/title-treatment.png" :alt="t('hero.logoAlt')" />
 
       <div class="hero__art" aria-hidden="true">
@@ -111,10 +127,9 @@ function copyTune() {
       <div class="hero__lockup">
         <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <div class="hero__ctas">
-          <button class="cta" type="button" @click="scrollToSignup">
+          <NuxtLink to="/signup" class="cta">
             {{ t('hero.cta') }}
-            <span class="cta__arrow" aria-hidden="true">↓</span>
-          </button>
+          </NuxtLink>
           <!-- Added per Math: doesn't replace the signup CTA, just gives
                visitors with an already-on-sale city a direct path to /villes. -->
           <NuxtLink to="/villes" class="cta cta--secondary">
@@ -128,20 +143,6 @@ function copyTune() {
       </div>
     </section>
 
-    <!-- ===================== SIGNUP ===================== -->
-    <section id="signup" class="signup-section">
-      <div class="container signup-section__inner">
-        <div class="signup-section__intro">
-          <h1 class="signup-section__title">
-            {{ t('signup.introTitleA') }}<br />{{ t('signup.introTitleB') }}<br />{{ t('signup.introTitleC') }}
-          </h1>
-          <p class="signup-section__text">{{ t('signup.introText') }}</p>
-          <p class="signup-section__microcopy">{{ t('signup.microcopy') }}</p>
-        </div>
-        <SignupForm />
-      </div>
-    </section>
-
     <!-- ===================== MAP ===================== -->
     <section class="map-section">
       <div class="container">
@@ -151,6 +152,23 @@ function copyTune() {
         <div class="map-legend">
           <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--tournee" />{{ t('map.legendTour') }}</span>
           <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--residence" />{{ t('map.legendResidency') }}</span>
+        </div>
+
+        <h3 class="upcoming__heading">{{ t('upcoming.heading') }}</h3>
+        <ul v-if="upcomingCities.length" class="upcoming">
+          <li v-for="c in upcomingCities" :key="c.id" class="upcoming__row">
+            <NuxtLink :to="`/villes/${c.slug}`" class="upcoming__link">
+              <span class="upcoming__date">{{ dateLabel(c) }}</span>
+              <span class="upcoming__place">{{ c.city }}<span class="upcoming__country">{{ countryName(c) }}</span></span>
+              <span v-if="c.venue" class="upcoming__venue">{{ c.venue }}</span>
+              <span class="badge" :class="`badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
+            </NuxtLink>
+          </li>
+        </ul>
+        <p v-else class="section-lead">{{ t('upcoming.empty') }}</p>
+
+        <div class="upcoming__more">
+          <NuxtLink to="/villes" class="btn btn--outline">{{ t('upcoming.seeAll') }}</NuxtLink>
         </div>
       </div>
     </section>
@@ -184,69 +202,16 @@ function copyTune() {
       </div>
     </section>
 
-    <footer class="footer">
-      <div class="container footer__inner">
-        <nav class="footer__social" aria-label="Réseaux sociaux">
-          <a
-            class="footer__social-link"
-            href="https://www.instagram.com/miraculousladybuglive/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path
-                d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0z"
-              />
-              <path
-                d="M12 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4z"
-              />
-              <circle cx="18.41" cy="5.59" r="1.44" />
-            </svg>
-          </a>
-          <a
-            class="footer__social-link"
-            href="https://www.facebook.com/miraculousladybuglive/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path
-                d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"
-              />
-            </svg>
-          </a>
-          <a
-            class="footer__social-link"
-            href="https://www.tiktok.com/@miraculousladybuglive_"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="TikTok"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path
-                d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"
-              />
-            </svg>
-          </a>
-        </nav>
-        <nav class="footer__links">
-          <NuxtLink to="/mentions-legales">{{ t('footer.legal') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
-        </nav>
-        <p class="footer__license">{{ t('footer.copyright') }}</p>
-        <p class="footer__license">{{ t('footer.trademark') }}</p>
-
-        <div class="footer__logos">
-          <img class="footer__logo footer__logo--monlove" src="/images/monlove-logo.png" alt="MONLOVE" />
-          <img class="footer__logo footer__logo--corp" src="/images/miraculous-corp.png" alt="Miraculous Corp" />
-        </div>
+    <!-- ===================== SUBSCRIBE BAND ===================== -->
+    <section class="subscribe-band">
+      <div class="container">
+        <h2 class="subscribe-band__heading">{{ t('subscribe.heading') }}</h2>
+        <p class="subscribe-band__text">{{ t('subscribe.text') }}</p>
+        <NuxtLink to="/signup" class="btn btn--buy">{{ t('subscribe.cta') }}</NuxtLink>
       </div>
-    </footer>
+    </section>
+
+    <SiteFooter />
   </div>
 </template>
 
@@ -353,16 +318,6 @@ function copyTune() {
   background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
 }
 
-/* Miraculous ladybug emblem, top-left */
-.hero__bug {
-  position: absolute;
-  top: 1.3rem;
-  left: 1.5rem;
-  width: 58px;
-  height: auto;
-  z-index: 6;
-  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
-}
 
 /* Ladybug portrait — in-flow, centred, stacked below the title at every width
    (same arrangement as mobile). Width tunable via --art-w. */
@@ -507,44 +462,6 @@ function copyTune() {
   50% { transform: translateY(6px); }
 }
 
-/* ------------------------------ SIGNUP ------------------------------ */
-.signup-section {
-  position: relative;
-  padding: 5rem 0 4rem;
-  background:
-    radial-gradient(80% 60% at 20% 0%, rgba(244, 14, 4, 0.22), transparent 60%),
-    var(--ink-soft);
-}
-.signup-section__inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  align-items: center;
-}
-.signup-section__title {
-  /* Sized so the longest forced line ("MIRACULOUS LADYBUG & CAT NOIR" in FR)
-     fits on one line inside the narrower 2-column desktop title column. */
-  font-size: clamp(1.2rem, 1.95vw, 1.85rem);
-  line-height: 1.1;
-  color: var(--red);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-.signup-section__text {
-  color: var(--cream-dim);
-  font-size: clamp(0.98rem, 1.1vw, 1.3rem);
-  max-width: 46ch; /* tidy paragraph; wraps responsively */
-}
-/* Participation nudge, right before the form — a touch emphasised */
-.signup-section__microcopy {
-  margin-top: 1.1rem;
-  max-width: 46ch;
-  color: var(--cream);
-  font-size: clamp(0.95rem, 1.05vw, 1.2rem);
-  font-weight: 600;
-  border-left: 3px solid var(--red);
-  padding-left: 0.9rem;
-}
 
 /* ---------------------------- MAP / TRAILER / SOCIAL ---------------------------- */
 .map-section,
@@ -591,6 +508,77 @@ function copyTune() {
 }
 .map-legend__dot--tournee { background: var(--red); }
 .map-legend__dot--residence { background: var(--cream); }
+
+.upcoming__heading {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: var(--cream-dim);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.upcoming {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-width: 820px;
+  margin: 0 auto;
+  background: rgba(243, 233, 216, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.upcoming__link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.6rem 1.2rem;
+  padding: 1rem 1.3rem;
+  background: var(--ink-panel);
+}
+.upcoming__date { color: var(--red); font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+.upcoming__place { color: var(--cream); font-weight: 700; }
+.upcoming__country { display: block; color: var(--cream-dim); font-weight: 400; font-size: 0.78rem; }
+.upcoming__venue { grid-column: 2; color: var(--cream-dim); font-size: 0.82rem; margin-top: -0.4rem; }
+
+.upcoming__more { display: flex; justify-content: center; margin-top: 2rem; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.btn--outline {
+  border: 1px solid rgba(243, 233, 216, 0.3);
+  color: var(--cream);
+}
+.btn--outline:hover { border-color: var(--red); color: var(--red); }
+
+.badge {
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge--en_vente { background: rgba(244, 14, 4, 0.16); color: var(--red); }
+.badge--confirmee { background: rgba(243, 233, 216, 0.12); color: var(--cream); }
+.badge--envisagee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
+.badge--epuisee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); text-decoration: line-through; }
+
+@media (max-width: 560px) {
+  .upcoming__link { grid-template-columns: 1fr auto; }
+  .upcoming__date { grid-column: 1 / -1; }
+  .upcoming__venue { grid-column: 1 / -1; }
+}
 
 .trailer-placeholder {
   max-width: 780px;
@@ -647,102 +635,34 @@ function copyTune() {
   .social-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ------------------------------ FOOTER ------------------------------ */
-.footer {
-  padding: 2rem 0;
-  background: var(--ink);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-.footer__inner {
-  position: relative;
+/* --------------------------- SUBSCRIBE BAND --------------------------- */
+.subscribe-band {
+  padding: 3.5rem 0;
   text-align: center;
-  color: rgba(203, 192, 174, 0.5);
-  font-size: 0.85rem;
+  background: linear-gradient(120deg, rgba(244, 14, 4, 0.9), rgba(244, 14, 4, 0.55));
 }
-
-/* Partner logos, right-aligned and vertically centred against the credits */
-.footer__logos {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;
+.subscribe-band__heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
 }
-.footer__logo {
-  display: block;
-  width: auto;
-  opacity: 0.9;
+.subscribe-band__text {
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 50ch;
+  margin: 0 auto 1.6rem;
 }
-.footer__logo--monlove {
-  height: 22px;
+.btn--buy {
+  background: #150a0b;
+  color: #fff;
+  padding: 0.8rem 1.8rem;
+  font-size: 0.95rem;
 }
-.footer__logo--corp {
-  height: 40px;
-}
-.footer__social {
-  display: flex;
-  justify-content: center;
-  gap: 0.9rem;
-  margin-bottom: 1.75rem;
-}
-.footer__social-link {
-  display: inline-flex;
-  width: 44px;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: var(--cream-dim);
-  border: 1px solid rgba(243, 233, 216, 0.18);
-  transition: color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-}
-.footer__social-link:hover {
-  color: var(--red);
-  border-color: var(--red);
-  transform: translateY(-2px);
-}
-.footer__social-link svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-.footer__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-bottom: 0.75rem;
-}
-.footer__links a {
-  color: var(--cream-dim);
-  transition: color 0.15s ease;
-}
-.footer__links a:hover {
-  color: var(--red);
-}
-.footer__license {
-  max-width: 60ch;
-  margin: 0 auto 0.35rem;
-  font-size: 0.72rem;
-  line-height: 1.5;
-  color: rgba(203, 192, 174, 0.4);
-}
-.footer__rights {
-  margin-top: 0.6rem;
-  letter-spacing: 0.08em;
-  font-size: 0.72rem;
-  color: rgba(203, 192, 174, 0.55);
-}
+.btn--buy:hover { background: #000; transform: translateY(-2px); }
 
 /* ---------------------------- RESPONSIVE ---------------------------- */
 @media (min-width: 860px) {
-  .signup-section__inner {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start; /* Be Miraculous sits higher, aligned to the top */
-  }
   /* Tagline on a single line on desktop */
   .hero__tagline {
     max-width: none;
@@ -760,11 +680,6 @@ function copyTune() {
     padding: 3.25rem 1rem 1.75rem;
     gap: 0.9rem;
   }
-  .hero__bug {
-    width: 34px; /* match the visual weight of the FR/EN toggle */
-    top: 1.1rem;
-    left: 1.1rem;
-  }
   /* Title on top, then the Ladybug returns to flow below it (DOM order) */
   .hero__logo {
     width: min(76%, 330px);
@@ -780,27 +695,6 @@ function copyTune() {
   .hero__tagline {
     font-size: min(1.05rem, 3.2vw);
     white-space: nowrap;
-  }
-
-  /* Less gap before the signup section; "Be Miraculous" sits higher */
-  .signup-section {
-    padding-top: 2rem;
-  }
-  .signup-section__inner {
-    gap: 1.75rem;
-  }
-  /* Scale the title down on narrow phones so the long forced line
-     ("Miraculous Ladybug & Cat Noir" in FR) always fits without re-wrapping.
-     Capped at 1.25rem for phones ~435px and wider. */
-  .signup-section__title {
-    font-size: min(1.2rem, 4.1vw);
-  }
-  /* Footer logos drop below the credits, centred */
-  .footer__logos {
-    position: static;
-    transform: none;
-    justify-content: center;
-    margin-top: 1.5rem;
   }
 }
 </style>

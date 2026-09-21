@@ -151,6 +151,20 @@ const messages: Record<Locale, Dict> = {
     'footer.terms': 'Conditions d’utilisation',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. Tous droits réservés.',
     'footer.trademark': 'Miraculous® est une marque déposée de MIRACULOUS CORP.',
+    'footer.ticketsHeading': 'Billets',
+    'footer.aboutHeading': 'À propos',
+    'footer.languageHeading': 'Langue',
+    'footer.french': 'Français',
+    'footer.english': 'Anglais',
+    'footer.socialAria': 'Réseaux sociaux',
+
+    'subscribe.heading': 'Reste informé·e',
+    'subscribe.text': 'Rejoins la liste d’attente officielle pour les annonces de billets et les nouveautés du spectacle.',
+    'subscribe.cta': 'Je m’inscris',
+
+    'upcoming.heading': 'Prochaines dates',
+    'upcoming.seeAll': 'Voir toutes les villes',
+    'upcoming.empty': 'Aucune date annoncée pour l’instant.',
   },
   en: {
     'nav.ariaLabel': 'Site navigation',
@@ -295,6 +309,20 @@ const messages: Record<Locale, Dict> = {
     'footer.terms': 'Terms of Use',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. All rights reserved.',
     'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
+    'footer.ticketsHeading': 'Tickets',
+    'footer.aboutHeading': 'About',
+    'footer.languageHeading': 'Language',
+    'footer.french': 'French',
+    'footer.english': 'English',
+    'footer.socialAria': 'Social media',
+
+    'subscribe.heading': 'Stay in the loop',
+    'subscribe.text': 'Join the official waitlist for ticket announcements and show updates.',
+    'subscribe.cta': 'Count me in',
+
+    'upcoming.heading': 'Upcoming Dates',
+    'upcoming.seeAll': 'See all cities',
+    'upcoming.empty': 'No dates announced yet.',
   },
 }
 

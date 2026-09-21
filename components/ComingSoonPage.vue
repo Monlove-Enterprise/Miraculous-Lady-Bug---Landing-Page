@@ -14,6 +14,7 @@ defineProps<{ title: string }>()
       <h1 class="stub__title">{{ title }}</h1>
       <p class="stub__note">{{ t('stub.comingSoon') }}</p>
     </div>
+    <SiteFooter />
   </main>
 </template>
 

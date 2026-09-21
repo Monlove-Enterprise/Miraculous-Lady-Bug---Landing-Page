@@ -109,17 +109,8 @@ function monogram(p: Person): string {
         </ul>
       </section>
 
-      <footer class="cast__footer">
-        <nav class="cast__footer-links">
-          <NuxtLink to="/mentions-legales">{{ t('footer.legal') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
-        </nav>
-        <p class="cast__footer-license">{{ t('footer.copyright') }}</p>
-      </footer>
     </div>
+    <SiteFooter />
   </main>
 </template>
 

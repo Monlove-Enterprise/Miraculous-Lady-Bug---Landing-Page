@@ -73,7 +73,7 @@ function openingLabel(c: CityRow) {
             <a v-if="c.status === 'en_vente'" :href="c.ticketUrl" class="btn btn--buy">
               {{ t('villes.cta.buy') }}
             </a>
-            <NuxtLink v-else-if="c.status === 'envisagee'" to="/#signup" class="btn btn--interest">
+            <NuxtLink v-else-if="c.status === 'envisagee'" to="/signup" class="btn btn--interest">
               {{ t('villes.cta.interest') }}
             </NuxtLink>
             <button v-else-if="c.status === 'epuisee'" class="btn btn--soldout" type="button" disabled>
@@ -84,17 +84,8 @@ function openingLabel(c: CityRow) {
         </li>
       </ul>
 
-      <footer class="villes__footer">
-        <nav class="villes__footer-links">
-          <NuxtLink to="/mentions-legales">{{ t('footer.legal') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
-          <span aria-hidden="true">·</span>
-          <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
-        </nav>
-        <p class="villes__footer-license">{{ t('footer.copyright') }}</p>
-      </footer>
     </div>
+    <SiteFooter />
   </main>
 </template>
 
