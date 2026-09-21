@@ -48,7 +48,7 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'Miraculous Ladybug & Cat Noir',
     'signup.introTitleC': 'dans ta ville',
     'signup.introText':
-      'Envie de voir Miraculous Ladybug & Cat Noir: The Live Stage Spectacular dans ta ville? Rejoins la liste d’attente officielle pour manifester ton intérêt et être parmi les premiers informés de la mise en vente des billets et des annonces spéciales.',
+      'Envie de voir Miraculous Ladybug & Cat Noir: The Live Stage Spectacular dans ta ville? Abonne-toi pour manifester ton intérêt et être parmi les premiers informés de la mise en vente des billets et des annonces spéciales.',
     'signup.microcopy':
       'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
@@ -115,7 +115,7 @@ const messages: Record<Locale, Dict> = {
     'villes.detail.epuiseeText':
       'Cette date est complète. Inscris-toi pour être informé·e d’une éventuelle date supplémentaire.',
 
-    'form.title': 'Rejoins la liste d’attente officielle',
+    'form.title': 'Abonne-toi pour rester informé·e',
     'form.lead':
       'Sois parmi les premiers informés des dates de tournée, de la mise en vente des billets et des annonces spéciales lorsque le spectacle arrivera près de chez toi.',
     'form.firstName': 'Prénom',
@@ -134,7 +134,7 @@ const messages: Record<Locale, Dict> = {
       "J'accepte de recevoir par SMS les actualités, mises à jour et offres liées à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular. En fournissant ton numéro, tu acceptes de recevoir des SMS concernant le spectacle. Des frais de message et de données peuvent s'appliquer. Réponds STOP pour te désinscrire.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
     'form.smsNote': '',
-    'form.submit': 'Rejoindre la liste d’attente',
+    'form.submit': 'S’abonner',
     'form.submitting': 'Un instant…',
     'form.legalPre':
       'En t’inscrivant, tu acceptes que tes données soient utilisées pour t’envoyer les communications choisies. Tu peux te désinscrire à tout moment. Pour en savoir plus, consulte notre',
@@ -144,7 +144,7 @@ const messages: Record<Locale, Dict> = {
     'form.errPhone': 'Merci d’indiquer un numéro de téléphone valide.',
     'form.errAge': 'Tu dois confirmer avoir 16 ans ou plus.',
     'form.errGeneric': "L'inscription a échoué. Réessaie.",
-    'form.doneTitle': 'Bienvenue sur la liste d’attente officielle !',
+    'form.doneTitle': 'Bienvenue parmi nos abonné·e·s !',
     'form.doneText':
       'Tu y es ! Garde un œil sur ta boîte mail pour les annonces de billets, les mises à jour spéciales et les nouveautés, à mesure que Miraculous Live se prépare à venir dans ta ville.',
 
@@ -161,8 +161,8 @@ const messages: Record<Locale, Dict> = {
     'footer.socialAria': 'Réseaux sociaux',
 
     'subscribe.heading': 'Profite du contenu exclusif',
-    'subscribe.text': 'Rejoins la liste d’attente officielle et sois parmi les premiers informés des annonces de billets, des nouveautés et du contenu exclusif du spectacle.',
-    'subscribe.cta': 'Je m’inscris',
+    'subscribe.text': 'Abonne-toi et sois parmi les premiers informés des annonces de billets, des nouveautés et du contenu exclusif du spectacle.',
+    'subscribe.cta': 'S’abonner',
 
     'upcoming.heading': 'Prochaines dates',
     'upcoming.seeAll': 'Voir toutes les villes',
@@ -211,7 +211,7 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'Ladybug & Cat Noir',
     'signup.introTitleC': 'to your city',
     'signup.introText':
-      'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular in your city? Join the official waitlist to show your interest and be among the first to hear about ticket sales and special announcements.',
+      'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular in your city? Subscribe to show your interest and be among the first to hear about ticket sales and special announcements.',
     'signup.microcopy':
       'Every registration helps us bring the show to more cities around the world.',
 
@@ -275,7 +275,7 @@ const messages: Record<Locale, Dict> = {
     'villes.detail.epuiseeText':
       'This date is sold out. Sign up to be notified if another date is added.',
 
-    'form.title': 'Join the official waitlist',
+    'form.title': 'Subscribe to stay in the loop',
     'form.lead':
       'Be among the first to hear about tour dates, ticket sales and special announcements when Miraculous Live comes to your area.',
     'form.firstName': 'First name',
@@ -294,7 +294,7 @@ const messages: Record<Locale, Dict> = {
       'I agree to receive news, updates and offers related to Miraculous Ladybug & Cat Noir: The Live Stage Spectacular by SMS. By providing your number, you agree to receive SMS communications about the show. Message and data rates may apply. Reply STOP to opt out.',
     'form.age': 'I confirm I am 16 or older.',
     'form.smsNote': '',
-    'form.submit': 'Join the waitlist',
+    'form.submit': 'Subscribe',
     'form.submitting': 'One moment…',
     'form.legalPre':
       'By signing up, you agree that your data will be used to send you the communications you selected. You can unsubscribe at any time. To learn more, see our',
@@ -304,7 +304,7 @@ const messages: Record<Locale, Dict> = {
     'form.errPhone': 'Please enter a valid phone number.',
     'form.errAge': 'You must confirm you are 16 or older.',
     'form.errGeneric': 'Sign-up failed. Please try again.',
-    'form.doneTitle': 'Welcome to the official waitlist!',
+    'form.doneTitle': 'You’re subscribed!',
     'form.doneText':
       'You’re in! Keep an eye on your inbox for ticket announcements, special updates and exciting news as Miraculous Live gets ready to come to your city.',
 
@@ -321,8 +321,8 @@ const messages: Record<Locale, Dict> = {
     'footer.socialAria': 'Social media',
 
     'subscribe.heading': 'Get Exclusive Content',
-    'subscribe.text': 'Join the official waitlist and be among the first to hear about ticket announcements, show updates, and exclusive content.',
-    'subscribe.cta': 'Count me in',
+    'subscribe.text': 'Subscribe and be among the first to hear about ticket announcements, show updates, and exclusive content.',
+    'subscribe.cta': 'Subscribe',
 
     'upcoming.heading': 'Upcoming Dates',
     'upcoming.seeAll': 'See all cities',
