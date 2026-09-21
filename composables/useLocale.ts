@@ -76,7 +76,7 @@ const messages: Record<Locale, Dict> = {
       'Imagine de l’acrobatie, des chorégraphies aériennes éblouissantes, des illusions à couper le souffle, de la danse énergique et même des marionnettes, le tout tissé dans une toute nouvelle aventure originale où Ladybug et Chat Noir affrontent une nouvelle menace palpitante ! Avec des interactions scène-vidéo et des chansons exclusives, ce sera une expérience Miraculous pour les générations.',
     'story.nextHeading': 'Et ensuite ?',
     'story.nextText':
-      'Les détails sur les villes, les salles et la mise en vente des billets seront dévoilés cette année. Reste à l’affût juste ici sur Miraculousladybug.com pour les dernières nouvelles — ne manque pas ta chance de voir Ladybug et Chat Noir passer de l’écran à la scène !',
+      'Les détails sur les villes, les salles et la mise en vente des billets seront dévoilés cette année. Reste à l’affût juste ici sur Miraculousladybug.com pour les dernières nouvelles — ne manque pas ta chance de voir Ladybug et Chat Noir passer de l’écran à la scène ! Les détails seront mis à jour chaque semaine.',
     'story.closing':
       'Prêt·e à vivre Miraculous LIVE ? Partage ton enthousiasme et reste à l’affût pour d’autres nouvelles exclusives sur le spectacle sur scène de Miraculous Ladybug !',
 
@@ -237,7 +237,7 @@ const messages: Record<Locale, Dict> = {
       'Imagine acrobatics, dazzling aerial choreography, jaw-dropping illusions, energetic dance, and even puppetry, all woven into an all-new, original adventure featuring Ladybug and Cat Noir as they face an exciting new threat! With stage-to-video interaction and exclusive songs, this will be a Miraculous experience for the ages.',
     'story.nextHeading': 'What’s Next?',
     'story.nextText':
-      'Details on cities, venues, and ticket sales will be revealed this year. Stay tuned right here on Miraculousladybug.com for the latest updates, don’t miss your chance to see Ladybug and Cat Noir leap from screen to stage!',
+      'Details on cities, venues, and ticket sales will be revealed this year. Stay tuned right here on Miraculousladybug.com for the latest updates, don’t miss your chance to see Ladybug and Cat Noir leap from screen to stage! Details will be updated weekly.',
     'story.closing':
       'Are you ready to be Miraculous LIVE? Share your excitement and keep watching this space for more exclusive news on the Miraculous Ladybug live stage show!',
 
