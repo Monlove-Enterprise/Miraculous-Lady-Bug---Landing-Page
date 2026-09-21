@@ -43,8 +43,6 @@ const { t, locale, toggle } = useLocale()
         <NuxtLink to="/story">{{ t('nav.story') }}</NuxtLink>
         <NuxtLink to="/cast">{{ t('nav.cast') }}</NuxtLink>
         <NuxtLink to="/sights-sounds">{{ t('nav.sightsSounds') }}</NuxtLink>
-        <NuxtLink to="/for-good">{{ t('nav.forGood') }}</NuxtLink>
-        <NuxtLink to="/reviews">{{ t('nav.reviews') }}</NuxtLink>
         <NuxtLink to="/news">{{ t('nav.news') }}</NuxtLink>
         <NuxtLink to="/faq">{{ t('nav.faq') }}</NuxtLink>
       </div>

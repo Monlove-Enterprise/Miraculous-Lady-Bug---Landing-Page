@@ -45,8 +45,6 @@ watch(
       <NuxtLink to="/story" class="siteheader__mobile-link">{{ t('nav.story') }}</NuxtLink>
       <NuxtLink to="/cast" class="siteheader__mobile-link">{{ t('nav.cast') }}</NuxtLink>
       <NuxtLink to="/sights-sounds" class="siteheader__mobile-link">{{ t('nav.sightsSounds') }}</NuxtLink>
-      <NuxtLink to="/for-good" class="siteheader__mobile-link">{{ t('nav.forGood') }}</NuxtLink>
-      <NuxtLink to="/reviews" class="siteheader__mobile-link">{{ t('nav.reviews') }}</NuxtLink>
       <NuxtLink to="/news" class="siteheader__mobile-link">{{ t('nav.news') }}</NuxtLink>
       <NuxtLink to="/faq" class="siteheader__mobile-link">{{ t('nav.faq') }}</NuxtLink>
       <button class="siteheader__mobile-lang" type="button" @click="toggle">
