@@ -2,12 +2,13 @@
 // On-brand SVG world map — no external map service/API key. Land outline is
 // a static path baked once from Natural Earth 110m data (utils/worldMapPath.ts);
 // city pins are plotted at runtime from real lat/lng (the same equirectangular
-// projection used to bake the outline, so they line up).
+// projection used to bake the outline, so they line up). Zoom/pan is done by
+// mutating the SVG viewBox directly — no mapping library needed for that either.
 import { WORLD_LAND_PATH, WORLD_MAP_WIDTH, WORLD_MAP_HEIGHT, projectLatLng } from '~/utils/worldMapPath'
 import type { CityRow } from '~/server/api/cities.get'
 
 const props = defineProps<{ cities: CityRow[] }>()
-const { locale } = useLocale()
+const { t } = useLocale()
 
 const pins = computed(() =>
   props.cities
@@ -19,15 +20,96 @@ const pins = computed(() =>
 )
 
 const hovered = ref<number | null>(null)
+
+// ---- Pan/zoom state: the SVG viewBox itself, in map-space units ----
+const MIN_W = WORLD_MAP_WIDTH / 8 // max ~8x zoom
+const svgRoot = ref<SVGSVGElement | null>(null)
+const vb = reactive({ x: 0, y: 0, w: WORLD_MAP_WIDTH, h: WORLD_MAP_HEIGHT })
+const viewBoxAttr = computed(() => `${vb.x} ${vb.y} ${vb.w} ${vb.h}`)
+const zoomPct = computed(() => Math.round((WORLD_MAP_WIDTH / vb.w) * 100))
+
+function clampView() {
+  vb.w = Math.min(WORLD_MAP_WIDTH, Math.max(MIN_W, vb.w))
+  vb.h = vb.w * (WORLD_MAP_HEIGHT / WORLD_MAP_WIDTH)
+  vb.x = Math.min(Math.max(vb.x, 0), Math.max(0, WORLD_MAP_WIDTH - vb.w))
+  vb.y = Math.min(Math.max(vb.y, 0), Math.max(0, WORLD_MAP_HEIGHT - vb.h))
+}
+
+function zoomAt(clientX: number, clientY: number, factor: number) {
+  const el = svgRoot.value
+  if (!el) return
+  const rect = el.getBoundingClientRect()
+  const fx = (clientX - rect.left) / rect.width
+  const fy = (clientY - rect.top) / rect.height
+  const svgX = vb.x + fx * vb.w
+  const svgY = vb.y + fy * vb.h
+  const newW = vb.w * factor
+  vb.w = newW
+  vb.h = newW * (WORLD_MAP_HEIGHT / WORLD_MAP_WIDTH)
+  vb.x = svgX - fx * vb.w
+  vb.y = svgY - fy * vb.h
+  clampView()
+}
+
+function onWheel(e: WheelEvent) {
+  e.preventDefault()
+  zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? 1.18 : 1 / 1.18)
+}
+
+function zoomButton(factor: number) {
+  const el = svgRoot.value
+  if (!el) return
+  const rect = el.getBoundingClientRect()
+  zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, factor)
+}
+function resetView() {
+  vb.x = 0
+  vb.y = 0
+  vb.w = WORLD_MAP_WIDTH
+  vb.h = WORLD_MAP_HEIGHT
+}
+
+// Drag-to-pan (pointer events cover mouse + touch + pen in one handler).
+const dragging = ref(false)
+let lastX = 0
+let lastY = 0
+function onPointerDown(e: PointerEvent) {
+  dragging.value = true
+  lastX = e.clientX
+  lastY = e.clientY
+  ;(e.target as Element).setPointerCapture?.(e.pointerId)
+}
+function onPointerMove(e: PointerEvent) {
+  if (!dragging.value) return
+  const el = svgRoot.value
+  if (!el) return
+  const rect = el.getBoundingClientRect()
+  vb.x -= ((e.clientX - lastX) / rect.width) * vb.w
+  vb.y -= ((e.clientY - lastY) / rect.height) * vb.h
+  lastX = e.clientX
+  lastY = e.clientY
+  clampView()
+}
+function onPointerUp() {
+  dragging.value = false
+}
 </script>
 
 <template>
   <div class="worldmap">
     <svg
+      ref="svgRoot"
       class="worldmap__svg"
-      :viewBox="`0 0 ${WORLD_MAP_WIDTH} ${WORLD_MAP_HEIGHT}`"
+      :class="{ 'is-dragging': dragging }"
+      :viewBox="viewBoxAttr"
       role="img"
       aria-hidden="true"
+      @wheel="onWheel"
+      @pointerdown="onPointerDown"
+      @pointermove="onPointerMove"
+      @pointerup="onPointerUp"
+      @pointercancel="onPointerUp"
+      @pointerleave="onPointerUp"
     >
       <path :d="WORLD_LAND_PATH" class="worldmap__land" />
       <g v-for="p in pins" :key="p.id">
@@ -35,7 +117,7 @@ const hovered = ref<number | null>(null)
           <circle
             :cx="p.x"
             :cy="p.y"
-            :r="hovered === p.id ? 6.5 : 5"
+            :r="(hovered === p.id ? 6.5 : 5) * (vb.w / WORLD_MAP_WIDTH)"
             class="worldmap__pin"
             :class="`worldmap__pin--${p.format}`"
             @mouseenter="hovered = p.id"
@@ -50,9 +132,17 @@ const hovered = ref<number | null>(null)
       :key="'lbl-' + p.id"
       v-show="hovered === p.id"
       class="worldmap__tooltip"
-      :style="{ left: (p.x / WORLD_MAP_WIDTH) * 100 + '%', top: (p.y / WORLD_MAP_HEIGHT) * 100 + '%' }"
+      :style="{ left: ((p.x - vb.x) / vb.w) * 100 + '%', top: ((p.y - vb.y) / vb.h) * 100 + '%' }"
     >
       {{ p.city }}
+    </div>
+
+    <div class="worldmap__zoom">
+      <button type="button" :aria-label="t('map.zoomIn')" @click="zoomButton(1 / 1.5)">+</button>
+      <button type="button" :aria-label="t('map.zoomOut')" @click="zoomButton(1.5)">−</button>
+      <button v-if="zoomPct > 100" type="button" class="worldmap__reset" :aria-label="t('map.zoomReset')" @click="resetView">
+        {{ t('map.zoomReset') }}
+      </button>
     </div>
   </div>
 </template>
@@ -66,7 +156,10 @@ const hovered = ref<number | null>(null)
   width: 100%;
   height: auto;
   display: block;
+  cursor: grab;
+  touch-action: none;
 }
+.worldmap__svg.is-dragging { cursor: grabbing; }
 .worldmap__land {
   fill: rgba(243, 233, 216, 0.1);
   stroke: rgba(243, 233, 216, 0.16);
@@ -91,5 +184,33 @@ const hovered = ref<number | null>(null)
   font-weight: 600;
   white-space: nowrap;
   pointer-events: none;
+}
+
+.worldmap__zoom {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  display: flex;
+  gap: 0.4rem;
+}
+.worldmap__zoom button {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--ink-panel);
+  border: 1px solid rgba(243, 233, 216, 0.18);
+  color: var(--cream);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.worldmap__zoom button:hover { background: rgba(244, 14, 4, 0.16); color: var(--red); }
+.worldmap__reset {
+  width: auto !important;
+  padding: 0 0.7rem;
+  font-size: 0.72rem !important;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 </style>

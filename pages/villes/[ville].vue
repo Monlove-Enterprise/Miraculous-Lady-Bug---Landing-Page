@@ -57,27 +57,6 @@ function withUtm(url: string): string {
   }
 }
 const ticketHref = computed(() => (city.value.ticketUrl ? withUtm(city.value.ticketUrl) : '#'))
-
-// Group performances by calendar day for the weekly-strip layout.
-const performancesByDay = computed(() => {
-  const groups = new Map<string, PerformanceRow[]>()
-  for (const p of performances.value) {
-    const key = new Date(p.startsAt).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-    })
-    if (!groups.has(key)) groups.set(key, [])
-    groups.get(key)!.push(p)
-  }
-  return [...groups.entries()]
-})
-function perfTime(p: PerformanceRow) {
-  return new Date(p.startsAt).toLocaleTimeString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  })
-}
 </script>
 
 <template>
@@ -102,14 +81,7 @@ function perfTime(p: PerformanceRow) {
       <!-- ---- Résidence : calendrier de représentations ---- -->
       <section v-if="city.format === 'residence'" class="ville__panel ville__panel--wide">
         <h2 class="ville__panel-heading">{{ t('villes.calendarHeading') }}</h2>
-        <div v-if="performancesByDay.length" class="calendar">
-          <div v-for="[day, perfs] in performancesByDay" :key="day" class="calendar__day">
-            <p class="calendar__date">{{ day }}</p>
-            <p v-for="p in perfs" :key="p.id" class="calendar__time" :class="{ 'is-soldout': p.soldOut }">
-              {{ p.soldOut ? t('villes.perfSoldOut') : perfTime(p) }}
-            </p>
-          </div>
-        </div>
+        <MonthCalendar v-if="performances.length" :performances="performances" />
         <p v-else class="ville__panel-text">{{ t('villes.calendarEmpty') }}</p>
       </section>
 
@@ -218,20 +190,6 @@ function perfTime(p: PerformanceRow) {
 }
 .ville__panel-text { color: var(--cream); margin-bottom: 1.4rem; }
 
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 0.6rem;
-}
-.calendar__day {
-  padding: 0.8rem 0.7rem;
-  background: rgba(243, 233, 216, 0.05);
-  border-radius: 10px;
-  text-align: center;
-}
-.calendar__date { color: var(--cream-dim); font-size: 0.78rem; margin-bottom: 0.5rem; }
-.calendar__time { color: var(--red); font-weight: 700; font-size: 0.9rem; }
-.calendar__time.is-soldout { color: var(--cream-dim); text-decoration: line-through; font-weight: 500; }
 
 .btn {
   display: inline-flex;
