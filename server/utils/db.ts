@@ -125,6 +125,26 @@ export function ensureSchema(): Promise<void> {
       await db`ALTER TABLE performances ENABLE ROW LEVEL SECURITY`
       await db`DROP POLICY IF EXISTS performances_public_read ON performances`
       await db`CREATE POLICY performances_public_read ON performances FOR SELECT USING (true)`
+
+      // Press/news roundup — external articles only (title + link out), no
+      // hosted article bodies. Public read-only, same RLS treatment as
+      // cities/performances from the start this time.
+      await db`
+        CREATE TABLE IF NOT EXISTS news (
+          id           serial PRIMARY KEY,
+          title        text NOT NULL,
+          source       text NOT NULL,
+          url          text NOT NULL,
+          published_at date NOT NULL,
+          excerpt      text,
+          image_url    text,
+          created_at   timestamptz NOT NULL DEFAULT now()
+        )
+      `
+      await db`CREATE INDEX IF NOT EXISTS news_published_at_idx ON news (published_at DESC)`
+      await db`ALTER TABLE news ENABLE ROW LEVEL SECURITY`
+      await db`DROP POLICY IF EXISTS news_public_read ON news`
+      await db`CREATE POLICY news_public_read ON news FOR SELECT USING (true)`
     })().catch((err) => {
       // Reset so a later request can retry schema creation.
       schemaReady = null

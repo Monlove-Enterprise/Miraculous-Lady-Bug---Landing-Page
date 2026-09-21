@@ -11,7 +11,9 @@ const { t, locale, toggle } = useLocale()
 <template>
   <header class="siteheader">
     <div class="siteheader__bar">
-      <NuxtLink to="/" class="siteheader__logo">{{ t('nav.wordmark') }}</NuxtLink>
+      <NuxtLink to="/" class="siteheader__logo">
+        <img src="/images/ladybug-icon.png" :alt="t('nav.wordmark')" />
+      </NuxtLink>
 
       <nav class="siteheader__nav" :aria-label="t('nav.ariaLabel')">
         <details class="navdrop">
@@ -30,17 +32,21 @@ const { t, locale, toggle } = useLocale()
             <NuxtLink to="/sights-sounds">{{ t('nav.sightsSounds') }}</NuxtLink>
             <NuxtLink to="/for-good">{{ t('nav.forGood') }}</NuxtLink>
             <NuxtLink to="/reviews">{{ t('nav.reviews') }}</NuxtLink>
+            <NuxtLink to="/news">{{ t('nav.news') }}</NuxtLink>
           </div>
         </details>
 
         <NuxtLink to="/faq" class="siteheader__link">{{ t('nav.faq') }}</NuxtLink>
       </nav>
 
-      <button class="siteheader__lang" type="button" @click="toggle">
-        <span :class="{ on: locale === 'fr' }">FR</span>
-        <span class="sep">/</span>
-        <span :class="{ on: locale === 'en' }">EN</span>
-      </button>
+      <div class="siteheader__right">
+        <button class="siteheader__lang" type="button" @click="toggle">
+          <span :class="{ on: locale === 'fr' }">FR</span>
+          <span class="sep">/</span>
+          <span :class="{ on: locale === 'en' }">EN</span>
+        </button>
+        <NuxtLink to="/villes" class="siteheader__tickets">{{ t('villes.cta.buy') }}</NuxtLink>
+      </div>
     </div>
   </header>
 </template>
@@ -64,14 +70,17 @@ const { t, locale, toggle } = useLocale()
 }
 
 .siteheader__logo {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  letter-spacing: 0.04em;
-  color: var(--cream);
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
 }
-.siteheader__logo:hover { color: var(--red); }
+.siteheader__logo img {
+  height: 34px;
+  width: auto;
+  display: block;
+  transition: transform 0.15s ease;
+}
+.siteheader__logo:hover img { transform: scale(1.08); }
 
 .siteheader__nav {
   display: flex;
@@ -132,6 +141,25 @@ const { t, locale, toggle } = useLocale()
   transition: background 0.15s ease, color 0.15s ease;
 }
 .navdrop__panel a:hover { background: rgba(244, 14, 4, 0.14); color: var(--red); }
+
+.siteheader__right {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.siteheader__tickets {
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.siteheader__tickets:hover { background: #ff1f4a; transform: translateY(-1px); }
 
 .siteheader__lang {
   display: flex;

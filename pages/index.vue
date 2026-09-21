@@ -118,7 +118,7 @@ function copyTune() {
           <!-- Added per Math: doesn't replace the signup CTA, just gives
                visitors with an already-on-sale city a direct path to /villes. -->
           <NuxtLink to="/villes" class="cta cta--secondary">
-            {{ t('hero.bookNow') }}
+            {{ t('villes.cta.buy') }}
           </NuxtLink>
         </div>
         <p class="hero__credit">
