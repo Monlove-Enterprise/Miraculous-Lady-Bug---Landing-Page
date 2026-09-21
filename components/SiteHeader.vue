@@ -12,10 +12,19 @@ watch(
   () => route.fullPath,
   () => (mobileOpen.value = false),
 )
+
+const headerEl = ref<HTMLElement | null>(null)
+function onClickOutside(e: MouseEvent) {
+  if (mobileOpen.value && headerEl.value && !headerEl.value.contains(e.target as Node)) {
+    mobileOpen.value = false
+  }
+}
+onMounted(() => document.addEventListener('click', onClickOutside))
+onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 </script>
 
 <template>
-  <header class="siteheader">
+  <header ref="headerEl" class="siteheader">
     <div class="siteheader__bar">
       <NuxtLink to="/" class="siteheader__logo">
         <img src="/images/ladybug-icon.png" :alt="t('nav.wordmark')" />

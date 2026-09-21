@@ -14,7 +14,7 @@ useHead(() => ({
       <div class="container signup-section__inner">
         <div class="signup-section__intro">
           <h1 class="signup-section__title">
-            {{ t('signup.introTitleA') }}<br />{{ t('signup.introTitleB') }}<br />{{ t('signup.introTitleC') }}
+            {{ t('signup.introTitleA') }}<br /><span class="nowrap">{{ t('signup.introTitleB') }}</span><br />{{ t('signup.introTitleC') }}
           </h1>
           <p class="signup-section__text">{{ t('signup.introText') }}</p>
           <p class="signup-section__microcopy">{{ t('signup.microcopy') }}</p>
@@ -44,12 +44,16 @@ useHead(() => ({
   align-items: center;
 }
 .signup-section__title {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  /* Lower floor + steeper vw scaling than the usual clamp here: "Miraculous
+     Ladybug & Cat Noir" is forced onto one line (.nowrap below) and needs to
+     shrink to fit narrow phones instead of overflowing the container. */
+  font-size: clamp(1.15rem, 6vw, 2.2rem);
   line-height: 1.15;
   color: var(--red);
   text-transform: uppercase;
   margin-bottom: 1rem;
 }
+.signup-section__title .nowrap { white-space: nowrap; }
 .signup-section__text {
   color: var(--cream-dim);
   font-size: clamp(0.98rem, 1.1vw, 1.3rem);
