@@ -92,33 +92,12 @@ function openingLabel(c: CityRow) {
 <style scoped>
 .villes {
   min-height: 100dvh;
-  padding: 4rem 0 6rem;
+  padding-bottom: 6rem;
   background:
     radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
     var(--ink);
 }
-
-.lang {
-  position: fixed;
-  top: 1.1rem;
-  right: 1.1rem;
-  z-index: 50;
-  display: flex;
-  gap: 0.35rem;
-  align-items: center;
-  padding: 0.4rem 0.75rem;
-  background: rgba(10, 5, 7, 0.6);
-  border: 1px solid rgba(243, 233, 216, 0.25);
-  border-radius: 999px;
-  color: var(--cream-dim);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-}
-.lang span.on { color: var(--scarlet); }
-.lang .sep { opacity: 0.4; }
+.container { padding-top: 3rem; }
 
 .back {
   display: inline-block;

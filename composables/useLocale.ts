@@ -28,7 +28,7 @@ const messages: Record<Locale, Dict> = {
     'news.empty': 'Aucun article pour l’instant — reviens bientôt.',
     'news.readMore': 'Lire l’article',
 
-    'map.heading': 'Là où le spectacle nous emmène',
+    'map.heading': 'Nos prochaines destinations',
     'map.lead': 'Tournée en Amérique du Nord et résidence permanente au Lido, à Paris.',
     'map.legendTour': 'Ville de tournée',
     'map.legendResidency': 'Résidence permanente',
@@ -162,7 +162,7 @@ const messages: Record<Locale, Dict> = {
     'footer.english': 'Anglais',
     'footer.socialAria': 'Réseaux sociaux',
 
-    'subscribe.heading': 'Accède au contenu exclusif',
+    'subscribe.heading': 'Profite du contenu exclusif',
     'subscribe.text': 'Rejoins la liste d’attente officielle et sois parmi les premiers informés des annonces de billets, des nouveautés et du contenu exclusif du spectacle.',
     'subscribe.cta': 'Je m’inscris',
 
@@ -193,7 +193,7 @@ const messages: Record<Locale, Dict> = {
     'news.empty': 'No articles yet — check back soon.',
     'news.readMore': 'Read the article',
 
-    'map.heading': 'Where the show is going',
+    'map.heading': 'Where We’re Headed',
     'map.lead': 'Touring across North America, plus a permanent residency at the Lido in Paris.',
     'map.legendTour': 'Tour stop',
     'map.legendResidency': 'Permanent residency',
@@ -245,7 +245,7 @@ const messages: Record<Locale, Dict> = {
     'story.closing':
       'Are you ready to be Miraculous LIVE? Share your excitement and keep watching this space for more exclusive news on the Miraculous Ladybug live stage show!',
 
-    'villes.title': 'The show near you',
+    'villes.title': 'Where the show is going',
     'villes.metaDescription':
       'Every city where Miraculous Ladybug & Cat Noir: The Live Stage Spectacular might play.',
     'villes.back': 'Back to home',

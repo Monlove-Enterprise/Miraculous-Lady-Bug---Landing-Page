@@ -117,11 +117,12 @@ function monogram(p: Person): string {
 <style scoped>
 .cast {
   min-height: 100dvh;
-  padding: 4rem 0 6rem;
+  padding-bottom: 6rem;
   background:
     radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
     var(--ink);
 }
+.container { padding-top: 3rem; }
 
 /* Lang toggle — mirrors the landing page control */
 .lang {
