@@ -93,14 +93,21 @@ watch(
   background: var(--ink);
   border-bottom: 1px solid rgba(243, 233, 216, 0.1);
 }
+/* 3-column grid (not flex + space-between) so the nav sits at the TRUE
+   visual centre of the bar, not just centred in whatever space is left
+   between the logo and the right-hand group — those two aren't the same
+   width, so flex centring drifted as the window got wider. The two 1fr
+   edge columns stay equal width, keeping the nav dead-centre at any size. */
 .siteheader__bar {
   width: 100%;
   padding: 0.9rem clamp(1.2rem, 4vw, 3.5rem);
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
 }
+.siteheader__logo { justify-self: start; }
+.siteheader__right { justify-self: end; }
 
 .siteheader__logo {
   display: flex;
@@ -118,7 +125,6 @@ watch(
 .siteheader__nav {
   display: flex;
   gap: 0.4rem;
-  flex: 1;
   justify-content: center;
 }
 
