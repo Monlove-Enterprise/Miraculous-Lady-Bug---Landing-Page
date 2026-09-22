@@ -191,6 +191,21 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 .siteheader__mobile-lang span.on { color: var(--scarlet); }
 
 @media (max-width: 480px) {
-  .siteheader__tickets { display: none; }
+  .siteheader__tickets {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.68rem;
+  }
+}
+@media (max-width: 360px) {
+  /* FR label ("Acheter mes billets") is long enough to risk overflowing
+     the header's narrow right column on the smallest phones — let it
+     wrap to two lines rather than push past the viewport edge. */
+  .siteheader__tickets {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.62rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+  }
 }
 </style>
