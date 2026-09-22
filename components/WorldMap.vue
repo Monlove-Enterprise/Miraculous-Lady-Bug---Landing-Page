@@ -124,7 +124,7 @@ function onPointerUp() {
           <circle
             :cx="p.x"
             :cy="p.y"
-            :r="(hovered === p.id ? 6.5 : 5) * (vb.w / WORLD_MAP_WIDTH)"
+            :r="(hovered === p.id ? 4.5 : 3.2) * (vb.w / WORLD_MAP_WIDTH)"
             class="worldmap__pin"
             :class="`worldmap__pin--${p.format}`"
             @mouseenter="hovered = p.id"

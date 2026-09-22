@@ -22,10 +22,11 @@ if (!url) {
 }
 
 const rows = [
-  { slug: 'louisville-ky', city: 'Louisville', region: 'KY', country_code: 'US', venue: 'The Louisville Palace Theatre', promoter: 'Live Nation', format: 'tournee', status: 'confirmee', start_date: '2027-02-24', end_date: '2027-02-24', lat: 38.2527, lng: -85.7585 },
+  { slug: 'louisville-ky', city: 'Louisville', region: 'KY', country_code: 'US', venue: 'The Louisville Palace Theatre', promoter: 'Live Nation', format: 'tournee', status: 'confirmee', start_date: '2027-03-02', end_date: '2027-03-02', lat: 38.2527, lng: -85.7585 },
   { slug: 'st-louis-mo', city: 'St. Louis', region: 'MO', country_code: 'US', venue: 'Stifel Theatre', promoter: 'Live Nation', format: 'tournee', status: 'confirmee', start_date: '2027-02-27', end_date: '2027-02-27', lat: 38.6270, lng: -90.1994 },
   { slug: 'indianapolis-in', city: 'Indianapolis', region: 'IN', country_code: 'US', venue: 'Old National Centre (Murat Theatre)', promoter: 'Live Nation – Great Lakes', format: 'tournee', status: 'confirmee', start_date: '2027-02-28', end_date: '2027-02-28', lat: 39.7684, lng: -86.1581 },
-  { slug: 'kitchener-on', city: 'Kitchener', region: 'ON', country_code: 'CA', venue: 'Centre In The Square', promoter: 'Centre In The Square', format: 'tournee', status: 'confirmee', start_date: '2027-03-06', end_date: '2027-03-06', lat: 43.4516, lng: -80.4925 },
+  // Two performances confirmed (Math, 2026-09-22): Sat Mar 6 + Sun Mar 7.
+  { slug: 'kitchener-on', city: 'Kitchener', region: 'ON', country_code: 'CA', venue: 'Centre In The Square', promoter: 'Centre In The Square', format: 'tournee', status: 'confirmee', start_date: '2027-03-06', end_date: '2027-03-07', lat: 43.4516, lng: -80.4925 },
   { slug: 'brooklyn-ny', city: 'Brooklyn', region: 'NY', country_code: 'US', venue: 'Kings Theatre', promoter: 'ATG Entertainment', format: 'tournee', status: 'confirmee', start_date: '2027-03-09', end_date: '2027-03-09', lat: 40.6782, lng: -73.9442 },
   { slug: 'new-brunswick-nj', city: 'New Brunswick', region: 'NJ', country_code: 'US', venue: 'State Theatre', promoter: 'Music Without Borders', format: 'tournee', status: 'confirmee', start_date: '2027-03-10', end_date: '2027-03-10', lat: 40.4862, lng: -74.4518 },
   { slug: 'waterbury-ct', city: 'Waterbury', region: 'CT', country_code: 'US', venue: 'The Palace Theater', promoter: 'Music Without Borders', format: 'tournee', status: 'confirmee', start_date: '2027-03-11', end_date: '2027-03-11', lat: 41.5582, lng: -73.0515 },

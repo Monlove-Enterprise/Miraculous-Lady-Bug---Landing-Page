@@ -5,11 +5,22 @@ export const WORLD_MAP_HEIGHT = 480
 // d3.geoEquirectangular().fitSize([960, 480], landFeature) -- matches the
 // projection used to generate WORLD_LAND_PATH (baked once via d3-geo; d3
 // handles antimeridian clipping so Russia/Alaska don't draw a spurious
-// edge-to-edge band). geoEquirectangular is a plain linear lat/lng -> x/y
-// map after fitSize, so this closed-form version stays in sync without
-// needing d3 at runtime.
+// edge-to-edge band). geoEquirectangular is linear in lng/lat, but fitSize's
+// scale/translate come from the actual land bbox, NOT a naive assumption
+// that lat -90..90 spans the full 0..480 height — the land data's vertical
+// extent is asymmetric (more Arctic coastline than Antarctic), so the
+// equator sits at y=231.53, not y=240. Re-derived straight from the same
+// d3.geoEquirectangular().fitSize([960, 480], land) call used to bake the
+// path above (scale/translate printed from that projection instance) so
+// pins land exactly where the coastline does — a naive 90/-90-symmetric
+// formula was placing every pin ~8.5px too low (Paris included).
+const SCALE = 152.78874536821954
+const TRANSLATE_X = 480
+const TRANSLATE_Y = 231.52684000000002
+const DEG2RAD = Math.PI / 180
+
 export function projectLatLng(lat: number, lng: number): [number, number] {
-  const x = ((lng + 180) / 360) * WORLD_MAP_WIDTH
-  const y = ((90 - lat) / 180) * WORLD_MAP_HEIGHT
+  const x = SCALE * (lng * DEG2RAD) + TRANSLATE_X
+  const y = -SCALE * (lat * DEG2RAD) + TRANSLATE_Y
   return [x, y]
 }

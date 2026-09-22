@@ -623,7 +623,7 @@ function copyTune() {
 .subscribe-band {
   padding: 3.5rem 0;
   text-align: center;
-  background: linear-gradient(120deg, rgba(244, 14, 4, 0.9), rgba(244, 14, 4, 0.55));
+  background: linear-gradient(120deg, var(--red), var(--red-deep));
 }
 .subscribe-band__heading {
   font-family: var(--font-display);
