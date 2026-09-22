@@ -14,17 +14,17 @@ export interface Person {
 }
 
 export const creative: Person[] = [
-  { slug: 'ella-louise-allaire', name: 'Ella Louise Allaire', roleFr: 'Direction Artistique, Livret, Paroles & Musiques', roleEn: 'Artistic Direction, Book, Music & Lyrics', photo: '/images/cast/ella-louise-allaire.jpg' },
-  { slug: 'martin-lord-ferguson', name: 'Martin Lord Ferguson', roleFr: 'Direction Artistique, Livret, Paroles & Musiques', roleEn: 'Artistic Direction, Book, Music & Lyrics', photo: '/images/cast/martin-lord-ferguson.jpg' },
-  { slug: 'robert-mcqueen', name: 'Robert McQueen', roleFr: 'Mise en scène', roleEn: 'Stage Direction', photo: '/images/cast/robert-mcqueen.jpg' },
-  { slug: 'debra-brown', name: 'Debra Brown', roleFr: 'Chorégraphies Acrobatiques', roleEn: 'Acrobatic Choreography', photo: '/images/cast/debra-brown.jpg' },
-  { slug: 'kassandra-boivin-cenelia', name: 'Kassandra Boivin-Cénélia', roleFr: 'Chorégraphies', roleEn: 'Choreography', photo: '/images/cast/kassandra-boivin-cenelia.jpg' },
-  { slug: 'nicolas-vaudelet', name: 'Nicolas Vaudelet', roleFr: 'Costumes', roleEn: 'Costume Design', photo: '/images/cast/nicolas-vaudelet.jpg' },
-  { slug: 'william-todd-jones', name: 'William Todd Jones', roleFr: 'Marionnettes', roleEn: 'Puppet Design', photo: '/images/cast/william-todd-jones.jpg' },
-  { slug: 'sarah-tremblay', name: 'Sarah Tremblay', roleFr: 'Perruques', roleEn: 'Wig Design', photo: '/images/cast/sarah-tremblay.jpg' },
-  { slug: 'serge-pourpart', name: 'Serge Pourpart', roleFr: 'Scénographie & Direction Technique', roleEn: 'Set Design & Technical Manager', photo: '/images/cast/serge-pourpart.jpg' },
+  { slug: 'ella-louise-allaire', name: 'Ella Louise Allaire', roleFr: 'Direction Artistique, Livret, Paroles & Musiques', roleEn: 'Artistic Direction, Book, Music & Lyrics', photo: '/images/cast/ella-louise-allaire.webp' },
+  { slug: 'martin-lord-ferguson', name: 'Martin Lord Ferguson', roleFr: 'Direction Artistique, Livret, Paroles & Musiques', roleEn: 'Artistic Direction, Book, Music & Lyrics', photo: '/images/cast/martin-lord-ferguson.webp' },
+  { slug: 'robert-mcqueen', name: 'Robert McQueen', roleFr: 'Mise en scène', roleEn: 'Stage Direction', photo: '/images/cast/robert-mcqueen.webp' },
+  { slug: 'debra-brown', name: 'Debra Brown', roleFr: 'Chorégraphies Acrobatiques', roleEn: 'Acrobatic Choreography', photo: '/images/cast/debra-brown.webp' },
+  { slug: 'kassandra-boivin-cenelia', name: 'Kassandra Boivin-Cénélia', roleFr: 'Chorégraphies', roleEn: 'Choreography', photo: '/images/cast/kassandra-boivin-cenelia.webp' },
+  { slug: 'nicolas-vaudelet', name: 'Nicolas Vaudelet', roleFr: 'Costumes', roleEn: 'Costume Design', photo: '/images/cast/nicolas-vaudelet.webp' },
+  { slug: 'william-todd-jones', name: 'William Todd Jones', roleFr: 'Marionnettes', roleEn: 'Puppet Design', photo: '/images/cast/william-todd-jones.webp' },
+  { slug: 'sarah-tremblay', name: 'Sarah Tremblay', roleFr: 'Perruques', roleEn: 'Wig Design', photo: '/images/cast/sarah-tremblay.webp' },
+  { slug: 'serge-pourpart', name: 'Serge Pourpart', roleFr: 'Scénographie & Direction Technique', roleEn: 'Set Design & Technical Manager', photo: '/images/cast/serge-pourpart.webp' },
   { slug: 'silent-partners', name: 'Silent Partners', roleFr: 'Design Vidéo', roleEn: 'Video Design' },
-  { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.jpg' },
+  { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.webp' },
   { roleFr: 'Son', roleEn: 'Sound Design' }, // TBD — no name yet
 ]
 

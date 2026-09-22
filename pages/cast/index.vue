@@ -45,7 +45,7 @@ function monogram(p: Person): string {
         <ul class="grid">
           <li v-for="(p, i) in creative" :key="'c' + i" class="card">
             <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
-              <div class="card__photo" aria-hidden="true">
+              <div class="card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
                 <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
@@ -189,7 +189,9 @@ function monogram(p: Person): string {
     radial-gradient(120% 90% at 50% 0%, rgba(244, 14, 4, 0.28), transparent 65%),
     var(--ink-soft);
 }
-/* Subtle ladybug polka-dot texture on the placeholder */
+/* Subtle ladybug polka-dot texture — placeholder (no photo) only; a real
+   photo's transparent background reveals the plain gradient above instead,
+   so every headshot sits on the exact same clean backdrop. */
 .card__photo::after {
   content: '';
   position: absolute;
@@ -197,6 +199,7 @@ function monogram(p: Person): string {
   background-image: radial-gradient(circle, rgba(243, 233, 216, 0.09) 2px, transparent 2.5px);
   background-size: 26px 26px;
 }
+.card__photo--photo::after { display: none; }
 .card__mono {
   position: relative;
   z-index: 1;
