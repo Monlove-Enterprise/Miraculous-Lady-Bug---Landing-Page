@@ -1,53 +1,12 @@
 <script setup lang="ts">
+import { creative, cast, type Person } from '~/utils/castData'
+
 const { t, locale } = useLocale()
 
 useHead(() => ({
   title: `${t('cast.title')} — Miraculous Live`,
   meta: [{ name: 'description', content: t('cast.metaDescription') }],
 }))
-
-// ---- Content ----------------------------------------------------------------
-// Placeholder data. Names for the two confirmed creators are real; everything
-// else is a TODO awaiting official cast/creative info from the brand (ZAG).
-// Kept as a simple local array for now — trivially swappable to a Supabase
-// table / CMS later without touching the template.
-interface Person {
-  name?: string // omit → renders as "to be announced"
-  roleFr: string
-  roleEn: string
-  bioFr?: string
-  bioEn?: string
-}
-
-const creative: Person[] = [
-  {
-    name: 'Ella Louise Allaire',
-    roleFr: 'Musique & paroles', // TODO confirm exact credit wording with brand
-    roleEn: 'Music & Lyrics',
-    bioFr: 'TODO — biographie en attente de validation.',
-    bioEn: 'TODO — bio pending approval.',
-  },
-  {
-    name: 'Martin Lord Ferguson',
-    roleFr: 'Musique & paroles', // TODO confirm exact credit wording with brand
-    roleEn: 'Music & Lyrics',
-    bioFr: 'TODO — biographie en attente de validation.',
-    bioEn: 'TODO — bio pending approval.',
-  },
-  { roleFr: 'Mise en scène', roleEn: 'Director' },
-  { roleFr: 'Chorégraphie', roleEn: 'Choreographer' },
-  { roleFr: 'Direction musicale', roleEn: 'Musical Director' },
-  { roleFr: 'Scénographie', roleEn: 'Set Design' },
-  { roleFr: 'Costumes', roleEn: 'Costume Design' },
-  { roleFr: 'Lumières', roleEn: 'Lighting Design' },
-]
-
-const cast: Person[] = [
-  { roleFr: 'Ladybug', roleEn: 'Ladybug' },
-  { roleFr: 'Cat Noir', roleEn: 'Cat Noir' },
-  { roleFr: 'Ensemble', roleEn: 'Ensemble' },
-  { roleFr: 'Ensemble', roleEn: 'Ensemble' },
-]
 
 function roleOf(p: Person): string {
   return locale.value === 'fr' ? p.roleFr : p.roleEn
@@ -85,12 +44,21 @@ function monogram(p: Person): string {
         <h2 id="creative-h" class="cast__heading">{{ t('cast.creativeHeading') }}</h2>
         <ul class="grid">
           <li v-for="(p, i) in creative" :key="'c' + i" class="card">
-            <div class="card__photo" aria-hidden="true">
-              <span class="card__mono">{{ monogram(p) }}</span>
+            <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
+              <div class="card__photo" aria-hidden="true">
+                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" />
+                <span v-else class="card__mono">{{ monogram(p) }}</span>
+              </div>
+              <p class="card__role">{{ roleOf(p) }}</p>
+              <p class="card__name">{{ p.name || t('cast.tba') }}</p>
+            </NuxtLink>
+            <div v-else class="card__link">
+              <div class="card__photo" aria-hidden="true">
+                <span class="card__mono">{{ monogram(p) }}</span>
+              </div>
+              <p class="card__role">{{ roleOf(p) }}</p>
+              <p class="card__name">{{ p.name || t('cast.tba') }}</p>
             </div>
-            <p class="card__role">{{ roleOf(p) }}</p>
-            <p class="card__name">{{ p.name || t('cast.tba') }}</p>
-            <p v-if="bioOf(p)" class="card__bio">{{ bioOf(p) }}</p>
           </li>
         </ul>
       </section>
@@ -236,6 +204,18 @@ function monogram(p: Person): string {
   font-size: 2.4rem;
   color: rgba(243, 233, 216, 0.55);
   letter-spacing: 0.04em;
+}
+.card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
 .card__role {
   color: var(--red);

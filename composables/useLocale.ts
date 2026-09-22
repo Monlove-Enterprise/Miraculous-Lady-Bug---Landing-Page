@@ -57,11 +57,13 @@ const messages: Record<Locale, Dict> = {
       'Découvre les artistes et l’équipe créative de Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
     'cast.back': "Retour à l’accueil",
     'cast.intro': 'Les artistes et l’équipe qui donnent vie au spectacle sur scène.',
-    'cast.note': 'Contenu provisoire — photos et biographies en attente de validation par la marque.',
+    'cast.note': 'Contenu provisoire — casting et biographies en attente de validation par la marque.',
     'cast.creativeHeading': 'Équipe créative',
     'cast.castHeading': 'Distribution',
     'cast.tba': 'Casting à venir',
     'cast.tbaBio': 'Interprète bientôt annoncé·e.',
+    'cast.backToCast': 'Retour à Distribution & Équipe créative',
+    'cast.bioComingSoon': 'Biographie à venir.',
 
     // Real brand copy from Math (2026-09-15) — EN is verbatim as provided.
     // FR is a straight translation, kept in the site's "tu" voice; flag for a
@@ -220,11 +222,13 @@ const messages: Record<Locale, Dict> = {
       'Meet the artists and creative team behind Miraculous Ladybug & Cat Noir: The Live Stage Spectacular.',
     'cast.back': 'Back to home',
     'cast.intro': 'The artists and team bringing the show to life on stage.',
-    'cast.note': 'Placeholder content — photos and bios pending brand approval.',
+    'cast.note': 'Placeholder content — casting and bios pending brand approval.',
     'cast.creativeHeading': 'Creative Team',
     'cast.castHeading': 'Cast',
     'cast.tba': 'Casting to be announced',
     'cast.tbaBio': 'Performer to be announced soon.',
+    'cast.backToCast': 'Back to Cast & Creative',
+    'cast.bioComingSoon': 'Bio coming soon.',
 
     // Real brand copy from Math (2026-09-15), verbatim.
     'story.intro':
