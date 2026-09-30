@@ -214,6 +214,7 @@ function monogram(p: Person): string {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 .card__link {
   display: block;

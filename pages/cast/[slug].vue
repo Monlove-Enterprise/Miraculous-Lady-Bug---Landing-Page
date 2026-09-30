@@ -72,7 +72,7 @@ function monogram(): string {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  max-width: 900px;
+  max-width: 1000px;
 }
 .person__photo {
   position: relative;
@@ -92,6 +92,7 @@ function monogram(): string {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 .person__mono {
   font-family: var(--font-display);
@@ -117,7 +118,8 @@ function monogram(): string {
   color: var(--cream-dim);
   font-size: 1rem;
   line-height: 1.6;
-  max-width: 55ch;
+  max-width: 65ch;
+  white-space: pre-line;
 }
 
 @media (min-width: 640px) {
