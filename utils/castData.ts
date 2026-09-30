@@ -19,8 +19,42 @@ export interface Person {
 // (2026-09-30); FR ("Créateurs & Directeurs Artistiques") is my translation,
 // same caveat.
 export const creative: Person[] = [
-  { slug: 'ella-louise-allaire', name: 'Ella Louise Allaire', roleFr: 'Créateurs & Directeurs Artistiques', roleEn: 'Creators & Creative Directors', photo: '/images/cast/ella-louise-allaire.webp' },
-  { slug: 'martin-lord-ferguson', name: 'Martin Lord Ferguson', roleFr: 'Créateurs & Directeurs Artistiques', roleEn: 'Creators & Creative Directors', photo: '/images/cast/martin-lord-ferguson.webp' },
+  {
+    slug: 'ella-louise-allaire',
+    name: 'Ella Louise Allaire',
+    roleFr: 'Créateurs & Directeurs Artistiques',
+    roleEn: 'Creators & Creative Directors',
+    photo: '/images/cast/ella-louise-allaire.webp',
+    bioEn:
+      'Ella Louise Allaire is an award-winning show creator, composer, librettist, lyricist and producer with nearly 20 years of experience creating large-scale live entertainment for international audiences.\n\n' +
+      'She co-created the original concept, book, music and lyrics for Ice Age Live! A Mammoth Adventure, an international arena production that toured 48 countries, was translated into 12 languages and grossed more than $100 million. She also co-created the concept, book, music and lyrics for Scooby-Doo! and the Lost City of Gold, a multi-million-dollar family musical that toured North America and was presented at Etihad Arena in Abu Dhabi.\n\n' +
+      "Her recent work includes creating and producing All Systems Are Go!, an immersive Peanuts™/NASA experience that brought NASA's Artemis missions to life for family audiences and was presented for two years at Kennedy Space Center Visitor Complex in Florida.\n\n" +
+      'Her creative and musical credits include Cirque du Soleil\'s KÀ, ZED and Alegría, for which she wrote "Rinalto Vera," as well as the feature film Cirque du Soleil: Worlds Away, co-produced by James Cameron.\n\n' +
+      'Ella Louise has received four Gold Stevie® Awards, including Creative Executive of the Year and recognition for her creative work on All Systems Are Go! and Scooby-Doo! and the Lost City of Gold.',
+    bioFr:
+      "Ella Louise Allaire est une créatrice de spectacles, compositrice, librettiste, parolière et productrice primée, comptant près de 20 ans d'expérience dans la création de divertissements grand format pour des publics internationaux.\n\n" +
+      "Elle a co-créé le concept original, le livret, la musique et les paroles de Ice Age Live! A Mammoth Adventure, une production d'arène internationale présentée dans 48 pays, traduite en 12 langues et ayant généré plus de 100 millions de dollars de recettes. Elle a également co-créé le concept, le livret, la musique et les paroles de Scooby-Doo! and the Lost City of Gold, une comédie musicale familiale à plusieurs millions de dollars présentée en tournée en Amérique du Nord et à l'Etihad Arena d'Abu Dhabi.\n\n" +
+      "Ses travaux récents incluent la création et la production de All Systems Are Go!, une expérience immersive Peanuts™/NASA qui a donné vie aux missions Artemis de la NASA pour le public familial, présentée pendant deux ans au Kennedy Space Center Visitor Complex, en Floride.\n\n" +
+      'Parmi ses crédits créatifs et musicaux figurent KÀ, ZED et Alegría du Cirque du Soleil, pour lequel elle a écrit « Rinalto Vera », ainsi que le film Cirque du Soleil: Worlds Away, coproduit par James Cameron.\n\n' +
+      "Ella Louise a reçu quatre Stevie® Awards d'or, dont celui de Cadre créatif de l'année, ainsi que des distinctions pour son travail créatif sur All Systems Are Go! et Scooby-Doo! and the Lost City of Gold.",
+  },
+  {
+    slug: 'martin-lord-ferguson',
+    name: 'Martin Lord Ferguson',
+    roleFr: 'Créateurs & Directeurs Artistiques',
+    roleEn: 'Creators & Creative Directors',
+    photo: '/images/cast/martin-lord-ferguson.webp',
+    bioEn:
+      'Martin Lord Ferguson is a Canadian show creator/producer, sound engineer, scriptwriter, composer and lyricist. His credits include co-writing the book, music and lyrics for the mega success Ice Age Live! A Mammoth Adventure (20th Century Fox, Stage Entertainment), with record audiences in Paris (over 60,000 spectators in a 5-day run) and Hamburg (over 30,000 spectators in a single weekend), beating acts like Coldplay and U2.\n\n' +
+      "Martin is also the co-creator and co-producer of family musicals such as The Nut Job Live & Friends, Scooby-Doo! and the Lost City of Gold, and the upcoming Miraculous Ladybug & Cat Noir: The Live Stage Spectacular. Additionally, he created the immersive educational experience All Systems Are Go! on NASA's Artemis mission, which was presented for two years at Kennedy Space Center Visitor Complex in Florida.\n\n" +
+      'Martin started out as a music producer and engineer, producing over 30 albums, including Cirque du Soleil, Holiday on Ice, Roch Voisine, Ginette Reno, Mitsou & Elise Velle. For over 20 years, he has been involved in every field of the industry, including theatre and large-format shows, advertising, TV series and feature films, as well as songwriting. He scored White Skin, which received two awards in Canada: "Best New Director," Toronto Film Festival, and "Best First Movie," Genie Awards, and the TV series Fortier, which, with a 60% market share, was the biggest drama series ever in French Canadian history.\n\n' +
+      "His music has been heard on many international productions, including Cirque du Soleil: Worlds Away, a 3D film co-produced by James Cameron and directed by Andrew Adamson (Shrek, Narnia…), Conan the Barbarian (2011), the 2010 Winter Olympic Games, The Scorpion King 2, The Huntsman: Winter's War, Dateline NBC, The Cleveland Show, NFL Films and the video game Spider-Man: Shattered Dimensions.",
+    bioFr:
+      "Martin Lord Ferguson est un créateur/producteur de spectacles, ingénieur du son, scénariste, compositeur et parolier canadien. Parmi ses crédits, on compte la co-écriture du livret, de la musique et des paroles du méga-succès Ice Age Live! A Mammoth Adventure (20th Century Fox, Stage Entertainment), qui a établi des records d'audience à Paris (plus de 60 000 spectateurs en 5 jours) et à Hambourg (plus de 30 000 spectateurs en un seul week-end), devançant des artistes comme Coldplay et U2.\n\n" +
+      "Martin est également co-créateur et co-producteur de comédies musicales familiales telles que The Nut Job Live & Friends, Scooby-Doo! and the Lost City of Gold, ainsi que du prochain spectacle Miraculous Ladybug & Cat Noir: The Live Stage Spectacular. Il a également créé l'expérience éducative immersive All Systems Are Go! sur la mission Artemis de la NASA, présentée pendant deux ans au Kennedy Space Center Visitor Complex, en Floride.\n\n" +
+      "Martin a débuté comme producteur et ingénieur musical, produisant plus de 30 albums, notamment pour le Cirque du Soleil, Holiday on Ice, Roch Voisine, Ginette Reno, Mitsou et Élise Velle. Depuis plus de 20 ans, il œuvre dans tous les domaines de l'industrie : théâtre et spectacles grand format, publicité, séries télévisées et longs métrages, ainsi que l'écriture de chansons. Il a composé la musique de White Skin, récompensé au Canada par le prix du « Meilleur nouveau réalisateur » au Festival du film de Toronto et du « Meilleur premier film » aux Prix Génie, ainsi que celle de la série télévisée Fortier qui, avec 60 % de parts de marché, est devenue la plus grande série dramatique de l'histoire de la télévision canadienne-française.\n\n" +
+      "Sa musique a été entendue dans de nombreuses productions internationales, dont Cirque du Soleil: Worlds Away, un film 3D coproduit par James Cameron et réalisé par Andrew Adamson (Shrek, Narnia…), Conan the Barbarian (2011), les Jeux olympiques d'hiver de 2010, The Scorpion King 2, The Huntsman: Winter's War, Dateline NBC, The Cleveland Show, NFL Films, ainsi que le jeu vidéo Spider-Man: Shattered Dimensions.",
+  },
   {
     slug: 'robert-mcqueen',
     name: 'Robert McQueen',
