@@ -80,7 +80,31 @@ export const creative: Person[] = [
   },
   { slug: 'debra-brown', name: 'Debra Brown', roleFr: 'Chorégraphies Acrobatiques', roleEn: 'Acrobatic Choreography', photo: '/images/cast/debra-brown.webp' },
   { slug: 'kassandra-boivin-cenelia', name: 'Kassandra Boivin-Cénélia', roleFr: 'Chorégraphies', roleEn: 'Choreography', photo: '/images/cast/kassandra-boivin-cenelia.webp' },
-  { slug: 'nicolas-vaudelet', name: 'Nicolas Vaudelet', roleFr: 'Costumes', roleEn: 'Costume Design', photo: '/images/cast/nicolas-vaudelet.webp' },
+  {
+    slug: 'nicolas-vaudelet',
+    name: 'Nicolas Vaudelet',
+    roleFr: 'Costumes',
+    roleEn: 'Costume Design',
+    photo: '/images/cast/nicolas-vaudelet.webp',
+    // NOTE: this credit names the real-world Lido cabaret (a past client of
+    // his, unrelated to our own unconfirmed Paris venue) — flagged for Math
+    // given the 2026-10-06 instruction to scrub "Lido" mentions site-wide;
+    // kept as-is for now since it's factual career history, not our venue.
+    bioFr:
+      'Nicolas Vaudelet a été formé par les plus grands noms de la Mode : Christian Lacroix, Christian Dior (John Galliano), Louis Vuitton (Marc Jacobs), Givenchy (Alexander McQueen, Julian MacDonald), Sonia Rykiel et Jean Paul Gaultier.\n\n' +
+      'Avec ce dernier, il participe au design et à l\'élaboration des costumes du Confession Tour de Madonna et du danseur de flamenco Joaquin Cortes.\n\n' +
+      "Après une riche expérience à Séville comme directeur artistique de la maison centenaire El Caballo, où il obtient en 2009 le prix l'Oréal de la meilleure collection, il crée les costumes du Ballet National Espagnol. Pour ce travail, il est nommé « meilleur costumier » aux Max de 2014.\n\n" +
+      'Cette même année, il fait la rencontre du célèbre metteur en scène Franco Dragone. Pour lui, il conçoit les 600 costumes qui composent le vestiaire du Cabaret parisien du Lido, du chanteur russe Philipp Kirkorov au Kremlin de Moscou, du Daï Show à XiShuangBanna et du parc et hôtel Rixos World en Turquie.\n\n' +
+      "Cette période qui s'étend jusqu'à fin 2016 marque nettement la prédilection de Nicolas pour la création de costumes de scène.\n\n" +
+      'Dès janvier 2017, il poursuit cette activité au Canada auprès de Scéno-Plus pour MGM Macau. Dans le même temps, il assure la création des costumes de plusieurs productions du Cirque du Soleil, notamment, Helene Fischer Tour 2017-2018, le spectacle sur glace Axel et le chapiteau de tournée Echo en 2023.',
+    bioEn:
+      "Nicolas Vaudelet trained under some of fashion's biggest names: Christian Lacroix, Christian Dior (John Galliano), Louis Vuitton (Marc Jacobs), Givenchy (Alexander McQueen, Julien Macdonald), Sonia Rykiel and Jean Paul Gaultier.\n\n" +
+      "With Gaultier, he worked on the design and creation of costumes for Madonna's Confessions Tour and for flamenco dancer Joaquín Cortés.\n\n" +
+      'After a rich experience in Seville as artistic director of the century-old house El Caballo, where he won the 2009 L\'Oréal Prize for Best Collection, he created the costumes for the Spanish National Ballet. For this work, he was named "Best Costume Designer" at the 2014 Max Awards.\n\n' +
+      "That same year, he met renowned director Franco Dragone. For him, he designed the 600 costumes that make up the wardrobe of the Lido cabaret in Paris, Russian singer Philipp Kirkorov's show at the Moscow Kremlin, the Dai Show in Xishuangbanna, and the Rixos World park and hotel in Turkey.\n\n" +
+      "This period, which lasted until the end of 2016, marked a clear turning point toward Nicolas's dedication to creating stage costumes.\n\n" +
+      'Starting in January 2017, he continued this work in Canada with Scéno-Plus for MGM Macau. At the same time, he designed costumes for several Cirque du Soleil productions, including the Helene Fischer Tour 2017–2018, the ice show Axel, and the touring big top show Echo in 2023.',
+  },
   { slug: 'william-todd-jones', name: 'William Todd Jones', roleFr: 'Marionnettes', roleEn: 'Puppet Design', photo: '/images/cast/william-todd-jones.webp' },
   { slug: 'sarah-tremblay', name: 'Sarah Tremblay', roleFr: 'Perruques', roleEn: 'Wig Design', photo: '/images/cast/sarah-tremblay.webp' },
   {
