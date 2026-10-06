@@ -178,14 +178,20 @@ function copyTune() {
     </section>
 
     <!-- ===================== TRAILER ===================== -->
-    <!-- TODO: swap the placeholder for the real YouTube/Vimeo embed once the
-         brand delivers a trailer (CLAUDE.md: never self-hosted video). -->
+    <!-- YouTube embed (CLAUDE.md: never self-hosted video) — Math,
+         2026-10-06, https://youtu.be/v7n0ZGZsahI -->
     <section class="trailer-section">
       <div class="container">
         <h2 class="section-title">{{ t('trailer.heading') }}</h2>
-        <div class="trailer-placeholder">
-          <span class="trailer-placeholder__play" aria-hidden="true">▶</span>
-          <p class="trailer-placeholder__text">{{ t('trailer.comingSoon') }}</p>
+        <div class="trailer-embed">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
+            :title="t('trailer.heading')"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          />
         </div>
       </div>
     </section>
@@ -571,31 +577,20 @@ function copyTune() {
   .upcoming__venue { grid-column: 1 / -1; }
 }
 
-.trailer-placeholder {
+.trailer-embed {
   max-width: 780px;
   margin: 0 auto;
   aspect-ratio: 16 / 9;
   border-radius: 16px;
+  overflow: hidden;
   background: var(--ink-panel);
-  border: 1px dashed rgba(244, 14, 4, 0.35);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
 }
-.trailer-placeholder__play {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(244, 14, 4, 0.16);
-  color: var(--red);
-  font-size: 1.4rem;
+.trailer-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
-.trailer-placeholder__text { color: var(--cream-dim); font-size: 0.9rem; }
 
 .social-grid {
   display: grid;
