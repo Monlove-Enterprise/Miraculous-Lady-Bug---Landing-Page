@@ -62,8 +62,7 @@ function openingLabel(c: CityRow) {
 
           <div class="row__details">
             <p v-if="c.venue" class="row__venue">{{ c.venue }}</p>
-            <p v-if="c.format === 'residence'" class="row__dates">{{ t('villes.residencyBadge') }}</p>
-            <p v-else-if="datesLabel(c)" class="row__dates">{{ datesLabel(c) }}</p>
+            <p v-if="datesLabel(c)" class="row__dates">{{ datesLabel(c) }}</p>
             <p v-if="c.status === 'confirmee'" class="row__opening">{{ openingLabel(c) }}</p>
           </div>
 

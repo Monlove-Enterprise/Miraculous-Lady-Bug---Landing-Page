@@ -155,7 +155,6 @@ function copyTune() {
         <WorldMap :cities="mapCities" />
         <div class="map-legend">
           <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--tournee" />{{ t('map.legendTour') }}</span>
-          <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--residence" />{{ t('map.legendResidency') }}</span>
         </div>
 
         <h3 class="upcoming__heading">{{ t('upcoming.heading') }}</h3>

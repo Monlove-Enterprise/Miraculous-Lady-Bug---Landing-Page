@@ -83,9 +83,6 @@ const calendarEvents = computed(() =>
 
       <header class="ville__head">
         <span class="badge" :class="`badge--${status}`">{{ t(`villes.status.${status}`) }}</span>
-        <span v-if="city.format === 'residence'" class="badge badge--residence">
-          {{ t('villes.residencyBadge') }}
-        </span>
         <h1 class="ville__title">{{ city.city }}</h1>
         <p class="ville__country">{{ countryName() }}</p>
         <p v-if="city.venue" class="ville__venue">{{ city.venue }}</p>
