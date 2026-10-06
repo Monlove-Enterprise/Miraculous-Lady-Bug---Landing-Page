@@ -17,6 +17,7 @@ const messages: Record<Locale, Dict> = {
     'nav.theShow': 'Le spectacle',
     'nav.story': 'L’histoire',
     'nav.sightsSounds': 'Dans les coulisses',
+    'sightsSounds.intro': 'Rencontre l’équipe créative et découvre les coulisses du spectacle.',
     'nav.news': 'Presse',
     'nav.faq': 'FAQ',
     'stub.comingSoon': 'Contenu à venir — page en construction.',
@@ -79,6 +80,7 @@ const messages: Record<Locale, Dict> = {
     'story.nextHeading': 'Et ensuite ?',
     'story.nextText':
       'Les détails sur les villes, les salles et la mise en vente des billets seront dévoilés cette année. Reste à l’affût juste ici sur Miraculousladybug.com pour les dernières nouvelles — ne manque pas ta chance de voir Ladybug et Chat Noir passer de l’écran à la scène ! Les détails seront mis à jour chaque semaine.',
+    'story.ctaKicker': 'Sois Miraculous',
     'story.closing':
       'Prêt·e à vivre Miraculous LIVE ? Partage ton enthousiasme et reste à l’affût pour d’autres nouvelles exclusives sur le spectacle sur scène de Miraculous Ladybug !',
 
@@ -182,6 +184,7 @@ const messages: Record<Locale, Dict> = {
     'nav.theShow': 'The Show',
     'nav.story': 'The Story',
     'nav.sightsSounds': 'Behind the Scenes',
+    'sightsSounds.intro': 'Meet the creative team and go behind the scenes of the show.',
     'nav.news': 'Press',
     'nav.faq': 'FAQ',
     'stub.comingSoon': 'Content coming soon — page under construction.',
@@ -242,6 +245,7 @@ const messages: Record<Locale, Dict> = {
     'story.nextHeading': 'What’s Next?',
     'story.nextText':
       'Details on cities, venues, and ticket sales will be revealed this year. Stay tuned right here on Miraculousladybug.com for the latest updates, don’t miss your chance to see Ladybug and Cat Noir leap from screen to stage! Details will be updated weekly.',
+    'story.ctaKicker': 'Be Miraculous',
     'story.closing':
       'Are you ready to be Miraculous LIVE? Share your excitement and keep watching this space for more exclusive news on the Miraculous Ladybug live stage show!',
 

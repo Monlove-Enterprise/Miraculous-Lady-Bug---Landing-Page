@@ -36,6 +36,7 @@ useHead(() => ({
 
       <section class="story__cta">
         <p class="story__closing">{{ t('story.closing') }}</p>
+        <p class="story__cta-kicker">{{ t('story.ctaKicker') }}</p>
         <NuxtLink to="/signup" class="btn btn--buy">{{ t('form.submit') }}</NuxtLink>
       </section>
 
@@ -100,6 +101,14 @@ useHead(() => ({
   background: var(--ink-panel);
 }
 .story__closing { color: var(--cream); margin-bottom: 1.4rem; line-height: 1.6; }
+.story__cta-kicker {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.1rem;
+}
 
 .btn {
   display: inline-flex;
