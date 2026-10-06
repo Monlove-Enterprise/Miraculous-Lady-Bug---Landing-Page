@@ -200,8 +200,16 @@ function copyTune() {
       <div class="container">
         <h2 class="section-title">{{ t('social.heading') }}</h2>
         <p class="section-lead">{{ t('social.lead') }}</p>
-        <div class="social-grid" aria-hidden="true">
-          <div v-for="i in 8" :key="i" class="social-grid__tile" />
+        <div class="social-grid">
+          <a
+            v-for="i in 8"
+            :key="i"
+            href="https://www.instagram.com/miraculousladybuglive/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-grid__tile"
+            :aria-label="t('social.heading')"
+          />
         </div>
         <div class="social-links">
           <a href="https://www.instagram.com/miraculousladybuglive/" target="_blank" rel="noopener noreferrer">Instagram</a>
@@ -599,9 +607,19 @@ function copyTune() {
   margin: 0 auto 2rem;
 }
 .social-grid__tile {
+  display: block;
   aspect-ratio: 1;
   border-radius: 8px;
   background: linear-gradient(135deg, rgba(244, 14, 4, 0.14), rgba(243, 233, 216, 0.06));
+  overflow: hidden;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.social-grid__tile:hover { transform: translateY(-2px); opacity: 0.85; }
+.social-grid__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .social-links {
   display: flex;
