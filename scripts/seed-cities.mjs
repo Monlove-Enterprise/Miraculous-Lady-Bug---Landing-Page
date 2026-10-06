@@ -36,9 +36,10 @@ const rows = [
   { slug: 'jacksonville-fl', city: 'Jacksonville', region: 'FL', country_code: 'US', venue: 'Florida Theatre', promoter: 'Florida Theatre Performing Arts', format: 'tournee', status: 'confirmee', start_date: '2027-03-19', end_date: '2027-03-19', lat: 30.3322, lng: -81.6557 },
   // Venue not yet finalized — country only, per Math (2026-09-14).
   { slug: 'qatar-2027', city: 'À déterminer', region: null, country_code: 'QA', venue: null, promoter: 'Events & Entertainment Enterprises', format: 'tournee', status: 'confirmee', start_date: '2027-05-17', end_date: '2027-05-17', lat: null, lng: null },
-  // Permanent residency — no confirmed performance dates yet (calendar to
-  // follow in `performances` once available).
-  { slug: 'paris', city: 'Paris', region: null, country_code: 'FR', venue: 'Le Lido, Paris', promoter: null, format: 'residence', status: 'confirmee', start_date: null, end_date: null, lat: 48.8566, lng: 2.3522 },
+  // Permanent residency — venue not yet confirmed (Math, 2026-10-06: remove
+  // all mentions of the venue name until it's locked in), no confirmed
+  // performance dates yet either (calendar to follow in `performances`).
+  { slug: 'paris', city: 'Paris', region: null, country_code: 'FR', venue: null, promoter: null, format: 'residence', status: 'confirmee', start_date: null, end_date: null, lat: 48.8566, lng: 2.3522 },
 ]
 
 const sql = postgres(url, { prepare: false, max: 1 })

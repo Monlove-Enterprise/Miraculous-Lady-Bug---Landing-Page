@@ -9,7 +9,8 @@ const { data: citiesData } = await useFetch<CityRow[]>('/api/cities')
 const cities = computed(() => citiesData.value ?? [])
 
 // Next few dates across all tour stops (residency cities have no single
-// start_date, so they're naturally excluded — the Lido gets its own page).
+// start_date, so they're naturally excluded — the Paris residency gets its
+// own page).
 const upcomingCities = computed(() =>
   cities.value
     .filter((c) => c.format === 'tournee' && c.startDate)

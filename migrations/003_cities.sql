@@ -2,7 +2,7 @@
 --
 -- `cities`: one row per engagement — a single tour stop ("tournee": one
 -- date range, one ticket link) or a long-running residency ("residence":
--- e.g. the Lido, whose individual showtimes live in `performances`).
+-- e.g. the Paris residency, whose individual showtimes live in `performances`).
 -- `performances`: only used by "residence" format cities — one row per
 -- showtime, so a multi-week run can show a real calendar with per-date
 -- sold-out state, instead of a single date range.

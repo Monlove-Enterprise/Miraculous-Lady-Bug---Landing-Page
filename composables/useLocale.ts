@@ -27,7 +27,7 @@ const messages: Record<Locale, Dict> = {
     'news.readMore': 'Lire l’article',
 
     'map.heading': 'Nos prochaines destinations',
-    'map.lead': 'Tournée en Amérique du Nord et résidence permanente au Lido, à Paris.',
+    'map.lead': 'Tournée en Amérique du Nord et résidence permanente à Paris.',
     'map.legendTour': 'Ville de tournée',
     'map.legendResidency': 'Résidence permanente',
     'map.zoomIn': 'Zoomer',
@@ -192,7 +192,7 @@ const messages: Record<Locale, Dict> = {
     'news.readMore': 'Read the article',
 
     'map.heading': 'Where We’re Headed',
-    'map.lead': 'Touring across North America, plus a permanent residency at the Lido in Paris.',
+    'map.lead': 'Touring across North America, plus a permanent residency in Paris.',
     'map.legendTour': 'Tour stop',
     'map.legendResidency': 'Permanent residency',
     'map.zoomIn': 'Zoom in',
