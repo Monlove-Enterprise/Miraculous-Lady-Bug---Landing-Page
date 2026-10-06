@@ -8,6 +8,12 @@ const route = useRoute()
 const { data: citiesData } = await useFetch<CityRow[]>('/api/cities')
 const cities = computed(() => citiesData.value ?? [])
 
+// Hidden from the map for now (Math, 2026-10-06): Paris residency venue
+// isn't confirmed yet, and Qatar isn't ready to show either. Still listed
+// everywhere else (villes pages) — just not pinned on the world map.
+const HIDDEN_FROM_MAP = new Set(['paris', 'qatar-2027'])
+const mapCities = computed(() => cities.value.filter((c) => !HIDDEN_FROM_MAP.has(c.slug)))
+
 // Next few dates across all tour stops (residency cities have no single
 // start_date, so they're naturally excluded — the Paris residency gets its
 // own page).
@@ -146,7 +152,7 @@ function copyTune() {
       <div class="container">
         <h2 class="section-title">{{ t('map.heading') }}</h2>
         <p class="section-lead">{{ t('map.lead') }}</p>
-        <WorldMap :cities="cities" />
+        <WorldMap :cities="mapCities" />
         <div class="map-legend">
           <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--tournee" />{{ t('map.legendTour') }}</span>
           <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--residence" />{{ t('map.legendResidency') }}</span>
