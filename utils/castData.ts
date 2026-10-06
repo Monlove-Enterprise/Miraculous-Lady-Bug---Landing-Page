@@ -122,7 +122,6 @@ export const creative: Person[] = [
       'Sa feuille de route en gestion technique couvre des productions en tournée et des expériences live, notamment les Backstreet Boys, Scooby-Doo et la Cité perdue de l\'or, All Systems Are Go! A NASA–Peanuts Experience, Mary Poppins, Rick & Morty, ainsi que Les Ballets Jazz de Montréal.\n\n' +
       "Il a également supervisé des projets complexes de grande envergure, dont l'attraction Donjons & Dragons au Village Vacances Valcartier, des rénovations scéniques au Palais Montcalm, et le spectacle multimédia immersif Metaforia à Montréal et à Djeddah. Au-delà du divertissement, Serge collabore avec Airbus sur la conception d'échafaudages pour l'assemblage d'aéronefs.",
   },
-  { slug: 'silent-partners', name: 'Silent Partners', roleFr: 'Design Vidéo', roleEn: 'Video Design' },
   { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.webp' },
   { roleFr: 'Son', roleEn: 'Sound Design' }, // TBD — no name yet
 ]
