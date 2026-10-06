@@ -209,7 +209,9 @@ function copyTune() {
             rel="noopener noreferrer"
             class="social-grid__tile"
             :aria-label="t('social.heading')"
-          />
+          >
+            <img :src="`/images/social/ig-${i}.jpg`" alt="" loading="lazy" />
+          </a>
         </div>
         <div class="social-links">
           <a href="https://www.instagram.com/miraculousladybuglive/" target="_blank" rel="noopener noreferrer">Instagram</a>
