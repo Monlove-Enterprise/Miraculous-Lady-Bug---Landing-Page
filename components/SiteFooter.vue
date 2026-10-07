@@ -65,6 +65,8 @@ const { t, locale, toggle } = useLocale()
         <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
         <span aria-hidden="true">·</span>
         <NuxtLink to="/conditions">{{ t('footer.terms') }}</NuxtLink>
+        <span aria-hidden="true">·</span>
+        <CookiesLink />
       </nav>
       <p class="sitefooter__license">{{ t('footer.copyright') }}</p>
       <p class="sitefooter__license">{{ t('footer.trademark') }}</p>

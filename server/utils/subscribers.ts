@@ -7,6 +7,8 @@ export interface SubscriberInput {
   firstName?: string
   city: string
   country?: string
+  /** ISO 3166-1 alpha-2, derived from the country name (see countryCode.ts). */
+  countryCode?: string
   postalCode?: string
   phone?: string
   emailConsent: boolean
@@ -33,12 +35,12 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
   const db = getSql()
   const rows = await db<{ id: number }[]>`
     INSERT INTO subscribers (
-      email, first_name, city, country, postal_code, phone,
+      email, first_name, city, country, country_code, postal_code, phone,
       email_consent, email_consent_at, email_consent_text,
       sms_consent, sms_consent_at, sms_consent_text,
       age_confirmed, locale, utm_source, utm_medium, utm_campaign, referrer, ip, crm_synced
     ) VALUES (
-      ${input.email}, ${input.firstName ?? null}, ${input.city}, ${input.country ?? null}, ${input.postalCode ?? null}, ${input.phone ?? null},
+      ${input.email}, ${input.firstName ?? null}, ${input.city}, ${input.country ?? null}, ${input.countryCode ?? null}, ${input.postalCode ?? null}, ${input.phone ?? null},
       ${input.emailConsent}, ${input.emailConsentAt ?? null}, ${input.emailConsentText ?? null},
       ${input.smsConsent}, ${input.smsConsentAt ?? null}, ${input.smsConsentText ?? null},
       ${input.ageConfirmed}, ${input.locale ?? null}, ${input.utmSource ?? null}, ${input.utmMedium ?? null}, ${input.utmCampaign ?? null}, ${input.referrer ?? null},
@@ -48,6 +50,7 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
       first_name         = COALESCE(EXCLUDED.first_name, subscribers.first_name),
       city               = EXCLUDED.city,
       country            = COALESCE(EXCLUDED.country, subscribers.country),
+      country_code       = COALESCE(EXCLUDED.country_code, subscribers.country_code),
       postal_code        = COALESCE(EXCLUDED.postal_code, subscribers.postal_code),
       phone              = COALESCE(EXCLUDED.phone, subscribers.phone),
       email_consent      = EXCLUDED.email_consent,
@@ -70,8 +73,30 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
   return rows[0]!.id
 }
 
-/** Mark a subscriber as successfully pushed to the CRM. */
-export async function markCrmSynced(email: string): Promise<void> {
+/** Mark a subscriber as successfully pushed to the CRM (Brevo), storing its id. */
+export async function markCrmSynced(email: string, brevoContactId?: number): Promise<void> {
   const db = getSql()
-  await db`UPDATE subscribers SET crm_synced = true, updated_at = now() WHERE email = ${email}`
+  await db`
+    UPDATE subscribers
+    SET crm_synced = true, crm_synced_at = now(), updated_at = now(),
+        brevo_contact_id = COALESCE(${brevoContactId ?? null}, brevo_contact_id),
+        crm_last_error = null
+    WHERE email = ${email}`
+}
+
+/** Record a CRM sync failure — row stays crm_synced = false for later retry. */
+export async function markCrmError(email: string, message: string): Promise<void> {
+  const db = getSql()
+  await db`
+    UPDATE subscribers
+    SET crm_last_error = ${message.slice(0, 500)}, updated_at = now()
+    WHERE email = ${email}`
+}
+
+/** True if this phone is shared by more than one subscriber (Brevo dedupes SMS). */
+export async function isPhoneDuplicate(phone: string): Promise<boolean> {
+  const db = getSql()
+  const rows = await db<{ n: number }[]>`
+    SELECT count(*)::int n FROM subscribers WHERE phone = ${phone}`
+  return (rows[0]?.n ?? 0) > 1
 }

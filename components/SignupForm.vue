@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { sortedCountries } from '~/utils/countries'
+import { isValidPhoneNumber, type CountryCode } from 'libphonenumber-js/min'
 
 // Mirrors the shape returned by GET /api/city-search (kept local to avoid a
 // client→server type import across Nuxt's split tsconfigs).
@@ -13,6 +14,24 @@ interface CitySuggestion {
 
 const { t, locale } = useLocale()
 const route = useRoute()
+// Ad-pixel conversions — fire only if the visitor accepted cookies.
+const { trackLead } = useMetaPixel()
+const { trackRegistration } = useTikTokPixel()
+const { consent } = useConsent()
+
+// The email-consent notice is stored verbatim as the proof; for display we turn
+// its trailing "privacy policy" phrase into a link without duplicating it.
+const consentBefore = computed(() => {
+  const full = t('form.emailConsentNotice')
+  const i = full.lastIndexOf(t('form.legalLink'))
+  return i >= 0 ? full.slice(0, i) : full
+})
+const consentAfter = computed(() => {
+  const full = t('form.emailConsentNotice')
+  const link = t('form.legalLink')
+  const i = full.lastIndexOf(link)
+  return i >= 0 ? full.slice(i + link.length) : ''
+})
 
 const loading = ref(false)
 const done = ref(false)
@@ -23,18 +42,27 @@ const email = ref('')
 const cityQuery = ref('') // what the user typed in the city field
 const city = ref('') // required — normalised city name (set on pick, or free-text fallback)
 const cityCountry = ref('') // country that came with the picked city
-const dialCode = ref('+33')
+// Stores the ISO 3166-1 alpha-2 code (not the dial prefix) — several dial
+// codes are shared by multiple countries (+1: 14 of them, +7: 2), so only the
+// ISO code tells libphonenumber-js which numbering plan to validate against.
+const phoneCountry = ref('FR')
 const phone = ref('')
-const emailConsent = ref(false)
 const smsConsent = ref(false)
 const ageConfirmed = ref(false)
 
 const dialOptions = computed(() => sortedCountries(locale.value))
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
-// Phone is required. The dial code lives in its own select, so this checks the
-// national number only — at least 6 digits rejects obvious junk without being
-// so strict it blocks valid short national formats.
-const phoneValid = computed(() => phone.value.replace(/\D/g, '').length >= 6)
+// Phone is OPTIONAL — required only when the SMS box is ticked (can't opt into
+// SMS without a number). If provided (whether or not SMS is ticked) it must be
+// a real, valid number for the selected country — libphonenumber-js applies
+// that country's own rules (e.g. whether a leading national "0" is dropped).
+// A number the visitor pastes with its own "+"/"00" is validated on its own
+// terms, ignoring the (possibly stale) country select.
+const phoneValid = computed(() => {
+  const p = phone.value.trim()
+  if (!p) return !smsConsent.value
+  return isValidPhoneNumber(p, phoneCountry.value as CountryCode)
+})
 
 // ---- City autocomplete (server-proxied Places provider) ----
 const suggestions = ref<CitySuggestion[]>([])
@@ -97,10 +125,23 @@ async function submit() {
   if (!city.value && cityQuery.value.trim()) city.value = cityQuery.value.trim()
   if (!emailValid.value) return void (errorMsg.value = t('form.errEmail'))
   if (!city.value) return void (errorMsg.value = t('form.errCity'))
-  if (!phoneValid.value) return void (errorMsg.value = t('form.errPhone'))
+  if (!phoneValid.value) {
+    errorMsg.value =
+      smsConsent.value && !phone.value.trim()
+        ? t('form.errPhoneSms')
+        : t('form.errPhone')
+    return
+  }
   if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
+  // Shared id so the browser + server conversion events dedupe (Meta + TikTok).
+  // Only generated when cookies were accepted (otherwise no tracking at all).
+  const eventId =
+    consent.value === 'accepted'
+      ? globalThis.crypto?.randomUUID?.() ||
+        Date.now().toString(36) + Math.random().toString(36).slice(2)
+      : undefined
   try {
     await $fetch('/api/subscribe', {
       method: 'POST',
@@ -109,10 +150,12 @@ async function submit() {
         email: email.value,
         city: city.value,
         country: cityCountry.value,
-        phone: `${dialCode.value} ${phone.value.trim()}`,
-        emailConsent: emailConsent.value,
-        // Exact wording shown to the user, archived as consent proof.
-        emailConsentText: emailConsent.value ? t('form.emailConsent') : undefined,
+        phone: phone.value.trim() || undefined,
+        phoneCountry: phone.value.trim() ? phoneCountry.value : undefined,
+        // Email consent is implicit on submit (no checkbox); the notice shown
+        // under the button is archived verbatim as the consent proof.
+        emailConsent: true,
+        emailConsentText: t('form.emailConsentNotice'),
         smsConsent: smsConsent.value,
         smsConsentText: smsConsent.value ? t('form.smsConsent') : undefined,
         ageConfirmed: ageConfirmed.value,
@@ -123,9 +166,14 @@ async function submit() {
         // Where they came from — lets the server attribute untagged traffic
         // (FB, TikTok…) by referrer when no UTM is present.
         referrer: typeof document !== 'undefined' ? document.referrer : '',
+        eventId,
+        ttclid: (route.query.ttclid as string) || undefined,
       },
     })
     done.value = true
+    // Report the sign-up to the ad pixels (no-op unless consented to).
+    trackLead(eventId)
+    trackRegistration(eventId)
   } catch (err: any) {
     errorMsg.value =
       err?.data?.statusMessage || err?.statusMessage || t('form.errGeneric')
@@ -195,10 +243,13 @@ async function submit() {
       </div>
 
       <div class="field">
-        <label for="phone">{{ t('form.phone') }} <span class="req">*</span></label>
+        <label for="phone">
+          {{ t('form.phone') }}
+          <span v-if="smsConsent" class="req">*</span>
+        </label>
         <div class="phone-group">
-          <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
-            <option v-for="c in dialOptions" :key="c.code" :value="c.dial">
+          <select v-model="phoneCountry" class="select dial" :aria-label="t('form.dialCode')">
+            <option v-for="c in dialOptions" :key="c.code" :value="c.code">
               {{ c[locale] }} ({{ c.dial }})
             </option>
           </select>
@@ -211,11 +262,6 @@ async function submit() {
           />
         </div>
       </div>
-
-      <label class="check">
-        <input v-model="emailConsent" type="checkbox" />
-        <span>{{ t('form.emailConsent') }}</span>
-      </label>
 
       <label class="check">
         <input v-model="smsConsent" type="checkbox" />
@@ -233,10 +279,7 @@ async function submit() {
         {{ loading ? t('form.submitting') : t('form.submit') }}
       </button>
 
-      <p class="legal">
-        {{ t('form.legalPre') }}
-        <NuxtLink to="/confidentialite">{{ t('form.legalLink') }}</NuxtLink>.
-      </p>
+      <p class="consent-note">{{ consentBefore }}<NuxtLink to="/confidentialite">{{ t('form.legalLink') }}</NuxtLink>{{ consentAfter }}</p>
     </form>
 
     <!-- DONE -->
@@ -394,11 +437,11 @@ async function submit() {
 }
 
 .sms-note {
-  font-size: 0.72rem;
-  line-height: 1.4;
-  color: rgba(203, 192, 174, 0.5);
-  margin: -0.35rem 0 1rem;
-  padding-left: 1.85rem;
+  margin: -0.35rem 0 0.9rem;
+  padding-left: 1.85rem; /* align under the checkbox label text */
+  font-size: 0.82rem; /* ~13px — legible for the carrier screenshot */
+  line-height: 1.5;
+  color: var(--cream-dim);
 }
 
 .btn {
@@ -429,17 +472,17 @@ async function submit() {
   margin-bottom: 1rem;
 }
 
-.legal {
+.consent-note {
   margin-top: 1rem;
-  font-size: 0.72rem;
-  line-height: 1.5;
-  color: rgba(203, 192, 174, 0.55);
-}
-.legal a {
+  font-size: 0.9rem;
+  line-height: 1.55;
   color: var(--cream-dim);
+}
+.consent-note a {
+  color: var(--cream);
   text-decoration: underline;
 }
-.legal a:hover {
+.consent-note a:hover {
   color: var(--red);
 }
 

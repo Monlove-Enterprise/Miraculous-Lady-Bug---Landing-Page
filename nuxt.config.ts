@@ -109,7 +109,21 @@ export default defineNuxtConfig({
     crmSmsCountryRouting: process.env.CRM_SMS_COUNTRY_ROUTING || '', // JSON: {"US":"klaviyo"}
     brevoApiKey: process.env.BREVO_API_KEY || '',
     brevoListId: process.env.BREVO_LIST_ID || '',
+    // Per-consent Brevo list routing (defaults match the 4 lists imported 2026-08-25).
+    brevoListEmailSms: process.env.BREVO_LIST_EMAIL_SMS || '3',
+    brevoListEmail: process.env.BREVO_LIST_EMAIL || '4',
+    brevoListSms: process.env.BREVO_LIST_SMS || '5',
+    brevoListNoconsent: process.env.BREVO_LIST_NOCONSENT || '6',
+    // Transactional "welcome" email sent on sign-up (Brevo template id 5:
+    // "Welcome - Confirmation Email"). Empty disables the send.
+    brevoWelcomeTemplateId: process.env.BREVO_WELCOME_TEMPLATE_ID || '5',
     klaviyoApiKey: process.env.KLAVIYO_API_KEY || '',
+    // TikTok Events API (server-side conversions). Token is a secret (Vercel env).
+    tiktokAccessToken: process.env.TIKTOK_ACCESS_TOKEN || '',
+    tiktokPixelId: process.env.TIKTOK_PIXEL_ID || 'DA86VHJC77U6VIRE2RS0',
+    // Meta Conversions API (server-side conversions). Token is a secret (Vercel env).
+    metaCapiToken: process.env.META_CAPI_TOKEN || '',
+    metaPixelId: process.env.META_PIXEL_ID || '1686724105767256',
     // DATABASE_URL is read directly from process.env in server/utils/db.ts
     public: {},
   },

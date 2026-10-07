@@ -11,11 +11,29 @@
  *
  * Required: valid email, city, phone, age confirmation (16+).
  */
-import { getEmailProvider, getSmsProvider, type CrmContact } from '../utils/crm'
-import { upsertSubscriber, markCrmSynced, type SubscriberInput } from '../utils/subscribers'
+import {
+  upsertSubscriber,
+  markCrmSynced,
+  markCrmError,
+  isPhoneDuplicate,
+  type SubscriberInput,
+} from '../utils/subscribers'
+import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
+import { sendBrevoWelcomeEmail } from '../utils/crm/brevo-welcome'
 import { resolveCountryForCity } from '../utils/geocode'
+import { nameToCode } from '../utils/countryCode'
+import { sendTikTokEvent } from '../utils/tiktok-events'
+import { sendMetaEvent } from '../utils/meta-capi'
+import { parsePhoneNumberFromString, type CountryCode } from 'libphonenumber-js'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Fallback for the implicit email-consent proof text, per language, used only if
+// the client somehow omits it. The client normally sends the exact notice shown.
+const EMAIL_CONSENT_NOTICE: Record<string, string> = {
+  fr: 'En vous inscrivant, vous acceptez de recevoir par e-mail les actualités et mises à jour concernant le spectacle, ainsi que toute autre communication sélectionnée. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre politique de confidentialité.',
+  en: 'By signing up, you agree to receive news and updates about the show by email, plus any other communications you selected. You can unsubscribe at any time. To learn more, see our privacy policy.',
+}
 
 interface SubscribeBody {
   email?: string
@@ -23,6 +41,9 @@ interface SubscribeBody {
   city?: string
   country?: string
   phone?: string
+  /** ISO 3166-1 alpha-2 of the dial-code select — needed to apply that
+   *  country's national-prefix rules when parsing `phone`. */
+  phoneCountry?: string
   emailConsent?: boolean
   emailConsentText?: string
   smsConsent?: boolean
@@ -33,6 +54,10 @@ interface SubscribeBody {
   utmMedium?: string
   utmCampaign?: string
   referrer?: string
+  /** Shared id to dedupe the server-side conversion events with the browser. */
+  eventId?: string
+  /** TikTok click id from the ad landing URL (?ttclid=), for match quality. */
+  ttclid?: string
 }
 
 export default defineEventHandler(async (event) => {
@@ -50,10 +75,17 @@ export default defineEventHandler(async (event) => {
 
   // The form only sends a country when the visitor picked an autocomplete
   // suggestion. When they just typed the city, resolve the country server-side
-  // so it's never left NULL.
+  // so it's never left NULL. We also derive the ISO country_code — from the
+  // country name (local map, no extra network) when we have it, else from the
+  // same geocode lookup — for reliable per-country segmentation.
   let country = (body?.country || '').trim() || undefined
+  let countryCode: string | undefined
   if (!country) {
-    country = (await resolveCountryForCity(city)).country
+    const resolved = await resolveCountryForCity(city)
+    country = resolved.country
+    countryCode = resolved.countryCode?.toUpperCase()
+  } else {
+    countryCode = nameToCode(country)
   }
 
   if (body?.ageConfirmed !== true) {
@@ -63,16 +95,35 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const phone = normalizePhone(body.phone)
-  if (!phone) {
-    throw createError({ statusCode: 400, statusMessage: 'Un numéro de téléphone valide est requis.' })
+  // Phone is optional — required only when the visitor consented to SMS. But
+  // if one IS provided (consented or not), it must be a genuinely valid
+  // number for the selected country — reject rather than store garbage.
+  let phone: string | undefined
+  if (body.phone?.trim()) {
+    phone = normalizePhone(body.phone, body.phoneCountry)
+    if (!phone) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Merci d’indiquer un numéro de téléphone valide.',
+      })
+    }
+  }
+  if (Boolean(body.smsConsent) && !phone) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Un numéro de téléphone valide est requis pour recevoir les SMS.',
+    })
   }
 
   const now = new Date().toISOString()
-  const emailConsent = Boolean(body.emailConsent)
+  // Email consent is IMPLICIT: submitting the form IS the consent, so it is
+  // always recorded (true + timestamp + the exact notice shown). This is the
+  // sole proof, so it must never be conditional.
+  const emailConsent = true
+  const emailConsentLang = (body.locale || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en'
+  const emailConsentText = body.emailConsentText?.trim() || EMAIL_CONSENT_NOTICE[emailConsentLang]
   const smsConsent = Boolean(body.smsConsent)
-  // Archive the exact wording only when the matching box was actually ticked.
-  const emailConsentText = emailConsent ? body.emailConsentText?.trim() || undefined : undefined
+  // SMS wording archived only when the (still optional) box was ticked.
   const smsConsentText = smsConsent ? body.smsConsentText?.trim() || undefined : undefined
   const locale = body.locale?.trim().slice(0, 5) || undefined
   const ip = getRequestIP(event, { xForwardedFor: true }) || undefined
@@ -91,6 +142,7 @@ export default defineEventHandler(async (event) => {
     firstName: body.firstName?.trim() || undefined,
     city,
     country,
+    countryCode,
     phone,
     emailConsent,
     emailConsentAt: emailConsent ? now : undefined,
@@ -117,59 +169,134 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // ---- 2. Best-effort CRM sync (channel-routed) ----
-  const contact: CrmContact = {
-    email,
-    firstName: subscriber.firstName,
-    city,
-    country,
-    phone,
-    emailConsent,
-    emailConsentDate: subscriber.emailConsentAt,
-    smsConsent,
-    smsConsentDate: subscriber.smsConsentAt,
-    utmSource: subscriber.utmSource,
-    utmMedium: subscriber.utmMedium,
-    utmCampaign: subscriber.utmCampaign,
-    signupDate: now,
+  // ---- 2. Best-effort sync to Brevo, routed to the consent-based list ----
+  const config = useRuntimeConfig()
+  if (config.brevoApiKey) {
+    try {
+      const listId = listForConsent(emailConsent, smsConsent, {
+        emailSms: Number(config.brevoListEmailSms),
+        email: Number(config.brevoListEmail),
+        sms: Number(config.brevoListSms),
+        noConsent: Number(config.brevoListNoconsent),
+      })
+      // A duplicate phone would be rejected by Brevo (SMS dedupe) → push email-only.
+      const omitSms = Boolean(smsConsent && phone && (await isPhoneDuplicate(phone)))
+      const brevoId = await syncSubscriberToBrevo(
+        {
+          email,
+          firstName: subscriber.firstName,
+          city,
+          country,
+          countryCode,
+          phone,
+          emailConsent,
+          emailConsentAt: subscriber.emailConsentAt,
+          smsConsent,
+          smsConsentAt: subscriber.smsConsentAt,
+          locale,
+          utmSource: subscriber.utmSource,
+          utmMedium: subscriber.utmMedium,
+          utmCampaign: subscriber.utmCampaign,
+          createdAt: now,
+        },
+        { apiKey: config.brevoApiKey, listId, omitSms },
+      )
+      await markCrmSynced(email, brevoId)
+    } catch (err: any) {
+      // Kept in Postgres with crm_synced = false → retried later. Not fatal.
+      const msg = err?.data?.message || err?.message || String(err)
+      console.error('[subscribe] Brevo sync failed (kept for retry):', msg)
+      await markCrmError(email, msg).catch(() => {})
+    }
   }
 
-  try {
-    const emailProvider = getEmailProvider()
-    await emailProvider.upsertContact(contact)
-
-    // SMS goes to its own platform only when consented; skip the second call
-    // if it's the same platform as email (already covered above).
-    if (smsConsent && phone) {
-      const smsProvider = getSmsProvider()
-      if (smsProvider.name !== emailProvider.name) {
-        await smsProvider.upsertContact(contact)
-      }
+  // ---- 2b. Best-effort welcome email (Brevo transactional template) ----
+  // English-only; subject/sender/content live in the Brevo template so the
+  // brand edits copy without a deploy. Inert until BREVO_WELCOME_TEMPLATE_ID is
+  // set. Never fatal: a failed email must not block the sign-up.
+  if (config.brevoApiKey && config.brevoWelcomeTemplateId) {
+    try {
+      await sendBrevoWelcomeEmail({
+        apiKey: config.brevoApiKey,
+        templateId: Number(config.brevoWelcomeTemplateId),
+        email,
+        firstName: subscriber.firstName,
+        city,
+      })
+    } catch (err: any) {
+      const msg = err?.data?.message || err?.message || String(err)
+      console.error('[subscribe] Welcome email failed (non-fatal):', msg)
     }
+  }
 
-    await markCrmSynced(email)
-  } catch (err: any) {
-    // Kept in Postgres with crm_synced = false → resynced later. Not fatal.
-    console.error('[subscribe] CRM sync failed (kept for retry):', err?.message || err)
+  // ---- 3. Best-effort TikTok Events API (server-side, no PII) ----
+  // Fires only when the client sent an event_id (i.e. cookies were accepted).
+  // Matches on the pixel cookie / click id / IP / UA — never email or phone.
+  if (config.tiktokAccessToken && body.eventId) {
+    try {
+      await sendTikTokEvent(
+        'CompleteRegistration',
+        {
+          eventId: body.eventId,
+          ttp: getCookie(event, '_ttp') || undefined,
+          ttclid: body.ttclid?.trim() || undefined,
+          ip,
+          userAgent: getRequestHeader(event, 'user-agent') || undefined,
+          url: getRequestHeader(event, 'referer') || undefined,
+        },
+        { accessToken: config.tiktokAccessToken, pixelId: config.tiktokPixelId },
+      )
+    } catch (err: any) {
+      console.error('[subscribe] TikTok Events API failed:', err?.data || err?.message || err)
+    }
+  }
+
+  // ---- 4. Best-effort Meta Conversions API (server-side, no PII) ----
+  if (config.metaCapiToken && body.eventId) {
+    try {
+      await sendMetaEvent(
+        'Lead',
+        {
+          eventId: body.eventId,
+          fbp: getCookie(event, '_fbp') || undefined,
+          fbc: getCookie(event, '_fbc') || undefined,
+          ip,
+          userAgent: getRequestHeader(event, 'user-agent') || undefined,
+          url: getRequestHeader(event, 'referer') || undefined,
+        },
+        { accessToken: config.metaCapiToken, pixelId: config.metaPixelId },
+      )
+    } catch (err: any) {
+      console.error('[subscribe] Meta CAPI failed:', err?.data || err?.message || err)
+    }
   }
 
   return { ok: true }
 })
 
 /**
- * Light normalisation to E.164. The phone already carries an international
- * dialing code from the front-end; this strips formatting characters.
+ * Parses to E.164 via libphonenumber-js, using the country picked in the
+ * dial-code select to apply that country's own numbering-plan rules — in
+ * particular whether a leading national "0" is part of the number or a trunk
+ * prefix to drop (this varies by country, e.g. FR/GB drop it, others don't).
+ * Also handles the "00" international prefix and any spaces/dashes/dots/
+ * parens. If the visitor pasted their own full international number (leading
+ * "+" or "00") into the field, it's parsed on its own terms — self-contained,
+ * ignoring a possibly-stale country selection (this is what used to produce a
+ * doubled dialing code, e.g. "+33 +19165487427", under the old string-based
+ * normalisation). Returns undefined if empty or not a valid number for the
+ * given (or self-declared) country — callers must reject rather than store it.
  */
-function normalizePhone(raw?: string): string | undefined {
-  if (!raw) return undefined
-  const trimmed = raw.trim()
+function normalizePhone(raw?: string, isoCountry?: string): string | undefined {
+  const trimmed = raw?.trim()
   if (!trimmed) return undefined
 
-  let digits = trimmed.replace(/[^\d+]/g, '')
-  if (digits.startsWith('00')) digits = '+' + digits.slice(2)
-  // A bare dialing code with no real number is not a phone.
-  if (digits.replace('+', '').length < 4) return undefined
-  return digits.startsWith('+') ? digits : '+' + digits
+  const selfContained = /^(\+|00)/.test(trimmed)
+  const input = selfContained ? trimmed.replace(/^00/, '+') : trimmed
+  const country = selfContained ? undefined : (isoCountry as CountryCode | undefined)
+
+  const parsed = parsePhoneNumberFromString(input, country)
+  return parsed?.isValid() ? parsed.number : undefined
 }
 
 /**

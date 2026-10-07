@@ -134,8 +134,10 @@ const messages: Record<Locale, Dict> = {
     'form.optional': '(optionnel)',
     'form.emailConsent':
       "J'accepte de recevoir par e-mail les actualités, mises à jour, offres et contenus exclusifs liés à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.",
+    'form.emailConsentNotice':
+      'En vous inscrivant, vous acceptez de recevoir par e-mail les actualités et mises à jour concernant le spectacle, ainsi que toute autre communication sélectionnée. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre politique de confidentialité.',
     'form.smsConsent':
-      "J'accepte de recevoir par SMS les actualités, mises à jour et offres liées à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular. En fournissant ton numéro, tu acceptes de recevoir des SMS concernant le spectacle. Des frais de message et de données peuvent s'appliquer. Réponds STOP pour te désinscrire.",
+      "En cochant cette case, je consens à recevoir des SMS de Gestion Belle & Bright Inc., exploitant de Miraculous Ladybug Live, au sujet des dates de tournée, de la mise en vente des billets et des annonces spéciales. La fréquence des messages peut varier. Des frais standards de messagerie et de données peuvent s'appliquer. Répondez STOP pour vous désabonner. Répondez HELP pour de l'aide. Vos coordonnées mobiles ne seront ni vendues ni partagées à des tiers à des fins promotionnelles.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
     'form.smsNote': '',
     'form.submit': 'S’abonner',
@@ -146,6 +148,7 @@ const messages: Record<Locale, Dict> = {
     'form.errEmail': 'Merci de saisir une adresse e-mail valide.',
     'form.errCity': 'Merci d’indiquer ta ville.',
     'form.errPhone': 'Merci d’indiquer un numéro de téléphone valide.',
+    'form.errPhoneSms': 'Un numéro de téléphone est requis pour recevoir les SMS.',
     'form.errAge': 'Tu dois confirmer avoir 16 ans ou plus.',
     'form.errGeneric': "L'inscription a échoué. Réessaie.",
     'form.doneTitle': 'Bienvenue parmi nos abonné·e·s !',
@@ -155,6 +158,7 @@ const messages: Record<Locale, Dict> = {
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
     'footer.terms': 'Conditions d’utilisation',
+    'footer.cookies': 'Cookies',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. Tous droits réservés.',
     'footer.trademark': 'Miraculous® est une marque déposée de MIRACULOUS CORP.',
     'footer.ticketsHeading': 'Billets',
@@ -171,6 +175,16 @@ const messages: Record<Locale, Dict> = {
     'upcoming.heading': 'Prochaines dates',
     'upcoming.seeAll': 'Voir toutes les villes',
     'upcoming.empty': 'Aucune date annoncée pour l’instant.',
+
+    'cookie.text':
+      'On utilise des cookies de mesure d’audience (Meta et TikTok) pour comprendre d’où viennent nos visiteurs. Tu peux accepter ou refuser.',
+    'cookie.accept': 'Accepter',
+    'cookie.decline': 'Refuser',
+    'cookie.link': 'En savoir plus',
+    'cookie.aria': 'Bandeau de consentement aux cookies',
+    'cookie.gpcNotice':
+      'Signal « Global Privacy Control » détecté — nous respectons ton choix : aucun cookie publicitaire n’est chargé.',
+    'cookie.close': 'Fermer',
   },
   en: {
     'nav.ariaLabel': 'Site navigation',
@@ -298,8 +312,10 @@ const messages: Record<Locale, Dict> = {
     'form.optional': '(optional)',
     'form.emailConsent':
       'I agree to receive news, updates, offers and exclusive content related to Miraculous Ladybug & Cat Noir: The Live Stage Spectacular by email.',
+    'form.emailConsentNotice':
+      'By signing up, you agree to receive news and updates about the show by email, plus any other communications you selected. You can unsubscribe at any time. To learn more, see our privacy policy.',
     'form.smsConsent':
-      'I agree to receive news, updates and offers related to Miraculous Ladybug & Cat Noir: The Live Stage Spectacular by SMS. By providing your number, you agree to receive SMS communications about the show. Message and data rates may apply. Reply STOP to opt out.',
+      'By checking this box, I consent to receive text messages from Gestion Belle & Bright Inc., operator of Miraculous Ladybug Live, about tour dates, ticket sales, and special announcements. Message frequency may vary. Standard message and data rates may apply. Reply STOP to opt out. Reply HELP for help. Your mobile information will not be sold or shared with third parties for promotional purposes.',
     'form.age': 'I confirm I am 16 or older.',
     'form.smsNote': '',
     'form.submit': 'Subscribe',
@@ -310,6 +326,7 @@ const messages: Record<Locale, Dict> = {
     'form.errEmail': 'Please enter a valid email address.',
     'form.errCity': 'Please enter your city.',
     'form.errPhone': 'Please enter a valid phone number.',
+    'form.errPhoneSms': 'A phone number is required to receive SMS.',
     'form.errAge': 'You must confirm you are 16 or older.',
     'form.errGeneric': 'Sign-up failed. Please try again.',
     'form.doneTitle': 'You’re subscribed!',
@@ -319,6 +336,7 @@ const messages: Record<Locale, Dict> = {
     'footer.legal': 'Legal notice',
     'footer.privacy': 'Privacy policy',
     'footer.terms': 'Terms of Use',
+    'footer.cookies': 'Cookies',
     'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. All rights reserved.',
     'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
     'footer.ticketsHeading': 'Tickets',
@@ -335,6 +353,16 @@ const messages: Record<Locale, Dict> = {
     'upcoming.heading': 'Upcoming Dates',
     'upcoming.seeAll': 'See all cities',
     'upcoming.empty': 'No dates announced yet.',
+
+    'cookie.text':
+      'We use audience-measurement cookies (Meta and TikTok) to understand where our visitors come from. You can accept or decline.',
+    'cookie.accept': 'Accept',
+    'cookie.decline': 'Decline',
+    'cookie.link': 'Learn more',
+    'cookie.aria': 'Cookie consent banner',
+    'cookie.gpcNotice':
+      'Global Privacy Control signal detected — we respect your choice: no advertising cookies are loaded.',
+    'cookie.close': 'Close',
   },
 }
 
