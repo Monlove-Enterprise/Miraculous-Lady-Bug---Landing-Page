@@ -13,7 +13,7 @@ export interface Person {
   bioEn?: string
 }
 
-// Robert McQueen and Serge Pourpart bios: EN verbatim from Math (2026-09-30);
+// Robert McQueen and Serge Poupart bios: EN verbatim from Math (2026-09-30);
 // FR is my translation, not brand-confirmed — flag for review before launch.
 // Ella/Martin role title ("Creators & Creative Directors") from Math
 // (2026-09-30); FR ("Créateurs & Directeurs Artistiques") is my translation,
@@ -108,11 +108,11 @@ export const creative: Person[] = [
   { slug: 'william-todd-jones', name: 'William Todd Jones', roleFr: 'Marionnettes', roleEn: 'Puppet Design', photo: '/images/cast/william-todd-jones.webp' },
   { slug: 'sarah-tremblay', name: 'Sarah Tremblay', roleFr: 'Perruques', roleEn: 'Wig Design', photo: '/images/cast/sarah-tremblay.webp' },
   {
-    slug: 'serge-pourpart',
-    name: 'Serge Pourpart',
+    slug: 'serge-poupart',
+    name: 'Serge Poupart',
     roleFr: 'Scénographie & Direction Technique',
     roleEn: 'Set Design & Technical Manager',
-    photo: '/images/cast/serge-pourpart.webp',
+    photo: '/images/cast/serge-poupart.webp',
     bioEn:
       'Serge brings over 25 years of experience in technical direction, international productions, and major events, working with organizations including Monlove, Cirque du Soleil, the Formula 1 Grand Prix of Canada, and Just for Laughs.\n\n' +
       'His technical management credits span touring productions and live experiences, including the Backstreet Boys, Scooby-Doo and the Lost City of Gold, All Systems Are Go! A NASA–Peanuts Experience, Mary Poppins, Rick & Morty, and Les Ballets Jazz de Montréal.\n\n' +
