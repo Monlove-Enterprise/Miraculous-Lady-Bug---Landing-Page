@@ -239,7 +239,7 @@ const messages: Record<Locale, Dict> = {
     'story.mastermindsHeading': 'Meet the Masterminds',
     'story.mastermindsText':
       'The show will be driven by the creative genius of Ella Louise Allaire and Martin Lord Ferguson, the award-winning duo behind “Ice Age Live!”, “Scooby-Doo! and The Lost City of Gold”, and “All Systems Are Go!”. With their passion for storytelling and cutting-edge stagecraft, this production promises to be unlike anything fans have ever seen.',
-    'story.spectacleHeading': 'A True Miraculous Spectacle',
+    'story.spectacleHeading': 'A True Miraculous Spectacular',
     'story.spectacleText':
       'Imagine acrobatics, dazzling aerial choreography, jaw-dropping illusions, energetic dance, and even puppetry, all woven into an all-new, original adventure featuring Ladybug and Cat Noir as they face an exciting new threat! With stage-to-video interaction and exclusive songs, this will be a Miraculous experience for the ages.',
     'story.nextHeading': 'What’s Next?',
