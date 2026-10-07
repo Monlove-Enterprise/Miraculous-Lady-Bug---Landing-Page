@@ -5,10 +5,12 @@
 // its legal pages serves exactly what's in production today; from this
 // instant on, the whole new site is reachable automatically.
 //
-// 2026-10-13T00:00:00 America/New_York. October is EDT (UTC-4) — DST doesn't
-// end until the following week, so this offset is correct for the cutover
-// date itself.
-export const LAUNCH_AT = Date.parse('2026-10-13T00:00:00-04:00')
+// 2026-10-13T01:00:00 America/New_York (EDT, UTC-4 — DST doesn't end until
+// the following week, so this offset is correct for the cutover date
+// itself). Works out to 2026-10-13T07:00 Paris (CEST) — Math wants it live
+// with margin before he leaves home that morning (confirmed 2026-10-07),
+// and wants zero manual steps that day either way.
+export const LAUNCH_AT = Date.parse('2026-10-13T01:00:00-04:00')
 
 export function isLaunched(now: number = Date.now()): boolean {
   return now >= LAUNCH_AT
