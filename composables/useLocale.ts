@@ -67,6 +67,34 @@ const messages: Record<Locale, Dict> = {
     'cast.backToCast': 'Retour à Distribution & Équipe créative',
     'cast.bioComingSoon': 'Biographie à venir.',
 
+    'vip.title': 'Forfaits VIP',
+    'vip.metaDescription': 'Forfaits VIP pour Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
+    'vip.intro': 'Vis le spectacle autrement avec un accès VIP exclusif.',
+    'vip.note':
+      'Contenu provisoire — forfaits, visuels et tarifs en attente de validation par la marque. Structure inspirée d’un précédent spectacle MONLOVE à titre d’exemple.',
+    'vip.allPreShow': 'Toutes les activités ont lieu avant le spectacle.',
+    'vip.cta': 'Être averti·e',
+    'vip.tier1.name': 'Forfait VIP Ultime — Pré-fête',
+    'vip.tier1.perks': [
+      'Un billet réservé premium [TODO : plage de rangées à confirmer]',
+      'Accès exclusif à la pré-fête VIP',
+      'Rencontre et séance photo avec Ladybug & Chat Noir',
+      'Collations et boissons',
+      'Insigne officiel membre VIP',
+      'Magasinage de produits dérivés sans file d’attente',
+      'Article de produits dérivés exclusif aux forfaits VIP',
+      'Laminé VIP édition limitée',
+      'Hôte VIP sur place',
+    ].join('|'),
+    'vip.tier2.name': 'Forfait VIP Premium',
+    'vip.tier2.perks': [
+      'Un billet réservé premium [TODO : plage de rangées à confirmer]',
+      'Article de produits dérivés exclusif aux forfaits VIP',
+      'Laminé VIP édition limitée',
+      'Magasinage de produits dérivés sans file d’attente',
+      'Hôte VIP sur place',
+    ].join('|'),
+
     // Real brand copy from Math (2026-09-15) — EN is verbatim as provided.
     // FR is a straight translation, kept in the site's "tu" voice; flag for a
     // brand check on the translation specifically before it's final.
@@ -248,6 +276,34 @@ const messages: Record<Locale, Dict> = {
     'cast.tbaBio': 'Performer to be announced soon.',
     'cast.backToCast': 'Back to Cast & Creative',
     'cast.bioComingSoon': 'Bio coming soon.',
+
+    'vip.title': 'VIP Packages',
+    'vip.metaDescription': 'VIP packages for Miraculous Ladybug & Cat Noir: The Live Stage Spectacular.',
+    'vip.intro': 'Experience the show differently with exclusive VIP access.',
+    'vip.note':
+      'Placeholder content — packages, visuals and pricing pending brand approval. Structure borrowed from a prior MONLOVE show as a reference example.',
+    'vip.allPreShow': 'All activities occur pre-show.',
+    'vip.cta': 'Get notified',
+    'vip.tier1.name': 'Ultimate VIP Pre-Party Pass',
+    'vip.tier1.perks': [
+      'One premium reserved ticket [TODO: row range to confirm]',
+      'Exclusive access to the VIP pre-show party',
+      'Meet & greet and photo opportunity with Ladybug & Cat Noir',
+      'Snacks and beverages',
+      'Official VIP member badge',
+      'Crowd-free merchandise shopping',
+      'Merchandise item exclusive to VIP packages',
+      'Limited-edition VIP laminate',
+      'On-site VIP host',
+    ].join('|'),
+    'vip.tier2.name': 'Premium VIP Package',
+    'vip.tier2.perks': [
+      'One premium reserved ticket [TODO: row range to confirm]',
+      'Merchandise item exclusive to VIP packages',
+      'Limited-edition VIP laminate',
+      'Crowd-free merchandise shopping',
+      'On-site VIP host',
+    ].join('|'),
 
     // Real brand copy from Math (2026-09-15), verbatim.
     'story.intro':
