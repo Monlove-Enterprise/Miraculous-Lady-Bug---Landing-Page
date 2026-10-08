@@ -42,6 +42,7 @@ const messages: Record<Locale, Dict> = {
     'social.lead': 'Retrouve les coulisses, les annonces et les nouveautés sur nos réseaux.',
     'hero.tagline': 'Tes héros préférés prennent enfin vie sur scène.',
     'hero.musicalBy': 'Une comédie musicale par',
+    'hero.cta': "Je m'inscris",
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
@@ -223,6 +224,7 @@ const messages: Record<Locale, Dict> = {
     'social.lead': 'Behind the scenes, announcements and updates on our socials.',
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
     'hero.musicalBy': 'A musical by',
+    'hero.cta': 'Count me in',
     'hero.logoAlt': 'Miraculous: Ladybug & Cat Noir — The Live Stage Spectacular',
     'hero.scrollAria': 'Go to sign-up',
 
