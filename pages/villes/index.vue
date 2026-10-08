@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { countryNameByCode } from '~/utils/countries'
+import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
 import type { CityRow } from '~/server/api/cities.get'
 
 const { t, locale } = useLocale()
@@ -10,7 +11,7 @@ useHead(() => ({
 }))
 
 const { data } = await useFetch<CityRow[]>('/api/cities')
-const cities = computed(() => data.value ?? [])
+const cities = computed(() => (data.value ?? []).filter((c) => !HIDDEN_CITY_SLUGS.has(c.slug)))
 
 function countryName(c: CityRow) {
   return countryNameByCode(c.countryCode, locale.value)

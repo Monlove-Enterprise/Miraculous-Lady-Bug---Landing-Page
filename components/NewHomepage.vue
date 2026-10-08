@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CityRow } from '~/server/api/cities.get'
 import { countryNameByCode } from '~/utils/countries'
+import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
 
 const { t, locale } = useLocale()
 const route = useRoute()
@@ -8,18 +9,15 @@ const route = useRoute()
 const { data: citiesData } = await useFetch<CityRow[]>('/api/cities')
 const cities = computed(() => citiesData.value ?? [])
 
-// Hidden from the map for now (Math, 2026-10-06): Paris residency venue
-// isn't confirmed yet, and Qatar isn't ready to show either. Still listed
-// everywhere else (villes pages) — just not pinned on the world map.
-const HIDDEN_FROM_MAP = new Set(['paris', 'qatar-2027'])
-const mapCities = computed(() => cities.value.filter((c) => !HIDDEN_FROM_MAP.has(c.slug)))
+const mapCities = computed(() => cities.value.filter((c) => !HIDDEN_CITY_SLUGS.has(c.slug)))
 
 // Next few dates across all tour stops (residency cities have no single
 // start_date, so they're naturally excluded — the Paris residency gets its
-// own page).
+// own page). Qatar has a tour-format date but is still in HIDDEN_CITY_SLUGS
+// (venue not finalized), so it needs the same explicit filter as the map.
 const upcomingCities = computed(() =>
   cities.value
-    .filter((c) => c.format === 'tournee' && c.startDate)
+    .filter((c) => c.format === 'tournee' && c.startDate && !HIDDEN_CITY_SLUGS.has(c.slug))
     .sort((a, b) => new Date(a.startDate!).getTime() - new Date(b.startDate!).getTime())
     .slice(0, 6),
 )
