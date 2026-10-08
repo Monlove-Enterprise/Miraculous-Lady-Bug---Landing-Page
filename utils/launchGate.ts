@@ -5,12 +5,14 @@
 // its legal pages serves exactly what's in production today; from this
 // instant on, the whole new site is reachable automatically.
 //
-// 2026-10-13T01:00:00 America/New_York (EDT, UTC-4 — DST doesn't end until
+// 2026-10-20T01:00:00 America/New_York (EDT, UTC-4 — DST doesn't end until
 // the following week, so this offset is correct for the cutover date
-// itself). Works out to 2026-10-13T07:00 Paris (CEST) — Math wants it live
-// with margin before he leaves home that morning (confirmed 2026-10-07),
-// and wants zero manual steps that day either way.
-export const LAUNCH_AT = Date.parse('2026-10-13T01:00:00-04:00')
+// itself). Works out to 2026-10-20T07:00 Paris (CEST) — Math wants it live
+// with margin before he leaves home that morning, zero manual steps that
+// day either way. Moved from the 13th to the 20th (confirmed 2026-10-08)
+// to match the Tour Announcement email, which now sends the 20th instead
+// of the 13th — see emails/content/tour_announce.json.
+export const LAUNCH_AT = Date.parse('2026-10-20T01:00:00-04:00')
 
 export function isLaunched(now: number = Date.now()): boolean {
   return now >= LAUNCH_AT
