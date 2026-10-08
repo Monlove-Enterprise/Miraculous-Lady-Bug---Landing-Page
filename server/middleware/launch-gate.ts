@@ -8,7 +8,7 @@
 // exist at all.
 import { isLaunched } from '~/utils/launchGate'
 
-const ALWAYS_ALLOWED = new Set(['/confidentialite', '/conditions', '/mentions-legales'])
+const ALWAYS_ALLOWED = new Set(['/confidentialite', '/conditions', '/mentions-legales', '/vip'])
 
 export default defineEventHandler((event) => {
   if (isLaunched()) return
