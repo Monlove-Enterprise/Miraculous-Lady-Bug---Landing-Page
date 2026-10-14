@@ -338,11 +338,11 @@ function copyTune() {
 .hero__poster-img {
   position: relative;
   z-index: 2;
-  /* 72vw fills most of the screen on phones (was 38vw -- barely grew at all
-     below ~684px, so it read as small on mobile); still one continuous
-     formula so there's no breakpoint jump, just a steeper early climb that
-     reaches the 640px ceiling around 890px viewport instead of 1684px. */
-  width: clamp(280px, 72vw, 640px);
+  /* Floor raised to 340px (matches the old mobile-only cap Math remembered
+     as "bigger" — real phone widths of 360-430px only hit ~260-310px via
+     72vw alone, so the floor was still what was binding there). Still one
+     continuous formula, no breakpoint jump. */
+  width: clamp(340px, 72vw, 640px);
   height: auto;
   display: block;
 }
