@@ -39,8 +39,8 @@ function monogram(): string {
         </div>
 
         <div class="person__info">
-          <p class="person__role">{{ role }}</p>
           <h1 class="person__name">{{ person.name }}</h1>
+          <p class="person__role">{{ role }}</p>
           <p class="person__bio">{{ bio || t('cast.bioComingSoon') }}</p>
         </div>
       </div>
@@ -109,14 +109,14 @@ function monogram(): string {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.2rem;
 }
 .person__name {
   font-family: var(--font-display);
   font-size: clamp(1.8rem, 5vw, 2.6rem);
   color: var(--cream);
   text-transform: uppercase;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 .person__bio {
   color: var(--cream-dim);
