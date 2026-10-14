@@ -343,6 +343,7 @@ function copyTune() {
   width: 100%;
   height: auto;
   display: block;
+  filter: grayscale(1);
 }
 
 /* Title treatment */
@@ -615,6 +616,7 @@ function copyTune() {
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: grayscale(1);
 }
 .social-links {
   display: flex;
