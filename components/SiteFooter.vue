@@ -71,7 +71,9 @@ const { t, locale, toggle } = useLocale()
       <p class="sitefooter__license">{{ t('footer.copyright') }}</p>
       <p class="sitefooter__license">{{ t('footer.trademark') }}</p>
       <div class="sitefooter__logos">
-        <img class="sitefooter__partner-logo sitefooter__partner-logo--monlove" src="/images/monlove-logo.png" alt="MONLOVE" />
+        <a href="https://www.monlove.com" target="_blank" rel="noopener noreferrer">
+          <img class="sitefooter__partner-logo sitefooter__partner-logo--monlove" src="/images/monlove-logo.png" alt="MONLOVE" />
+        </a>
         <img class="sitefooter__partner-logo sitefooter__partner-logo--corp" src="/images/miraculous-corp.png" alt="Miraculous Corp" />
       </div>
     </div>
