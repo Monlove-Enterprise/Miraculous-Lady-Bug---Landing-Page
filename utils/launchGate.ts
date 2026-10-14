@@ -14,5 +14,9 @@
 export const LAUNCH_AT = Date.parse('2026-10-23T01:00:00-04:00')
 
 export function isLaunched(now: number = Date.now()): boolean {
+  // PREVIEW BRANCH ONLY — never merge this to main. Forces the gate open so
+  // the whole unfinished site is browsable on this branch's Vercel preview
+  // deployment ahead of the real Oct 23 cutover.
+  return true
   return now >= LAUNCH_AT
 }
