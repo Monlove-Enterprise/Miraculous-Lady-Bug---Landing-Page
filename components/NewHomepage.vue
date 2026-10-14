@@ -641,16 +641,15 @@ function copyTune() {
   }
 }
 
-/* Mobile: same poster stack, just a tighter viewport. */
+/* Mobile: same poster stack, just a tighter viewport. Poster width is NOT
+   overridden here — the base clamp() already scales continuously down to
+   small phones; a separate fixed value here created a visible jump right at
+   this breakpoint (Math, 2026-10-14). */
 @media (max-width: 859px) {
   .hero {
-    justify-content: center;
-    min-height: 100svh; /* CTA visible above the fold on phones too */
-    padding: 3.25rem 1rem 1.75rem;
+    min-height: 100svh;
+    padding: 1.75rem 1rem 1.75rem;
     gap: 0.9rem;
-  }
-  .hero__poster-img {
-    width: min(78%, 340px);
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
      width (measured), so scale the font with the viewport below ~560px where the
