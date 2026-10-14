@@ -3,4 +3,6 @@
 // every tour listing, not just the world map). Still reachable by direct
 // URL (/villes/paris) and in the admin-facing cities table; just excluded
 // from anywhere the tour is listed out for visitors.
-export const HIDDEN_CITY_SLUGS = new Set(['paris', 'qatar-2027'])
+// lansing-mi added 2026-10-14 (Math: "remove lansing for the moment") — date
+// is still PAS CONFIRMÉ on the routing sheet.
+export const HIDDEN_CITY_SLUGS = new Set(['paris', 'qatar-2027', 'lansing-mi'])
