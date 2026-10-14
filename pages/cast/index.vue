@@ -46,7 +46,7 @@ function monogram(p: Person): string {
           <li v-for="(p, i) in creative" :key="'c' + i" class="card">
             <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
               <div class="card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
-                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" />
+                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" :class="{ 'card__img--center': p.slug === 'robert-mcqueen' }" />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
               <p class="card__role">{{ roleOf(p) }}</p>
@@ -87,7 +87,7 @@ function monogram(p: Person): string {
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
+    radial-gradient(80% 50% at 20% 0%, rgba(243, 233, 216, 0.1), transparent 60%),
     var(--ink);
 }
 .container { padding-top: 3rem; }
@@ -186,7 +186,7 @@ function monogram(p: Person): string {
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(244, 14, 4, 0.28), transparent 65%),
+    radial-gradient(120% 90% at 50% 0%, rgba(243, 233, 216, 0.14), transparent 65%),
     var(--ink-soft);
 }
 /* Subtle ladybug polka-dot texture — placeholder (no photo) only; a real
@@ -216,6 +216,9 @@ function monogram(p: Person): string {
   object-fit: cover;
   object-position: center top;
   filter: grayscale(1);
+}
+.card__img--center {
+  object-position: center center;
 }
 .card__link {
   display: block;
