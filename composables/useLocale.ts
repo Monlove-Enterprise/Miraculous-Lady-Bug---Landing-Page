@@ -95,6 +95,29 @@ const messages: Record<Locale, Dict> = {
       'Hôte VIP sur place',
     ].join('|'),
 
+    // Real brand copy from Math (2026-10-14), verbatim (FR translated, "tu" voice).
+    'faq.title': 'Foire aux questions',
+    'faq.questions': [
+      'Qu’est-ce que Miraculous Ladybug & Cat Noir : Le Spectacle Live ?',
+      'Est-ce la même histoire que la série ?',
+      'Qui a créé le spectacle ?',
+      'À qui s’adresse le spectacle ?',
+      'Quand commence la tournée ?',
+      'Quand les billets seront-ils mis en vente ?',
+      'Le spectacle viendra-t-il dans ma ville ?',
+      'Où puis-je suivre le spectacle ?',
+    ].join('|'),
+    'faq.answers': [
+      'Une production scénique où Ladybug et Chat Noir affrontent une toute nouvelle menace. Porté par une histoire inédite et des chansons originales, le spectacle allie technologie de pointe, acrobaties, illusion, danse et marionnettes. Un spectacle pour toute la famille.',
+      'Non. Le spectacle raconte une histoire inédite, écrite spécialement pour la scène, avec des chansons originales.',
+      'Le spectacle a été créé pour la scène par Ella Louise Allaire et Martin Lord Ferguson de Monlove, le duo derrière Scooby-Doo! and The Lost City of Gold. Il est développé en partenariat avec Miraculous Corp, propriétaire de la franchise Miraculous, et produit par Monlove.',
+      'Le spectacle est conçu pour les familles et les fans de Miraculous de toutes les générations.',
+      'La tournée mondiale débute au début de 2027.',
+      'Les billets seront mis en vente le vendredi 23 octobre 2026.',
+      'Inscris-toi à la liste d’attente sur ce site (16 ans et plus) pour recevoir les nouvelles de la tournée par courriel.',
+      'Facebook et Instagram : @miraculousladybuglive. TikTok : @miraculousladybuglive_. X : @miraculouslive_. YouTube : @MiraculousLive.',
+    ].join('|'),
+
     // Real brand copy from Math (2026-09-15) — EN is verbatim as provided.
     // FR is a straight translation, kept in the site's "tu" voice; flag for a
     // brand check on the translation specifically before it's final.
@@ -303,6 +326,30 @@ const messages: Record<Locale, Dict> = {
       'Limited-edition VIP laminate',
       'Crowd-free merchandise shopping',
       'On-site VIP host',
+    ].join('|'),
+
+    // Real brand copy from Math (2026-10-14), verbatim — YouTube handle added
+    // per Math's follow-up message the same day.
+    'faq.title': 'FAQ',
+    'faq.questions': [
+      'What is Miraculous Ladybug & Cat Noir: The Live Stage Spectacular?',
+      'Is it the same story as the series?',
+      'Who created the show?',
+      'Who is the show for?',
+      'When does the tour start?',
+      'When do tickets go on sale?',
+      'Will the show come to my city?',
+      'Where can I follow the show?',
+    ].join('|'),
+    'faq.answers': [
+      'A live stage production where Ladybug and Cat Noir face an all-new threat. Driven by a new story and original songs, it features cutting-edge technology, acrobatics, illusion, dance and puppetry. A show for the whole family.',
+      'No. The show tells a new story written for the stage, with original songs.',
+      'The show was created for the stage by Ella Louise Allaire and Martin Lord Ferguson of Monlove, the duo behind Scooby-Doo! and The Lost City of Gold. It is developed in partnership with Miraculous Corp, owners of the Miraculous franchise, and produced by Monlove.',
+      'The show is made for families and Miraculous fans of all generations.',
+      'The world tour launches in early 2027.',
+      'Tickets go on sale Friday, October 23, 2026.',
+      'Join the waitlist on this site (ages 16 and up) to get tour news by email.',
+      'Facebook and Instagram: @miraculousladybuglive. TikTok: @miraculousladybuglive_. X: @miraculouslive_. YouTube: @MiraculousLive.',
     ].join('|'),
 
     // Real brand copy from Math (2026-09-15), verbatim.
