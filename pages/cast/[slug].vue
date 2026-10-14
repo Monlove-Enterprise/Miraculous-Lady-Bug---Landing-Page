@@ -34,7 +34,7 @@ function monogram(): string {
 
       <div class="person__layout">
         <div class="person__photo">
-          <img v-if="person.photo" :src="person.photo" :alt="person.name" />
+          <img v-if="person.photo" :src="person.photo" :alt="person.name" :class="{ 'person__img--center': slug === 'robert-mcqueen' }" />
           <span v-else class="person__mono">{{ monogram() }}</span>
         </div>
 
@@ -54,7 +54,7 @@ function monogram(): string {
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
+    radial-gradient(80% 50% at 20% 0%, rgba(243, 233, 216, 0.1), transparent 60%),
     var(--ink);
 }
 .container { padding-top: 3rem; }
@@ -83,7 +83,7 @@ function monogram(): string {
   display: grid;
   place-items: center;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(244, 14, 4, 0.28), transparent 65%),
+    radial-gradient(120% 90% at 50% 0%, rgba(243, 233, 216, 0.14), transparent 65%),
     var(--ink-soft);
 }
 .person__photo img {
@@ -94,6 +94,9 @@ function monogram(): string {
   object-fit: cover;
   filter: grayscale(1);
   object-position: center top;
+}
+.person__photo img.person__img--center {
+  object-position: center center;
 }
 .person__mono {
   font-family: var(--font-display);
