@@ -123,10 +123,10 @@ function copyTune() {
          is an absolute bottom-left overlay so title+lockup centre; on mobile the
          art returns to flow, giving title → Ladybug → tagline/CTA/credit. -->
     <section class="hero" :style="tuning ? heroStyle : undefined">
-      <img class="hero__logo" src="/images/title-treatment.png" :alt="t('hero.logoAlt')" />
+      <img class="hero__logo" src="/images/hero-title.webp" :alt="t('hero.logoAlt')" />
 
       <div class="hero__art" aria-hidden="true">
-        <img src="/images/ladybug-hero.png" alt="" />
+        <img src="/images/hero-keyart.webp" alt="" />
       </div>
 
       <div class="hero__lockup">
@@ -138,10 +138,11 @@ function copyTune() {
             {{ t('villes.cta.buy') }}
           </NuxtLink>
         </div>
-        <p class="hero__credit">
-          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
-          <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
-        </p>
+        <img
+          class="hero__credit-img"
+          src="/images/hero-musicalby.webp"
+          :alt="`${t('hero.musicalBy')} Ella Louise Allaire & Martin Lord Ferguson`"
+        />
       </div>
     </section>
 
@@ -376,27 +377,12 @@ function copyTune() {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
 }
 
-/* Composer credit — centred under the CTA (part of the lockup). */
-.hero__credit {
-  width: 100%;
+/* Composer credit — centred under the CTA (part of the lockup). Graphic
+   treatment (hero-musicalby.webp) replaces the old plain-text version. */
+.hero__credit-img {
+  width: min(100%, 340px);
+  height: auto;
   margin: 0.25rem 0 0;
-  text-align: center;
-  font-family: var(--font-display);
-  line-height: 1.25;
-}
-.hero__credit-label {
-  display: block;
-  color: #fff;
-  font-size: clamp(0.72rem, 0.9vw, 0.92rem);
-  letter-spacing: 0.05em;
-  margin-bottom: 0.25em;
-}
-.hero__credit-names {
-  display: block;
-  color: #fff;
-  font-size: clamp(0.9rem, 1.15vw, 1.2rem);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .cta {
