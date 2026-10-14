@@ -119,30 +119,33 @@ function copyTune() {
     </div>
 
     <!-- ===================== HERO ===================== -->
-    <!-- DOM order (title, art, lockup) drives both layouts: on desktop the art
-         is an absolute bottom-left overlay so title+lockup centre; on mobile the
-         art returns to flow, giving title → Ladybug → tagline/CTA/credit. -->
+    <!-- Poster stack, matching design-source/POSTER/MLL_261009_CoverART_4X5_REVEAL.png:
+         art first, title treatment overlapping its lower third, credit tight
+         underneath — one scaling unit, same order/proportions at every width.
+         Tagline + CTA are website-only additions below the poster, CTA last. -->
     <section class="hero" :style="tuning ? heroStyle : undefined">
-      <img class="hero__logo" src="/images/hero-title.webp" :alt="t('hero.logoAlt')" />
-
-      <div class="hero__art" aria-hidden="true">
-        <img src="/images/hero-keyart.webp" alt="" />
+      <div class="hero__poster">
+        <div class="hero__art" aria-hidden="true">
+          <img src="/images/hero-keyart.webp" alt="" />
+        </div>
+        <img class="hero__logo" src="/images/hero-title.webp" :alt="t('hero.logoAlt')" />
+        <img
+          class="hero__credit-img"
+          src="/images/hero-musicalby.webp"
+          :alt="`${t('hero.musicalBy')} Ella Louise Allaire & Martin Lord Ferguson`"
+        />
       </div>
 
       <div class="hero__lockup">
         <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <div class="hero__ctas">
           <!-- Single hero CTA per Math — the waitlist sign-up now lives in its
-               own section/page (subscribe band + /signup), not competing here. -->
+               own section/page (subscribe band + /signup), not competing here.
+               Last element in the hero per Math, 2026-10-14. -->
           <NuxtLink to="/villes" class="cta">
             {{ t('villes.cta.buy') }}
           </NuxtLink>
         </div>
-        <img
-          class="hero__credit-img"
-          src="/images/hero-musicalby.webp"
-          :alt="`${t('hero.musicalBy')} Ella Louise Allaire & Martin Lord Ferguson`"
-        />
       </div>
     </section>
 
@@ -332,12 +335,21 @@ function copyTune() {
 }
 
 
-/* Ladybug portrait — in-flow, centred, stacked below the title at every width
-   (same arrangement as mobile). Width tunable via --art-w. */
+/* Poster stack — art, title and credit scale together as one unit (same
+   proportions at every width instead of independently-tuned pieces), so the
+   title/credit overlap onto the art stays correct on any platform. Ratios
+   (title width, overlap, credit width) measured off
+   design-source/POSTER/MLL_261009_CoverART_4X5_REVEAL.png. */
+.hero__poster {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(260px, 44vw, 460px);
+}
 .hero__art {
-  align-self: center;
-  width: var(--art-w, clamp(230px, 19vw, 340px));
-  z-index: 1;
+  width: 100%;
   pointer-events: none;
 }
 .hero__art img {
@@ -345,19 +357,24 @@ function copyTune() {
   height: auto;
   display: block;
 }
-
-/* Title treatment */
+/* Pulled up to overlap the art's lower third, matching the reference poster. */
 .hero__logo {
   position: relative;
-  z-index: 2;
-  width: var(--title-w, clamp(280px, 28vw, 430px));
+  width: 90%;
   height: auto;
+  margin-top: -34%;
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
+.hero__credit-img {
+  position: relative;
+  width: 74%;
+  height: auto;
+  margin-top: 0.5rem;
+}
 
-/* Tagline + CTA + credit, centred. Width-constrained so long lines (tagline,
-   composer names) wrap on narrow screens instead of being clipped by the hero's
-   overflow; on desktop the cap is wide enough to keep them on one line. */
+/* Tagline + CTA, centred below the poster — website-only additions, not part
+   of the key art. Width-constrained so the tagline wraps on narrow screens
+   instead of being clipped by the hero's overflow. */
 .hero__lockup {
   position: relative;
   z-index: 2;
@@ -368,6 +385,7 @@ function copyTune() {
   align-items: center;
   gap: 1.1rem;
   text-align: center;
+  margin-top: 0.8rem;
 }
 .hero__tagline {
   font-size: clamp(1.05rem, 1.5vw, 1.6rem);
@@ -375,14 +393,6 @@ function copyTune() {
   width: 100%;
   margin: 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
-}
-
-/* Composer credit — centred under the CTA (part of the lockup). Graphic
-   treatment (hero-musicalby.webp) replaces the old plain-text version. */
-.hero__credit-img {
-  width: min(100%, 340px);
-  height: auto;
-  margin: 0.25rem 0 0;
 }
 
 .cta {
@@ -654,9 +664,7 @@ function copyTune() {
   }
 }
 
-/* Mobile: key art sits at the TOP, full and sharp; content stacks below.
-   Stays at 860px: below that the desktop overlay (centred copy on top of the
-   art) collides with the characters, so the stacked layout has to take over. */
+/* Mobile: same poster stack, just a tighter viewport. */
 @media (max-width: 859px) {
   .hero {
     justify-content: center;
@@ -664,14 +672,8 @@ function copyTune() {
     padding: 3.25rem 1rem 1.75rem;
     gap: 0.9rem;
   }
-  /* Title on top, then the Ladybug returns to flow below it (DOM order) */
-  .hero__logo {
-    width: min(76%, 330px);
-  }
-  .hero__art {
-    position: static;
-    width: min(60%, 250px);
-    align-self: center;
+  .hero__poster {
+    width: min(78%, 340px);
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
      width (measured), so scale the font with the viewport below ~560px where the
