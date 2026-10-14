@@ -338,7 +338,11 @@ function copyTune() {
 .hero__poster-img {
   position: relative;
   z-index: 2;
-  width: clamp(260px, 38vw, 640px);
+  /* 72vw fills most of the screen on phones (was 38vw -- barely grew at all
+     below ~684px, so it read as small on mobile); still one continuous
+     formula so there's no breakpoint jump, just a steeper early climb that
+     reaches the 640px ceiling around 890px viewport instead of 1684px. */
+  width: clamp(280px, 72vw, 640px);
   height: auto;
   display: block;
 }
