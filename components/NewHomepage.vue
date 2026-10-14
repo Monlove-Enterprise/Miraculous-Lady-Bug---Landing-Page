@@ -341,7 +341,6 @@ function copyTune() {
   width: clamp(260px, 44vw, 460px);
   height: auto;
   display: block;
-  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
 .hero__credit-img {
   position: relative;
