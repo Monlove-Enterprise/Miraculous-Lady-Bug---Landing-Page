@@ -49,15 +49,15 @@ function monogram(p: Person): string {
                 <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" :class="{ 'card__img--center': p.slug === 'robert-mcqueen' }" />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
-              <p class="card__role">{{ roleOf(p) }}</p>
               <p class="card__name">{{ p.name || t('cast.tba') }}</p>
+              <p class="card__role">{{ roleOf(p) }}</p>
             </NuxtLink>
             <div v-else class="card__link">
               <div class="card__photo" aria-hidden="true">
                 <span class="card__mono">{{ monogram(p) }}</span>
               </div>
-              <p class="card__role">{{ roleOf(p) }}</p>
               <p class="card__name">{{ p.name || t('cast.tba') }}</p>
+              <p class="card__role">{{ roleOf(p) }}</p>
             </div>
           </li>
         </ul>
@@ -71,8 +71,8 @@ function monogram(p: Person): string {
             <div class="card__photo" aria-hidden="true">
               <span class="card__mono">{{ monogram(p) }}</span>
             </div>
-            <p class="card__role">{{ roleOf(p) }}</p>
             <p class="card__name">{{ p.name || t('cast.tba') }}</p>
+            <p class="card__role">{{ roleOf(p) }}</p>
           </li>
         </ul>
       </section>
@@ -231,13 +231,13 @@ function monogram(p: Person): string {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 0.35rem;
 }
 .card__name {
   font-family: var(--font-display);
   font-size: 1.3rem;
   color: var(--cream);
   line-height: 1.1;
+  margin-bottom: 0.35rem;
 }
 .card__bio {
   margin-top: 0.5rem;
