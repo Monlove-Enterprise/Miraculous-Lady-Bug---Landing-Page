@@ -319,10 +319,10 @@ function copyTune() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1.2rem;
   min-height: 100svh;
-  padding: 3.5rem 1.5rem 2rem;
+  padding: 1.75rem 1.5rem 2rem;
   overflow: hidden;
   /* Scarlet of the key-art assets (matches the Ladybug's suit so it melts into
      the bg). Fades to the dark "Help bring…" section from ~78% — the bottom of
@@ -338,7 +338,7 @@ function copyTune() {
 .hero__poster-img {
   position: relative;
   z-index: 2;
-  width: clamp(260px, 44vw, 460px);
+  width: clamp(260px, 38vw, 640px);
   height: auto;
   display: block;
 }
