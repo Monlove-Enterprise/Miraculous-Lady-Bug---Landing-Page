@@ -338,11 +338,14 @@ function copyTune() {
 .hero__poster-img {
   position: relative;
   z-index: 2;
-  /* Floor raised to 340px (matches the old mobile-only cap Math remembered
-     as "bigger" — real phone widths of 360-430px only hit ~260-310px via
-     72vw alone, so the floor was still what was binding there). Still one
-     continuous formula, no breakpoint jump. */
-  width: clamp(340px, 72vw, 640px);
+  /* Math, 2026-10-14: "still too small... lots of space as long as we fit
+     get tickets in the screen" — measured directly: even at the 340px floor
+     there was ~250px of unused height below the CTA on a 390x844 phone, so
+     width (not height) is the real constraint on mobile. 95vw fills almost
+     edge to edge there (paired with reduced side padding below) while still
+     being one continuous formula — ceiling just reached earlier (~674px
+     viewport instead of ~890px). */
+  width: clamp(360px, 95vw, 640px);
   height: auto;
   display: block;
 }
@@ -655,7 +658,7 @@ function copyTune() {
        is shorter than a full screen here, and 100svh left a lot of empty
        red space below the tagline (Math, 2026-10-14). Let it hug content. */
     min-height: 0;
-    padding: 1.75rem 1rem 2.5rem;
+    padding: 1.75rem 0.5rem 2.5rem;
     gap: 0.9rem;
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
