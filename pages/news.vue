@@ -103,7 +103,7 @@ function dateLabel(d: string) {
   display: flex;
   flex-direction: column;
 }
-.news__card-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; filter: grayscale(1); }
+.news__card-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .news__card-body { padding: 1.4rem; }
 .news__card-meta {
   color: var(--cream-dim);
