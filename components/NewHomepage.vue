@@ -647,8 +647,11 @@ function copyTune() {
    this breakpoint (Math, 2026-10-14). */
 @media (max-width: 859px) {
   .hero {
-    min-height: 100svh;
-    padding: 1.75rem 1rem 1.75rem;
+    /* No forced min-height on mobile — the poster+credit+CTA+tagline block
+       is shorter than a full screen here, and 100svh left a lot of empty
+       red space below the tagline (Math, 2026-10-14). Let it hug content. */
+    min-height: 0;
+    padding: 1.75rem 1rem 2.5rem;
     gap: 0.9rem;
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
