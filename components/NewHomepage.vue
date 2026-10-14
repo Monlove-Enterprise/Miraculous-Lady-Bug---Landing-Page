@@ -347,7 +347,7 @@ function copyTune() {
   z-index: 2;
   width: clamp(130px, 17vw, 180px);
   height: auto;
-  margin-top: 0.6rem;
+  margin-top: -0.6rem;
 }
 
 /* CTA, then tagline below it — website-only additions, not part of the key
