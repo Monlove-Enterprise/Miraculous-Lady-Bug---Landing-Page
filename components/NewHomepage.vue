@@ -362,12 +362,12 @@ function copyTune() {
   position: relative;
   width: 90%;
   height: auto;
-  margin-top: -34%;
+  margin-top: -41%;
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
 .hero__credit-img {
   position: relative;
-  width: 74%;
+  width: 52%;
   height: auto;
   margin-top: 0.5rem;
 }
