@@ -119,33 +119,30 @@ function copyTune() {
     </div>
 
     <!-- ===================== HERO ===================== -->
-    <!-- Poster stack, matching design-source/POSTER/MLL_261009_CoverART_4X5_REVEAL.png:
-         art first, title treatment overlapping its lower third, credit tight
-         underneath — one scaling unit, same order/proportions at every width.
-         Tagline + CTA are website-only additions below the poster, CTA last. -->
+    <!-- Sparkle/art/title/subtitle is the flat art direction straight out of
+         design-source/POSTER/MLL_261009_CoverART_4X5_REVEAL.png (cropped
+         above "a musical by" + the logo row) — pixel-exact per Math rather
+         than reconstructed from the separate layers. Credit, tagline and CTA
+         are website-only additions below it, in that order (Math, 2026-10-14:
+         "the quote under the tickets"). -->
     <section class="hero" :style="tuning ? heroStyle : undefined">
-      <div class="hero__poster">
-        <div class="hero__art" aria-hidden="true">
-          <img src="/images/hero-keyart.webp" alt="" />
-        </div>
-        <img class="hero__logo" src="/images/hero-title.webp" :alt="t('hero.logoAlt')" />
-        <img
-          class="hero__credit-img"
-          src="/images/hero-musicalby.webp"
-          :alt="`${t('hero.musicalBy')} Ella Louise Allaire & Martin Lord Ferguson`"
-        />
-      </div>
+      <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
+
+      <img
+        class="hero__credit-img"
+        src="/images/hero-musicalby.webp"
+        :alt="`${t('hero.musicalBy')} Ella Louise Allaire & Martin Lord Ferguson`"
+      />
 
       <div class="hero__lockup">
-        <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <div class="hero__ctas">
           <!-- Single hero CTA per Math — the waitlist sign-up now lives in its
-               own section/page (subscribe band + /signup), not competing here.
-               Last element in the hero per Math, 2026-10-14. -->
+               own section/page (subscribe band + /signup), not competing here. -->
           <NuxtLink to="/villes" class="cta">
             {{ t('villes.cta.buy') }}
           </NuxtLink>
         </div>
+        <p class="hero__tagline">{{ t('hero.tagline') }}</p>
       </div>
     </section>
 
@@ -335,46 +332,27 @@ function copyTune() {
 }
 
 
-/* Poster stack — art, title and credit scale together as one unit (same
-   proportions at every width instead of independently-tuned pieces), so the
-   title/credit overlap onto the art stays correct on any platform. Ratios
-   (title width, overlap, credit width) measured off
-   design-source/POSTER/MLL_261009_CoverART_4X5_REVEAL.png. */
-.hero__poster {
+/* Flat poster art — pixel-exact crop of the reference, scales as one piece
+   so the sparkle/art/title/subtitle relationship can't drift out of position
+   again. */
+.hero__poster-img {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: clamp(260px, 44vw, 460px);
-}
-.hero__art {
-  width: 100%;
-  pointer-events: none;
-}
-.hero__art img {
-  width: 100%;
   height: auto;
   display: block;
-}
-/* Pulled up to overlap the art's lower third, matching the reference poster. */
-.hero__logo {
-  position: relative;
-  width: 90%;
-  height: auto;
-  margin-top: -41%;
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
 }
 .hero__credit-img {
   position: relative;
-  width: 52%;
+  z-index: 2;
+  width: clamp(130px, 17vw, 180px);
   height: auto;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
 
-/* Tagline + CTA, centred below the poster — website-only additions, not part
-   of the key art. Width-constrained so the tagline wraps on narrow screens
-   instead of being clipped by the hero's overflow. */
+/* CTA, then tagline below it — website-only additions, not part of the key
+   art (Math, 2026-10-14: "the quote under the tickets"). */
 .hero__lockup {
   position: relative;
   z-index: 2;
@@ -385,7 +363,7 @@ function copyTune() {
   align-items: center;
   gap: 1.1rem;
   text-align: center;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
 }
 .hero__tagline {
   font-size: clamp(1.05rem, 1.5vw, 1.6rem);
@@ -672,7 +650,7 @@ function copyTune() {
     padding: 3.25rem 1rem 1.75rem;
     gap: 0.9rem;
   }
-  .hero__poster {
+  .hero__poster-img {
     width: min(78%, 340px);
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
