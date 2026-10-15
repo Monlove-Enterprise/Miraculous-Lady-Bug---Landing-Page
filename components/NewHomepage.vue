@@ -489,18 +489,13 @@ function copyTune() {
     var(--ink);
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
-   the first page is less black" — tried a red wash, then went through a few
-   rounds of green (incl. matching the official site's neon Games section),
-   rejected: "i dont like the green and its very video game oriented". Then
-   "can we try the pink and fully not just dégradé" — flat (not faded) pink
-   wash, full coverage like the earlier flat-green attempt but pink instead.
-   Then "this pink is nice" (official site footer reference) — shade
-   corrected to the softer coral --pink across the whole site, see main.css.
-   Then "the pink is not bright enough" — brightened --pink + bumped opacity.
-   Then "solid pink please and brither" — flat opaque --pink fill instead
-   of a translucent wash over --ink-soft, plus --pink brightened again. */
+   the first page is less black" — went through red, several rounds of
+   green, and several rounds of pink (ending on a solid, bright fill), then:
+   "the trailer has to be black though" — back to flat --ink, ending the
+   experiment for this section specifically. --pink itself (brightened
+   through this process) stays in place on faq/vip/villes/cast. */
 .trailer-section {
-  background: var(--pink);
+  background: var(--ink);
 }
 
 .section-title {
