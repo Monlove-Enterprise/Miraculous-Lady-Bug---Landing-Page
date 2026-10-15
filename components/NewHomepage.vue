@@ -495,10 +495,11 @@ function copyTune() {
    "can we try the pink and fully not just dégradé" — flat (not faded) pink
    wash, full coverage like the earlier flat-green attempt but pink instead.
    Then "this pink is nice" (official site footer reference) — shade
-   corrected to the softer coral --pink across the whole site, see main.css. */
+   corrected to the softer coral --pink across the whole site, see main.css.
+   Then "the pink is not bright enough" — brightened --pink + bumped opacity. */
 .trailer-section {
   background:
-    linear-gradient(rgba(244, 96, 126, 0.18), rgba(244, 96, 126, 0.18)),
+    linear-gradient(rgba(255, 109, 142, 0.26), rgba(255, 109, 142, 0.26)),
     var(--ink-soft);
 }
 
