@@ -217,6 +217,7 @@ function monogram(p: Person): string {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: pre-line;
 }
 
 .grid {
@@ -290,6 +291,7 @@ function monogram(p: Person): string {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: pre-line;
 }
 .card__name {
   font-family: var(--font-display);
