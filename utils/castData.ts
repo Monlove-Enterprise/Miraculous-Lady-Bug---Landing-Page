@@ -80,7 +80,22 @@ export const creative: Person[] = [
       "En tant que formateur en art théâtral, Robert a enseigné et animé des ateliers pour l'Arte Studio à Mexico, la Shanghai Academy, le Royal Conservatoire de Glasgow, le HB Studio à New York, le Stratford Festival (Canada), Studio 58 à Vancouver, la Canadian Opera Company, le Vancouver Opera et Pacific Opera Victoria.",
   },
   { slug: 'debra-brown', name: 'Debra Brown', roleFr: 'Chorégraphies Acrobatiques', roleEn: 'Acrobatic Choreography', photo: '/images/cast/debra-brown.webp' },
-  { slug: 'kassandra-boivin-cenelia', name: 'Kassandra Boivin-Cénélia', roleFr: 'Chorégraphies', roleEn: 'Choreography', photo: '/images/cast/kassandra-boivin-cenelia.webp' },
+  {
+    slug: 'kassandra-boivin-cenelia',
+    name: 'Kassandra Boivin-Cénélia',
+    roleFr: 'Chorégraphies',
+    roleEn: 'Choreography',
+    photo: '/images/cast/kassandra-boivin-cenelia.webp',
+    // Bios verbatim from Math (2026-10-15).
+    bioEn:
+      'Kassandra Boivin-Cenelia, known as Badkass, is a choreographer recognized for her authenticity, energy, and distinctive choreographic style.\n\n' +
+      'For Kassandra, dance has always been a language. Deeply connected to music, her work blends emotion, street dance, and instinct to create movement and worlds that tell stories, stir feelings, and leave a lasting impression. Her approach is rooted in ongoing exploration—a commitment to learning and to evolving her own artistic voice.\n\n' +
+      'Her career has taken her into major productions as a performer, teacher, and choreographer. From stage to screen, she has danced in numerous projects, travelled across Canada to teach, and collaborated with artists and creative teams from diverse backgrounds. Her choreography credits include television shows such as En direct de l’univers and Révolution (seasons 4–7). She has also developed her work through stage productions, music videos, artistic residencies, and variety shows, including Super Franco Fête. This breadth of experience allows her to approach every project with authenticity, sensitivity, and precision.',
+    bioFr:
+      'Kassandra Boivin-Cenelia, alias Badkass, est une chorégraphe reconnue pour son authenticité, son énergie et sa signature chorégraphique.\n\n' +
+      'Depuis toujours, la danse est pour elle un langage. Profondément connectée à la musique, son travail est un mélange d’émotions, de streetdance et d’instinct pour donner vie à des mouvements et des univers qui racontent, évoquent et laissent une impression forte. Sa démarche se nourrit d’une recherche constante, autant dans son apprentissage que dans sa volonté de faire évoluer son propre langage artistique.\n\n' +
+      'Son parcours l’a amenée à évoluer au sein de productions d’envergure, comme interprète, enseignante et chorégraphe. De la scène à l’écran, elle a dansé dans de nombreux projets, parcouru différentes provinces du Canada pour y enseigner et côtoyer des artistes et des équipes issues de milieux variés. Elle a notamment signé des chorégraphies pour des émissions telles qu’En direct de l’univers et Révolution (des saisons 4 à 7), tout en développant son travail à travers différents projets scéniques, vidéoclips, résidences artistiques et show de variétés, dont Super Franco Fête. Cette expérience plurielle lui permet aujourd’hui d’aborder chaque projet avec authenticité, sensibilité et rigueur.',
+  },
   {
     slug: 'nicolas-vaudelet',
     name: 'Nicolas Vaudelet',
