@@ -138,7 +138,7 @@ function copyTune() {
          than reconstructed from the separate layers. Credit, tagline and CTA
          are website-only additions below it, in that order (Math, 2026-10-14:
          "the quote under the tickets"). -->
-    <section class="hero" :style="tuning ? heroStyle : undefined">
+    <section class="hero bg-stars" :style="tuning ? heroStyle : undefined">
       <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
 
       <img
@@ -160,7 +160,7 @@ function copyTune() {
     </section>
 
     <!-- ===================== MAP ===================== -->
-    <section class="map-section">
+    <section class="map-section bg-honeycomb">
       <div class="container">
         <h2 class="section-title">{{ t('map.heading') }}</h2>
         <p class="section-lead">{{ t('map.lead') }}</p>

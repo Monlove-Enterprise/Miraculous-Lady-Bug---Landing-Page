@@ -80,7 +80,7 @@ const calendarEvents = computed(() =>
 </script>
 
 <template>
-  <main class="ville">
+  <main class="ville bg-honeycomb">
     <SiteHeader />
 
     <div class="container">

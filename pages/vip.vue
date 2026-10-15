@@ -13,7 +13,7 @@ const tiers = computed(() => [
 </script>
 
 <template>
-  <main class="vip">
+  <main class="vip bg-honeycomb">
     <SiteHeader />
 
     <div class="container">
