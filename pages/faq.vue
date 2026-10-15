@@ -37,8 +37,8 @@ const items = computed(() =>
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(90% 60% at 20% 0%, rgba(255, 45, 143, 0.22), transparent 65%),
-    radial-gradient(130% 90% at 50% 100%, rgba(243, 233, 216, 0.07), transparent 70%),
+    radial-gradient(80% 55% at 18% 0%, rgba(255, 45, 143, 0.15), transparent 62%),
+    radial-gradient(120% 85% at 50% 100%, rgba(243, 233, 216, 0.045), transparent 68%),
     var(--ink);
 }
 .container { padding-top: 3rem; }
