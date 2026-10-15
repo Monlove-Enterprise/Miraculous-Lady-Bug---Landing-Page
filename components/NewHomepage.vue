@@ -508,9 +508,15 @@ function copyTune() {
    collapsing straight through this section's own box (no border/padding
    to stop it) and escaping above it, leaving a honeycomb-free gap between
    this section and .map-section above. Padding is part of the box, so
-   bg-honeycomb now covers right up to the section above with no seam. */
+   bg-honeycomb now covers right up to the section above with no seam.
+   Then "remove the honeycombs at the footer its like if they appear
+   below... but when I take a screenshot they dont appear" — the pseudo-
+   element has nothing to do with SiteFooter in the DOM, but overflow:
+   hidden here clips it defensively to this section's own box, ruling out
+   any compositing/painting edge case letting it visually extend past it. */
 .dates-section {
   padding-top: 3rem;
+  overflow: hidden;
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
    the first page is less black" — went through red, several rounds of
