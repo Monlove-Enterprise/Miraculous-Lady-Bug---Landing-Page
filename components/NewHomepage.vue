@@ -240,15 +240,22 @@ function copyTune() {
     <section class="trailer-section">
       <div class="container">
         <h2 class="section-title">{{ t('trailer.heading') }}</h2>
-        <div class="trailer-embed">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
-            :title="t('trailer.heading')"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            loading="lazy"
-          />
+        <!-- Math: "can we make a square instead of a circle and fit in the
+             trailer" — the key-art's own baked-in circle doesn't fully
+             contain the 16:9 video (corners stick out); .trailer-frame is
+             our own dark square backdrop, sized to fully contain the video
+             with even margin, sitting behind it. -->
+        <div class="trailer-frame">
+          <div class="trailer-embed">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
+              :title="t('trailer.heading')"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -747,9 +754,31 @@ function copyTune() {
 }
 .btn--outline:hover { border-color: var(--red); color: var(--red); }
 
-.trailer-embed {
+.trailer-frame {
+  position: relative;
   max-width: 780px;
   margin: 0 auto;
+}
+/* Dark square sized to the video's own max-width (780px) plus even margin
+   on every side — big enough that the 16:9 video is always fully inside
+   it, unlike the key-art's circle. Width comes from the left/right insets;
+   aspect-ratio drives the height from that (inset alone on all 4 sides
+   would set width/height independently and defeat aspect-ratio). */
+.trailer-frame::before {
+  content: '';
+  position: absolute;
+  left: -56px;
+  right: -56px;
+  top: 50%;
+  transform: translateY(-50%);
+  aspect-ratio: 1 / 1;
+  background: #000;
+  border-radius: 28px;
+  z-index: 0;
+}
+.trailer-embed {
+  position: relative;
+  z-index: 1;
   aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
