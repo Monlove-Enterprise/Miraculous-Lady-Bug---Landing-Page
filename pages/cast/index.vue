@@ -41,7 +41,6 @@ function monogram(p: Person): string {
       <header class="cast__head">
         <h1 class="cast__title">{{ t('cast.title') }}</h1>
         <p class="cast__intro">{{ t('cast.intro') }}</p>
-        <p class="cast__note">{{ t('cast.note') }}</p>
       </header>
 
       <!-- Creative team -->
@@ -157,14 +156,6 @@ function monogram(p: Person): string {
   font-size: clamp(1.05rem, 2.6vw, 1.3rem);
   margin-bottom: 1rem;
 }
-.cast__note {
-  display: inline-block;
-  color: var(--cream-dim);
-  font-size: 0.8rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px dashed rgba(244, 14, 4, 0.4);
-  border-radius: 999px;
-}
 
 /* Sections */
 .cast__section { margin-bottom: 3.5rem; }
@@ -193,10 +184,24 @@ function monogram(p: Person): string {
 @media (max-width: 560px) {
   .featured-grid { grid-template-columns: 1fr; }
 }
+/* Math, 2026-10-15: "there is missing the frames of their picture for ella
+   and martin" — the featured cards had no border/frame at all, unlike the
+   regular .card cards below them. */
+.featured-card {
+  background: var(--ink-panel);
+  border: 1px solid rgba(243, 233, 216, 0.08);
+  border-radius: 16px;
+  padding: 1rem 1rem 1.25rem;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.featured-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(244, 14, 4, 0.4);
+}
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
-  border-radius: 14px;
+  border-radius: 11px;
   margin-bottom: 1.1rem;
   overflow: hidden;
   background:

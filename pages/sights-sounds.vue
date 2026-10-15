@@ -50,9 +50,9 @@ const videos = [
 .sights {
   min-height: 100dvh;
   padding-bottom: 6rem;
-  background:
-    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
-    var(--ink);
+  /* Math, 2026-10-15: "there is a red splash on the behind th scne page,
+     lets remove" — corner glow dropped, flat background. */
+  background: var(--ink);
 }
 .container { padding-top: 3rem; }
 
