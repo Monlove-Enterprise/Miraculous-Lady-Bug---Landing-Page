@@ -490,12 +490,14 @@ function copyTune() {
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
    the first page is less black" — went through red, several rounds of
-   green, and several rounds of pink, settling on a solid fill with just the
-   "TRAILER" word in black for contrast. Then: "instead of the pink can we
-   use the blue of marinette's hair" — swapped to --blue; title flipped
-   back to cream since black doesn't read on a dark navy fill. */
+   green, and pink, then: "instead of the pink can we use the blue of
+   marinette's hair" — swapped to --blue, brightened to "more electric"
+   per Math, then "with degradé please" — vivid blue at top fading to
+   --ink at the bottom, same direction as the earlier green gradient
+   attempt (that one was rejected for being too "video game", not for the
+   gradient itself). */
 .trailer-section {
-  background: var(--blue);
+  background: linear-gradient(180deg, #5c8dff 0%, var(--blue) 45%, var(--ink) 100%);
 }
 .trailer-section .section-title {
   color: var(--cream);
