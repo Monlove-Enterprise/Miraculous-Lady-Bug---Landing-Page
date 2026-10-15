@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
+import { toCityDisplayRows, formatCityDate, type CityDisplayRow } from '~/utils/cityDisplayRows'
 import type { CityRow } from '~/server/api/cities.get'
 
 const { t, locale } = useLocale()
@@ -11,33 +12,23 @@ useHead(() => ({
 }))
 
 const { data } = await useFetch<CityRow[]>('/api/cities')
-const cities = computed(() => (data.value ?? []).filter((c) => !HIDDEN_CITY_SLUGS.has(c.slug)))
+// A tour stop with two distinct nights (e.g. Kitchener: Mar 6 AND Mar 7) is
+// two separate performances, not a date range — Math, 2026-10-15: "Kitchener
+// needs two entire lines... not two dates on the same line, but two entire
+// lines" — so toCityDisplayRows expands it into two full rows here.
+const cities = computed(() =>
+  toCityDisplayRows((data.value ?? []).filter((c) => !HIDDEN_CITY_SLUGS.has(c.slug))),
+)
 
-function countryName(c: CityRow) {
+function countryName(c: CityDisplayRow) {
   return countryNameByCode(c.countryCode, locale.value)
 }
-function statusLabel(c: CityRow) {
+function statusLabel(c: CityDisplayRow) {
   return t(`villes.status.${c.status}`)
-}
-// Tour stops (format 'tournee') with a date range are distinct single-night
-// performances, not a continuous run (e.g. Kitchener: separate shows Mar 6
-// AND Mar 7) — an en-dash range read as ambiguous/residency-like, so these
-// render as separate lines instead (Math, 2026-10-15).
-function datesLines(c: CityRow): string[] {
-  if (!c.startDate) return []
-  const fmt = (d: string) =>
-    new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    })
-  if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
-  if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
-  return [`${fmt(c.startDate)} – ${fmt(c.endDate)}`]
 }
 // Math, 2026-10-15: "remove on sale date to be announced" — only renders
 // once a real opening date is known; no more TBD placeholder text.
-function openingLabel(c: CityRow) {
+function openingLabel(c: CityDisplayRow) {
   if (!c.openingAt) return ''
   const formatted = new Date(c.openingAt).toLocaleDateString(
     locale.value === 'fr' ? 'fr-FR' : 'en-US',
@@ -59,7 +50,7 @@ function openingLabel(c: CityRow) {
       </header>
 
       <ul class="list">
-        <li v-for="c in cities" :key="c.slug" class="row" :class="`row--${c.status}`">
+        <li v-for="c in cities" :key="c.rowKey" class="row" :class="`row--${c.status}`">
           <NuxtLink :to="`/villes/${c.slug}`" class="row__place">
             <p class="row__city">{{ c.city }}</p>
             <p class="row__country">{{ countryName(c) }}</p>
@@ -67,7 +58,7 @@ function openingLabel(c: CityRow) {
 
           <div class="row__details">
             <p v-if="c.venue" class="row__venue">{{ c.venue }}</p>
-            <p v-for="d in datesLines(c)" :key="d" class="row__dates">{{ d }}</p>
+            <p class="row__dates">{{ formatCityDate(c.displayDate, locale) }}</p>
             <p v-if="c.status === 'confirmee' && c.openingAt" class="row__opening">{{ openingLabel(c) }}</p>
           </div>
 
