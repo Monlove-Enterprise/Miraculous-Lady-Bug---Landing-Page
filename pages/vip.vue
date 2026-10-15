@@ -7,8 +7,8 @@ useHead(() => ({
 }))
 
 const tiers = computed(() => [
-  { name: t('vip.tier1.name'), perks: t('vip.tier1.perks').split('|'), featured: true },
-  { name: t('vip.tier2.name'), perks: t('vip.tier2.perks').split('|'), featured: false },
+  { name: t('vip.tier1.name'), perks: t('vip.tier1.perks').split('|'), cta: t('vip.tier1.cta'), featured: true },
+  { name: t('vip.tier2.name'), perks: t('vip.tier2.perks').split('|'), cta: t('vip.tier2.cta'), featured: false },
 ])
 </script>
 
@@ -31,7 +31,7 @@ const tiers = computed(() => [
             <li v-for="perk in tier.perks" :key="perk">{{ perk }}</li>
           </ul>
           <p class="tier__footnote">{{ t('vip.allPreShow') }}</p>
-          <NuxtLink to="/signup" class="btn btn--buy">{{ t('vip.cta') }}</NuxtLink>
+          <NuxtLink to="/signup" class="btn btn--buy">{{ tier.cta }}</NuxtLink>
         </section>
       </div>
     </div>
