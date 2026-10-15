@@ -70,8 +70,6 @@ const messages: Record<Locale, Dict> = {
     'vip.title': 'Forfaits VIP',
     'vip.metaDescription': 'Forfaits VIP pour Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
     'vip.intro': 'Vis le spectacle autrement avec un accès VIP exclusif.',
-    'vip.note':
-      'Contenu provisoire — forfaits, visuels et tarifs en attente de validation par la marque. Structure inspirée d’un précédent spectacle MONLOVE à titre d’exemple.',
     'vip.allPreShow': 'Toutes les activités ont lieu avant le spectacle.',
     'vip.cta': 'Être averti·e',
     'vip.tier1.name': 'Forfait VIP Ultime — Pré-fête',
@@ -140,9 +138,6 @@ const messages: Record<Locale, Dict> = {
     'villes.metaDescription':
       'Toutes les villes où Miraculous Ladybug & Cat Noir: The Live Stage Spectacular pourrait se produire.',
     'villes.back': "Retour à l’accueil",
-    'villes.intro': 'Retrouve toutes les villes envisagées, confirmées ou déjà en vente.',
-    'villes.note':
-      'Exemple de mise en page — aucune date de tournée n’est confirmée à ce jour.',
     'villes.status.envisagee': 'À l’étude',
     'villes.status.confirmee': 'Confirmée',
     'villes.status.en_vente': 'En vente',
@@ -303,8 +298,6 @@ const messages: Record<Locale, Dict> = {
     'vip.title': 'VIP Packages',
     'vip.metaDescription': 'VIP packages for Miraculous Ladybug & Cat Noir: The Live Stage Spectacular.',
     'vip.intro': 'Experience the show differently with exclusive VIP access.',
-    'vip.note':
-      'Placeholder content — packages, visuals and pricing pending brand approval. Structure borrowed from a prior MONLOVE show as a reference example.',
     'vip.allPreShow': 'All activities occur pre-show.',
     'vip.cta': 'Get notified',
     'vip.tier1.name': 'Ultimate VIP Pre-Party Pass',
@@ -372,8 +365,6 @@ const messages: Record<Locale, Dict> = {
     'villes.metaDescription':
       'Every city where Miraculous Ladybug & Cat Noir: The Live Stage Spectacular might play.',
     'villes.back': 'Back to home',
-    'villes.intro': 'Browse every city that’s being considered, confirmed, or already on sale.',
-    'villes.note': 'Layout example — no tour dates are confirmed yet.',
     'villes.status.envisagee': 'Being Considered',
     'villes.status.confirmee': 'Confirmed',
     'villes.status.en_vente': 'On Sale',

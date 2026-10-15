@@ -22,9 +22,22 @@ const upcomingCities = computed(() =>
     .slice(0, 6),
 )
 
+// Was startDate-only, silently dropping Kitchener's 2nd night (Mar 7) —
+// mismatched the villes listing, which showed both (Math, 2026-10-15:
+// "matcher les dates sur la page principale et celle dans l'onglet see more
+// cities"). Compact "Mar 6 & 7, 2027" form, matching the email templates'
+// existing convention for the same multi-night tour stops.
 function dateLabel(c: CityRow) {
   if (!c.startDate) return ''
-  return new Date(c.startDate).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+  const start = new Date(c.startDate)
+  const fmtMonthDay = (d: Date) =>
+    d.toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'short' })
+  const year = start.getFullYear()
+  if (c.format === 'tournee' && c.endDate && c.endDate !== c.startDate) {
+    const end = new Date(c.endDate)
+    return `${fmtMonthDay(start)} & ${end.getDate()}, ${year}`
+  }
+  return start.toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',

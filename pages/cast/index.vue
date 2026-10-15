@@ -3,6 +3,11 @@ import { creative, cast, type Person } from '~/utils/castData'
 
 const { t, locale } = useLocale()
 
+// Ella & Martin (creators) get a bigger, featured side-by-side row — Math,
+// 2026-10-15: "plus gros Ella et Martin, en premier et sur une ligne".
+const featuredCreative = computed(() => creative.slice(0, 2))
+const restCreative = computed(() => creative.slice(2))
+
 useHead(() => ({
   title: `${t('cast.title')} — Miraculous Live`,
   meta: [{ name: 'description', content: t('cast.metaDescription') }],
@@ -42,8 +47,22 @@ function monogram(p: Person): string {
       <!-- Creative team -->
       <section class="cast__section" aria-labelledby="creative-h">
         <h2 id="creative-h" class="cast__heading">{{ t('cast.creativeHeading') }}</h2>
+
+        <ul class="featured-grid">
+          <li v-for="(p, i) in featuredCreative" :key="'f' + i" class="featured-card">
+            <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
+              <div class="featured-card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
+                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" />
+                <span v-else class="card__mono">{{ monogram(p) }}</span>
+              </div>
+              <p class="featured-card__name">{{ p.name || t('cast.tba') }}</p>
+              <p class="featured-card__role">{{ roleOf(p) }}</p>
+            </NuxtLink>
+          </li>
+        </ul>
+
         <ul class="grid">
-          <li v-for="(p, i) in creative" :key="'c' + i" class="card">
+          <li v-for="(p, i) in restCreative" :key="'c' + i" class="card">
             <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
               <div class="card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
                 <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" :class="{ 'card__img--center': p.slug === 'robert-mcqueen' }" />
@@ -160,6 +179,43 @@ function monogram(p: Person): string {
 }
 
 /* Card grid */
+/* Ella & Martin — featured row, bigger than the regular grid, side by side. */
+.featured-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  max-width: 760px;
+}
+@media (max-width: 560px) {
+  .featured-grid { grid-template-columns: 1fr; }
+}
+.featured-card__photo {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  margin-bottom: 1.1rem;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(243, 233, 216, 0.14), transparent 65%),
+    var(--ink-soft);
+}
+.featured-card__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.2vw, 1.9rem);
+  color: var(--cream);
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+.featured-card__role {
+  color: var(--red);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .grid {
   list-style: none;
   display: grid;
