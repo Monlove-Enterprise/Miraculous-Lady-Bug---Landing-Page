@@ -21,7 +21,7 @@ function dateLabel(d: string) {
 </script>
 
 <template>
-  <main class="news">
+  <main class="news bg-honeycomb">
     <SiteHeader />
 
     <div class="container">

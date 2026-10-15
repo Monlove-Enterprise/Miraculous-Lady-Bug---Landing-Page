@@ -26,7 +26,7 @@ function monogram(): string {
 </script>
 
 <template>
-  <main class="person">
+  <main class="person bg-honeycomb">
     <SiteHeader />
 
     <div class="container">
