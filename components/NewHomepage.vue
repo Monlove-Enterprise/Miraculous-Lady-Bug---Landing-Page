@@ -612,24 +612,22 @@ function copyTune() {
   background-position: center center;
   background-repeat: no-repeat;
 }
+/* Math: "can you make the player bigger so it touches ladybug and cat
+   noir" — widened to the gap's full measured width (28.51% of the
+   banner); since the banner scales as one locked-aspect-ratio unit, this
+   percentage holds at every viewport width, so no separate mobile value
+   is needed. */
 .trailer-embed {
   position: absolute;
   left: 50.7%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 24%;
+  width: 28.51%;
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
   background: var(--ink-panel);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-}
-@media (max-width: 720px) {
-  /* The gap is too narrow on mobile to fit a readable video at 24% width
-     without it also being far too short (16:9 at a tiny width) — widen it
-     and let it overlap closer to the characters' silhouettes rather than
-     disappearing. */
-  .trailer-embed { width: 42%; }
 }
 
 .section-title {
