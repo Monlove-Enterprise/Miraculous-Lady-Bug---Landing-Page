@@ -49,9 +49,15 @@ useHead(() => ({
 .story {
   min-height: 100dvh;
   padding-bottom: 6rem;
-  /* Math, 2026-10-15: "ya encore the spray rouge sur the story" — same red
-     corner-glow removed as on press/behind-the-scenes, flat background. */
-  background: var(--ink);
+  /* Math, 2026-10-15: "ya encore the spray rouge sur the story" — red
+     corner-glow removed. Then "this image in the story page" — Paris
+     sketch key art (public/images/story-bg.webp) behind the header,
+     fading into the flat --ink background before the body-copy sections
+     so the running text stays legible. */
+  background:
+    linear-gradient(180deg, rgba(12, 8, 7, 0.7) 0%, rgba(12, 8, 7, 0.93) 45%, var(--ink) 75%),
+    url('/images/story-bg.webp') top center / cover no-repeat,
+    var(--ink);
 }
 .container { padding-top: 3rem; }
 
