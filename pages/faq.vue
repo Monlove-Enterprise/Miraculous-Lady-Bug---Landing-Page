@@ -64,12 +64,15 @@ const items = computed(() =>
   text-wrap: balance;
 }
 
+/* Math, 2026-10-15: "same on the other pages, when there is content, no
+   honeycomb" — opaque gap color so the page's bg-honeycomb can't bleed
+   through the 1px dividers between items (same fix as villes/index.vue). */
 .faq__list {
   display: flex;
   flex-direction: column;
   gap: 1px;
   max-width: 760px;
-  background: rgba(243, 233, 216, 0.08);
+  background: var(--ink-panel);
   border-radius: 14px;
   overflow: hidden;
 }

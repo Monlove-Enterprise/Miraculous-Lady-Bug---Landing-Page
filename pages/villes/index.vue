@@ -114,11 +114,16 @@ function openingLabel(c: CityDisplayRow) {
 }
 
 /* ---- List ---- */
+/* Math, 2026-10-15: "on the where the tour is going I dont want to see the
+   honey combs on the dates lines though" — the page's bg-honeycomb was
+   bleeding through the translucent 1px gaps between rows, showing as faint
+   honeycomb lines between each date. Opaque background instead, so the
+   page's honeycomb texture can't show through here. */
 .list {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background: rgba(243, 233, 216, 0.08);
+  background: var(--ink-panel);
   border-radius: 14px;
   overflow: hidden;
   margin-bottom: 4rem;
