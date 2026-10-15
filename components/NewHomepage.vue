@@ -763,6 +763,12 @@ function copyTune() {
 
 .trailer-frame {
   position: relative;
+  /* z-index:0 so this establishes its own stacking context — same fix as
+     .bg-honeycomb (see main.css). Without it, the ::before square below
+     (z-index:0) escapes to a distant ancestor's stacking context instead
+     of staying scoped behind this element's own content, and ends up
+     painting on top of the sibling .section-title, hiding it entirely. */
+  z-index: 0;
   max-width: 780px;
   margin: 0 auto;
 }
