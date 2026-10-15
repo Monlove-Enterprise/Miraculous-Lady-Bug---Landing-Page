@@ -51,17 +51,21 @@ useHead(() => ({
   padding-bottom: 6rem;
   /* Math, 2026-10-15: "ya encore the spray rouge sur the story" — red
      corner-glow removed. Then "this image in the story page" — Paris
-     sketch key art behind the header, fading into the flat --ink
-     background before the body-copy sections so running text stays
-     legible. Then "c'est pas très bien découpé" — recropped to a band
-     around the Eiffel Tower/building details (the recognizable part of
-     the illustration) instead of an arbitrary top slice of the full
-     portrait source. Then "lets remove the honey combs and only keep the
-     visual I added" — bg-honeycomb dropped from this page. */
+     sketch key art behind the header. Then "c'est pas très bien découpé"
+     — recropped to a band around the Eiffel Tower/building details. Then
+     "lets remove the honey combs and only keep the visual". Then "make it
+     more pink all of it and reduce the background so its less pixelated"
+     — the image was being upscaled by `cover` on wide screens (source is
+     only 1400px wide), reading soft/blurry; capped to its native size
+     instead of stretching full-bleed. A red-to-pink gradient (sampled
+     from the art's own palette) fills the full page as its own layer so
+     the pink carries the whole way down, and the darkening-for-legibility
+     overlay is tinted dark maroon instead of neutral black so it stays
+     in the same pink family even where it's nearly opaque. */
   background:
-    linear-gradient(180deg, rgba(12, 8, 7, 0.7) 0%, rgba(12, 8, 7, 0.93) 45%, var(--ink) 75%),
-    url('/images/story-bg.webp') center center / cover no-repeat,
-    var(--ink);
+    linear-gradient(180deg, rgba(20, 3, 14, 0.45) 0%, rgba(20, 3, 14, 0.75) 55%, rgba(20, 3, 14, 0.94) 100%),
+    url('/images/story-bg.webp') top center / 1400px auto no-repeat,
+    linear-gradient(90deg, #e91d26, #e921a9);
 }
 .container { padding-top: 3rem; }
 
