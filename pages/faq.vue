@@ -11,7 +11,7 @@ const items = computed(() =>
 </script>
 
 <template>
-  <main class="faq">
+  <main class="faq bg-honeycomb">
     <SiteHeader />
 
     <div class="container">
