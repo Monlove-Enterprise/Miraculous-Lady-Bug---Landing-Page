@@ -23,25 +23,21 @@ const upcomingCities = computed(() =>
 )
 
 // Was startDate-only, silently dropping Kitchener's 2nd night (Mar 7) —
-// mismatched the villes listing, which showed both (Math, 2026-10-15:
-// "matcher les dates sur la page principale et celle dans l'onglet see more
-// cities"). Compact "Mar 6 & 7, 2027" form, matching the email templates'
-// existing convention for the same multi-night tour stops.
-function dateLabel(c: CityRow) {
-  if (!c.startDate) return ''
-  const start = new Date(c.startDate)
-  const fmtMonthDay = (d: Date) =>
-    d.toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'short' })
-  const year = start.getFullYear()
-  if (c.format === 'tournee' && c.endDate && c.endDate !== c.startDate) {
-    const end = new Date(c.endDate)
-    return `${fmtMonthDay(start)} & ${end.getDate()}, ${year}`
-  }
-  return start.toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
+// mismatched the villes listing, which showed both. Then compacted to
+// "Mar 6 & 7, 2027", but Math, 2026-10-15: "two global lines so there is no
+// confusion" — same separate-line treatment as pages/villes/index.vue
+// everywhere, not a compact form just on this page.
+function datesLines(c: CityRow): string[] {
+  if (!c.startDate) return []
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+  if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
+  if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
+  return [`${fmt(c.startDate)} – ${fmt(c.endDate)}`]
 }
 function countryName(c: CityRow) {
   return countryNameByCode(c.countryCode, locale.value)
@@ -187,10 +183,17 @@ function copyTune() {
             </NuxtLink>
             <div class="city-row__details">
               <p v-if="c.venue" class="city-row__venue">{{ c.venue }}</p>
-              <p class="city-row__dates">{{ dateLabel(c) }}</p>
+              <p v-for="d in datesLines(c)" :key="d" class="city-row__dates">{{ d }}</p>
             </div>
             <div class="city-row__action">
-              <span class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
+              <!-- Math, 2026-10-15: "remove the confirmed and add buy
+                   tickets and VIP, two different clickable links" — same
+                   treatment as pages/villes/index.vue. -->
+              <span v-if="c.status !== 'confirmee' && c.status !== 'en_vente'" class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
+              <template v-else>
+                <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
+                <NuxtLink to="/vip" class="city-btn city-btn--vip">{{ t('nav.vip') }}</NuxtLink>
+              </template>
             </div>
           </li>
         </ul>
@@ -563,11 +566,19 @@ function copyTune() {
   grid-template-columns: 1fr;
   gap: 0.9rem;
   padding: 1.5rem 1.6rem;
-  background: var(--ink-panel);
+  /* Math, 2026-10-15: "add colour to the cities list, it does not pop
+     enough" — red left accent + a touch of red worked into the panel
+     background instead of flat --ink-panel. */
+  border-left: 3px solid var(--red);
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.1), transparent 40%), var(--ink-panel);
+  transition: background 0.15s ease;
   align-items: center;
 }
 @media (min-width: 720px) {
   .city-row { grid-template-columns: 1.1fr 1.4fr auto; }
+}
+.city-row:hover {
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.18), transparent 50%), var(--ink-panel);
 }
 .city-row__place { display: block; text-decoration: none; color: inherit; }
 .city-row__city {
@@ -595,6 +606,25 @@ function copyTune() {
 .city-badge--confirmee { background: rgba(243, 233, 216, 0.12); color: var(--cream); }
 .city-badge--envisagee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
 .city-badge--epuisee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); text-decoration: line-through; }
+.city-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease;
+  white-space: nowrap;
+}
+.city-btn--buy { background: var(--red); color: #fff; }
+.city-btn--buy:hover { background: #ff1f4a; transform: translateY(-1px); }
+.city-btn--vip { background: var(--cream); color: #150a0b; }
+.city-btn--vip:hover { background: #fff; transform: translateY(-1px); }
 
 .upcoming__more { display: flex; justify-content: center; margin-top: 2rem; }
 .btn {

@@ -61,7 +61,7 @@ function withUtm(url: string): string {
     return url
   }
 }
-const ticketHref = computed(() => (city.value.ticketUrl ? withUtm(city.value.ticketUrl) : '#'))
+const ticketHref = computed(() => (city.value.ticketUrl ? withUtm(city.value.ticketUrl) : '/signup'))
 
 // Performances -> generic calendar events (showtime as the label).
 const calendarEvents = computed(() =>
@@ -87,7 +87,7 @@ const calendarEvents = computed(() =>
       <NuxtLink to="/villes" class="back">← {{ t('villes.backToList') }}</NuxtLink>
 
       <header class="ville__head">
-        <span class="badge" :class="`badge--${status}`">{{ t(`villes.status.${status}`) }}</span>
+        <span v-if="status !== 'confirmee'" class="badge" :class="`badge--${status}`">{{ t(`villes.status.${status}`) }}</span>
         <h1 class="ville__title">{{ city.city }}</h1>
         <p class="ville__country">{{ countryName() }}</p>
         <p v-if="city.venue" class="ville__venue">{{ city.venue }}</p>
@@ -107,18 +107,16 @@ const calendarEvents = computed(() =>
         <NuxtLink to="/signup" class="btn btn--interest">{{ t('villes.cta.interest') }}</NuxtLink>
       </section>
 
-      <!-- ---- État : confirmée (countdown si date connue) ---- -->
-      <section v-else-if="status === 'confirmee'" class="ville__panel">
-        <template v-if="city.openingAt">
+      <!-- ---- État : confirmée ou en vente — mêmes CTA cliquables
+           (Math, 2026-10-15: "remove the confirmed and add buy tickets and
+           VIP, two different clickable links"). Countdown stays as extra
+           context above the buttons when a real opening date is known. -->
+      <section v-else-if="status === 'confirmee' || status === 'en_vente'" class="ville__panel ville__panel--ctas">
+        <template v-if="status === 'confirmee' && city.openingAt">
           <p class="ville__panel-text">{{ t('villes.detail.confirmeeText') }}</p>
           <CityCountdown :target="city.openingAt" @reached-zero="onCountdownZero" />
         </template>
-        <p v-else class="ville__panel-text">{{ t('villes.openingTbd') }}</p>
-      </section>
-
-      <!-- ---- État : en vente ---- -->
-      <section v-else-if="status === 'en_vente'" class="ville__panel ville__panel--ctas">
-        <p class="ville__panel-text">{{ t('villes.detail.enVenteText') }}</p>
+        <p v-else-if="status === 'en_vente'" class="ville__panel-text">{{ t('villes.detail.enVenteText') }}</p>
         <div class="ville__cta-row">
           <a :href="ticketHref" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
           <NuxtLink to="/vip" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</NuxtLink>
