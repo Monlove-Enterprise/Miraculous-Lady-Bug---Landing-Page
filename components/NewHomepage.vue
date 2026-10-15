@@ -556,16 +556,18 @@ function copyTune() {
   border-radius: 14px;
   overflow: hidden;
 }
+/* Math: "if we put cream behind the tour dates just for fun" — cream card
+   instead of the dark --ink-panel, text/badges/VIP button flipped to dark
+   ink so they stay legible on the light background; red left accent and
+   the Buy Tickets button (already red-on-white) carry over unchanged. */
 .city-row {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.9rem;
   padding: 1.5rem 1.6rem;
-  /* Math, 2026-10-15: "add colour to the cities list, it does not pop
-     enough" — red left accent + a touch of red worked into the panel
-     background instead of flat --ink-panel. */
   border-left: 3px solid var(--red);
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.1), transparent 40%), var(--ink-panel);
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.08), transparent 45%), var(--cream);
+  color: #1c0f0d;
   transition: background 0.15s ease;
   align-items: center;
 }
@@ -573,20 +575,20 @@ function copyTune() {
   .city-row { grid-template-columns: 1.1fr 1.4fr auto; }
 }
 .city-row:hover {
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.18), transparent 50%), var(--ink-panel);
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.14), transparent 55%), var(--cream);
 }
 .city-row__place { display: block; text-decoration: none; color: inherit; }
 .city-row__city {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  color: var(--cream);
+  color: #1c0f0d;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
-.city-row__country { color: var(--cream-dim); font-size: 0.85rem; }
-.city-row__details { color: var(--cream-dim); font-size: 0.9rem; }
-.city-row__venue { color: var(--cream); margin-bottom: 0.15rem; }
-.city-row__dates { color: var(--cream-dim); }
+.city-row__country { color: rgba(28, 15, 13, 0.55); font-size: 0.85rem; }
+.city-row__details { color: rgba(28, 15, 13, 0.6); font-size: 0.9rem; }
+.city-row__venue { color: #1c0f0d; margin-bottom: 0.15rem; }
+.city-row__dates { color: rgba(28, 15, 13, 0.6); }
 .city-row__action { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
 .city-badge {
   padding: 0.3rem 0.7rem;
@@ -597,10 +599,10 @@ function copyTune() {
   text-transform: uppercase;
   white-space: nowrap;
 }
-.city-badge--en_vente { background: rgba(244, 14, 4, 0.16); color: var(--red); }
-.city-badge--confirmee { background: rgba(243, 233, 216, 0.12); color: var(--cream); }
-.city-badge--envisagee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
-.city-badge--epuisee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); text-decoration: line-through; }
+.city-badge--en_vente { background: rgba(244, 14, 4, 0.14); color: var(--red); }
+.city-badge--confirmee { background: rgba(28, 15, 13, 0.08); color: #1c0f0d; }
+.city-badge--envisagee { background: rgba(28, 15, 13, 0.06); color: rgba(28, 15, 13, 0.55); }
+.city-badge--epuisee { background: rgba(28, 15, 13, 0.06); color: rgba(28, 15, 13, 0.55); text-decoration: line-through; }
 .city-btn {
   display: inline-flex;
   align-items: center;
@@ -618,8 +620,8 @@ function copyTune() {
 }
 .city-btn--buy { background: var(--red); color: #fff; }
 .city-btn--buy:hover { background: #ff1f4a; transform: translateY(-1px); }
-.city-btn--vip { background: var(--cream); color: #150a0b; }
-.city-btn--vip:hover { background: #fff; transform: translateY(-1px); }
+.city-btn--vip { background: #1c0f0d; color: var(--cream); }
+.city-btn--vip:hover { background: #000; transform: translateY(-1px); }
 
 .upcoming__more { display: flex; justify-content: center; margin-top: 2rem; }
 .btn {
