@@ -164,7 +164,7 @@ function copyTune() {
              country | venue+dates | status), own class names (city-row*)
              since .btn/.badge already mean something different on this page
              (subscribe band). -->
-        <ul v-if="upcomingCities.length" class="city-list">
+        <ul v-if="upcomingCities.length" class="city-list bg-honeycomb">
           <li v-for="c in upcomingCities" :key="c.rowKey" class="city-row">
             <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
               <p class="city-row__city">{{ c.city }}</p>
@@ -491,13 +491,20 @@ function copyTune() {
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
    the first page is less black" — went through red, several rounds of
    green, and pink, then: "instead of the pink can we use the blue of
-   marinette's hair" — swapped to --blue, brightened to "more electric"
-   per Math, then "with degradé please" — vivid blue at top fading to
-   --ink at the bottom, same direction as the earlier green gradient
-   attempt (that one was rejected for being too "video game", not for the
-   gradient itself). */
+   marinette's hair" — swapped to --blue, brightened to "more electric".
+   Then "with degradé please" (one-directional, top to black), then
+   "blue degradé up and down please" — symmetric now: vivid blue at both
+   the top and bottom edges, fading to --ink in the middle (frames the
+   video instead of fading off to one side). */
 .trailer-section {
-  background: linear-gradient(180deg, #5c8dff 0%, var(--blue) 45%, var(--ink) 100%);
+  background: linear-gradient(
+    180deg,
+    #5c8dff 0%,
+    var(--blue) 22%,
+    var(--ink) 50%,
+    var(--blue) 78%,
+    #5c8dff 100%
+  );
 }
 .trailer-section .section-title {
   color: var(--cream);
