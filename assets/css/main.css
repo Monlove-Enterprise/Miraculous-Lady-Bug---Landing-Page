@@ -25,8 +25,11 @@
   /* Pink accent — Math, 2026-10-15: "how can we make the site a bit more
      feminine with those two colours", referencing the official Miraculous
      site's red-to-pink glow. Used as a soft corner/edge glow alongside the
-     red, never replacing it — the key art itself stays red/black. */
-  --pink: #ff2d8f;
+     red, never replacing it — the key art itself stays red/black. Shade
+     corrected same day from a hot neon magenta to a softer coral pink
+     after Math sent the official site's footer as reference: "this pink
+     is nice". */
+  --pink: #f4607e;
   /* Secondary accent, used sparingly (not throughout like pink) — the
      official site uses it only for its games section (neon lime on dark
      green), so one section here gets a touch of it, not every page. */

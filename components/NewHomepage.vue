@@ -493,10 +493,12 @@ function copyTune() {
    rounds of green (incl. matching the official site's neon Games section),
    rejected: "i dont like the green and its very video game oriented". Then
    "can we try the pink and fully not just dégradé" — flat (not faded) pink
-   wash, full coverage like the earlier flat-green attempt but pink instead. */
+   wash, full coverage like the earlier flat-green attempt but pink instead.
+   Then "this pink is nice" (official site footer reference) — shade
+   corrected to the softer coral --pink across the whole site, see main.css. */
 .trailer-section {
   background:
-    linear-gradient(rgba(255, 45, 143, 0.18), rgba(255, 45, 143, 0.18)),
+    linear-gradient(rgba(244, 96, 126, 0.18), rgba(244, 96, 126, 0.18)),
     var(--ink-soft);
 }
 
