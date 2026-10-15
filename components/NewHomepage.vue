@@ -609,6 +609,14 @@ function copyTune() {
 }
 .trailer-section .section-title {
   color: var(--cream);
+  /* The square (.trailer-frame::before) legitimately overflows above
+     .trailer-frame's own box to reach its full square height, extending
+     up into the title's screen region — and since trailer-frame comes
+     later in DOM order, it paints over the title there by default. Force
+     the title to its own layer on top, same fix as the subscribe-band's
+     .container z-index. */
+  position: relative;
+  z-index: 2;
 }
 
 .section-title {
