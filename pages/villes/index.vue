@@ -19,17 +19,21 @@ function countryName(c: CityRow) {
 function statusLabel(c: CityRow) {
   return t(`villes.status.${c.status}`)
 }
-function datesLabel(c: CityRow) {
-  if (!c.startDate) return null
+// Tour stops (format 'tournee') with a date range are distinct single-night
+// performances, not a continuous run (e.g. Kitchener: separate shows Mar 6
+// AND Mar 7) — an en-dash range read as ambiguous/residency-like, so these
+// render as separate lines instead (Math, 2026-10-15).
+function datesLines(c: CityRow): string[] {
+  if (!c.startDate) return []
   const fmt = (d: string) =>
     new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
     })
-  return c.endDate && c.endDate !== c.startDate
-    ? `${fmt(c.startDate)} – ${fmt(c.endDate)}`
-    : fmt(c.startDate)
+  if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
+  if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
+  return [`${fmt(c.startDate)} – ${fmt(c.endDate)}`]
 }
 function openingLabel(c: CityRow) {
   if (!c.openingAt) return t('villes.openingTbd')
@@ -50,8 +54,6 @@ function openingLabel(c: CityRow) {
 
       <header class="villes__head">
         <h1 class="villes__title">{{ t('villes.title') }}</h1>
-        <p class="villes__intro">{{ t('villes.intro') }}</p>
-        <p class="villes__note">{{ t('villes.note') }}</p>
       </header>
 
       <ul class="list">
@@ -63,16 +65,17 @@ function openingLabel(c: CityRow) {
 
           <div class="row__details">
             <p v-if="c.venue" class="row__venue">{{ c.venue }}</p>
-            <p v-if="datesLabel(c)" class="row__dates">{{ datesLabel(c) }}</p>
+            <p v-for="d in datesLines(c)" :key="d" class="row__dates">{{ d }}</p>
             <p v-if="c.status === 'confirmee'" class="row__opening">{{ openingLabel(c) }}</p>
           </div>
 
           <div class="row__action">
             <span class="badge" :class="`badge--${c.status}`">{{ statusLabel(c) }}</span>
 
-            <a v-if="c.status === 'en_vente'" :href="c.ticketUrl" class="btn btn--buy">
-              {{ t('villes.cta.buy') }}
-            </a>
+            <template v-if="c.status === 'en_vente'">
+              <a :href="c.ticketUrl" class="btn btn--buy">{{ t('villes.cta.buy') }}</a>
+              <NuxtLink to="/vip" class="btn btn--vip">{{ t('nav.vip') }}</NuxtLink>
+            </template>
             <NuxtLink v-else-if="c.status === 'envisagee'" to="/signup" class="btn btn--interest">
               {{ t('villes.cta.interest') }}
             </NuxtLink>
@@ -115,19 +118,6 @@ function openingLabel(c: CityRow) {
   text-transform: uppercase;
   margin-bottom: 1rem;
   text-wrap: balance;
-}
-.villes__intro {
-  color: var(--cream);
-  font-size: clamp(1.05rem, 2.6vw, 1.3rem);
-  margin-bottom: 1rem;
-}
-.villes__note {
-  display: inline-block;
-  color: var(--cream-dim);
-  font-size: 0.8rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px dashed rgba(244, 14, 4, 0.4);
-  border-radius: 999px;
 }
 
 /* ---- List ---- */
@@ -207,6 +197,8 @@ function openingLabel(c: CityRow) {
 }
 .btn--buy { background: var(--red); color: #fff; }
 .btn--buy:hover { background: #ff1f4a; transform: translateY(-1px); }
+.btn--vip { background: var(--cream); color: #150a0b; }
+.btn--vip:hover { background: #fff; transform: translateY(-1px); }
 .btn--interest { background: transparent; border: 1px solid rgba(243, 233, 216, 0.3); color: var(--cream); }
 .btn--interest:hover { border-color: var(--red); color: var(--red); }
 .btn--soldout { background: rgba(243, 233, 216, 0.08); color: var(--cream-dim); cursor: not-allowed; }

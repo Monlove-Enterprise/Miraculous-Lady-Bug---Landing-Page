@@ -32,16 +32,21 @@ function countryName() {
 function onCountdownZero() {
   status.value = 'en_vente'
 }
-function datesLabel() {
+// Separate lines for distinct tour performances (e.g. Kitchener: Mar 6 AND
+// Mar 7), not an en-dash range, which read as one continuous/ambiguous run
+// (Math, 2026-10-15).
+function datesLines(): string[] {
   const c = city.value
-  if (!c.startDate) return null
+  if (!c.startDate) return []
   const fmt = (d: string) =>
     new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
     })
-  return c.endDate && c.endDate !== c.startDate ? `${fmt(c.startDate)} – ${fmt(c.endDate)}` : fmt(c.startDate)
+  if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
+  if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
+  return [`${fmt(c.startDate)} – ${fmt(c.endDate)}`]
 }
 // Ticket links always carry UTM so ticketing-platform traffic is attributable.
 function withUtm(url: string): string {
@@ -86,8 +91,7 @@ const calendarEvents = computed(() =>
         <h1 class="ville__title">{{ city.city }}</h1>
         <p class="ville__country">{{ countryName() }}</p>
         <p v-if="city.venue" class="ville__venue">{{ city.venue }}</p>
-        <p v-if="datesLabel()" class="ville__dates">{{ datesLabel() }}</p>
-        <p class="ville__note">{{ t('villes.note') }}</p>
+        <p v-for="d in datesLines()" :key="d" class="ville__dates">{{ d }}</p>
       </header>
 
       <!-- ---- Résidence : calendrier de représentations ---- -->
@@ -113,9 +117,12 @@ const calendarEvents = computed(() =>
       </section>
 
       <!-- ---- État : en vente ---- -->
-      <section v-else-if="status === 'en_vente'" class="ville__panel">
+      <section v-else-if="status === 'en_vente'" class="ville__panel ville__panel--ctas">
         <p class="ville__panel-text">{{ t('villes.detail.enVenteText') }}</p>
-        <a :href="ticketHref" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
+        <div class="ville__cta-row">
+          <a :href="ticketHref" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
+          <NuxtLink to="/vip" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</NuxtLink>
+        </div>
       </section>
 
       <!-- ---- État : complet ---- -->
@@ -159,15 +166,6 @@ const calendarEvents = computed(() =>
 .ville__country { color: var(--cream-dim); font-size: 1rem; margin-bottom: 0.75rem; }
 .ville__venue { color: var(--cream); font-size: 1.05rem; }
 .ville__dates { color: var(--cream-dim); font-size: 0.95rem; margin-bottom: 0.5rem; }
-.ville__note {
-  display: inline-block;
-  margin-top: 1rem;
-  color: var(--cream-dim);
-  font-size: 0.8rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px dashed rgba(244, 14, 4, 0.4);
-  border-radius: 999px;
-}
 
 .badge {
   display: inline-block;
@@ -218,7 +216,10 @@ const calendarEvents = computed(() =>
 }
 .btn--buy { background: var(--red); color: #fff; }
 .btn--buy:hover { background: #ff1f4a; transform: translateY(-1px); }
+.btn--vip { background: var(--cream); color: #150a0b; }
+.btn--vip:hover { background: #fff; transform: translateY(-1px); }
 .btn--lg { padding: 0.9rem 2rem; font-size: 1.05rem; }
+.ville__cta-row { display: flex; flex-wrap: wrap; gap: 1rem; }
 .btn--interest { background: transparent; border: 1px solid rgba(243, 233, 216, 0.3); color: var(--cream); }
 .btn--interest:hover { border-color: var(--red); color: var(--red); }
 

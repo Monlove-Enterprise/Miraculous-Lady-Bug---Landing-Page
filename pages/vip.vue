@@ -22,7 +22,6 @@ const tiers = computed(() => [
       <header class="vip__head">
         <h1 class="vip__title">{{ t('vip.title') }}</h1>
         <p class="vip__intro">{{ t('vip.intro') }}</p>
-        <p class="vip__note">{{ t('vip.note') }}</p>
       </header>
 
       <div class="vip__grid">
@@ -74,15 +73,6 @@ const tiers = computed(() => [
   line-height: 1.6;
   margin-bottom: 1rem;
 }
-.vip__note {
-  display: inline-block;
-  color: var(--cream-dim);
-  font-size: 0.85rem;
-  padding: 0.5rem 0.9rem;
-  border: 1px dashed rgba(244, 14, 4, 0.4);
-  border-radius: 999px;
-}
-
 .vip__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
