@@ -577,17 +577,17 @@ function copyTune() {
    the black sections above/below), not a fade spanning the whole section. */
 /* Math: "the degradé of the blu is great but can it be longer" — longer
    fade zones at the top/bottom seams (was 8%/92%, now 25%/75%). */
+/* Math: "ok lets remove the blue and add some cream instead" — same
+   gradient structure, cream instead of --blue; the default red
+   section-title already reads well on cream, so no color override needed. */
 .trailer-section {
   background: linear-gradient(
     180deg,
     var(--ink) 0%,
-    var(--blue) 25%,
-    var(--blue) 75%,
+    var(--cream) 25%,
+    var(--cream) 75%,
     var(--ink) 100%
   );
-}
-.trailer-section .section-title {
-  color: var(--cream);
 }
 
 .section-title {
