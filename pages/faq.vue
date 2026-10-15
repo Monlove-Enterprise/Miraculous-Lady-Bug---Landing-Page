@@ -33,11 +33,14 @@ const items = computed(() =>
 </template>
 
 <style scoped>
+/* Math, 2026-10-15: "i dont like the pink splash on the other pages" —
+   pink corner glow removed from this page and vip/villes/cast (same
+   pattern everywhere); cream wash kept for warmth. Pink itself stays on
+   the homepage trailer section and the cream date-row accents. */
 .faq {
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 55% at 18% 0%, rgba(255, 127, 166, 0.24), transparent 62%),
     radial-gradient(120% 85% at 50% 100%, rgba(243, 233, 216, 0.045), transparent 68%),
     var(--ink);
 }
