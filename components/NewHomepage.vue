@@ -492,18 +492,18 @@ function copyTune() {
    the first page is less black" — went through red, several rounds of
    green, and pink, then: "instead of the pink can we use the blue of
    marinette's hair" — swapped to --blue, brightened to "more electric".
-   Then "with degradé please" (one-directional, top to black), then
-   "blue degradé up and down please" — symmetric now: vivid blue at both
-   the top and bottom edges, fading to --ink in the middle (frames the
-   video instead of fading off to one side). */
+   Then "with degradé please" (read as edges-bright/middle-dark, backwards),
+   corrected: "the blue I meant degradé on the top and on the bottom not in
+   the middle" — solid --blue through the body, with the fade confined to
+   short transition zones right at the top and bottom seams (blending into
+   the black sections above/below), not a fade spanning the whole section. */
 .trailer-section {
   background: linear-gradient(
     180deg,
-    #5c8dff 0%,
-    var(--blue) 22%,
-    var(--ink) 50%,
-    var(--blue) 78%,
-    #5c8dff 100%
+    var(--ink) 0%,
+    var(--blue) 8%,
+    var(--blue) 92%,
+    var(--ink) 100%
   );
 }
 .trailer-section .section-title {
