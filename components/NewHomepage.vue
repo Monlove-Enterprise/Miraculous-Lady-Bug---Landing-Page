@@ -490,12 +490,11 @@ function copyTune() {
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
    the first page is less black" — went through red, several rounds of
-   green, and several rounds of pink (ending on a solid, bright fill), then:
-   "the trailer has to be black though" — back to flat --ink, ending the
-   experiment for this section specifically. --pink itself (brightened
-   through this process) stays in place on faq/vip/villes/cast. */
+   green, and several rounds of pink (ending on a solid, bright fill), then
+   briefly "the trailer has to be black though", then immediately: "oo lets
+   keep the pink thogh" — back to the solid --pink fill. */
 .trailer-section {
-  background: var(--ink);
+  background: var(--pink);
 }
 
 .section-title {
