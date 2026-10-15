@@ -496,11 +496,11 @@ function copyTune() {
    wash, full coverage like the earlier flat-green attempt but pink instead.
    Then "this pink is nice" (official site footer reference) — shade
    corrected to the softer coral --pink across the whole site, see main.css.
-   Then "the pink is not bright enough" — brightened --pink + bumped opacity. */
+   Then "the pink is not bright enough" — brightened --pink + bumped opacity.
+   Then "solid pink please and brither" — flat opaque --pink fill instead
+   of a translucent wash over --ink-soft, plus --pink brightened again. */
 .trailer-section {
-  background:
-    linear-gradient(rgba(255, 109, 142, 0.26), rgba(255, 109, 142, 0.26)),
-    var(--ink-soft);
+  background: var(--pink);
 }
 
 .section-title {

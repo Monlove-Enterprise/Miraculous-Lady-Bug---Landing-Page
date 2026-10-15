@@ -29,8 +29,9 @@
      corrected same day from a hot neon magenta to a softer coral pink
      after Math sent the official site's footer as reference: "this pink
      is nice" — then "the pink is not bright enough", brightened up from
-     that coral (lighter + more saturated, still not back to the magenta). */
-  --pink: #ff6d8e;
+     that coral, then "solid pink please and brighter" — brightened once
+     more (still not back to the earlier rejected magenta). */
+  --pink: #ff7fa6;
   /* Secondary accent, used sparingly (not throughout like pink) — the
      official site uses it only for its games section (neon lime on dark
      green), so one section here gets a touch of it, not every page. */
