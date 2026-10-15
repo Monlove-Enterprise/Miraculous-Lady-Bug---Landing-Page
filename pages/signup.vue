@@ -7,7 +7,7 @@ useHead(() => ({
 </script>
 
 <template>
-  <main class="signup-page">
+  <main class="signup-page bg-honeycomb">
     <SiteHeader />
 
     <section class="signup-section">

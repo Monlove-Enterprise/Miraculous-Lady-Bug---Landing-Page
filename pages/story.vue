@@ -8,7 +8,7 @@ useHead(() => ({
 </script>
 
 <template>
-  <main class="story">
+  <main class="story bg-honeycomb">
     <SiteHeader />
 
     <div class="container">

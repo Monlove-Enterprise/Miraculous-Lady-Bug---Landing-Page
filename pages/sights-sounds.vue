@@ -15,7 +15,7 @@ const videos = [
 </script>
 
 <template>
-  <main class="sights">
+  <main class="sights bg-honeycomb">
     <SiteHeader />
 
     <div class="container">

@@ -4,7 +4,7 @@ const { locale } = useLocale()
 </script>
 
 <template>
-  <main class="legal-page">
+  <main class="legal-page bg-honeycomb">
     <div class="container">
       <NuxtLink to="/" class="back">
         ← {{ locale === 'fr' ? "Retour à l'accueil" : 'Back to home' }}
