@@ -46,7 +46,7 @@ function openingLabel(c: CityRow) {
 </script>
 
 <template>
-  <main class="villes">
+  <main class="villes bg-honeycomb">
     <SiteHeader />
 
     <div class="container">

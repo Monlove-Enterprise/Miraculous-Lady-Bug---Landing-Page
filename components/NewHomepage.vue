@@ -138,12 +138,11 @@ function copyTune() {
          than reconstructed from the separate layers. Credit, tagline and CTA
          are website-only additions below it, in that order (Math, 2026-10-14:
          "the quote under the tickets"). -->
-    <section class="hero bg-stars" :style="tuning ? heroStyle : undefined">
-      <!-- Separate element, not the .bg-honeycomb::before utility — this
-           section already uses ::before/::after for .bg-stars, and an
-           element can only have one ::before (the honeycomb rule was
-           silently losing to the stars rule, same pseudo-element slot). -->
-      <div class="hero__honeycomb" aria-hidden="true"></div>
+    <section class="hero" :style="tuning ? heroStyle : undefined">
+      <!-- Math, 2026-10-15: "c'est pas super clean... vous avez mélangé les
+           étoiles. Mettez les étoiles sur la bannière get exclusive content
+           et sur le poster on met rien." Poster stays clean — no stars, no
+           honeycomb. -->
       <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
 
       <img
@@ -175,14 +174,24 @@ function copyTune() {
         </div>
 
         <h3 class="upcoming__heading">{{ t('upcoming.heading') }}</h3>
-        <ul v-if="upcomingCities.length" class="upcoming">
-          <li v-for="c in upcomingCities" :key="c.id" class="upcoming__row">
-            <NuxtLink :to="`/villes/${c.slug}`" class="upcoming__link">
-              <span class="upcoming__date">{{ dateLabel(c) }}</span>
-              <span class="upcoming__place">{{ c.city }}<span class="upcoming__country">{{ countryName(c) }}</span></span>
-              <span v-if="c.venue" class="upcoming__venue">{{ c.venue }}</span>
-              <span class="badge" :class="`badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
+        <!-- Math, 2026-10-15: "le layout [de where the show is going] était
+             mieux" — same row structure as pages/villes/index.vue (city+
+             country | venue+dates | status), own class names (city-row*)
+             since .btn/.badge already mean something different on this page
+             (subscribe band). -->
+        <ul v-if="upcomingCities.length" class="city-list">
+          <li v-for="c in upcomingCities" :key="c.id" class="city-row">
+            <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
+              <p class="city-row__city">{{ c.city }}</p>
+              <p class="city-row__country">{{ countryName(c) }}</p>
             </NuxtLink>
+            <div class="city-row__details">
+              <p v-if="c.venue" class="city-row__venue">{{ c.venue }}</p>
+              <p class="city-row__dates">{{ dateLabel(c) }}</p>
+            </div>
+            <div class="city-row__action">
+              <span class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
+            </div>
           </li>
         </ul>
         <p v-else class="section-lead">{{ t('upcoming.empty') }}</p>
@@ -234,7 +243,9 @@ function copyTune() {
     </section>
 
     <!-- ===================== SUBSCRIBE BAND ===================== -->
-    <section class="subscribe-band">
+    <!-- Math, 2026-10-15: "mettez les étoiles sur la bannière get exclusive
+         content". -->
+    <section class="subscribe-band bg-stars">
       <div class="container">
         <h2 class="subscribe-band__heading">{{ t('subscribe.heading') }}</h2>
         <p class="subscribe-band__text">{{ t('subscribe.text') }}</p>
@@ -528,28 +539,54 @@ function copyTune() {
   letter-spacing: 0.08em;
   text-align: center;
 }
-.upcoming {
+/* Same row structure/styling as pages/villes/index.vue's .list/.row. */
+.city-list {
   display: flex;
   flex-direction: column;
   gap: 1px;
   max-width: 820px;
   margin: 0 auto;
   background: rgba(243, 233, 216, 0.08);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
 }
-.upcoming__link {
+.city-row {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 0.6rem 1.2rem;
-  padding: 1rem 1.3rem;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  padding: 1.5rem 1.6rem;
   background: var(--ink-panel);
+  align-items: center;
 }
-.upcoming__date { color: var(--red); font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
-.upcoming__place { color: var(--cream); font-weight: 700; }
-.upcoming__country { display: block; color: var(--cream-dim); font-weight: 400; font-size: 0.78rem; }
-.upcoming__venue { grid-column: 2; color: var(--cream-dim); font-size: 0.82rem; margin-top: -0.4rem; }
+@media (min-width: 720px) {
+  .city-row { grid-template-columns: 1.1fr 1.4fr auto; }
+}
+.city-row__place { display: block; text-decoration: none; color: inherit; }
+.city-row__city {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--cream);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.city-row__country { color: var(--cream-dim); font-size: 0.85rem; }
+.city-row__details { color: var(--cream-dim); font-size: 0.9rem; }
+.city-row__venue { color: var(--cream); margin-bottom: 0.15rem; }
+.city-row__dates { color: var(--cream-dim); }
+.city-row__action { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+.city-badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.city-badge--en_vente { background: rgba(244, 14, 4, 0.16); color: var(--red); }
+.city-badge--confirmee { background: rgba(243, 233, 216, 0.12); color: var(--cream); }
+.city-badge--envisagee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
+.city-badge--epuisee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); text-decoration: line-through; }
 
 .upcoming__more { display: flex; justify-content: center; margin-top: 2rem; }
 .btn {
@@ -569,26 +606,6 @@ function copyTune() {
   color: var(--cream);
 }
 .btn--outline:hover { border-color: var(--red); color: var(--red); }
-
-.badge {
-  padding: 0.28rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.badge--en_vente { background: rgba(244, 14, 4, 0.16); color: var(--red); }
-.badge--confirmee { background: rgba(243, 233, 216, 0.12); color: var(--cream); }
-.badge--envisagee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
-.badge--epuisee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); text-decoration: line-through; }
-
-@media (max-width: 560px) {
-  .upcoming__link { grid-template-columns: 1fr auto; }
-  .upcoming__date { grid-column: 1 / -1; }
-  .upcoming__venue { grid-column: 1 / -1; }
-}
 
 .trailer-embed {
   max-width: 780px;
@@ -649,6 +666,13 @@ function copyTune() {
   padding: 3.5rem 0;
   text-align: center;
   background: linear-gradient(120deg, var(--red), var(--red-deep));
+}
+/* Content above the star layer (.bg-stars pseudo-elements are absolutely
+   positioned, which paints above static-flow content regardless of DOM
+   order otherwise). */
+.subscribe-band .container {
+  position: relative;
+  z-index: 2;
 }
 .subscribe-band__heading {
   font-family: var(--font-display);
