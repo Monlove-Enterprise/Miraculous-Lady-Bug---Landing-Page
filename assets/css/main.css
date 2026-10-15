@@ -32,6 +32,12 @@
      that coral, then "solid pink please and brighter" — brightened once
      more (still not back to the earlier rejected magenta). */
   --pink: #ff7fa6;
+  /* Marinette's hair blue — Math, 2026-10-15: "instead of the pink can we
+     use the blue of marinette's hair", replacing --pink on the trailer
+     section (its last remaining use after the corner-glow splash was
+     dropped from the other pages). A deep indigo-navy, matching how her
+     hair highlights read in the show's key art. */
+  --blue: #1f3a68;
   /* Secondary accent, used sparingly (not throughout like pink) — the
      official site uses it only for its games section (neon lime on dark
      green), so one section here gets a touch of it, not every page. */

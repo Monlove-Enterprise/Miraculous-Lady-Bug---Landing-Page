@@ -490,15 +490,15 @@ function copyTune() {
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
    the first page is less black" — went through red, several rounds of
-   green, and several rounds of pink, settling on a solid --pink fill. Then
-   "trailer has to be black" read as the whole section, but the follow-up
-   "just the word" clarified: only the "TRAILER" title goes black, the pink
-   fill stays. */
+   green, and several rounds of pink, settling on a solid fill with just the
+   "TRAILER" word in black for contrast. Then: "instead of the pink can we
+   use the blue of marinette's hair" — swapped to --blue; title flipped
+   back to cream since black doesn't read on a dark navy fill. */
 .trailer-section {
-  background: var(--pink);
+  background: var(--blue);
 }
 .trailer-section .section-title {
-  color: #1c0f0d;
+  color: var(--cream);
 }
 
 .section-title {
