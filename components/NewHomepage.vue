@@ -557,14 +557,17 @@ function copyTune() {
   letter-spacing: 0.08em;
   text-align: center;
 }
-/* Same row structure/styling as pages/villes/index.vue's .list/.row. */
+/* Same row structure/styling as pages/villes/index.vue's .list/.row. Math,
+   2026-10-15: "no honeycomb... on the dates lines" — opaque gap color so
+   the newly-added bg-honeycomb on this element can't bleed through the
+   1px dividers between rows. */
 .city-list {
   display: flex;
   flex-direction: column;
   gap: 1px;
   max-width: 820px;
   margin: 0 auto;
-  background: rgba(243, 233, 216, 0.08);
+  background: var(--ink-panel);
   border-radius: 14px;
   overflow: hidden;
 }

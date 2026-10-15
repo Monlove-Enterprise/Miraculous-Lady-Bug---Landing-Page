@@ -132,11 +132,14 @@ const cells = computed<Cell[]>(() => {
   text-align: center;
 }
 
+/* Math, 2026-10-15: "no honeycomb" on content — opaque gap color so a
+   honeycomb page behind this calendar (villes/[ville].vue residence pages)
+   can't bleed through the 1px cell dividers. */
 .monthcal__grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  background: rgba(243, 233, 216, 0.08);
+  background: var(--ink-panel);
 }
 .monthcal__grid--head {
   background: none;
@@ -156,7 +159,9 @@ const cells = computed<Cell[]>(() => {
   background: var(--ink-panel);
 }
 .monthcal__cell.is-blank { background: transparent; }
-.monthcal__cell.has-events { background: rgba(244, 14, 4, 0.06); }
+.monthcal__cell.has-events {
+  background: linear-gradient(rgba(244, 14, 4, 0.06), rgba(244, 14, 4, 0.06)), var(--ink-panel);
+}
 .monthcal__date { color: var(--cream-dim); font-size: 0.85rem; }
 .monthcal__event {
   display: block;
