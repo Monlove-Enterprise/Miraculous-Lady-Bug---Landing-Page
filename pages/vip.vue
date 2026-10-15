@@ -83,13 +83,16 @@ const tiers = computed(() => [
   .vip__grid { grid-template-columns: 1fr; }
 }
 
+/* Math, 2026-10-15: "I think the background of the squares should be
+   cream like the city lines" — same cream-card treatment as the dates
+   rows, text flipped to dark ink for legibility. */
 .tier {
   display: flex;
   flex-direction: column;
   padding: 2rem;
   border-radius: 16px;
-  background: var(--ink-panel);
-  border: 1px solid rgba(243, 233, 216, 0.08);
+  background: var(--cream);
+  border: 1px solid rgba(28, 15, 13, 0.1);
 }
 .tier--featured {
   border-color: var(--red);
@@ -99,7 +102,7 @@ const tiers = computed(() => [
 .tier__name {
   font-family: var(--font-display);
   font-size: clamp(1.3rem, 3.2vw, 1.6rem);
-  color: var(--cream);
+  color: #1c0f0d;
   text-transform: uppercase;
   margin-bottom: 1.3rem;
   text-wrap: balance;
@@ -118,7 +121,7 @@ const tiers = computed(() => [
 .tier__perks li {
   position: relative;
   padding-left: 1.3rem;
-  color: var(--cream-dim);
+  color: rgba(28, 15, 13, 0.7);
   font-size: 0.92rem;
   line-height: 1.5;
 }
@@ -134,7 +137,7 @@ const tiers = computed(() => [
 }
 
 .tier__footnote {
-  color: var(--muted, var(--cream-dim));
+  color: rgba(28, 15, 13, 0.55);
   font-size: 0.75rem;
   font-style: italic;
   margin-bottom: 1.3rem;
