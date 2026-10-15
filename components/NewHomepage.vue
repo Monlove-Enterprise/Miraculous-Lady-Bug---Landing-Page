@@ -580,12 +580,16 @@ function copyTune() {
 /* Math: "ok lets remove the blue and add some cream instead" — same
    gradient structure, cream instead of --blue; the default red
    section-title already reads well on cream, so no color override needed. */
+/* Math: "ok forget the cream for the website trailer section lets go back
+   to green" — same gradient structure, --green instead (flat fill in the
+   middle, not the earlier vivid top-glow neon version that read "too
+   video game"). */
 .trailer-section {
   background: linear-gradient(
     180deg,
     var(--ink) 0%,
-    var(--cream) 25%,
-    var(--cream) 75%,
+    var(--green) 25%,
+    var(--green) 75%,
     var(--ink) 100%
   );
 }
