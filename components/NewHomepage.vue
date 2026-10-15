@@ -493,12 +493,17 @@ function copyTune() {
    maybe the green would be fun and more playful" — green touch here too
    now (previously map-section only), breaking up the red/black monotony
    with a second accent instead of repeating red everywhere. Math: "I would
-   have done the whole trailer section in green" — the top-fade radial read
-   as too partial; flat wash covers the full section evenly instead. */
+   have done the whole trailer section in green", then sent the official
+   miraculous.com games-section reference ("green like this") — a vivid
+   neon green, bright at the top, fading down to near-black, not a flat
+   muted wash. Matched that gradient direction/saturation with --green. */
 .trailer-section {
-  background:
-    linear-gradient(rgba(138, 255, 0, 0.16), rgba(138, 255, 0, 0.16)),
-    var(--ink-soft);
+  background: linear-gradient(
+    180deg,
+    rgba(138, 255, 0, 0.45) 0%,
+    rgba(138, 255, 0, 0.16) 45%,
+    var(--ink-soft) 100%
+  );
 }
 
 .section-title {
