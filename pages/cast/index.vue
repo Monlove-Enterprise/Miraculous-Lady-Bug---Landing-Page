@@ -106,7 +106,7 @@ function monogram(p: Person): string {
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 55% at 18% 0%, rgba(255, 45, 143, 0.15), transparent 62%),
+    radial-gradient(80% 55% at 18% 0%, rgba(244, 96, 126, 0.15), transparent 62%),
     radial-gradient(120% 85% at 50% 100%, rgba(243, 233, 216, 0.045), transparent 68%),
     var(--ink);
 }

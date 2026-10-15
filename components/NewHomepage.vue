@@ -489,21 +489,17 @@ function copyTune() {
     var(--ink);
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
-   the first page is less black" — first tried a red wash, then "I though
-   maybe the green would be fun and more playful" — green touch here too
-   now (previously map-section only), breaking up the red/black monotony
-   with a second accent instead of repeating red everywhere. Math: "I would
-   have done the whole trailer section in green", then sent the official
-   miraculous.com games-section reference ("green like this") — a vivid
-   neon green, bright at the top, fading down to near-black, not a flat
-   muted wash. Matched that gradient direction/saturation with --green. */
+   the first page is less black" — tried a red wash, then went through a few
+   rounds of green (incl. matching the official site's neon Games section),
+   rejected: "i dont like the green and its very video game oriented". Then
+   "can we try the pink and fully not just dégradé" — flat (not faded) pink
+   wash, full coverage like the earlier flat-green attempt but pink instead.
+   Then "this pink is nice" (official site footer reference) — shade
+   corrected to the softer coral --pink across the whole site, see main.css. */
 .trailer-section {
-  background: linear-gradient(
-    180deg,
-    rgba(138, 255, 0, 0.45) 0%,
-    rgba(138, 255, 0, 0.16) 45%,
-    var(--ink-soft) 100%
-  );
+  background:
+    linear-gradient(rgba(244, 96, 126, 0.18), rgba(244, 96, 126, 0.18)),
+    var(--ink-soft);
 }
 
 .section-title {
