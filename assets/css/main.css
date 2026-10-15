@@ -35,10 +35,8 @@
   /* --blue (Marinette's hair blue, #1e5fff) removed (Math, 2026-10-15:
      "lets remove the blue and add some cream instead") — was only ever
      used on the trailer section, now --cream instead. */
-  /* Secondary accent, used sparingly (not throughout like pink) — the
-     official site uses it only for its games section (neon lime on dark
-     green), so one section here gets a touch of it, not every page. */
-  --green: #8aff00;
+  /* --green (#8aff00) removed (Math, 2026-10-15) — last used on the
+     trailer section, now replaced by a branded key-art background image. */
   --cream: #f3e9d8;
   --cream-dim: #cbc0ae;
   /* Warmed slightly toward cream (was #0a0507/#150a0d/#1d1013, close to pure

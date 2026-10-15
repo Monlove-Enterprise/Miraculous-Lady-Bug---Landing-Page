@@ -584,14 +584,17 @@ function copyTune() {
    to green" — same gradient structure, --green instead (flat fill in the
    middle, not the earlier vivid top-glow neon version that read "too
    video game"). */
+/* Math: "Can we replace the green with this please" — branded Ladybug
+   key-art background (public/images/trailer-bg.webp) instead of a flat
+   color fill. */
 .trailer-section {
-  background: linear-gradient(
-    180deg,
-    var(--ink) 0%,
-    var(--green) 25%,
-    var(--green) 75%,
-    var(--ink) 100%
-  );
+  background-image: url('/images/trailer-bg.webp');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.trailer-section .section-title {
+  color: var(--cream);
 }
 
 .section-title {
