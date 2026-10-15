@@ -83,13 +83,15 @@ useHead(() => ({
 @media (min-width: 1300px) {
   /* Only once the viewport is comfortably past .container's own 1200px
      max-width (so .story__head's 760px + this image + the gap between
-     them can't ever exceed the available content width and overflow). */
+     them can't ever exceed the available content width and overflow —
+     760 + 2rem gap + 340 = 1132px, still under the 1152px content width
+     at container's max). */
   .story__art {
     display: block;
     position: absolute;
     top: 0;
-    left: calc(100% + 2.5rem);
-    width: 280px;
+    left: calc(100% + 2rem);
+    width: 340px;
     height: auto;
     border-radius: 16px;
     opacity: 0.9;
