@@ -159,6 +159,13 @@ img {
      invisible everywhere instead of merely hidden behind the date cards.
      Confirmed by direct DOM inspection (Math, 2026-10-15). */
   z-index: 0;
+  /* Math, 2026-10-15: "there is the footer thing on other pages as well" —
+     the same glitch reported on the homepage (honeycomb briefly visible
+     near the footer in the live page, gone in a screenshot) happens on
+     every bg-honeycomb page, not just the homepage — so the fix belongs
+     here at the source, not as a one-off per page. Hard-clips the
+     pseudo-element to this box regardless of what's causing it. */
+  overflow: hidden;
 }
 .bg-honeycomb::before {
   content: '';
