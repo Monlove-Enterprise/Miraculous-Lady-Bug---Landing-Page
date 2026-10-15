@@ -111,8 +111,11 @@ export const creative: Person[] = [
   {
     slug: 'serge-poupart',
     name: 'Serge Poupart',
-    roleFr: 'Scénographie & Direction Technique',
-    roleEn: 'Set Design & Technical Manager',
+    // Math, 2026-10-15: two-line title like Ella/Martin's — "SET DESIGN"
+    // / "PRODUCTION & TECHNICAL DIRECTION". FR is my translation, not
+    // brand-confirmed.
+    roleFr: 'Scénographie\nProduction et direction technique',
+    roleEn: 'Set Design\nProduction & Technical Direction',
     photo: '/images/cast/serge-poupart.webp',
     bioEn:
       'Serge brings over 25 years of experience in technical direction, international productions, and major events, working with organizations including Monlove, Cirque du Soleil, the Formula 1 Grand Prix of Canada, and Just for Laughs.\n\n' +
