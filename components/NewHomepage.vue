@@ -7,6 +7,31 @@ import { toCityDisplayRows, formatCityDate } from '~/utils/cityDisplayRows'
 const { t, locale } = useLocale()
 const route = useRoute()
 
+// Subscribe-band stars — Math, 2026-10-15: "the stars should shine a bit
+// more randomly". The old .bg-stars utility twinkles two layers of stars
+// in lockstep (all stars in a layer pulse together); these are real
+// elements, each with its own animation-duration/delay, so they drift in
+// and out of sync with each other. Fixed (not Math.random()) so SSR and
+// client markup match — "random-looking" layout, not regenerated per load.
+const subscribeStars = [
+  { left: 62.7, top: 7.1, size: 9.2, peak: 0.61, duration: 4.63, delay: 3.38 },
+  { left: 86.8, top: 12.4, size: 10.4, peak: 0.51, duration: 2.92, delay: 2.53 },
+  { left: 4.5, top: 21.9, size: 12.2, peak: 0.77, duration: 2.93, delay: 2.95 },
+  { left: 78.9, top: 5.6, size: 13.4, peak: 0.85, duration: 3.32, delay: 0.78 },
+  { left: 92.9, top: 33.6, size: 7.7, peak: 0.55, duration: 5.0, delay: 3.02 },
+  { left: 78.7, top: 67.0, size: 11.3, peak: 0.99, duration: 3.45, delay: 2.76 },
+  { left: 80.8, top: 57.6, size: 13.9, peak: 0.79, duration: 4.53, delay: 0.23 },
+  { left: 23.7, top: 29.6, size: 7.6, peak: 0.62, duration: 2.53, delay: 1.39 },
+  { left: 62.4, top: 36.0, size: 10.0, peak: 0.6, duration: 3.08, delay: 4.68 },
+  { left: 63.6, top: 56.8, size: 8.4, peak: 0.86, duration: 2.74, delay: 1.9 },
+  { left: 96.0, top: 59.4, size: 11.5, peak: 0.84, duration: 4.98, delay: 3.88 },
+  { left: 23.8, top: 7.7, size: 9.5, peak: 0.63, duration: 2.9, delay: 4.71 },
+  { left: 85.3, top: 31.7, size: 12.2, peak: 0.7, duration: 5.22, delay: 2.29 },
+  { left: 27.2, top: 26.0, size: 11.5, peak: 0.63, duration: 4.13, delay: 4.49 },
+  { left: 39.9, top: 23.6, size: 15.0, peak: 0.75, duration: 2.5, delay: 0.24 },
+  { left: 12.4, top: 58.3, size: 13.3, peak: 0.71, duration: 2.41, delay: 1.91 },
+]
+
 const { data: citiesData } = await useFetch<CityRow[]>('/api/cities')
 const cities = computed(() => citiesData.value ?? [])
 
@@ -246,8 +271,26 @@ function copyTune() {
 
     <!-- ===================== SUBSCRIBE BAND ===================== -->
     <!-- Math, 2026-10-15: "mettez les étoiles sur la bannière get exclusive
-         content". -->
-    <section class="subscribe-band bg-stars">
+         content", then "the stars should shine a bit more randomly" —
+         individually-animated star elements instead of the shared
+         bg-stars utility, see subscribeStars above. -->
+    <section class="subscribe-band">
+      <div class="subscribe-band__stars" aria-hidden="true">
+        <span
+          v-for="(s, i) in subscribeStars"
+          :key="i"
+          class="subscribe-band__star"
+          :style="{
+            left: s.left + '%',
+            top: s.top + '%',
+            width: s.size + 'px',
+            height: s.size + 'px',
+            '--peak': s.peak,
+            animationDuration: s.duration + 's',
+            animationDelay: s.delay + 's',
+          }"
+        />
+      </div>
       <div class="container">
         <h2 class="subscribe-band__heading">{{ t('subscribe.heading') }}</h2>
         <p class="subscribe-band__text">{{ t('subscribe.text') }}</p>
@@ -748,13 +791,37 @@ function copyTune() {
 
 /* --------------------------- SUBSCRIBE BAND --------------------------- */
 .subscribe-band {
+  position: relative;
+  overflow: hidden;
   padding: 3.5rem 0;
   text-align: center;
   background: linear-gradient(120deg, var(--red), var(--red-deep));
 }
-/* Content above the star layer (.bg-stars pseudo-elements are absolutely
-   positioned, which paints above static-flow content regardless of DOM
-   order otherwise). */
+.subscribe-band__stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.subscribe-band__star {
+  position: absolute;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M8 0 Q9.2 6.8 16 8 Q9.2 9.2 8 16 Q6.8 9.2 0 8 Q6.8 6.8 8 0 Z' fill='%23f3e9d8'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  animation-name: subscribe-star-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes subscribe-star-twinkle {
+  0% { opacity: 0.15; }
+  100% { opacity: var(--peak, 0.8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .subscribe-band__star { animation: none; opacity: 0.55; }
+}
+/* Content above the star layer. */
 .subscribe-band .container {
   position: relative;
   z-index: 2;
