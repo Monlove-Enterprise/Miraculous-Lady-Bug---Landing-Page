@@ -480,11 +480,11 @@ function copyTune() {
   padding: 4rem 0;
   background: var(--ink);
 }
-/* Green touch here only (not throughout) — official site uses it just for
-   one themed section, paired with a soft cream wash for warmth. */
+/* Math, 2026-10-15: "there is a green flare on the map that is not
+   necessary" — green touch removed, cream wash kept for warmth. Green is
+   no longer used anywhere on the site. */
 .map-section {
   background:
-    radial-gradient(70% 50% at 85% 0%, rgba(138, 255, 0, 0.1), transparent 65%),
     radial-gradient(130% 80% at 50% 100%, rgba(243, 233, 216, 0.06), transparent 70%),
     var(--ink);
 }
@@ -565,7 +565,8 @@ function copyTune() {
   gap: 0.9rem;
   padding: 1.5rem 1.6rem;
   border-left: 3px solid var(--red);
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.08), transparent 45%), var(--cream);
+  /* Math, 2026-10-15: "the red degradé could be a bit more prominent". */
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.2), transparent 45%), var(--cream);
   color: #1c0f0d;
   transition: background 0.15s ease;
   align-items: center;
@@ -574,7 +575,7 @@ function copyTune() {
   .city-row { grid-template-columns: 1.1fr 1.4fr auto; }
 }
 .city-row:hover {
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.14), transparent 55%), var(--cream);
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.3), transparent 55%), var(--cream);
 }
 .city-row__place { display: block; text-decoration: none; color: inherit; }
 .city-row__city {

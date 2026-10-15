@@ -124,21 +124,23 @@ function openingLabel(c: CityDisplayRow) {
   overflow: hidden;
   margin-bottom: 4rem;
 }
+/* Math, 2026-10-15: "same thing on where the show is going... I want all
+   the dates in cream please" — same cream-card treatment as the homepage's
+   city-row, text/badges/VIP button flipped to dark ink for legibility.
+   Then "the red degradé could be a bit more prominent" — bumped opacity. */
 .row {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.9rem;
   padding: 1.5rem 1.6rem;
-  /* Math, 2026-10-15: "I really like the degrade on the dates on the main
-     page, copy for the where the show is going page" — same red accent
-     treatment as the homepage's city-row. */
   border-left: 3px solid var(--red);
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.1), transparent 40%), var(--ink-panel);
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.2), transparent 45%), var(--cream);
+  color: #1c0f0d;
   transition: background 0.15s ease;
   align-items: center;
 }
 .row:hover {
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.18), transparent 50%), var(--ink-panel);
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.3), transparent 55%), var(--cream);
 }
 
 .row__place {
@@ -149,17 +151,17 @@ function openingLabel(c: CityDisplayRow) {
 .row__city {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  color: var(--cream);
+  color: #1c0f0d;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
 .row__country {
-  color: var(--cream-dim);
+  color: rgba(28, 15, 13, 0.55);
   font-size: 0.85rem;
 }
 
-.row__details { color: var(--cream-dim); font-size: 0.9rem; }
-.row__venue { color: var(--cream); margin-bottom: 0.15rem; }
+.row__details { color: rgba(28, 15, 13, 0.6); font-size: 0.9rem; }
+.row__venue { color: #1c0f0d; margin-bottom: 0.15rem; }
 .row__opening { margin-top: 0.25rem; color: var(--red); font-weight: 600; }
 
 .row__action {
@@ -178,10 +180,10 @@ function openingLabel(c: CityDisplayRow) {
   text-transform: uppercase;
   white-space: nowrap;
 }
-.badge--en_vente { background: rgba(244, 14, 4, 0.16); color: var(--red); }
-.badge--confirmee { background: rgba(243, 233, 216, 0.12); color: var(--cream); }
-.badge--envisagee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); }
-.badge--epuisee { background: rgba(243, 233, 216, 0.06); color: var(--cream-dim); text-decoration: line-through; }
+.badge--en_vente { background: rgba(244, 14, 4, 0.14); color: var(--red); }
+.badge--confirmee { background: rgba(28, 15, 13, 0.08); color: #1c0f0d; }
+.badge--envisagee { background: rgba(28, 15, 13, 0.06); color: rgba(28, 15, 13, 0.55); }
+.badge--epuisee { background: rgba(28, 15, 13, 0.06); color: rgba(28, 15, 13, 0.55); text-decoration: line-through; }
 
 .btn {
   display: inline-flex;
@@ -199,12 +201,12 @@ function openingLabel(c: CityDisplayRow) {
 }
 .btn--buy { background: var(--red); color: #fff; }
 .btn--buy:hover { background: #ff1f4a; transform: translateY(-1px); }
-.btn--vip { background: var(--cream); color: #150a0b; }
-.btn--vip:hover { background: #fff; transform: translateY(-1px); }
-.btn--interest { background: transparent; border: 1px solid rgba(243, 233, 216, 0.3); color: var(--cream); }
+.btn--vip { background: #1c0f0d; color: var(--cream); }
+.btn--vip:hover { background: #000; transform: translateY(-1px); }
+.btn--interest { background: transparent; border: 1px solid rgba(28, 15, 13, 0.3); color: #1c0f0d; }
 .btn--interest:hover { border-color: var(--red); color: var(--red); }
-.btn--soldout { background: rgba(243, 233, 216, 0.08); color: var(--cream-dim); cursor: not-allowed; }
-.btn--pending { background: transparent; color: var(--cream-dim); font-weight: 500; padding: 0.55rem 0; }
+.btn--soldout { background: rgba(28, 15, 13, 0.08); color: rgba(28, 15, 13, 0.55); cursor: not-allowed; }
+.btn--pending { background: transparent; color: rgba(28, 15, 13, 0.55); font-weight: 500; padding: 0.55rem 0; }
 
 .villes__footer-links {
   display: flex;
