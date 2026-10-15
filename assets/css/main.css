@@ -142,6 +142,15 @@ img {
 --------------------------------------------------------------------------- */
 .bg-honeycomb {
   position: relative;
+  /* z-index:0 here (not just position:relative) is required so this
+     element establishes its OWN stacking context — otherwise the ::before
+     pseudo's z-index:-1 below escapes to the nearest ANCESTOR that does
+     establish one (sometimes far up the tree, e.g. <body>), landing behind
+     unrelated page content instead of just behind this element's own
+     children — on the homepage's .map-section this made the honeycomb
+     invisible everywhere instead of merely hidden behind the date cards.
+     Confirmed by direct DOM inspection (Math, 2026-10-15). */
+  z-index: 0;
 }
 .bg-honeycomb::before {
   content: '';
@@ -153,7 +162,8 @@ img {
      with no z-index paints AFTER normal static in-flow content (CSS2.1
      painting order), so this was rendering on TOP of every opaque row/card
      on bg-honeycomb pages, not hidden behind them as intended. Negative
-     z-index forces it behind all static content, everywhere, for good. */
+     z-index forces it behind all static content, everywhere, for good —
+     but only works correctly paired with the host's own z-index:0 above. */
   z-index: -1;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='88' viewBox='0 0 50 88'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23914946' fill-opacity='0.19'%3E%3Cpath d='M25.18 16.65l23.4 13.5v27l-23.4 13.5L1.8 57.15v-27l23.38-13.5zM5.4 32.22v22.86l19.78 11.41 19.8-11.43V32.22l-19.8-11.41L5.4 32.22zM0 27l23.36-13.5V0h-3.6v11.43L0 22.84v4.14zm0 33.3L23.36 73.8v14.4h-3.6v-12.33L0 64.46v-4.14zM27 0v13.5L50.38 27H50.4v-4.16h-.1.8L30.6 11.43V0h-3.6zm0 88.2v-14.4l23.38-13.5H50.4v4.16h-.1.8L30.6 75.87V88.2h-3.6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -164,6 +174,10 @@ img {
 .bg-stars {
   position: relative;
   overflow: hidden;
+  /* z-index:0 so this establishes its own stacking context — see the
+     matching comment on .bg-honeycomb for why this is required, not
+     optional, for the ::before/::after z-index:-1 below to work. */
+  z-index: 0;
 }
 .bg-stars::before,
 .bg-stars::after {
