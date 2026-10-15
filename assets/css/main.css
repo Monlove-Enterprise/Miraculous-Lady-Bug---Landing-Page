@@ -35,9 +35,10 @@
   /* Marinette's hair blue — Math, 2026-10-15: "instead of the pink can we
      use the blue of marinette's hair", replacing --pink on the trailer
      section (its last remaining use after the corner-glow splash was
-     dropped from the other pages). A deep indigo-navy, matching how her
-     hair highlights read in the show's key art. */
-  --blue: #1f3a68;
+     dropped from the other pages). Started as a deep indigo-navy, then
+     "it has to be more electric if we use a blue" — brightened/saturated
+     into a vivid electric blue instead. */
+  --blue: #1e5fff;
   /* Secondary accent, used sparingly (not throughout like pink) — the
      official site uses it only for its games section (neon lime on dark
      green), so one section here gets a touch of it, not every page. */
