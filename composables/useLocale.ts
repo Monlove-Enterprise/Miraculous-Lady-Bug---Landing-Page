@@ -58,7 +58,7 @@ const messages: Record<Locale, Dict> = {
     'cast.metaDescription':
       'Découvre les artistes et l’équipe créative de Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
     'cast.back': "Retour à l’accueil",
-    'cast.intro': 'Les artistes et l’équipe qui donnent vie au spectacle sur scène.',
+    'cast.intro': 'Découvre les artistes et artisans qui donnent vie au spectacle sur scène.',
     'cast.creativeHeading': 'Équipe créative',
     'cast.castHeading': 'Distribution',
     'cast.tba': 'Casting à venir',
@@ -286,7 +286,7 @@ const messages: Record<Locale, Dict> = {
     'cast.metaDescription':
       'Meet the artists and creative team behind Miraculous Ladybug & Cat Noir: The Live Stage Spectacular.',
     'cast.back': 'Back to home',
-    'cast.intro': 'The artists and team bringing the show to life on stage.',
+    'cast.intro': 'Meet the artists and artisans who bring the show to life on stage.',
     'cast.creativeHeading': 'Creative Team',
     'cast.castHeading': 'Cast',
     'cast.tba': 'Casting to be announced',
