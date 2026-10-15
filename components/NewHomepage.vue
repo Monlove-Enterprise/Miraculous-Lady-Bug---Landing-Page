@@ -240,22 +240,24 @@ function copyTune() {
     <section class="trailer-section">
       <div class="container">
         <h2 class="section-title">{{ t('trailer.heading') }}</h2>
-        <!-- Math: "can we make a square instead of a circle and fit in the
-             trailer" — the key-art's own baked-in circle doesn't fully
-             contain the 16:9 video (corners stick out); .trailer-frame is
-             our own dark square backdrop, sized to fully contain the video
-             with even margin, sitting behind it. -->
-        <div class="trailer-frame">
-          <div class="trailer-embed">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
-              :title="t('trailer.heading')"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              loading="lazy"
-            />
-          </div>
+      </div>
+      <!-- Math: "here is a new background for the trailer section can you
+           make it fit so the video arrives in between lady bug and
+           catnoir" — full-width banner (Ladybug left, Cat Noir right,
+           empty "stage" gap between them), sized to the image's own
+           aspect ratio so it's never cropped/distorted; the video sits
+           positioned in that gap (measured from the source art: the gap
+           runs ~36.5%-65% of the image width, centered ~50.7%). -->
+      <div class="trailer-banner">
+        <div class="trailer-embed">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
+            :title="t('trailer.heading')"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          />
         </div>
       </div>
     </section>
@@ -594,29 +596,40 @@ function copyTune() {
 /* Math: "Can we replace the green with this please" — branded Ladybug
    key-art background (public/images/trailer-bg.webp) instead of a flat
    color fill. */
-/* Math: "j'aurais retravaillé le design pour garder ladybug entière" —
-   cover was cropping her figure whenever the section's aspect ratio
-   didn't match the image's; contain always shows the full image (whole
-   Ladybug), with a color-matched gradient (sampled from the image's own
-   red-to-pink edges) filling any letterbox space instead of a hard seam. */
 .trailer-section {
-  background-image:
-    url('/images/trailer-bg.webp'),
-    linear-gradient(90deg, #e91d26, #e921a9);
-  background-size: contain, cover;
-  background-position: center center, center center;
-  background-repeat: no-repeat, no-repeat;
+  padding-bottom: 0;
 }
-.trailer-section .section-title {
-  color: var(--cream);
-  /* The square (.trailer-frame::before) legitimately overflows above
-     .trailer-frame's own box to reach its full square height, extending
-     up into the title's screen region — and since trailer-frame comes
-     later in DOM order, it paints over the title there by default. Force
-     the title to its own layer on top, same fix as the subscribe-band's
-     .container z-index. */
+.trailer-banner {
   position: relative;
-  z-index: 2;
+  width: 100%;
+  /* Matches the source art's own ratio (7842x1847) exactly, so cover never
+     has to crop or upscale it — same "keep it crisp, don't distort"
+     reasoning as the Story page background. */
+  aspect-ratio: 7842 / 1847;
+  margin-top: 2.5rem;
+  background-image: url('/images/trailer-bg.webp');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.trailer-embed {
+  position: absolute;
+  left: 50.7%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--ink-panel);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 720px) {
+  /* The gap is too narrow on mobile to fit a readable video at 24% width
+     without it also being far too short (16:9 at a tiny width) — widen it
+     and let it overlap closer to the characters' silhouettes rather than
+     disappearing. */
+  .trailer-embed { width: 42%; }
 }
 
 .section-title {
@@ -769,42 +782,6 @@ function copyTune() {
 }
 .btn--outline:hover { border-color: var(--red); color: var(--red); }
 
-.trailer-frame {
-  position: relative;
-  /* z-index:0 so this establishes its own stacking context — same fix as
-     .bg-honeycomb (see main.css). Without it, the ::before square below
-     (z-index:0) escapes to a distant ancestor's stacking context instead
-     of staying scoped behind this element's own content, and ends up
-     painting on top of the sibling .section-title, hiding it entirely. */
-  z-index: 0;
-  max-width: 780px;
-  margin: 0 auto;
-}
-/* Dark square sized to the video's own max-width (780px) plus even margin
-   on every side — big enough that the 16:9 video is always fully inside
-   it, unlike the key-art's circle. Width comes from the left/right insets;
-   aspect-ratio drives the height from that (inset alone on all 4 sides
-   would set width/height independently and defeat aspect-ratio). */
-.trailer-frame::before {
-  content: '';
-  position: absolute;
-  left: -56px;
-  right: -56px;
-  top: 50%;
-  transform: translateY(-50%);
-  aspect-ratio: 1 / 1;
-  background: #000;
-  border-radius: 28px;
-  z-index: 0;
-}
-.trailer-embed {
-  position: relative;
-  z-index: 1;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--ink-panel);
-}
 .trailer-embed iframe {
   width: 100%;
   height: 100%;
