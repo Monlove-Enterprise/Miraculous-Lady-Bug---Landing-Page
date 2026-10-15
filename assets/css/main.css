@@ -28,8 +28,9 @@
      red, never replacing it — the key art itself stays red/black. Shade
      corrected same day from a hot neon magenta to a softer coral pink
      after Math sent the official site's footer as reference: "this pink
-     is nice". */
-  --pink: #f4607e;
+     is nice" — then "the pink is not bright enough", brightened up from
+     that coral (lighter + more saturated, still not back to the magenta). */
+  --pink: #ff6d8e;
   /* Secondary accent, used sparingly (not throughout like pink) — the
      official site uses it only for its games section (neon lime on dark
      green), so one section here gets a touch of it, not every page. */
