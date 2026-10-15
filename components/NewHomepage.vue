@@ -503,8 +503,14 @@ function copyTune() {
    section (Math, 2026-10-15: "on the main page the honeycombs are not to
    the edge") so bg-honeycomb reaches the real page edges, same as every
    other page, instead of being nested inside .map-section's .container. */
+/* padding-top instead of 0 + the heading's own margin-top (Math, 2026-10-15:
+   "make the honeycomb up to the upper section") — that margin was
+   collapsing straight through this section's own box (no border/padding
+   to stop it) and escaping above it, leaving a honeycomb-free gap between
+   this section and .map-section above. Padding is part of the box, so
+   bg-honeycomb now covers right up to the section above with no seam. */
 .dates-section {
-  padding-top: 0;
+  padding-top: 3rem;
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
    the first page is less black" — went through red, several rounds of
@@ -568,7 +574,6 @@ function copyTune() {
 .map-legend__dot--residence { background: var(--cream); }
 
 .upcoming__heading {
-  margin-top: 3rem;
   margin-bottom: 1rem;
   color: var(--cream-dim);
   font-size: 0.78rem;
