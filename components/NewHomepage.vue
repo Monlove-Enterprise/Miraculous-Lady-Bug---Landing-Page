@@ -361,7 +361,7 @@ function copyTune() {
      pink du site officiel") — soft, off to one side, doesn't touch the
      key art itself. Honeycomb (.hero__honeycomb) sits opposite it. */
   background:
-    radial-gradient(55% 50% at 85% 18%, rgba(255, 45, 143, 0.32), transparent 65%),
+    radial-gradient(65% 58% at 85% 18%, rgba(255, 45, 143, 0.4), transparent 68%),
     linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
 }
 .hero__honeycomb {
@@ -489,6 +489,14 @@ function copyTune() {
 .social-section {
   padding: 4rem 0;
   background: var(--ink);
+}
+/* Green touch here only (not throughout) — official site uses it just for
+   one themed section, paired with a soft cream wash for warmth. */
+.map-section {
+  background:
+    radial-gradient(70% 50% at 85% 0%, rgba(138, 255, 0, 0.1), transparent 65%),
+    radial-gradient(130% 80% at 50% 100%, rgba(243, 233, 216, 0.06), transparent 70%),
+    var(--ink);
 }
 .trailer-section { background: var(--ink-soft); }
 
