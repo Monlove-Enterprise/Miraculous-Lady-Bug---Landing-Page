@@ -594,11 +594,18 @@ function copyTune() {
 /* Math: "Can we replace the green with this please" — branded Ladybug
    key-art background (public/images/trailer-bg.webp) instead of a flat
    color fill. */
+/* Math: "j'aurais retravaillé le design pour garder ladybug entière" —
+   cover was cropping her figure whenever the section's aspect ratio
+   didn't match the image's; contain always shows the full image (whole
+   Ladybug), with a color-matched gradient (sampled from the image's own
+   red-to-pink edges) filling any letterbox space instead of a hard seam. */
 .trailer-section {
-  background-image: url('/images/trailer-bg.webp');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background-image:
+    url('/images/trailer-bg.webp'),
+    linear-gradient(90deg, #e91d26, #e921a9);
+  background-size: contain, cover;
+  background-position: center center, center center;
+  background-repeat: no-repeat, no-repeat;
 }
 .trailer-section .section-title {
   color: var(--cream);

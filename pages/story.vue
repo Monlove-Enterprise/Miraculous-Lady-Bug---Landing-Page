@@ -8,7 +8,7 @@ useHead(() => ({
 </script>
 
 <template>
-  <main class="story bg-honeycomb">
+  <main class="story">
     <SiteHeader />
 
     <div class="container">
@@ -51,12 +51,16 @@ useHead(() => ({
   padding-bottom: 6rem;
   /* Math, 2026-10-15: "ya encore the spray rouge sur the story" — red
      corner-glow removed. Then "this image in the story page" — Paris
-     sketch key art (public/images/story-bg.webp) behind the header,
-     fading into the flat --ink background before the body-copy sections
-     so the running text stays legible. */
+     sketch key art behind the header, fading into the flat --ink
+     background before the body-copy sections so running text stays
+     legible. Then "c'est pas très bien découpé" — recropped to a band
+     around the Eiffel Tower/building details (the recognizable part of
+     the illustration) instead of an arbitrary top slice of the full
+     portrait source. Then "lets remove the honey combs and only keep the
+     visual I added" — bg-honeycomb dropped from this page. */
   background:
     linear-gradient(180deg, rgba(12, 8, 7, 0.7) 0%, rgba(12, 8, 7, 0.93) 45%, var(--ink) 75%),
-    url('/images/story-bg.webp') top center / cover no-repeat,
+    url('/images/story-bg.webp') center center / cover no-repeat,
     var(--ink);
 }
 .container { padding-top: 3rem; }

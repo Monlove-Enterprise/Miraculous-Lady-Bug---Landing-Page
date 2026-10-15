@@ -198,6 +198,9 @@ function monogram(p: Person): string {
   transform: translateY(-3px);
   border-color: rgba(244, 14, 4, 0.4);
 }
+/* Math: "and if we made the cast backdroud cream" — the backdrop behind
+   each headshot (not the outer card) switched from dark --ink-soft to
+   cream. */
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
@@ -205,8 +208,8 @@ function monogram(p: Person): string {
   margin-bottom: 1.1rem;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(243, 233, 216, 0.14), transparent 65%),
-    var(--ink-soft);
+    radial-gradient(120% 90% at 50% 0%, rgba(28, 15, 13, 0.08), transparent 65%),
+    var(--cream);
 }
 .featured-card__name {
   font-family: var(--font-display);
@@ -250,17 +253,18 @@ function monogram(p: Person): string {
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(243, 233, 216, 0.14), transparent 65%),
-    var(--ink-soft);
+    radial-gradient(120% 90% at 50% 0%, rgba(28, 15, 13, 0.08), transparent 65%),
+    var(--cream);
 }
 /* Subtle ladybug polka-dot texture — placeholder (no photo) only; a real
    photo's transparent background reveals the plain gradient above instead,
-   so every headshot sits on the exact same clean backdrop. */
+   so every headshot sits on the exact same clean backdrop. Dot color
+   flipped dark for visibility on the new cream backdrop. */
 .card__photo::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(243, 233, 216, 0.09) 2px, transparent 2.5px);
+  background-image: radial-gradient(circle, rgba(28, 15, 13, 0.1) 2px, transparent 2.5px);
   background-size: 26px 26px;
 }
 .card__photo--photo::after { display: none; }
@@ -269,7 +273,7 @@ function monogram(p: Person): string {
   z-index: 1;
   font-family: var(--font-display);
   font-size: 2.4rem;
-  color: rgba(243, 233, 216, 0.55);
+  color: rgba(28, 15, 13, 0.45);
   letter-spacing: 0.04em;
 }
 .card__img {
