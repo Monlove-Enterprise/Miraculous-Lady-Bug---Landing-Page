@@ -2,6 +2,7 @@
 import type { CityRow } from '~/server/api/cities.get'
 import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
+import { toCityDisplayRows, formatCityDate } from '~/utils/cityDisplayRows'
 
 const { t, locale } = useLocale()
 const route = useRoute()
@@ -15,30 +16,18 @@ const mapCities = computed(() => cities.value.filter((c) => !HIDDEN_CITY_SLUGS.h
 // start_date, so they're naturally excluded — the Paris residency gets its
 // own page). Qatar has a tour-format date but is still in HIDDEN_CITY_SLUGS
 // (venue not finalized), so it needs the same explicit filter as the map.
+// Expanded to one row PER PERFORMANCE (toCityDisplayRows), not per city —
+// Math, 2026-10-15: "Kitchener needs two entire lines... not two dates on
+// the same line" — so a two-night stop like Kitchener takes two full rows
+// here, same as the villes listing, and the slice(0, 6) counts performances.
 const upcomingCities = computed(() =>
-  cities.value
-    .filter((c) => c.format === 'tournee' && c.startDate && !HIDDEN_CITY_SLUGS.has(c.slug))
-    .sort((a, b) => new Date(a.startDate!).getTime() - new Date(b.startDate!).getTime())
+  toCityDisplayRows(
+    cities.value.filter((c) => c.format === 'tournee' && c.startDate && !HIDDEN_CITY_SLUGS.has(c.slug)),
+  )
+    .sort((a, b) => new Date(a.displayDate!).getTime() - new Date(b.displayDate!).getTime())
     .slice(0, 6),
 )
 
-// Was startDate-only, silently dropping Kitchener's 2nd night (Mar 7) —
-// mismatched the villes listing, which showed both. Then compacted to
-// "Mar 6 & 7, 2027", but Math, 2026-10-15: "two global lines so there is no
-// confusion" — same separate-line treatment as pages/villes/index.vue
-// everywhere, not a compact form just on this page.
-function datesLines(c: CityRow): string[] {
-  if (!c.startDate) return []
-  const fmt = (d: string) =>
-    new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    })
-  if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
-  if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
-  return [`${fmt(c.startDate)} – ${fmt(c.endDate)}`]
-}
 function countryName(c: CityRow) {
   return countryNameByCode(c.countryCode, locale.value)
 }
@@ -176,14 +165,14 @@ function copyTune() {
              since .btn/.badge already mean something different on this page
              (subscribe band). -->
         <ul v-if="upcomingCities.length" class="city-list">
-          <li v-for="c in upcomingCities" :key="c.id" class="city-row">
+          <li v-for="c in upcomingCities" :key="c.rowKey" class="city-row">
             <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
               <p class="city-row__city">{{ c.city }}</p>
               <p class="city-row__country">{{ countryName(c) }}</p>
             </NuxtLink>
             <div class="city-row__details">
               <p v-if="c.venue" class="city-row__venue">{{ c.venue }}</p>
-              <p v-for="d in datesLines(c)" :key="d" class="city-row__dates">{{ d }}</p>
+              <p class="city-row__dates">{{ formatCityDate(c.displayDate, locale) }}</p>
             </div>
             <div class="city-row__action">
               <!-- Math, 2026-10-15: "remove the confirmed and add buy
@@ -500,12 +489,13 @@ function copyTune() {
     var(--ink);
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
-   the first page is less black" — deep red-wine wash instead of flat
-   --ink-soft, breaking up the red(hero)/black(map)/red(trailer)/black...
-   monotony. */
+   the first page is less black" — first tried a red wash, then "I though
+   maybe the green would be fun and more playful" — green touch here too
+   now (previously map-section only), breaking up the red/black monotony
+   with a second accent instead of repeating red everywhere. */
 .trailer-section {
   background:
-    radial-gradient(90% 70% at 50% 0%, rgba(244, 14, 4, 0.16), transparent 70%),
+    radial-gradient(90% 70% at 50% 0%, rgba(138, 255, 0, 0.12), transparent 70%),
     var(--ink-soft);
 }
 
