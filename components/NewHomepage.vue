@@ -621,8 +621,11 @@ function copyTune() {
 @media (min-width: 720px) {
   .city-row { grid-template-columns: 1.1fr 1.4fr auto; }
 }
+/* Math, 2026-10-15: "can the whole line go a bit more red when the cursor
+   goes over?" — flat full-width tint instead of a gradient that fades out
+   partway, so the whole row shifts together. */
 .city-row:hover {
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.3), transparent 55%), var(--cream);
+  background: linear-gradient(rgba(244, 14, 4, 0.22), rgba(244, 14, 4, 0.22)), var(--cream);
 }
 .city-row__place { display: block; text-decoration: none; color: inherit; }
 .city-row__city {

@@ -143,8 +143,11 @@ function openingLabel(c: CityDisplayRow) {
   transition: background 0.15s ease;
   align-items: center;
 }
+/* Math, 2026-10-15: "can the whole line go a bit more red when the cursor
+   goes over?" — the old gradient hover only reddened the left ~55% of the
+   row; flat full-width tint instead so the whole row shifts together. */
 .row:hover {
-  background: linear-gradient(90deg, rgba(244, 14, 4, 0.3), transparent 55%), var(--cream);
+  background: linear-gradient(rgba(244, 14, 4, 0.22), rgba(244, 14, 4, 0.22)), var(--cream);
 }
 
 .row__place {
