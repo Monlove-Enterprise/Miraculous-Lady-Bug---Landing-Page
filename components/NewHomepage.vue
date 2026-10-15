@@ -138,7 +138,12 @@ function copyTune() {
          than reconstructed from the separate layers. Credit, tagline and CTA
          are website-only additions below it, in that order (Math, 2026-10-14:
          "the quote under the tickets"). -->
-    <section class="hero bg-stars bg-honeycomb" :style="tuning ? heroStyle : undefined">
+    <section class="hero bg-stars" :style="tuning ? heroStyle : undefined">
+      <!-- Separate element, not the .bg-honeycomb::before utility — this
+           section already uses ::before/::after for .bg-stars, and an
+           element can only have one ::before (the honeycomb rule was
+           silently losing to the stars rule, same pseudo-element slot). -->
+      <div class="hero__honeycomb" aria-hidden="true"></div>
       <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
 
       <img
@@ -343,10 +348,18 @@ function copyTune() {
      melts to dark. Same stacked layout + fade on desktop and mobile.
      Pink corner glow added 2026-10-15 ("plus féminin, ref honeycombs +
      pink du site officiel") — soft, off to one side, doesn't touch the
-     key art itself. Honeycomb (bg-honeycomb class) sits opposite it. */
+     key art itself. Honeycomb (.hero__honeycomb) sits opposite it. */
   background:
     radial-gradient(55% 50% at 85% 18%, rgba(255, 45, 143, 0.32), transparent 65%),
     linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
+}
+.hero__honeycomb {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='157' viewBox='0 0 90 157'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23f3e9d8' fill-opacity='0.1'%3E%3Cpath d='M44.77 29.6l41.6 24v48l-41.6 24L3.2 101.6v-48l41.57-24zM9.6 57.28v40.64l35.17 20.29 35.2-20.32V57.28l-35.2-20.29L9.6 57.28zM0 48l41.54-24V0h-6.4v20.32L0 40.61v7.36zm0 59.2L41.54 131.2v25.6h-6.4v-21.92L0 114.59v-7.36zM48 0v24L89.57 48H89.6v-7.39h-.3.2L54.4 20.32V0h-6.4zm0 156.8v-25.6l41.57-24H89.6v7.39h-.3.2L54.4 134.88V156.8h-6.4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask-image: radial-gradient(70% 70% at 15% 15%, black 0%, black 35%, transparent 75%);
+  mask-image: radial-gradient(70% 70% at 15% 15%, black 0%, black 35%, transparent 75%);
 }
 
 
