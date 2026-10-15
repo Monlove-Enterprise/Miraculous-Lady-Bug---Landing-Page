@@ -57,13 +57,16 @@ useHead(() => ({
      "make it more pink all of it and reduce the background so its less
      pixelated" — capped to native size instead of being upscaled by
      `cover`. Then "rezoom the image... in the end its not pretty right
-     now" — that wide band put the recognizable part (the tower) low in
-     the crop, off past where the header's visible area and the darkening
-     overlay could show it; recropped tight and centered directly on the
-     tower instead, a clearly "Paris" silhouette rather than disconnected
-     building linework. */
+     now" — recropped tight and centered directly on the Eiffel Tower, a
+     clearly "Paris" silhouette rather than disconnected building linework.
+     But the real problem turned out to be the darkening overlay: even at
+     0% it was already 45% opaque, washing the thin linework out almost
+     completely (confirmed by zooming into a live screenshot — the tower
+     was there, just nearly invisible). Lightened significantly at the top
+     where the art needs to actually read, ramping up later for the
+     body-copy sections' legibility. */
   background:
-    linear-gradient(180deg, rgba(20, 3, 14, 0.45) 0%, rgba(20, 3, 14, 0.75) 55%, rgba(20, 3, 14, 0.94) 100%),
+    linear-gradient(180deg, rgba(20, 3, 14, 0.1) 0%, rgba(20, 3, 14, 0.55) 45%, rgba(20, 3, 14, 0.94) 80%),
     url('/images/story-bg.webp') top center / 950px auto no-repeat,
     linear-gradient(90deg, #e91d26, #e921a9);
 }
