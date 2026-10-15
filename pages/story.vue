@@ -49,9 +49,9 @@ useHead(() => ({
 .story {
   min-height: 100dvh;
   padding-bottom: 6rem;
-  background:
-    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
-    var(--ink);
+  /* Math, 2026-10-15: "ya encore the spray rouge sur the story" — same red
+     corner-glow removed as on press/behind-the-scenes, flat background. */
+  background: var(--ink);
 }
 .container { padding-top: 3rem; }
 
