@@ -21,12 +21,12 @@ const { locale } = useLocale()
 </template>
 
 <style scoped>
+/* Math, 2026-10-15: same red corner-glow removed as on story/press/
+   behind-the-scenes — consistent flat background across these pages. */
 .legal-page {
   min-height: 100dvh;
   padding: 4rem 0 6rem;
-  background:
-    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
-    var(--ink);
+  background: var(--ink);
 }
 .legal-page .container {
   max-width: 760px;
