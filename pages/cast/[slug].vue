@@ -110,6 +110,7 @@ function monogram(): string {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 1.2rem;
+  white-space: pre-line;
 }
 .person__name {
   font-family: var(--font-display);

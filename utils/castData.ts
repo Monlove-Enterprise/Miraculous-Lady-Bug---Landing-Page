@@ -15,15 +15,16 @@ export interface Person {
 
 // Robert McQueen and Serge Poupart bios: EN verbatim from Math (2026-09-30);
 // FR is my translation, not brand-confirmed — flag for review before launch.
-// Ella/Martin role title ("Creators & Creative Directors") from Math
-// (2026-09-30); FR ("Créateurs & Directeurs Artistiques") is my translation,
-// same caveat.
+// Ella/Martin role title updated by Math (2026-10-15) to two credit lines
+// ("Original Concept & Creative Direction" / "Book, Music & Lyrics"),
+// replacing the earlier single-line "Creators & Creative Directors"
+// (2026-09-30). FR is my translation, not brand-confirmed — same caveat.
 export const creative: Person[] = [
   {
     slug: 'ella-louise-allaire',
     name: 'Ella Louise Allaire',
-    roleFr: 'Créateurs & Directeurs Artistiques',
-    roleEn: 'Creators & Creative Directors',
+    roleFr: 'Concept original & direction artistique\nLivret, musique & paroles',
+    roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/ella-louise-allaire.webp',
     bioEn:
       'Ella Louise Allaire is an award-winning show creator, composer, librettist, lyricist and producer with nearly 20 years of experience creating large-scale live entertainment for international audiences.\n\n' +
@@ -41,8 +42,8 @@ export const creative: Person[] = [
   {
     slug: 'martin-lord-ferguson',
     name: 'Martin Lord Ferguson',
-    roleFr: 'Créateurs & Directeurs Artistiques',
-    roleEn: 'Creators & Creative Directors',
+    roleFr: 'Concept original & direction artistique\nLivret, musique & paroles',
+    roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/martin-lord-ferguson.webp',
     bioEn:
       'Martin Lord Ferguson is a Canadian show creator/producer, sound engineer, scriptwriter, composer and lyricist. His credits include co-writing the book, music and lyrics for the mega success Ice Age Live! A Mammoth Adventure (20th Century Fox, Stage Entertainment), with record audiences in Paris (over 60,000 spectators in a 5-day run) and Hamburg (over 30,000 spectators in a single weekend), beating acts like Coldplay and U2.\n\n' +
