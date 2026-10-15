@@ -492,10 +492,12 @@ function copyTune() {
    the first page is less black" — first tried a red wash, then "I though
    maybe the green would be fun and more playful" — green touch here too
    now (previously map-section only), breaking up the red/black monotony
-   with a second accent instead of repeating red everywhere. */
+   with a second accent instead of repeating red everywhere. Math: "I would
+   have done the whole trailer section in green" — the top-fade radial read
+   as too partial; flat wash covers the full section evenly instead. */
 .trailer-section {
   background:
-    radial-gradient(90% 70% at 50% 0%, rgba(138, 255, 0, 0.12), transparent 70%),
+    linear-gradient(rgba(138, 255, 0, 0.16), rgba(138, 255, 0, 0.16)),
     var(--ink-soft);
 }
 
