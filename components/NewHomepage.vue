@@ -360,12 +360,10 @@ function copyTune() {
      the bg). Fades to the dark "Help bring…" section from ~78% — the bottom of
      her suit — so her whole suit stays on scarlet and only the CTA/credit band
      melts to dark. Same stacked layout + fade on desktop and mobile.
-     Pink corner glow added 2026-10-15 ("plus féminin, ref honeycombs +
-     pink du site officiel") — soft, off to one side, doesn't touch the
-     key art itself. Honeycomb (.hero__honeycomb) sits opposite it. */
-  background:
-    radial-gradient(65% 58% at 85% 18%, rgba(255, 45, 143, 0.4), transparent 68%),
-    linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
+     Pink corner glow (added then removed same day, 2026-10-15) — Math: "on
+     the cover art section there is a weird colour to the right like pink
+     or something". Cover art/hero stays pure red, nothing added. */
+  background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
 }
 .hero__honeycomb {
   position: absolute;
@@ -501,7 +499,15 @@ function copyTune() {
     radial-gradient(130% 80% at 50% 100%, rgba(243, 233, 216, 0.06), transparent 70%),
     var(--ink);
 }
-.trailer-section { background: var(--ink-soft); }
+/* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
+   the first page is less black" — deep red-wine wash instead of flat
+   --ink-soft, breaking up the red(hero)/black(map)/red(trailer)/black...
+   monotony. */
+.trailer-section {
+  background:
+    radial-gradient(90% 70% at 50% 0%, rgba(244, 14, 4, 0.16), transparent 70%),
+    var(--ink-soft);
+}
 
 .section-title {
   font-family: var(--font-display);

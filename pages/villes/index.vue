@@ -35,8 +35,10 @@ function datesLines(c: CityRow): string[] {
   if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
   return [`${fmt(c.startDate)} – ${fmt(c.endDate)}`]
 }
+// Math, 2026-10-15: "remove on sale date to be announced" — only renders
+// once a real opening date is known; no more TBD placeholder text.
 function openingLabel(c: CityRow) {
-  if (!c.openingAt) return t('villes.openingTbd')
+  if (!c.openingAt) return ''
   const formatted = new Date(c.openingAt).toLocaleDateString(
     locale.value === 'fr' ? 'fr-FR' : 'en-US',
     { day: 'numeric', month: 'long', year: 'numeric' },
@@ -66,7 +68,7 @@ function openingLabel(c: CityRow) {
           <div class="row__details">
             <p v-if="c.venue" class="row__venue">{{ c.venue }}</p>
             <p v-for="d in datesLines(c)" :key="d" class="row__dates">{{ d }}</p>
-            <p v-if="c.status === 'confirmee'" class="row__opening">{{ openingLabel(c) }}</p>
+            <p v-if="c.status === 'confirmee' && c.openingAt" class="row__opening">{{ openingLabel(c) }}</p>
           </div>
 
           <div class="row__action">
@@ -136,8 +138,16 @@ function openingLabel(c: CityRow) {
   grid-template-columns: 1fr;
   gap: 0.9rem;
   padding: 1.5rem 1.6rem;
-  background: var(--ink-panel);
+  /* Math, 2026-10-15: "I really like the degrade on the dates on the main
+     page, copy for the where the show is going page" — same red accent
+     treatment as the homepage's city-row. */
+  border-left: 3px solid var(--red);
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.1), transparent 40%), var(--ink-panel);
+  transition: background 0.15s ease;
   align-items: center;
+}
+.row:hover {
+  background: linear-gradient(90deg, rgba(244, 14, 4, 0.18), transparent 50%), var(--ink-panel);
 }
 
 .row__place {
