@@ -32,7 +32,7 @@ function monogram(p: Person): string {
 </script>
 
 <template>
-  <main class="cast">
+  <main class="cast bg-honeycomb">
     <SiteHeader />
 
     <div class="container">
