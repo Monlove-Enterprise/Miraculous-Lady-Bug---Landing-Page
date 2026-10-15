@@ -157,44 +157,49 @@ function copyTune() {
         <div class="map-legend">
           <span class="map-legend__item"><i class="map-legend__dot map-legend__dot--tournee" />{{ t('map.legendTour') }}</span>
         </div>
+      </div>
+    </section>
 
-        <!-- Math, 2026-10-15: "honeycombs not on the map please just on the
-             dates" — bg-honeycomb scoped to this wrapper only, not the
-             whole map-section. -->
-        <div class="upcoming-dates bg-honeycomb">
-          <h3 class="upcoming__heading">{{ t('upcoming.heading') }}</h3>
-          <!-- Math, 2026-10-15: "le layout [de where the show is going] était
-               mieux" — same row structure as pages/villes/index.vue (city+
-               country | venue+dates | status), own class names (city-row*)
-               since .btn/.badge already mean something different on this page
-               (subscribe band). -->
-          <ul v-if="upcomingCities.length" class="city-list">
-            <li v-for="c in upcomingCities" :key="c.rowKey" class="city-row">
-              <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
-                <p class="city-row__city">{{ c.city }}</p>
-                <p class="city-row__country">{{ countryName(c) }}</p>
-              </NuxtLink>
-              <div class="city-row__details">
-                <p v-if="c.venue" class="city-row__venue">{{ c.venue }}</p>
-                <p class="city-row__dates">{{ formatCityDate(c.displayDate, locale) }}</p>
-              </div>
-              <div class="city-row__action">
-                <!-- Math, 2026-10-15: "remove the confirmed and add buy
-                     tickets and VIP, two different clickable links" — same
-                     treatment as pages/villes/index.vue. -->
-                <span v-if="c.status !== 'confirmee' && c.status !== 'en_vente'" class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
-                <template v-else>
-                  <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
-                  <NuxtLink to="/vip" class="city-btn city-btn--vip">{{ t('nav.vip') }}</NuxtLink>
-                </template>
-              </div>
-            </li>
-          </ul>
-          <p v-else class="section-lead">{{ t('upcoming.empty') }}</p>
+    <!-- ===================== UPCOMING DATES ===================== -->
+    <!-- Math, 2026-10-15: "honeycombs not on the map please just on the
+         dates", then "on the main page the honeycombs are not to the edge"
+         — a separate full-width section (own bg-honeycomb, reaching the
+         real page edges like every other page) instead of a narrower div
+         nested inside .map-section's .container. -->
+    <section class="dates-section bg-honeycomb">
+      <div class="container">
+        <h3 class="upcoming__heading">{{ t('upcoming.heading') }}</h3>
+        <!-- Math, 2026-10-15: "le layout [de where the show is going] était
+             mieux" — same row structure as pages/villes/index.vue (city+
+             country | venue+dates | status), own class names (city-row*)
+             since .btn/.badge already mean something different on this page
+             (subscribe band). -->
+        <ul v-if="upcomingCities.length" class="city-list">
+          <li v-for="c in upcomingCities" :key="c.rowKey" class="city-row">
+            <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
+              <p class="city-row__city">{{ c.city }}</p>
+              <p class="city-row__country">{{ countryName(c) }}</p>
+            </NuxtLink>
+            <div class="city-row__details">
+              <p v-if="c.venue" class="city-row__venue">{{ c.venue }}</p>
+              <p class="city-row__dates">{{ formatCityDate(c.displayDate, locale) }}</p>
+            </div>
+            <div class="city-row__action">
+              <!-- Math, 2026-10-15: "remove the confirmed and add buy
+                   tickets and VIP, two different clickable links" — same
+                   treatment as pages/villes/index.vue. -->
+              <span v-if="c.status !== 'confirmee' && c.status !== 'en_vente'" class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
+              <template v-else>
+                <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
+                <NuxtLink to="/vip" class="city-btn city-btn--vip">{{ t('nav.vip') }}</NuxtLink>
+              </template>
+            </div>
+          </li>
+        </ul>
+        <p v-else class="section-lead">{{ t('upcoming.empty') }}</p>
 
-          <div class="upcoming__more">
-            <NuxtLink to="/villes" class="btn btn--outline">{{ t('upcoming.seeAll') }}</NuxtLink>
-          </div>
+        <div class="upcoming__more">
+          <NuxtLink to="/villes" class="btn btn--outline">{{ t('upcoming.seeAll') }}</NuxtLink>
         </div>
       </div>
     </section>
@@ -478,8 +483,9 @@ function copyTune() {
 }
 
 
-/* ---------------------------- MAP / TRAILER / SOCIAL ---------------------------- */
+/* ---------------------------- MAP / DATES / TRAILER / SOCIAL ---------------------------- */
 .map-section,
+.dates-section,
 .trailer-section,
 .social-section {
   padding: 4rem 0;
@@ -492,6 +498,13 @@ function copyTune() {
   background:
     radial-gradient(130% 80% at 50% 100%, rgba(243, 233, 216, 0.06), transparent 70%),
     var(--ink);
+}
+/* Was the bottom half of .map-section; split into its own full-width
+   section (Math, 2026-10-15: "on the main page the honeycombs are not to
+   the edge") so bg-honeycomb reaches the real page edges, same as every
+   other page, instead of being nested inside .map-section's .container. */
+.dates-section {
+  padding-top: 0;
 }
 /* Math, 2026-10-15: "maybe the trailer section could be a other colour, so
    the first page is less black" — went through red, several rounds of
