@@ -46,7 +46,7 @@ function openingLabel(c: CityRow) {
 </script>
 
 <template>
-  <main class="villes bg-honeycomb">
+  <main class="villes">
     <SiteHeader />
 
     <div class="container">
@@ -97,7 +97,7 @@ function openingLabel(c: CityRow) {
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
+    radial-gradient(80% 50% at 15% 0%, rgba(255, 45, 143, 0.14), transparent 60%),
     var(--ink);
 }
 .container { padding-top: 3rem; }

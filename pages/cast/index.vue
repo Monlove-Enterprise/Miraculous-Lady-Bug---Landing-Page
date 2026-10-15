@@ -32,7 +32,7 @@ function monogram(p: Person): string {
 </script>
 
 <template>
-  <main class="cast bg-honeycomb">
+  <main class="cast">
     <SiteHeader />
 
     <div class="container">
@@ -106,7 +106,7 @@ function monogram(p: Person): string {
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 50% at 20% 0%, rgba(243, 233, 216, 0.1), transparent 60%),
+    radial-gradient(80% 50% at 15% 0%, rgba(255, 45, 143, 0.14), transparent 60%),
     var(--ink);
 }
 .container { padding-top: 3rem; }
@@ -179,14 +179,16 @@ function monogram(p: Person): string {
 }
 
 /* Card grid */
-/* Ella & Martin — featured row, bigger than the regular grid, side by side. */
+/* Ella & Martin — featured row, bigger than the regular grid, side by side.
+   Math, 2026-10-15: "we can make them a bit smaller, that was very big" —
+   max-width 760->520, name font scaled down a notch. */
 .featured-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
   margin-bottom: 2.5rem;
-  max-width: 760px;
+  max-width: 520px;
 }
 @media (max-width: 560px) {
   .featured-grid { grid-template-columns: 1fr; }
@@ -203,7 +205,7 @@ function monogram(p: Person): string {
 }
 .featured-card__name {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3.2vw, 1.9rem);
+  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
   color: var(--cream);
   line-height: 1.1;
   margin-bottom: 0.4rem;

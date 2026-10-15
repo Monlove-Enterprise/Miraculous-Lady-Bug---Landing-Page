@@ -11,7 +11,7 @@ const items = computed(() =>
 </script>
 
 <template>
-  <main class="faq bg-honeycomb">
+  <main class="faq">
     <SiteHeader />
 
     <div class="container">
@@ -37,7 +37,7 @@ const items = computed(() =>
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 50% at 20% 0%, rgba(243, 233, 216, 0.1), transparent 60%),
+    radial-gradient(80% 50% at 15% 0%, rgba(255, 45, 143, 0.14), transparent 60%),
     var(--ink);
 }
 .container { padding-top: 3rem; }

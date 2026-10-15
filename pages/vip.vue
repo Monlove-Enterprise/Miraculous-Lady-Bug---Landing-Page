@@ -13,7 +13,7 @@ const tiers = computed(() => [
 </script>
 
 <template>
-  <main class="vip bg-honeycomb">
+  <main class="vip">
     <SiteHeader />
 
     <div class="container">
@@ -44,7 +44,7 @@ const tiers = computed(() => [
   min-height: 100dvh;
   padding-bottom: 6rem;
   background:
-    radial-gradient(80% 50% at 20% 0%, rgba(244, 14, 4, 0.16), transparent 60%),
+    radial-gradient(80% 50% at 15% 0%, rgba(255, 45, 143, 0.14), transparent 60%),
     var(--ink);
 }
 .container { padding-top: 3rem; }

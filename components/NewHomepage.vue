@@ -138,7 +138,7 @@ function copyTune() {
          than reconstructed from the separate layers. Credit, tagline and CTA
          are website-only additions below it, in that order (Math, 2026-10-14:
          "the quote under the tickets"). -->
-    <section class="hero bg-stars" :style="tuning ? heroStyle : undefined">
+    <section class="hero bg-stars bg-honeycomb" :style="tuning ? heroStyle : undefined">
       <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
 
       <img
@@ -160,7 +160,7 @@ function copyTune() {
     </section>
 
     <!-- ===================== MAP ===================== -->
-    <section class="map-section bg-honeycomb">
+    <section class="map-section">
       <div class="container">
         <h2 class="section-title">{{ t('map.heading') }}</h2>
         <p class="section-lead">{{ t('map.lead') }}</p>
@@ -340,8 +340,13 @@ function copyTune() {
   /* Scarlet of the key-art assets (matches the Ladybug's suit so it melts into
      the bg). Fades to the dark "Help bring…" section from ~78% — the bottom of
      her suit — so her whole suit stays on scarlet and only the CTA/credit band
-     melts to dark. Same stacked layout + fade on desktop and mobile. */
-  background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
+     melts to dark. Same stacked layout + fade on desktop and mobile.
+     Pink corner glow added 2026-10-15 ("plus féminin, ref honeycombs +
+     pink du site officiel") — soft, off to one side, doesn't touch the
+     key art itself. Honeycomb (bg-honeycomb class) sits opposite it. */
+  background:
+    radial-gradient(55% 50% at 85% 18%, rgba(255, 45, 143, 0.32), transparent 65%),
+    linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
 }
 
 
