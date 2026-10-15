@@ -17,6 +17,11 @@ useHead(() => ({
       <header class="story__head">
         <h1 class="story__title">{{ t('nav.story') }}</h1>
         <p class="story__intro">{{ t('story.intro') }}</p>
+        <!-- Math: "you did not fix the story page actually just make the
+             image smaller to the right of the text and leave the text on
+             black" — a real positioned image now, not a CSS background
+             behind the text; page background goes back to flat --ink. -->
+        <img class="story__art" src="/images/story-bg.webp" alt="" aria-hidden="true" />
       </header>
 
       <section class="story__section">
@@ -49,26 +54,14 @@ useHead(() => ({
 .story {
   min-height: 100dvh;
   padding-bottom: 6rem;
-  /* Math, 2026-10-15: "ya encore the spray rouge sur the story" — red
-     corner-glow removed. Then "this image in the story page" — Paris
-     sketch key art behind the header. Then "c'est pas très bien découpé"
-     — recropped to a wide band around the Eiffel Tower/building details.
-     Then "lets remove the honey combs and only keep the visual". Then
-     "make it more pink all of it and reduce the background so its less
-     pixelated" — capped to native size instead of being upscaled by
-     `cover`. Then "rezoom the image... in the end its not pretty right
-     now" — recropped tight and centered directly on the Eiffel Tower, a
-     clearly "Paris" silhouette rather than disconnected building linework.
-     But the real problem turned out to be the darkening overlay: even at
-     0% it was already 45% opaque, washing the thin linework out almost
-     completely (confirmed by zooming into a live screenshot — the tower
-     was there, just nearly invisible). Lightened significantly at the top
-     where the art needs to actually read, ramping up later for the
-     body-copy sections' legibility. */
-  background:
-    linear-gradient(180deg, rgba(20, 3, 14, 0.1) 0%, rgba(20, 3, 14, 0.55) 45%, rgba(20, 3, 14, 0.94) 80%),
-    url('/images/story-bg.webp') top center / 950px auto no-repeat,
-    linear-gradient(90deg, #e91d26, #e921a9);
+  /* Math, 2026-10-15: after several passes trying to make the Eiffel Tower
+     art work as a full background behind the text (corner-glow, recrops,
+     overlay opacity...): "you did not fix the story page actually just
+     make the image smaller to the right of the text and leave the text on
+     black" — scrapped the background approach entirely. Flat --ink again;
+     the art is now a real <img> (.story__art) positioned beside the
+     header text, not behind it. */
+  background: var(--ink);
 }
 .container { padding-top: 3rem; }
 
@@ -81,7 +74,27 @@ useHead(() => ({
 }
 .back:hover { color: var(--red); }
 
-.story__head { max-width: 760px; margin-bottom: 3rem; }
+.story__head { position: relative; max-width: 760px; margin-bottom: 3rem; }
+/* Smaller, to the right of the text, on the plain --ink background —
+   not a full-bleed background image behind it. */
+.story__art {
+  display: none;
+}
+@media (min-width: 1300px) {
+  /* Only once the viewport is comfortably past .container's own 1200px
+     max-width (so .story__head's 760px + this image + the gap between
+     them can't ever exceed the available content width and overflow). */
+  .story__art {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 2.5rem);
+    width: 280px;
+    height: auto;
+    border-radius: 16px;
+    opacity: 0.9;
+  }
+}
 .story__title {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 7vw, 3.6rem);
