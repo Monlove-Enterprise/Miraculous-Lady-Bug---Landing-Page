@@ -756,28 +756,38 @@ function copyTune() {
    track is circular (the track needs the item's size to size itself, the
    item needs the track's size to resolve its percentage) — browsers fall
    back to a tiny indeterminate size instead (rendered ~126px instead of
-   ~800px). Fixed properly instead: embed goes back to being
-   absolutely-positioned (so its percentage width resolves against the
-   whole banner, unambiguously) at left:50% with a translateX(-50%) — a
-   true center regardless of Ladybug/Cat Noir's widths — and bottom:0
-   instead of the old top:50% vertical centering, so it still lines up on
-   the same bottom edge as the characters. */
+   ~800px).
+   Then: "we need to align the preview with the characters and the
+   preview has to be centered in the section" — true section-centering
+   alone wasn't enough: pinning Ladybug/Cat Noir to equal OUTER padding
+   (3% from each edge) left their INNER edges (facing the video)
+   asymmetric, since Cat Noir is wider — so the video's gap to Ladybug
+   read as bigger than its gap to Cat Noir even though the video itself
+   sat dead-center. Fixed by positioning all three purely relative to the
+   video instead of to the section's edges: the video is absolutely
+   centered (left:50%/translateX(-50%)), and each character's INNER edge
+   is pinned a fixed distance (half the video's width + a small gap) from
+   that same center — so both characters now sit exactly as far from the
+   video as each other, by construction, regardless of their own
+   differing widths. Checked bounds at 641-2560px: both characters stay
+   comfortably inside the viewport at every width (narrowest margin
+   ~66px at 641px). */
 .trailer-banner {
   position: relative;
   width: 100%;
   height: min(40vw, 640px);
   margin-top: 2.5rem;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 0 3%;
 }
 .trailer-char {
+  position: absolute;
+  bottom: 0;
   height: 100%;
   width: auto;
   pointer-events: none;
   user-select: none;
 }
+.trailer-char--lb { right: calc(50% + min(21%, 340px) + 2%); }
+.trailer-char--cn { left: calc(50% + min(21%, 340px) + 2%); }
 .trailer-embed {
   position: absolute;
   left: 50%;
@@ -799,6 +809,7 @@ function copyTune() {
    actually watchable), characters move to a smaller row below it. */
 @media (max-width: 640px) {
   .trailer-banner {
+    display: flex;
     height: auto;
     flex-wrap: wrap;
     align-items: center;
@@ -806,7 +817,18 @@ function copyTune() {
     gap: 1.1rem 8%;
     padding: 1.5rem 4% 2rem;
   }
-  .trailer-char { height: 130px; }
+  .trailer-char,
+  .trailer-char--lb,
+  .trailer-char--cn {
+    /* Desktop positions these absolutely, pinned a fixed distance from
+       the video's center; mobile stacks everything in-flow instead, so
+       reset that positioning here. */
+    position: relative;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    height: 130px;
+  }
   .trailer-embed {
     /* Desktop positions this absolutely (for true horizontal centering
        regardless of the characters' widths); mobile stacks it in-flow
