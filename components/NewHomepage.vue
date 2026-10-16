@@ -810,46 +810,22 @@ function copyTune() {
 /* Math, 2026-10-16: "the scaling of the lady bug and cat noir on the
    trailer section is not optimized in mobile the player is also very
    small" — fitting all three side by side the same way as desktop left
-   barely any width per element once the viewport got narrow (a 390px
-   screen only had ~140px for the video). Switched to a stack instead:
-   the video goes full-width on its own row first (so it's finally
-   actually watchable), characters move to a smaller row below it. */
+   barely any width per element once the viewport got narrow. First fix
+   stacked them instead (video full-width on top, characters in a row
+   below). Then, once the video grew to "barely touch" the characters on
+   desktop: "on mobile the character falls below the player can they
+   stay left and right and can we reduce the player more on mobile so
+   the characters stays on the side" — back to side-by-side, reusing the
+   same center-pinned positioning as desktop, just with a smaller video
+   (48%/760px -> 38%/300px) and a bigger buffer gap (0.5% -> 1%) so
+   there's room left for the characters. Checked bounds at 320-640px:
+   narrowest margin is ~28px at 320px. Math also offered a native 9:16 or
+   4:5 video cut for mobile instead of this crop — swap in once that
+   link exists. */
 @media (max-width: 640px) {
-  .trailer-banner {
-    display: flex;
-    height: auto;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 1.1rem 8%;
-    padding: 1.5rem 4% 2rem;
-  }
-  .trailer-char,
-  .trailer-char--lb,
-  .trailer-char--cn {
-    /* Desktop positions these absolutely, pinned a fixed distance from
-       the video's center; mobile stacks everything in-flow instead, so
-       reset that positioning here. */
-    position: relative;
-    right: auto;
-    left: auto;
-    bottom: auto;
-    height: 130px;
-  }
-  .trailer-embed {
-    /* Desktop positions this absolutely (for true horizontal centering
-       regardless of the characters' widths); mobile stacks it in-flow
-       above them instead, so reset that positioning here. */
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    order: -1;
-    flex: 0 0 92%;
-    width: 92%;
-    max-width: 420px;
-    margin: 0 auto;
-  }
+  .trailer-char--lb { right: calc(50% + min(19%, 150px) + 1%); }
+  .trailer-char--cn { left: calc(50% + min(19%, 150px) + 1%); }
+  .trailer-embed { width: min(38%, 300px); }
 }
 
 .section-title {
