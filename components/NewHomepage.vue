@@ -636,12 +636,37 @@ function copyTune() {
    pushed further again: a tighter, brighter, more saturated core glow
    layered on top of the original wider one for depth, plus a matching
    border/glow treatment on the social tiles themselves (echoing the neon
-   card borders on miraculous.com/games/). */
+   card borders on miraculous.com/games/). Then: "I wanted something more
+   bold please on the follow us, like square lines is there a blue
+   environment" — checked miraculous.com for an existing blue section to
+   match (games hub is green with a diagonal grid; Cat Noir's own page is
+   also green; Viperion's page is teal with concentric ripple rings, not
+   squares) — nothing blue with a square grid exists there to copy, so
+   this is an original square (straight horizontal/vertical, not
+   diagonal) grid in the same blue, layered under the glow. Same
+   host-needs-its-own-stacking-context pattern as .bg-honeycomb in
+   main.css (position:relative + z-index:0 on the host, z-index:-1 on the
+   ::before). */
 .social-section {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
   background:
     radial-gradient(45% 40% at 50% 0%, rgba(70, 140, 255, 0.55), transparent 70%),
     radial-gradient(95% 70% at 50% 0%, rgba(30, 95, 255, 0.5), transparent 72%),
     var(--ink);
+}
+.social-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(100, 160, 255, 0.28) 0 1.5px, transparent 1.5px 52px),
+    repeating-linear-gradient(90deg, rgba(100, 160, 255, 0.28) 0 1.5px, transparent 1.5px 52px);
+  -webkit-mask-image: radial-gradient(85% 75% at 50% 0%, black 0%, transparent 78%);
+  mask-image: radial-gradient(85% 75% at 50% 0%, black 0%, transparent 78%);
 }
 /* Math, 2026-10-15: "there is a green flare on the map that is not
    necessary" — green touch removed, cream wash kept for warmth. Green is
