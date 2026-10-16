@@ -27,6 +27,13 @@ export interface SubscriberInput {
   /** Raw document.referrer — used to attribute the source when no UTM is present. */
   referrer?: string
   ip?: string
+  /** From the city-autocomplete pick (Photon geocoder) — unset on the
+   *  free-text fallback. Used to compute nearestCitySlug. */
+  lat?: number
+  lng?: number
+  /** Nearest tour-stop slug (see server/utils/nearestCity.ts), stored so the
+   *  "Nearest to you" email data is reproducible without recomputing it. */
+  nearestCitySlug?: string
 }
 
 /** Insert the subscriber, or update it on email conflict. Returns the row id. */
@@ -38,13 +45,14 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
       email, first_name, city, country, country_code, postal_code, phone,
       email_consent, email_consent_at, email_consent_text,
       sms_consent, sms_consent_at, sms_consent_text,
-      age_confirmed, locale, utm_source, utm_medium, utm_campaign, referrer, ip, crm_synced
+      age_confirmed, locale, utm_source, utm_medium, utm_campaign, referrer, ip,
+      lat, lng, nearest_city_slug, crm_synced
     ) VALUES (
       ${input.email}, ${input.firstName ?? null}, ${input.city}, ${input.country ?? null}, ${input.countryCode ?? null}, ${input.postalCode ?? null}, ${input.phone ?? null},
       ${input.emailConsent}, ${input.emailConsentAt ?? null}, ${input.emailConsentText ?? null},
       ${input.smsConsent}, ${input.smsConsentAt ?? null}, ${input.smsConsentText ?? null},
       ${input.ageConfirmed}, ${input.locale ?? null}, ${input.utmSource ?? null}, ${input.utmMedium ?? null}, ${input.utmCampaign ?? null}, ${input.referrer ?? null},
-      ${input.ip ?? null}, false
+      ${input.ip ?? null}, ${input.lat ?? null}, ${input.lng ?? null}, ${input.nearestCitySlug ?? null}, false
     )
     ON CONFLICT (email) DO UPDATE SET
       first_name         = COALESCE(EXCLUDED.first_name, subscribers.first_name),
@@ -66,6 +74,9 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
       utm_campaign       = COALESCE(EXCLUDED.utm_campaign, subscribers.utm_campaign),
       referrer           = COALESCE(EXCLUDED.referrer, subscribers.referrer),
       ip                 = EXCLUDED.ip,
+      lat                = COALESCE(EXCLUDED.lat, subscribers.lat),
+      lng                = COALESCE(EXCLUDED.lng, subscribers.lng),
+      nearest_city_slug  = COALESCE(EXCLUDED.nearest_city_slug, subscribers.nearest_city_slug),
       crm_synced         = false,
       updated_at         = now()
     RETURNING id

@@ -21,6 +21,11 @@ export interface CitySuggestion {
   countryCode?: string
   /** Region/state, used only to disambiguate the label. */
   state?: string
+  /** Latitude/longitude, used server-side to find the subscriber's nearest
+   *  tour stop (see server/api/subscribe.post.ts) — Photon already returns
+   *  these on every feature, just forwarded through here. */
+  lat?: number
+  lng?: number
 }
 
 // Photon's `layer=city` already narrows to populated places; this is a safety
@@ -82,6 +87,10 @@ interface PhotonFeature {
     osm_value?: string
     extent?: number[]
   }
+  // GeoJSON Point: [lng, lat] — note the order.
+  geometry?: {
+    coordinates?: [number, number]
+  }
 }
 
 async function searchPhoton(q: string, lang: string): Promise<CitySuggestion[]> {
@@ -111,12 +120,16 @@ async function searchPhoton(q: string, lang: string): Promise<CitySuggestion[]> 
     if (seen.has(key)) continue
     seen.add(key)
 
+    const [lng, lat] = f.geometry?.coordinates || []
+
     out.push({
       label,
       city,
       country: p.country || undefined,
       countryCode: p.countrycode || undefined,
       state: p.state || undefined,
+      lat,
+      lng,
     })
     if (out.length >= 6) break
   }

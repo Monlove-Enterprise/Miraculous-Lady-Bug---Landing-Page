@@ -10,6 +10,8 @@ interface CitySuggestion {
   country?: string
   countryCode?: string
   state?: string
+  lat?: number
+  lng?: number
 }
 
 const { t, locale } = useLocale()
@@ -42,6 +44,11 @@ const email = ref('')
 const cityQuery = ref('') // what the user typed in the city field
 const city = ref('') // required — normalised city name (set on pick, or free-text fallback)
 const cityCountry = ref('') // country that came with the picked city
+// Only set when they pick a real suggestion (Photon-geocoded) — the free-text
+// fallback has no coordinates. Used server-side to find their nearest tour
+// stop for the "Nearest to you" email block.
+const cityLat = ref<number | undefined>(undefined)
+const cityLng = ref<number | undefined>(undefined)
 // Stores the ISO 3166-1 alpha-2 code (not the dial prefix) — several dial
 // codes are shared by multiple countries (+1: 14 of them, +7: 2), so only the
 // ISO code tells libphonenumber-js which numbering plan to validate against.
@@ -74,6 +81,8 @@ function onCityInput() {
   // Any edit invalidates a previously picked city until they choose again.
   city.value = ''
   cityCountry.value = ''
+  cityLat.value = undefined
+  cityLng.value = undefined
   const q = cityQuery.value.trim()
   clearTimeout(debounceTimer)
   if (q.length < 2) {
@@ -102,6 +111,8 @@ function pickCity(s: CitySuggestion) {
   city.value = s.city
   cityCountry.value = s.country || ''
   cityQuery.value = s.label
+  cityLat.value = s.lat
+  cityLng.value = s.lng
   suggestions.value = []
   showSuggest.value = false
 }
@@ -150,6 +161,8 @@ async function submit() {
         email: email.value,
         city: city.value,
         country: cityCountry.value,
+        lat: cityLat.value,
+        lng: cityLng.value,
         phone: phone.value.trim() || undefined,
         phoneCountry: phone.value.trim() ? phoneCountry.value : undefined,
         // Email consent is implicit on submit (no checkbox); the notice shown
