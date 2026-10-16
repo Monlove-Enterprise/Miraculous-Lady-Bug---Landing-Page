@@ -841,13 +841,24 @@ function copyTune() {
    min(0.38vw, 608px); embed_width = embed_height * 9/16 = min(0.2138vw,
    342px); half of that is min(10.69%, 171px). Checked bounds at
    320-640px: narrowest margin ~48px at 320px (wide room to spare, since
-   the vertical video is much narrower than the old 16:9 crop was). */
+   the vertical video is much narrower than the old 16:9 crop was).
+   Bug found after shipping: "the player goes in front of the trailer
+   title" — desktop's bottom:32% was still in effect, and combined with
+   height:95% that's 127% of the banner's own height, so the video's top
+   27% spilled out above .trailer-banner into the title above it (which
+   has no overflow:hidden to catch it). Added a mobile-specific
+   bottom:3% so bottom + height stays under 100% (93%), and recomputed
+   the character math for the resulting slightly smaller width:
+   embed_height = 0.90 * min(0.40vw, 640px) = min(0.36vw, 576px);
+   embed_width = embed_height * 9/16 = min(0.2025vw, 324px); half of
+   that is min(10.1%, 162px). */
 @media (max-width: 640px) {
-  .trailer-char--lb { right: calc(50% + min(10.69%, 171px) + 3%); }
-  .trailer-char--cn { left: calc(50% + min(10.69%, 171px) + 3%); }
+  .trailer-char--lb { right: calc(50% + min(10.1%, 162px) + 3%); }
+  .trailer-char--cn { left: calc(50% + min(10.1%, 162px) + 3%); }
   .trailer-embed {
     width: auto;
-    height: 95%;
+    height: 90%;
+    bottom: 3%;
     aspect-ratio: 9 / 16;
   }
 }
