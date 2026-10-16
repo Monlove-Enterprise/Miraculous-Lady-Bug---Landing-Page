@@ -101,12 +101,15 @@ function monogram(p: Person): string {
 </template>
 
 <style scoped>
+/* Math, 2026-10-16: "for cast and creative the white background I mean
+   the background of the page not the people" — the PAGE background goes
+   white/cream; the headshot cards (dark .featured-card/.card panels) and
+   the photos inside them are untouched, so nothing about "the people"
+   moves or resizes. */
 .cast {
   min-height: 100dvh;
   padding-bottom: 6rem;
-  background:
-    radial-gradient(120% 85% at 50% 100%, rgba(243, 233, 216, 0.045), transparent 68%),
-    var(--ink);
+  background: var(--cream);
 }
 .container { padding-top: 3rem; }
 
@@ -135,7 +138,7 @@ function monogram(p: Person): string {
 
 .back {
   display: inline-block;
-  color: var(--cream-dim);
+  color: rgba(28, 15, 13, 0.55);
   font-size: 0.9rem;
   margin-bottom: 2.5rem;
   transition: color 0.15s ease;
@@ -152,7 +155,7 @@ function monogram(p: Person): string {
   text-wrap: balance;
 }
 .cast__intro {
-  color: var(--cream);
+  color: #1c0f0d;
   font-size: clamp(1.05rem, 2.6vw, 1.3rem);
   margin-bottom: 1rem;
 }
@@ -161,12 +164,12 @@ function monogram(p: Person): string {
 .cast__section { margin-bottom: 3.5rem; }
 .cast__heading {
   font-size: clamp(1.4rem, 4vw, 2rem);
-  color: var(--cream);
+  color: #1c0f0d;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   margin-bottom: 1.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(243, 233, 216, 0.12);
+  border-bottom: 1px solid rgba(28, 15, 13, 0.12);
 }
 
 /* Card grid */
@@ -319,7 +322,7 @@ function monogram(p: Person): string {
 .cast__footer {
   margin-top: 4rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(243, 233, 216, 0.1);
+  border-top: 1px solid rgba(28, 15, 13, 0.1);
   text-align: center;
 }
 .cast__footer-links {
@@ -327,14 +330,14 @@ function monogram(p: Person): string {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  color: var(--cream-dim);
+  color: rgba(28, 15, 13, 0.55);
   font-size: 0.85rem;
   margin-bottom: 0.75rem;
 }
 .cast__footer-links a { text-decoration: underline; }
 .cast__footer-links a:hover { color: var(--red); }
 .cast__footer-license {
-  color: rgba(203, 192, 174, 0.5);
+  color: rgba(28, 15, 13, 0.4);
   font-size: 0.75rem;
 }
 </style>
