@@ -596,8 +596,19 @@ function copyTune() {
 /* Math: "Can we replace the green with this please" — branded Ladybug
    key-art background (public/images/trailer-bg.webp) instead of a flat
    color fill. */
+/* Math: "can the trailer title be in the red to pink band" — the title
+   moved back to a plain --ink background in the banner redesign (there's
+   no vertical room to overlay it on the image itself without covering
+   Ladybug/Cat Noir's heads, which reach nearly the full height of the
+   art). Instead, the title's own band is now the same red-to-pink
+   gradient as the banner's edges, so it reads as one continuous colored
+   section instead of title-on-black above a colorful image. */
 .trailer-section {
   padding-bottom: 0;
+  background: linear-gradient(90deg, #e91d26, #e921a9);
+}
+.trailer-section .section-title {
+  color: var(--cream);
 }
 .trailer-banner {
   position: relative;
