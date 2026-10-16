@@ -158,7 +158,18 @@ function copyTune() {
            étoiles. Mettez les étoiles sur la bannière get exclusive content
            et sur le poster on met rien." Poster stays clean — no stars, no
            honeycomb. -->
-      <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
+      <!-- Math: "can we make the star on the poster art shine" — the
+           sparkle is baked into the flat key-art image itself; this is a
+           separate animated glow overlaid directly on top of it (not a
+           new decorative star — the no-stars-on-the-poster decision from
+           2026-10-15 above was about adding more, not animating the one
+           that's already part of the official art), positioned to match
+           where it sits in the source image (~18.5%, ~12% from the
+           top-left). -->
+      <div class="hero__poster-wrap">
+        <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
+        <span class="hero__poster-star" aria-hidden="true" />
+      </div>
 
       <img
         class="hero__credit-img"
@@ -434,7 +445,7 @@ function copyTune() {
 /* Flat poster art — pixel-exact crop of the reference, scales as one piece
    so the sparkle/art/title/subtitle relationship can't drift out of position
    again. */
-.hero__poster-img {
+.hero__poster-wrap {
   position: relative;
   z-index: 2;
   /* Math, 2026-10-14: "still too small... lots of space as long as we fit
@@ -445,8 +456,31 @@ function copyTune() {
      being one continuous formula — ceiling just reached earlier (~674px
      viewport instead of ~890px). */
   width: clamp(360px, 95vw, 640px);
+}
+.hero__poster-img {
+  position: static;
+  width: 100%;
   height: auto;
   display: block;
+}
+/* Glow overlay matching the sparkle's position in the source art
+   (~18.5%, ~12% from the top-left), animated so it reads as shining. */
+.hero__poster-star {
+  position: absolute;
+  left: 18.5%;
+  top: 11.9%;
+  width: 7.5%;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 72%);
+  animation: hero-star-shine 2.2s ease-in-out infinite;
+}
+@keyframes hero-star-shine {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__poster-star { animation: none; opacity: 0.8; }
 }
 .hero__credit-img {
   position: relative;
