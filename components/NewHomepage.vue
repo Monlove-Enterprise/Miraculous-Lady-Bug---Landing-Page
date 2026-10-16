@@ -269,9 +269,24 @@ function copyTune() {
            bigger centered video. -->
       <div class="trailer-banner">
         <img class="trailer-char trailer-char--lb" src="/images/trailer-ladybug.webp" alt="" aria-hidden="true" />
+        <!-- Math, 2026-10-16: sent a native 9:16 Short
+             (youtube.com/shorts/mIxEgeRMiag) to use on mobile instead of
+             cropping/squeezing the 16:9 trailer — two iframes, toggled by
+             CSS media query (.trailer-embed--desktop/--mobile below), so
+             each breakpoint gets the video cut actually made for it. -->
         <div class="trailer-embed">
           <iframe
+            class="trailer-embed__frame trailer-embed__frame--desktop"
             src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
+            :title="t('trailer.heading')"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          />
+          <iframe
+            class="trailer-embed__frame trailer-embed__frame--mobile"
+            src="https://www.youtube-nocookie.com/embed/mIxEgeRMiag"
             :title="t('trailer.heading')"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -816,16 +831,25 @@ function copyTune() {
    desktop: "on mobile the character falls below the player can they
    stay left and right and can we reduce the player more on mobile so
    the characters stays on the side" — back to side-by-side, reusing the
-   same center-pinned positioning as desktop, just with a smaller video
-   (48%/760px -> 38%/300px) and a bigger buffer gap (0.5% -> 1%) so
-   there's room left for the characters. Checked bounds at 320-640px:
-   narrowest margin is ~28px at 320px. Math also offered a native 9:16 or
-   4:5 video cut for mobile instead of this crop — swap in once that
-   link exists. */
+   same center-pinned positioning as desktop, with a smaller 16:9 video.
+   Then Math sent a native 9:16 Short (mIxEgeRMiag) for mobile — switched
+   from width-driven sizing to height-driven (height:95% of the banner,
+   aspect-ratio 9/16 derives the width), same logic as the characters,
+   since a tall narrow video needs much less horizontal room than a wide
+   one for the same visual size. Character position math recomputed for
+   the new derived width: embed_height = 0.95 * min(0.40vw, 640px) =
+   min(0.38vw, 608px); embed_width = embed_height * 9/16 = min(0.2138vw,
+   342px); half of that is min(10.69%, 171px). Checked bounds at
+   320-640px: narrowest margin ~48px at 320px (wide room to spare, since
+   the vertical video is much narrower than the old 16:9 crop was). */
 @media (max-width: 640px) {
-  .trailer-char--lb { right: calc(50% + min(19%, 150px) + 1%); }
-  .trailer-char--cn { left: calc(50% + min(19%, 150px) + 1%); }
-  .trailer-embed { width: min(38%, 300px); }
+  .trailer-char--lb { right: calc(50% + min(10.69%, 171px) + 3%); }
+  .trailer-char--cn { left: calc(50% + min(10.69%, 171px) + 3%); }
+  .trailer-embed {
+    width: auto;
+    height: 95%;
+    aspect-ratio: 9 / 16;
+  }
 }
 
 .section-title {
@@ -1011,11 +1035,18 @@ function copyTune() {
 }
 .btn--outline:hover { border-color: var(--red); color: var(--red); }
 
-.trailer-embed iframe {
+.trailer-embed__frame {
   width: 100%;
   height: 100%;
   border: 0;
-  display: block;
+}
+/* Desktop (16:9 trailer) shows by default; mobile (9:16 Short) swaps in
+   at the same breakpoint as the rest of the mobile trailer layout. */
+.trailer-embed__frame--desktop { display: block; }
+.trailer-embed__frame--mobile { display: none; }
+@media (max-width: 640px) {
+  .trailer-embed__frame--desktop { display: none; }
+  .trailer-embed__frame--mobile { display: block; }
 }
 
 .social-grid {
