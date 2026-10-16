@@ -791,7 +791,10 @@ function copyTune() {
 .trailer-embed {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  /* Math, 2026-10-16: "the player has to be higher" — was bottom:0,
+     flush with the characters' feet; raised it so it sits roughly at
+     their chest/torso level instead. */
+  bottom: 20%;
   transform: translateX(-50%);
   width: min(42%, 680px);
   aspect-ratio: 16 / 9;
