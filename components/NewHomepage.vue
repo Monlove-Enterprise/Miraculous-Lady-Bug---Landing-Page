@@ -168,7 +168,9 @@ function copyTune() {
            top-left). -->
       <div class="hero__poster-wrap">
         <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
-        <span class="hero__poster-star" aria-hidden="true" />
+        <div class="hero__poster-star" aria-hidden="true">
+          <img class="hero__poster-star-img" src="/images/hero-poster.webp" alt="" />
+        </div>
       </div>
 
       <img
@@ -463,24 +465,57 @@ function copyTune() {
   height: auto;
   display: block;
 }
-/* Glow overlay matching the sparkle's position in the source art
-   (~18.5%, ~12% from the top-left), animated so it reads as shining. */
+/* Math, 2026-10-16 (round 2): "the start on the covert art blinking does
+   not work at all. It has to be the design that shines not a new light" —
+   two problems with the first attempt. First, the window's position/size
+   (18.5%/11.9%, 7.5% square) was measured wrong — a pixel scan of the real
+   hero-poster.webp (not the old key art) puts the sparkle's actual
+   bounding box at 17.3–23.0% horizontally / 7.6–15.8% vertically, taller
+   than it is wide, so the old square window only ever covered its
+   bottom-right corner. Second, brightness/blend-mode:screen on an
+   already-near-white graphic is a no-op (screen(white, x) = white) and so
+   is animating the overlay's opacity, because the SAME white sparkle is
+   always sitting underneath it in the base poster image at full strength
+   — changing the copy on top changes nothing visible. The only way for
+   literally this artwork to visibly "shine" is to let the copy grow
+   larger than its own resting footprint, so it's still exactly the same
+   sparkle, just periodically bigger — no added shape, no new light
+   source, just this star pulsing size the way a twinkle actually reads. */
 .hero__poster-star {
   position: absolute;
-  left: 18.5%;
-  top: 11.9%;
-  width: 7.5%;
-  aspect-ratio: 1 / 1;
+  left: 15.338%;
+  top: 4.75%;
+  width: 9.602%;
+  height: 13.975%;
+  overflow: hidden;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse, black 40%, transparent 85%);
+  mask-image: radial-gradient(ellipse, black 40%, transparent 85%);
   animation: hero-star-shine 2.2s ease-in-out infinite;
+  transform-origin: center;
+}
+.hero__poster-star-img {
+  /* Re-offsets this copy of hero-poster.webp so it lines up pixel-for-
+     pixel with the one underneath, inside this smaller window: width is
+     1 / 0.09602 = 1041.47% of the window's own width to bring the full
+     poster back to its natural size, shifted by -(0.15338/0.09602) and
+     -(0.0475/0.13975) to re-center the sparkle under the window. */
+  position: absolute;
+  left: -159.74%;
+  top: -33.99%;
+  width: 1041.466%;
+  /* Global `img { max-width: 100% }` (main.css) would otherwise clamp this
+     back down to the window's own tiny width, shrinking the whole poster
+     into the crop instead of showing a 1:1 zoomed-in slice of it. */
+  max-width: none;
+  height: auto;
 }
 @keyframes hero-star-shine {
-  0%, 100% { opacity: 0.35; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1.25); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.5); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero__poster-star { animation: none; opacity: 0.8; }
+  .hero__poster-star { animation: none; }
 }
 .hero__credit-img {
   position: relative;
