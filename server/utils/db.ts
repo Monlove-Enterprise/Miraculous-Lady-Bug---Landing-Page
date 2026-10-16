@@ -72,6 +72,14 @@ export function ensureSchema(): Promise<void> {
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS brevo_contact_id bigint`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS crm_synced_at timestamptz`
       await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS crm_last_error text`
+      // Captured from the city-autocomplete pick (Photon geocoder) so we can
+      // compute each subscriber's nearest tour stop for the "Nearest to you"
+      // email block — Math, 2026-10-16: tested the tour_announce email and
+      // the block rendered blank, because NEAREST_CITY/NEAREST_DATE were
+      // referenced in the template but never actually computed or sent.
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS lat numeric`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS lng numeric`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS nearest_city_slug text`
 
       // Fast lookups for per-country export / CRM backfill.
       await db`CREATE INDEX IF NOT EXISTS subscribers_country_idx ON subscribers (country)`

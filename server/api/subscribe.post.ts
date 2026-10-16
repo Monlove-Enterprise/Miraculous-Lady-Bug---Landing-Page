@@ -21,6 +21,7 @@ import {
 import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
 import { sendBrevoWelcomeEmail } from '../utils/crm/brevo-welcome'
 import { resolveCountryForCity } from '../utils/geocode'
+import { findNearestCity } from '../utils/nearestCity'
 import { nameToCode } from '../utils/countryCode'
 import { sendTikTokEvent } from '../utils/tiktok-events'
 import { sendMetaEvent } from '../utils/meta-capi'
@@ -40,6 +41,10 @@ interface SubscribeBody {
   firstName?: string
   city?: string
   country?: string
+  /** From the city-autocomplete pick (Photon geocoder) — unset on the
+   *  free-text fallback. Used to find the subscriber's nearest tour stop. */
+  lat?: number
+  lng?: number
   phone?: string
   /** ISO 3166-1 alpha-2 of the dial-code select — needed to apply that
    *  country's national-prefix rules when parsing `phone`. */
@@ -136,6 +141,14 @@ export default defineEventHandler(async (event) => {
   const utmSource = body.utmSource?.trim() || derived?.source
   const utmMedium = body.utmMedium?.trim() || derived?.medium
 
+  // Best-effort: only resolvable when they picked a real autocomplete
+  // suggestion (lat/lng present) and an eligible tour city already exists —
+  // never blocks the signup. Powers the "Nearest to you" email block.
+  const nearest = await findNearestCity(body.lat, body.lng).catch((err) => {
+    console.error('[subscribe] nearest-city lookup failed (non-fatal):', err?.message || err)
+    return undefined
+  })
+
   // ---- 1. Persist to Postgres (source of truth) ----
   const subscriber: SubscriberInput = {
     email,
@@ -157,6 +170,9 @@ export default defineEventHandler(async (event) => {
     utmCampaign: body.utmCampaign?.trim() || undefined,
     referrer,
     ip,
+    lat: body.lat,
+    lng: body.lng,
+    nearestCitySlug: nearest?.slug,
   }
 
   try {
@@ -198,6 +214,9 @@ export default defineEventHandler(async (event) => {
           utmMedium: subscriber.utmMedium,
           utmCampaign: subscriber.utmCampaign,
           createdAt: now,
+          nearestCity: nearest?.display,
+          nearestDate: nearest?.dateDisplay,
+          nearestTicketUrl: nearest?.ticketUrl,
         },
         { apiKey: config.brevoApiKey, listId, omitSms },
       )

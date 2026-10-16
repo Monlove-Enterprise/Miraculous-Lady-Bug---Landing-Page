@@ -41,6 +41,17 @@ export interface BrevoSyncInput {
   utmMedium?: string | null
   utmCampaign?: string | null
   createdAt?: string | null
+  /** "Brooklyn, NY" — nearest tour stop, read by the "Nearest to you" block
+   *  in tour_announce/presale_open/onsale (emails/partials/city-block.html).
+   *  Unset when the subscriber has no coordinates (free-text city fallback)
+   *  or no eligible city exists yet — left off Brevo entirely rather than
+   *  sent blank, same as every other optional attribute here. */
+  nearestCity?: string | null
+  /** "March 9, 2027" — paired with nearestCity. */
+  nearestDate?: string | null
+  /** Direct ticket link for nearestCity — unset until that city's own
+   *  ticket_url is set (presale/general sale). */
+  nearestTicketUrl?: string | null
 }
 
 // Attribute names match the ones already defined in the Brevo account (created
@@ -68,6 +79,9 @@ function buildAttributes(s: BrevoSyncInput, omitSms: boolean): Record<string, un
   if (s.utmMedium) a.UTM_MEDIUM = s.utmMedium
   if (s.utmCampaign) a.UTM_CAMPAIGN = s.utmCampaign
   if (s.createdAt) a.CREATED_AT = s.createdAt
+  if (s.nearestCity) a.NEAREST_CITY = s.nearestCity
+  if (s.nearestDate) a.NEAREST_DATE = s.nearestDate
+  if (s.nearestTicketUrl) a.NEAREST_TICKET_URL = s.nearestTicketUrl
   return a
 }
 
