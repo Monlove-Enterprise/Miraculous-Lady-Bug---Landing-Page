@@ -786,17 +786,21 @@ function copyTune() {
   pointer-events: none;
   user-select: none;
 }
-.trailer-char--lb { right: calc(50% + min(21%, 340px) + 2%); }
-.trailer-char--cn { left: calc(50% + min(21%, 340px) + 2%); }
+/* Math, 2026-10-16: "it can be a tad bigger so it barely touches the two
+   characters" — embed grown 42%/680px -> 48%/760px, and the gap to each
+   character shrunk from 2% to 0.5% to match. Half-width here (min(24%,
+   380px)) must stay in sync with the embed's own width below. */
+.trailer-char--lb { right: calc(50% + min(24%, 380px) + 0.5%); }
+.trailer-char--cn { left: calc(50% + min(24%, 380px) + 0.5%); }
 .trailer-embed {
   position: absolute;
   left: 50%;
   /* Math, 2026-10-16: "the player has to be higher" — was bottom:0,
-     flush with the characters' feet; raised it so it sits roughly at
-     their chest/torso level instead. */
-  bottom: 20%;
+     flush with the characters' feet. Raised to 20%, then "even higher
+     the player" — raised again to 32%. */
+  bottom: 32%;
   transform: translateX(-50%);
-  width: min(42%, 680px);
+  width: min(48%, 760px);
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
