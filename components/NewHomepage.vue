@@ -617,6 +617,16 @@ function copyTune() {
   padding: 4rem 0;
   background: var(--ink);
 }
+/* Math, 2026-10-16: "can we try something blue in the section follow us" —
+   first pass: a soft blue wash top-center, same treatment as .map-section's
+   cream wash below, so it's a subtle accent rather than a flat blue block.
+   Blue is Marinette's hair color from the key art (#1e5fff, same value the
+   old trailer --blue token used before it was dropped 2026-10-15). */
+.social-section {
+  background:
+    radial-gradient(130% 80% at 50% 0%, rgba(30, 95, 255, 0.1), transparent 70%),
+    var(--ink);
+}
 /* Math, 2026-10-15: "there is a green flare on the map that is not
    necessary" — green touch removed, cream wash kept for warmth. Green is
    no longer used anywhere on the site. */
