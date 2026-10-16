@@ -254,14 +254,17 @@ function copyTune() {
       <div class="container">
         <h2 class="section-title">{{ t('trailer.heading') }}</h2>
       </div>
-      <!-- Math: "here is a new background for the trailer section can you
-           make it fit so the video arrives in between lady bug and
-           catnoir" — full-width banner (Ladybug left, Cat Noir right,
-           empty "stage" gap between them), sized to the image's own
-           aspect ratio so it's never cropped/distorted; the video sits
-           positioned in that gap (measured from the source art: the gap
-           runs ~36.5%-65% of the image width, centered ~50.7%). -->
+      <!-- Math, 2026-10-16: "can we make the player bigger so it fits under
+           the player" + sent Ladybug and Cat Noir as separate cutouts
+           ("they are in backgrounds") — the old flattened banner image
+           locked the characters and the video gap to one fixed baked-in
+           layout, so none of the three could grow independently. Rebuilt
+           with the plain gradient (.trailer-section's own background
+           shows through — no image here anymore) and the two characters
+           as their own layered, independently-sized images, flanking a
+           bigger centered video. -->
       <div class="trailer-banner">
+        <img class="trailer-char trailer-char--lb" src="/images/trailer-ladybug.webp" alt="" aria-hidden="true" />
         <div class="trailer-embed">
           <iframe
             src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
@@ -272,6 +275,7 @@ function copyTune() {
             loading="lazy"
           />
         </div>
+        <img class="trailer-char trailer-char--cn" src="/images/trailer-catnoir.webp" alt="" aria-hidden="true" />
       </div>
     </section>
 
@@ -617,14 +621,17 @@ function copyTune() {
   padding: 4rem 0;
   background: var(--ink);
 }
-/* Math, 2026-10-16: "can we try something blue in the section follow us" —
-   first pass: a soft blue wash top-center, same treatment as .map-section's
-   cream wash below, so it's a subtle accent rather than a flat blue block.
-   Blue is Marinette's hair color from the key art (#1e5fff, same value the
-   old trailer --blue token used before it was dropped 2026-10-15). */
+/* Math, 2026-10-16: "we dont see the blue enough I would inspire myself
+   with the videogame section on miraculous.com inspired by the green but
+   in blue" — the first pass (a 10%-opacity wash) was too subtle to read.
+   miraculous.com/games/ uses a strong, saturated glow (not a faint tint)
+   fading from top-center into black. Then: "I dont necessairly want a
+   grid" — dropped the diagonal crosshatch texture that section also had,
+   kept just the bold radial glow part, same blue (#1e5fff, Marinette's
+   hair) instead of their green. */
 .social-section {
   background:
-    radial-gradient(130% 80% at 50% 0%, rgba(30, 95, 255, 0.1), transparent 70%),
+    radial-gradient(90% 65% at 50% 0%, rgba(30, 95, 255, 0.4), transparent 70%),
     var(--ink);
 }
 /* Math, 2026-10-15: "there is a green flare on the map that is not
@@ -708,35 +715,53 @@ function copyTune() {
 .trailer-section .section-title {
   color: var(--cream);
 }
+/* Math, 2026-10-16: "lady bug and cat noir and the player could be bigger"
+   — no longer one flattened image, so none of the three is locked to a
+   baked-in layout anymore. Characters are flex items pinned to the
+   banner's own bottom edge (space-between keeps them at the outer
+   edges); the video is a separately centered, absolutely-positioned
+   layer between them. Height uses min(vw, cap) rather than a fixed-floor
+   clamp() specifically so it keeps shrinking smoothly with the viewport
+   down to the mobile breakpoint — a floor here left a band of
+   mid-width viewports (~640-950px) where the banner's height stayed
+   constant while it kept getting narrower, which pushed Cat Noir
+   (wider per unit height than Ladybug, 1.875:1 vs 2.391:1) into the
+   video. */
 .trailer-banner {
   position: relative;
   width: 100%;
-  /* Matches the source art's own ratio (7842x1847) exactly, so cover never
-     has to crop or upscale it — same "keep it crisp, don't distort"
-     reasoning as the Story page background. */
-  aspect-ratio: 7842 / 1847;
+  height: min(40vw, 640px);
   margin-top: 2.5rem;
-  background-image: url('/images/trailer-bg.webp');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 3%;
 }
-/* Math: "can you make the player bigger so it touches ladybug and cat
-   noir" — widened to the gap's full measured width (28.51% of the
-   banner); since the banner scales as one locked-aspect-ratio unit, this
-   percentage holds at every viewport width, so no separate mobile value
-   is needed. */
+.trailer-char {
+  height: 94%;
+  width: auto;
+  pointer-events: none;
+  user-select: none;
+}
 .trailer-embed {
   position: absolute;
-  left: 50.7%;
+  left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 28.51%;
+  width: min(38%, 620px);
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
   background: var(--ink-panel);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 640px) {
+  .trailer-banner {
+    height: clamp(300px, 80vw, 420px);
+    padding: 0 2%;
+  }
+  .trailer-char { height: 60%; }
+  .trailer-embed { width: 36%; }
 }
 
 .section-title {
