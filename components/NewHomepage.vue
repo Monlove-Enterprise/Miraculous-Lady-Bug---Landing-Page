@@ -639,10 +639,26 @@ function copyTune() {
    section instead of title-on-black above a colorful image. */
 .trailer-section {
   padding-bottom: 0;
-  /* Exact edge colors sampled from the banner image itself (left #ff0100,
-     right #fd0a87), not an eyeballed approximation — Math: "the band
-     color is not exactly the same". */
-  background: linear-gradient(90deg, #ff0100, #fd0a87);
+  /* Math, 2026-10-16: "the band color is not exactly the same" — a plain
+     2-stop gradient between the edge colors doesn't match because the
+     banner's own gradient isn't linear (flat red for the first ~25%, flat
+     pink for the last ~10%, curved between). These stops are sampled
+     directly off design-source/Backgrounds/Background_trailer.png at 10%
+     increments across its width, so the CSS curve matches the image's
+     curve, not just its two endpoints. */
+  background: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #ff0000 20%,
+    #ff0029 30%,
+    #ff0042 40%,
+    #ff0054 50%,
+    #ff0064 60%,
+    #ff0073 70%,
+    #fe0581 80%,
+    #fd0a87 90%,
+    #fd0a87 100%
+  );
 }
 .trailer-section .section-title {
   color: var(--cream);
