@@ -518,9 +518,22 @@ function copyTune() {
   max-width: none;
   height: auto;
 }
+/* Math, 2026-10-16: "and the start is animated but can it shine ?" — the
+   size pulse alone read as the star growing, not glinting. Added a soft
+   white drop-shadow synced to the same peak (not a separate always-on
+   light): filter:drop-shadow follows this element's own masked shape
+   and isn't clipped by its own overflow:hidden, so the glow bleeds
+   outward from the star's silhouette right as it grows, then fades back
+   out with it — still this star's own flash, timed to its own motion. */
 @keyframes hero-star-shine {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.5); }
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  50% {
+    transform: scale(1.5);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 14px rgba(255, 255, 255, 0.6));
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__poster-star { animation: none; }
@@ -656,6 +669,17 @@ function copyTune() {
     radial-gradient(95% 70% at 50% 0%, rgba(30, 95, 255, 0.5), transparent 72%),
     var(--ink);
 }
+/* Math, 2026-10-16: "I dont see anything of that?" then "oh around the
+   frames" then "maybe a grid in the background. Its the background I
+   want to work on" — the radial-gradient mask above sized its fade
+   relative to the FULL section height, but the glow/grid combo was only
+   ever meant to read near the top; in practice it washed out within the
+   first ~100px, so across the section's actual ~640px height almost all
+   of it was just plain black — easy to miss and easy to mistake the
+   tile border glow ("the frames") for the only blue thing on the
+   section. Grid now covers the section edge-to-edge at a flat opacity,
+   with only short fades right at the very top/bottom seams (not the
+   whole section) so it blends into the sections above/below. */
 .social-section::before {
   content: '';
   position: absolute;
@@ -665,8 +689,8 @@ function copyTune() {
   background-image:
     repeating-linear-gradient(0deg, rgba(100, 160, 255, 0.28) 0 1.5px, transparent 1.5px 52px),
     repeating-linear-gradient(90deg, rgba(100, 160, 255, 0.28) 0 1.5px, transparent 1.5px 52px);
-  -webkit-mask-image: radial-gradient(85% 75% at 50% 0%, black 0%, transparent 78%);
-  mask-image: radial-gradient(85% 75% at 50% 0%, black 0%, transparent 78%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
 }
 /* Math, 2026-10-15: "there is a green flare on the map that is not
    necessary" — green touch removed, cream wash kept for warmth. Green is
