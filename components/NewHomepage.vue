@@ -634,62 +634,16 @@ function copyTune() {
 .map-section,
 .dates-section,
 .trailer-section,
+/* Math, 2026-10-16: went through several rounds of a blue glow/grid
+   treatment for this section (radial glow, square grid, bolder glow,
+   grid-only) referencing miraculous.com/games/'s green floor-grid —
+   ended with "lets remove the grids I dont like it thanks for trying" —
+   back to the plain flat --ink background, nothing else. The social
+   tiles' own neon-blue border/glow (added in the same round) wasn't
+   called out as unwanted, so it's untouched. */
 .social-section {
   padding: 4rem 0;
   background: var(--ink);
-}
-/* Math, 2026-10-16: "we dont see the blue enough I would inspire myself
-   with the videogame section on miraculous.com inspired by the green but
-   in blue" — the first pass (a 10%-opacity wash) was too subtle to read.
-   miraculous.com/games/ uses a strong, saturated glow (not a faint tint)
-   fading from top-center into black. Then: "I dont necessairly want a
-   grid" — dropped the diagonal crosshatch texture that section also had,
-   kept just the bold radial glow part, same blue (#1e5fff, Marinette's
-   hair) instead of their green. Then: "I want something more bold" —
-   pushed further again: a tighter, brighter, more saturated core glow
-   layered on top of the original wider one for depth, plus a matching
-   border/glow treatment on the social tiles themselves (echoing the neon
-   card borders on miraculous.com/games/). Then: "I wanted something more
-   bold please on the follow us, like square lines is there a blue
-   environment" — checked miraculous.com for an existing blue section to
-   match (games hub is green with a diagonal grid; Cat Noir's own page is
-   also green; Viperion's page is teal with concentric ripple rings, not
-   squares) — nothing blue with a square grid exists there to copy, so
-   this is an original square (straight horizontal/vertical, not
-   diagonal) grid in the same blue, layered under the glow. Same
-   host-needs-its-own-stacking-context pattern as .bg-honeycomb in
-   main.css (position:relative + z-index:0 on the host, z-index:-1 on the
-   ::before). Then: "remove the blue spray thou keep just the grid" —
-   dropped both radial-gradient glow layers, flat --ink again; the grid
-   (::before below) is now the only blue element in the section. */
-.social-section {
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-  background: var(--ink);
-}
-/* Math, 2026-10-16: "I dont see anything of that?" then "oh around the
-   frames" then "maybe a grid in the background. Its the background I
-   want to work on" — the radial-gradient mask above sized its fade
-   relative to the FULL section height, but the glow/grid combo was only
-   ever meant to read near the top; in practice it washed out within the
-   first ~100px, so across the section's actual ~640px height almost all
-   of it was just plain black — easy to miss and easy to mistake the
-   tile border glow ("the frames") for the only blue thing on the
-   section. Grid now covers the section edge-to-edge at a flat opacity,
-   with only short fades right at the very top/bottom seams (not the
-   whole section) so it blends into the sections above/below. */
-.social-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image:
-    repeating-linear-gradient(0deg, rgba(100, 160, 255, 0.28) 0 1.5px, transparent 1.5px 52px),
-    repeating-linear-gradient(90deg, rgba(100, 160, 255, 0.28) 0 1.5px, transparent 1.5px 52px);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
 }
 /* Math, 2026-10-15: "there is a green flare on the map that is not
    necessary" — green touch removed, cream wash kept for warmth. Green is
