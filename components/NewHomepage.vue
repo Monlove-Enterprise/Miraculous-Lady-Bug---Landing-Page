@@ -628,10 +628,15 @@ function copyTune() {
    fading from top-center into black. Then: "I dont necessairly want a
    grid" — dropped the diagonal crosshatch texture that section also had,
    kept just the bold radial glow part, same blue (#1e5fff, Marinette's
-   hair) instead of their green. */
+   hair) instead of their green. Then: "I want something more bold" —
+   pushed further again: a tighter, brighter, more saturated core glow
+   layered on top of the original wider one for depth, plus a matching
+   border/glow treatment on the social tiles themselves (echoing the neon
+   card borders on miraculous.com/games/). */
 .social-section {
   background:
-    radial-gradient(90% 65% at 50% 0%, rgba(30, 95, 255, 0.4), transparent 70%),
+    radial-gradient(45% 40% at 50% 0%, rgba(70, 140, 255, 0.55), transparent 70%),
+    radial-gradient(95% 70% at 50% 0%, rgba(30, 95, 255, 0.5), transparent 72%),
     var(--ink);
 }
 /* Math, 2026-10-15: "there is a green flare on the map that is not
@@ -934,9 +939,19 @@ function copyTune() {
   border-radius: 8px;
   background: linear-gradient(135deg, rgba(244, 14, 4, 0.14), rgba(243, 233, 216, 0.06));
   overflow: hidden;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  /* Math, 2026-10-16: "I want something more bold" (Follow Us section) —
+     a thin neon-blue border + glow, echoing the glowing card borders on
+     miraculous.com/games/. */
+  border: 1px solid rgba(70, 140, 255, 0.45);
+  box-shadow: 0 0 16px rgba(50, 120, 255, 0.3);
+  transition: transform 0.15s ease, opacity 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.social-grid__tile:hover { transform: translateY(-2px); opacity: 0.85; }
+.social-grid__tile:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+  border-color: rgba(110, 170, 255, 0.85);
+  box-shadow: 0 0 26px rgba(80, 150, 255, 0.55);
+}
 .social-grid__tile img {
   width: 100%;
   height: 100%;
