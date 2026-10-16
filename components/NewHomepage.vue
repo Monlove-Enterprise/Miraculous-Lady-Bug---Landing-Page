@@ -659,15 +659,14 @@ function copyTune() {
    diagonal) grid in the same blue, layered under the glow. Same
    host-needs-its-own-stacking-context pattern as .bg-honeycomb in
    main.css (position:relative + z-index:0 on the host, z-index:-1 on the
-   ::before). */
+   ::before). Then: "remove the blue spray thou keep just the grid" —
+   dropped both radial-gradient glow layers, flat --ink again; the grid
+   (::before below) is now the only blue element in the section. */
 .social-section {
   position: relative;
   z-index: 0;
   overflow: hidden;
-  background:
-    radial-gradient(45% 40% at 50% 0%, rgba(70, 140, 255, 0.55), transparent 70%),
-    radial-gradient(95% 70% at 50% 0%, rgba(30, 95, 255, 0.5), transparent 72%),
-    var(--ink);
+  background: var(--ink);
 }
 /* Math, 2026-10-16: "I dont see anything of that?" then "oh around the
    frames" then "maybe a grid in the background. Its the background I
@@ -787,11 +786,28 @@ function copyTune() {
    bigger... would it work so it lines up with them" — characters bumped
    94% -> 100% of the banner's height, and the video moved from a
    separately centered, absolutely-positioned layer (vertically centered,
-   so it floated above the characters' feet) to a normal flex item in the
-   same row — it now sits on the same bottom edge as the characters
-   ("lines up with them"), and widened to keep pace (38% -> 42%, 620px ->
-   680px cap). Checked for overlap at a spread of viewport widths
-   (641-2560px) with the new sizes: narrowest gap is ~30px at 641px. */
+   so it floated above the characters' feet) to sitting on the same
+   bottom edge as the characters ("lines up with them"), and widened to
+   keep pace (38% -> 42%, 620px -> 680px cap). Checked for overlap at a
+   spread of viewport widths (641-2560px) with the new sizes: narrowest
+   gap is ~30px at 641px.
+   Then: "the player is not centered between ladybug and cat noir" —
+   flex's justify-content:space-between puts EQUAL GAPS on each side of
+   the embed, not an equal DISTANCE from each container edge; since Cat
+   Noir is wider per unit height than Ladybug (1.875:1 vs 2.391:1), equal
+   gaps left the embed's midpoint shifted toward Ladybug's side. First
+   fix attempt (grid-template-columns: 1fr auto 1fr) traded that bug for
+   a worse one: the embed's own `width: min(42%, 680px)` is a percentage,
+   and a percentage width on the single item inside an "auto"-sized grid
+   track is circular (the track needs the item's size to size itself, the
+   item needs the track's size to resolve its percentage) — browsers fall
+   back to a tiny indeterminate size instead (rendered ~126px instead of
+   ~800px). Fixed properly instead: embed goes back to being
+   absolutely-positioned (so its percentage width resolves against the
+   whole banner, unambiguously) at left:50% with a translateX(-50%) — a
+   true center regardless of Ladybug/Cat Noir's widths — and bottom:0
+   instead of the old top:50% vertical centering, so it still lines up on
+   the same bottom edge as the characters. */
 .trailer-banner {
   position: relative;
   width: 100%;
@@ -809,6 +825,10 @@ function copyTune() {
   user-select: none;
 }
 .trailer-embed {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
   width: min(42%, 680px);
   aspect-ratio: 16 / 9;
   border-radius: 10px;
@@ -834,6 +854,13 @@ function copyTune() {
   }
   .trailer-char { height: 130px; }
   .trailer-embed {
+    /* Desktop positions this absolutely (for true horizontal centering
+       regardless of the characters' widths); mobile stacks it in-flow
+       above them instead, so reset that positioning here. */
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
     order: -1;
     flex: 0 0 92%;
     width: 92%;
