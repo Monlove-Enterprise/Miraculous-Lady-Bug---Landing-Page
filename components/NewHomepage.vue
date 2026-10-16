@@ -605,7 +605,10 @@ function copyTune() {
    section instead of title-on-black above a colorful image. */
 .trailer-section {
   padding-bottom: 0;
-  background: linear-gradient(90deg, #e91d26, #e921a9);
+  /* Exact edge colors sampled from the banner image itself (left #ff0100,
+     right #fd0a87), not an eyeballed approximation — Math: "the band
+     color is not exactly the same". */
+  background: linear-gradient(90deg, #ff0100, #fd0a87);
 }
 .trailer-section .section-title {
   color: var(--cream);
