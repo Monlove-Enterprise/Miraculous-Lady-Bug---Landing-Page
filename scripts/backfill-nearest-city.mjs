@@ -7,12 +7,14 @@
  *
  * For each subscriber missing lat/lng (nothing to do for ones who already
  * have it — they got it at signup via the autocomplete pick): geocodes
- * their stored free-text `city` via the same Photon provider the
- * autocomplete uses, finds the nearest tour-format city from the `cities`
- * table (haversine), stores lat/lng + nearest_city_slug in Postgres, then
- * pushes ONLY { NEAREST_CITY, NEAREST_DATE } to Brevo via a targeted PUT
- * (merges into the existing contact — every other attribute, list
- * membership, etc. is left untouched, same pattern as
+ * their stored free-text `city` (Nominatim — see geocodeCity below for why
+ * not Photon, which the live autocomplete still uses), finds the nearest
+ * (and, if genuinely nearby, second-nearest — see CLUSTER_RADIUS_KM)
+ * tour-format city from the `cities` table (haversine), stores lat/lng +
+ * nearest_city_slug in Postgres, then pushes ONLY { NEAREST_CITY,
+ * NEAREST_DATE, NEAREST_TICKET_URL, SECOND_NEAREST_* } to Brevo via a
+ * targeted PUT (merges into the existing contact — every other attribute,
+ * list membership, etc. is left untouched, same pattern as
  * scripts/resync-phone-brevo.mjs).
  *
  * Dry-run by default (no DB writes, no Brevo calls). `--commit` applies.
@@ -40,6 +42,13 @@ if (COMMIT && !apiKey) {
 const sql = postgres(url, { prepare: false, max: 1 })
 const maskEmail = (e) => e.replace(/(.{2}).*(@.*)/, '$1***$2')
 
+// This script connects directly, so it never runs through the Nuxt server's
+// ensureSchema() (server/utils/db.ts) — these columns wouldn't exist yet on
+// a fresh run. Same idempotent ALTER TABLE statements, safe to repeat.
+await sql`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS lat numeric`
+await sql`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS lng numeric`
+await sql`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS nearest_city_slug text`
+
 function distanceKm(lat1, lng1, lat2, lng2) {
   const R = 6371
   const dLat = ((lat2 - lat1) * Math.PI) / 180
@@ -50,15 +59,36 @@ function distanceKm(lat1, lng1, lat2, lng2) {
   return 2 * R * Math.asin(Math.sqrt(a))
 }
 
-async function geocodeCity(city) {
-  const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(city)}&lang=en&limit=1&layer=city`
-  const res = await fetch(url)
+// Found mid-run (twice): a plain fetch() with no timeout hung forever on a
+// dead TCP handshake, and — root cause — Photon (photon.komoot.io, the same
+// free provider server/api/city-search.get.ts uses for the live autocomplete)
+// started outright refusing connections from this IP partway through,
+// confirmed with a raw `nc` test (Connection refused, not a timeout) after
+// the burst of requests from the first failed run. Switched this one-off
+// batch script to Nominatim (OpenStreetMap's own geocoder) instead — the
+// live autocomplete endpoint is untouched and keeps using Photon. Nominatim
+// requires an identifying User-Agent and caps at 1 request/second; the
+// delay below respects that with margin.
+async function geocodeCity(city, attempt = 1) {
+  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`
+  let res
+  try {
+    res = await fetch(url, {
+      signal: AbortSignal.timeout(10000),
+      headers: { 'User-Agent': 'MiraculousLiveBackfill/1.0 (one-off subscriber nearest-city backfill)' },
+    })
+  } catch (err) {
+    if (attempt < 2) {
+      await new Promise((r) => setTimeout(r, 2000))
+      return geocodeCity(city, attempt + 1)
+    }
+    throw err
+  }
   if (!res.ok) return undefined
   const json = await res.json()
-  const f = json.features?.[0]
-  const coords = f?.geometry?.coordinates // [lng, lat]
-  if (!coords) return undefined
-  return { lng: coords[0], lat: coords[1] }
+  const f = json?.[0]
+  if (!f?.lat || !f?.lon) return undefined
+  return { lat: Number(f.lat), lng: Number(f.lon) }
 }
 
 const subscribers = await sql`
@@ -78,8 +108,14 @@ const tourCities = await sql`
     AND status != 'epuisee'
 `
 
+// Many subscribers share the same free-text city ("New York" x hundreds) —
+// geocode each DISTINCT string once (Photon query), not once per subscriber.
+// 8830 subscribers but only ~3000 distinct city strings in production.
+const uniqueCities = [...new Set(subscribers.map((s) => s.city.trim().toLowerCase()))]
+
 console.log(`\n=== BACKFILL NEAREST CITY — ${COMMIT ? 'COMMIT' : 'DRY-RUN (rien envoyé/écrit)'} ===`)
 console.log(`Abonnés à traiter : ${subscribers.length}`)
+console.log(`Chaînes de ville distinctes à géocoder : ${uniqueCities.length}`)
 console.log(`Villes de tournée éligibles : ${tourCities.length}\n`)
 
 if (!tourCities.length) {
@@ -88,34 +124,59 @@ if (!tourCities.length) {
   process.exit(0)
 }
 
+// Same CLUSTER_RADIUS_KM logic as server/utils/nearestCity.ts — Math,
+// 2026-10-16: "in new york there is two dates staten island and brookyl",
+// a second nearby city only counts when it's genuinely close to the
+// SUBSCRIBER (not relative to the first match).
+const CLUSTER_RADIUS_KM = 40
+
+function nearestOf(lat, lng) {
+  const ranked = tourCities
+    .map((c) => ({ city: c, dist: distanceKm(lat, lng, Number(c.lat), Number(c.lng)) }))
+    .sort((a, b) => a.dist - b.dist)
+  const best = ranked[0]?.city
+  const bestDist = ranked[0]?.dist
+  const second = ranked[1] && ranked[1].dist <= CLUSTER_RADIUS_KM ? ranked[1].city : undefined
+  const secondDist = ranked[1] && ranked[1].dist <= CLUSTER_RADIUS_KM ? ranked[1].dist : undefined
+  return { best, bestDist, second, secondDist }
+}
+
+// Pass 1: geocode each distinct city string once, cache the nearest-city result.
+const cache = new Map() // lowercased city -> { best, bestDist } | null (geocode failed)
 let geocoded = 0
+let geocodeFailed = 0
+for (const city of uniqueCities) {
+  // Nominatim's usage policy caps at 1 request/second — 1100ms gives margin.
+  // At 3026 distinct cities this pass alone takes ~55 minutes; unavoidable
+  // for a free, policy-respecting provider at this volume.
+  await new Promise((r) => setTimeout(r, 1100))
+  const coords = await geocodeCity(city).catch(() => undefined)
+  if (!coords) {
+    cache.set(city, null)
+    geocodeFailed++
+    continue
+  }
+  cache.set(city, { ...nearestOf(coords.lat, coords.lng), coords })
+  geocoded++
+  if (geocoded % 25 === 0) console.log(`  ...geocoded ${geocoded}/${uniqueCities.length} distinct cities`)
+}
+console.log(`\nGeocoding done: ${geocoded} resolved, ${geocodeFailed} failed, out of ${uniqueCities.length} distinct strings.\n`)
+
+// Pass 2: apply the cached result to every subscriber (DB write is cheap/batched
+// per unique city; Brevo still needs one call per subscriber — unavoidable,
+// each contact is a separate record).
 let matched = 0
 let synced = 0
 let failed = 0
 
 for (const s of subscribers) {
-  // Photon has no documented hard rate limit but is a shared free service —
-  // a small delay keeps this a polite, best-effort batch job.
-  await new Promise((r) => setTimeout(r, 150))
-
-  const coords = await geocodeCity(s.city).catch(() => undefined)
-  if (!coords) {
-    console.log(`  ${maskEmail(s.email)}  "${s.city}" -> geocode failed, skipped`)
+  const key = s.city.trim().toLowerCase()
+  const hit = cache.get(key)
+  if (!hit?.best) {
     failed++
     continue
   }
-  geocoded++
-
-  let best
-  let bestDist = Infinity
-  for (const c of tourCities) {
-    const d = distanceKm(coords.lat, coords.lng, Number(c.lat), Number(c.lng))
-    if (d < bestDist) {
-      bestDist = d
-      best = c
-    }
-  }
-  if (!best) continue
+  const { best, bestDist, second, secondDist, coords } = hit
   matched++
 
   const display = [best.city, best.region].filter(Boolean).join(', ')
@@ -124,10 +185,17 @@ for (const s of subscribers) {
     day: 'numeric',
     year: 'numeric',
   })
+  const secondDisplay = second ? [second.city, second.region].filter(Boolean).join(', ') : undefined
+  const secondDateDisplay = second
+    ? new Date(second.start_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : undefined
 
-  console.log(
-    `  ${maskEmail(s.email)}  "${s.city}" -> ${display} (${dateDisplay}), ${Math.round(bestDist)}km`,
-  )
+  if (matched <= 20 || matched % 500 === 0) {
+    const secondNote = second ? ` + ${secondDisplay} (${Math.round(secondDist)}km)` : ''
+    console.log(
+      `  ${maskEmail(s.email)}  "${s.city}" -> ${display} (${dateDisplay}), ${Math.round(bestDist)}km${secondNote}`,
+    )
+  }
 
   if (!COMMIT) continue
 
@@ -139,6 +207,11 @@ for (const s of subscribers) {
 
   const attributes = { NEAREST_CITY: display, NEAREST_DATE: dateDisplay }
   if (best.ticket_url) attributes.NEAREST_TICKET_URL = best.ticket_url
+  if (second) {
+    attributes.SECOND_NEAREST_CITY = secondDisplay
+    attributes.SECOND_NEAREST_DATE = secondDateDisplay
+    if (second.ticket_url) attributes.SECOND_NEAREST_TICKET_URL = second.ticket_url
+  }
 
   try {
     await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(s.email)}`, {
@@ -149,12 +222,13 @@ for (const s of subscribers) {
       if (!r.ok) throw new Error(`Brevo ${r.status}`)
     })
     synced++
+    if (synced % 500 === 0) console.log(`  ...synced ${synced}/${matched} to Brevo`)
   } catch (err) {
     console.error(`    Brevo sync failed for ${maskEmail(s.email)}: ${err.message}`)
   }
 }
 
-console.log(`\nGeocoded: ${geocoded}/${subscribers.length}  Matched: ${matched}  Brevo synced: ${synced}  Failed: ${failed}`)
+console.log(`\nMatched: ${matched}/${subscribers.length}  Brevo synced: ${synced}  No match (geocode/city-match failed): ${failed}`)
 if (!COMMIT) console.log('\n(DRY-RUN — rien écrit/envoyé. Relancer avec --commit pour appliquer.)')
 
 await sql.end()

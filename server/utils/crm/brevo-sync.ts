@@ -52,6 +52,14 @@ export interface BrevoSyncInput {
   /** Direct ticket link for nearestCity — unset until that city's own
    *  ticket_url is set (presale/general sale). */
   nearestTicketUrl?: string | null
+  /** A second tour stop within the same metro area (e.g. Staten Island for
+   *  a NYC-area subscriber whose nearest is Brooklyn) — Math, 2026-10-16:
+   *  "in new york there is two dates staten island and brookyl". Unset for
+   *  the vast majority of subscribers, where nothing else is genuinely
+   *  nearby (see server/utils/nearestCity.ts CLUSTER_RADIUS_KM). */
+  secondNearestCity?: string | null
+  secondNearestDate?: string | null
+  secondNearestTicketUrl?: string | null
 }
 
 // Attribute names match the ones already defined in the Brevo account (created
@@ -82,6 +90,9 @@ function buildAttributes(s: BrevoSyncInput, omitSms: boolean): Record<string, un
   if (s.nearestCity) a.NEAREST_CITY = s.nearestCity
   if (s.nearestDate) a.NEAREST_DATE = s.nearestDate
   if (s.nearestTicketUrl) a.NEAREST_TICKET_URL = s.nearestTicketUrl
+  if (s.secondNearestCity) a.SECOND_NEAREST_CITY = s.secondNearestCity
+  if (s.secondNearestDate) a.SECOND_NEAREST_DATE = s.secondNearestDate
+  if (s.secondNearestTicketUrl) a.SECOND_NEAREST_TICKET_URL = s.secondNearestTicketUrl
   return a
 }
 

@@ -1,16 +1,30 @@
 import { getSql, ensureSchema } from './db'
 
 /**
- * Finds a subscriber's nearest upcoming tour stop, for the "Nearest to you"
- * block in the tour_announce/presale_open/onsale Brevo emails
+ * Finds a subscriber's nearest upcoming tour stop(s), for the "Nearest to
+ * you" block in the tour_announce/presale_open/onsale Brevo emails
  * (emails/partials/city-block.html, {{ contact.NEAREST_CITY }} /
- * {{ contact.NEAREST_DATE }}) — Math, 2026-10-16: tested the tour_announce
- * email and that block rendered blank, because nothing ever computed or sent
- * those two attributes. Only usable when the subscriber picked a real
- * autocomplete suggestion (Photon-geocoded) rather than typing free text, so
- * lat/lng may be unset — callers must handle that (block just stays empty,
- * same graceful-degradation the rest of the signup flow already uses).
+ * {{ contact.NEAREST_DATE }} / {{ contact.SECOND_NEAREST_CITY }} / ...) —
+ * Math, 2026-10-16: tested the tour_announce email and that block rendered
+ * blank, because nothing ever computed or sent those attributes.
+ *
+ * Returns up to two cities, not just the single closest one — Math,
+ * 2026-10-16: "in new york there is two dates staten island and brookyl" —
+ * a subscriber near NYC should see BOTH (Brooklyn 9km, Staten Island
+ * 24km from midtown), not just whichever happens to be marginally
+ * closer. A second city is only included when it's genuinely nearby too
+ * (within CLUSTER_RADIUS_KM of the SUBSCRIBER, not relative to the first
+ * city) — verified this doesn't over-trigger: Toronto -> Kitchener only
+ * (next nearest, Greensburg PA, is 373km away); New Brunswick NJ (48km
+ * from midtown) correctly stays excluded from the NYC pair.
+ *
+ * Only usable when the subscriber picked a real autocomplete suggestion
+ * (Photon-geocoded) rather than typing free text, so lat/lng may be unset
+ * — callers must handle that (block just stays empty, same graceful-
+ * degradation the rest of the signup flow already uses).
  */
+
+const CLUSTER_RADIUS_KM = 40
 
 export interface NearestCity {
   slug: string
@@ -26,6 +40,14 @@ export interface NearestCity {
    *  template wraps its button in a Brevo {% if %} so nothing dead-link
    *  shows before a city is actually on sale. */
   ticketUrl: string | null
+}
+
+export interface NearestCities {
+  primary: NearestCity
+  /** A second tour stop within CLUSTER_RADIUS_KM of the subscriber, if one
+   *  exists — e.g. Brooklyn + Staten Island for a NYC-area subscriber.
+   *  Undefined when nothing else is genuinely nearby (most cities). */
+  secondary?: NearestCity
 }
 
 interface CityGeoRow {
@@ -47,15 +69,28 @@ function distanceKm(lat1: number, lng1: number, lat2: number, lng2: number): num
   return 2 * R * Math.asin(Math.sqrt(a))
 }
 
+function toNearestCity(row: CityGeoRow): NearestCity {
+  return {
+    slug: row.slug,
+    display: [row.city, row.region].filter(Boolean).join(', '),
+    dateDisplay: new Date(row.start_date!).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }),
+    ticketUrl: row.ticket_url,
+  }
+}
+
 /**
- * Nearest tour-format city with a known lat/lng and a start_date (so there's
- * something to show as NEAREST_DATE), closest first. Returns undefined if the
+ * Nearest (and, if genuinely close, second-nearest) tour-format city with a
+ * known lat/lng and a start_date, closest first. Returns undefined if the
  * subscriber has no coordinates, or no eligible city exists yet.
  */
 export async function findNearestCity(
   lat: number | undefined,
   lng: number | undefined,
-): Promise<NearestCity | undefined> {
+): Promise<NearestCities | undefined> {
   if (lat == null || lng == null || Number.isNaN(lat) || Number.isNaN(lng)) return undefined
 
   await ensureSchema()
@@ -70,25 +105,16 @@ export async function findNearestCity(
   `
   if (!rows.length) return undefined
 
-  let best: (CityGeoRow & { lat: number; lng: number }) | undefined
-  let bestDist = Infinity
-  for (const row of rows) {
-    const d = distanceKm(lat, lng, Number(row.lat), Number(row.lng))
-    if (d < bestDist) {
-      bestDist = d
-      best = row
-    }
-  }
-  if (!best) return undefined
+  const ranked = rows
+    .map((row) => ({ row, dist: distanceKm(lat, lng, Number(row.lat), Number(row.lng)) }))
+    .sort((a, b) => a.dist - b.dist)
 
-  return {
-    slug: best.slug,
-    display: [best.city, best.region].filter(Boolean).join(', '),
-    dateDisplay: new Date(best.start_date!).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    }),
-    ticketUrl: best.ticket_url,
-  }
+  const nearest = ranked[0]
+  if (!nearest) return undefined
+
+  const second = ranked[1]
+  const secondary =
+    second && second.dist <= CLUSTER_RADIUS_KM ? toNearestCity(second.row) : undefined
+
+  return { primary: toNearestCity(nearest.row), secondary }
 }

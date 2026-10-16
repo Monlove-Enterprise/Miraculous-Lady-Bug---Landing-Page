@@ -172,7 +172,7 @@ export default defineEventHandler(async (event) => {
     ip,
     lat: body.lat,
     lng: body.lng,
-    nearestCitySlug: nearest?.slug,
+    nearestCitySlug: nearest?.primary.slug,
   }
 
   try {
@@ -214,9 +214,12 @@ export default defineEventHandler(async (event) => {
           utmMedium: subscriber.utmMedium,
           utmCampaign: subscriber.utmCampaign,
           createdAt: now,
-          nearestCity: nearest?.display,
-          nearestDate: nearest?.dateDisplay,
-          nearestTicketUrl: nearest?.ticketUrl,
+          nearestCity: nearest?.primary.display,
+          nearestDate: nearest?.primary.dateDisplay,
+          nearestTicketUrl: nearest?.primary.ticketUrl,
+          secondNearestCity: nearest?.secondary?.display,
+          secondNearestDate: nearest?.secondary?.dateDisplay,
+          secondNearestTicketUrl: nearest?.secondary?.ticketUrl,
         },
         { apiKey: config.brevoApiKey, listId, omitSms },
       )
