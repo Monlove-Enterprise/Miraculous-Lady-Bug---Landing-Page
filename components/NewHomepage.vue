@@ -728,14 +728,21 @@ function copyTune() {
    — no longer one flattened image, so none of the three is locked to a
    baked-in layout anymore. Characters are flex items pinned to the
    banner's own bottom edge (space-between keeps them at the outer
-   edges); the video is a separately centered, absolutely-positioned
-   layer between them. Height uses min(vw, cap) rather than a fixed-floor
-   clamp() specifically so it keeps shrinking smoothly with the viewport
-   down to the mobile breakpoint — a floor here left a band of
-   mid-width viewports (~640-950px) where the banner's height stayed
-   constant while it kept getting narrower, which pushed Cat Noir
-   (wider per unit height than Ladybug, 1.875:1 vs 2.391:1) into the
-   video. */
+   edges). Height uses min(vw, cap) rather than a fixed-floor clamp()
+   specifically so it keeps shrinking smoothly with the viewport down to
+   the mobile breakpoint — a floor here left a band of mid-width
+   viewports (~640-950px) where the banner's height stayed constant while
+   it kept getting narrower, which pushed Cat Noir (wider per unit height
+   than Ladybug, 1.875:1 vs 2.391:1) into the video.
+   Then: "if you make ladybug and cat noir bigger the player has to be
+   bigger... would it work so it lines up with them" — characters bumped
+   94% -> 100% of the banner's height, and the video moved from a
+   separately centered, absolutely-positioned layer (vertically centered,
+   so it floated above the characters' feet) to a normal flex item in the
+   same row — it now sits on the same bottom edge as the characters
+   ("lines up with them"), and widened to keep pace (38% -> 42%, 620px ->
+   680px cap). Checked for overlap at a spread of viewport widths
+   (641-2560px) with the new sizes: narrowest gap is ~30px at 641px. */
 .trailer-banner {
   position: relative;
   width: 100%;
@@ -747,17 +754,13 @@ function copyTune() {
   padding: 0 3%;
 }
 .trailer-char {
-  height: 94%;
+  height: 100%;
   width: auto;
   pointer-events: none;
   user-select: none;
 }
 .trailer-embed {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(38%, 620px);
+  width: min(42%, 680px);
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
@@ -782,10 +785,6 @@ function copyTune() {
   }
   .trailer-char { height: 130px; }
   .trailer-embed {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
     order: -1;
     flex: 0 0 92%;
     width: 92%;
