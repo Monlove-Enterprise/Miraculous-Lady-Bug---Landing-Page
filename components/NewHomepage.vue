@@ -49,13 +49,17 @@ const mapCities = computed(() => cities.value.filter((c) => !HIDDEN_CITY_SLUGS.h
 // Expanded to one row PER PERFORMANCE (toCityDisplayRows), not per city —
 // Math, 2026-10-15: "Kitchener needs two entire lines... not two dates on
 // the same line" — so a two-night stop like Kitchener takes two full rows
-// here, same as the villes listing, and the slice(0, 6) counts performances.
+// here, same as the villes listing, and the slice counts performances.
+// Math, 2026-10-16: "condense that section so we can add more cities on
+// mobile" — rows are now much more compact on mobile (see .city-row's
+// max-width: 719px block below), so 6 -> 10 fits in roughly the same
+// scroll length it used to take to show 6.
 const upcomingCities = computed(() =>
   toCityDisplayRows(
     cities.value.filter((c) => c.format === 'tournee' && c.startDate && !HIDDEN_CITY_SLUGS.has(c.slug)),
   )
     .sort((a, b) => new Date(a.displayDate!).getTime() - new Date(b.displayDate!).getTime())
-    .slice(0, 6),
+    .slice(0, 10),
 )
 
 function countryName(c: CityRow) {
@@ -760,13 +764,34 @@ function copyTune() {
   background: var(--ink-panel);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
 }
+/* Math, 2026-10-16: "the scaling of the lady bug and cat noir on the
+   trailer section is not optimized in mobile the player is also very
+   small" — fitting all three side by side the same way as desktop left
+   barely any width per element once the viewport got narrow (a 390px
+   screen only had ~140px for the video). Switched to a stack instead:
+   the video goes full-width on its own row first (so it's finally
+   actually watchable), characters move to a smaller row below it. */
 @media (max-width: 640px) {
   .trailer-banner {
-    height: clamp(300px, 80vw, 420px);
-    padding: 0 2%;
+    height: auto;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem 8%;
+    padding: 1.5rem 4% 2rem;
   }
-  .trailer-char { height: 60%; }
-  .trailer-embed { width: 36%; }
+  .trailer-char { height: 130px; }
+  .trailer-embed {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    order: -1;
+    flex: 0 0 92%;
+    width: 92%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
 }
 
 .section-title {
@@ -899,6 +924,39 @@ function copyTune() {
 .city-btn--buy:hover { background: #ff1f4a; transform: translateY(-1px); }
 .city-btn--vip { background: #1c0f0d; color: var(--cream); }
 .city-btn--vip:hover { background: #000; transform: translateY(-1px); }
+/* Math, 2026-10-16: "the dates are also very big the lines, condense that
+   section so we can add more cities on mobile" — below 720px each row was
+   three full-width stacked blocks (city+country, venue+date, badge+button)
+   at full desktop padding/font-size, so very few rows fit on screen.
+   Pulled city+country and venue+date onto one line each (baseline-aligned,
+   a bullet between venue and date) and shrunk padding/gaps/font-sizes.
+   Placed after the base .city-row__* / .city-badge / .city-btn rules
+   (not right after the min-width:720px block above) so it actually wins
+   the cascade — same specificity, later source wins, and the base rules
+   used to come after it and silently override it. */
+@media (max-width: 719px) {
+  .city-row { padding: 0.75rem 1rem; gap: 0.3rem; }
+  .city-row__place {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .city-row__city { font-size: 1.1rem; }
+  .city-row__country { font-size: 0.7rem; }
+  .city-row__details {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+  }
+  .city-row__venue { margin-bottom: 0; }
+  .city-row__dates::before { content: '•'; margin-right: 0.4rem; color: rgba(28, 15, 13, 0.35); }
+  .city-row__action { gap: 0.5rem; }
+  .city-badge { padding: 0.2rem 0.55rem; font-size: 0.6rem; }
+  .city-btn { padding: 0.38rem 0.85rem; font-size: 0.72rem; }
+}
 
 .upcoming__more { display: flex; justify-content: center; margin-top: 2rem; }
 .btn {
