@@ -69,8 +69,18 @@ function distanceKm(lat1, lng1, lat2, lng2) {
 // live autocomplete endpoint is untouched and keeps using Photon. Nominatim
 // requires an identifying User-Agent and caps at 1 request/second; the
 // delay below respects that with margin.
-async function geocodeCity(city, attempt = 1) {
-  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`
+// Math, 2026-10-17: "can you verify everyone that are in the lists close to
+// the cities" — checked before committing, and found a real bug: 95 city
+// strings (e.g. "London" x301, "Paris" x63, "Perth" x33) are used by
+// subscribers in TWO different countries, and an unconstrained search would
+// resolve every one of them to the same place (whichever Nominatim ranks
+// globally first) — the London-Ontario people would have silently gotten
+// London-UK's result instead of correctly matching Kitchener nearby. Now
+// constrains the search to the subscriber's own stored country_code
+// (available for 8677/8829 = 98%) via Nominatim's countrycodes param.
+async function geocodeCity(city, countryCode, attempt = 1) {
+  const cc = countryCode ? `&countrycodes=${countryCode.toLowerCase()}` : ''
+  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1${cc}`
   let res
   try {
     res = await fetch(url, {
@@ -80,7 +90,7 @@ async function geocodeCity(city, attempt = 1) {
   } catch (err) {
     if (attempt < 2) {
       await new Promise((r) => setTimeout(r, 2000))
-      return geocodeCity(city, attempt + 1)
+      return geocodeCity(city, countryCode, attempt + 1)
     }
     throw err
   }
@@ -92,7 +102,7 @@ async function geocodeCity(city, attempt = 1) {
 }
 
 const subscribers = await sql`
-  SELECT id, email, city
+  SELECT id, email, city, country_code
   FROM subscribers
   WHERE (lat IS NULL OR lng IS NULL)
     AND city IS NOT NULL AND city != ''
@@ -109,13 +119,20 @@ const tourCities = await sql`
 `
 
 // Many subscribers share the same free-text city ("New York" x hundreds) —
-// geocode each DISTINCT string once (Photon query), not once per subscriber.
-// 8830 subscribers but only ~3000 distinct city strings in production.
-const uniqueCities = [...new Set(subscribers.map((s) => s.city.trim().toLowerCase()))]
+// geocode each DISTINCT (city, country) pair once, not once per subscriber.
+// Keyed by country too (not just city), per the ambiguous-city-name fix
+// above — "london|gb" and "london|ca" are different pairs, geocoded
+// separately. 8829 subscribers but only ~3100 distinct pairs in production.
+function cacheKey(city, countryCode) {
+  return `${city.trim().toLowerCase()}|${(countryCode || '').toUpperCase()}`
+}
+const uniquePairs = [
+  ...new Map(subscribers.map((s) => [cacheKey(s.city, s.country_code), { city: s.city, countryCode: s.country_code }])).values(),
+]
 
 console.log(`\n=== BACKFILL NEAREST CITY — ${COMMIT ? 'COMMIT' : 'DRY-RUN (rien envoyé/écrit)'} ===`)
 console.log(`Abonnés à traiter : ${subscribers.length}`)
-console.log(`Chaînes de ville distinctes à géocoder : ${uniqueCities.length}`)
+console.log(`Paires ville+pays distinctes à géocoder : ${uniquePairs.length}`)
 console.log(`Villes de tournée éligibles : ${tourCities.length}\n`)
 
 if (!tourCities.length) {
@@ -141,26 +158,27 @@ function nearestOf(lat, lng) {
   return { best, bestDist, second, secondDist }
 }
 
-// Pass 1: geocode each distinct city string once, cache the nearest-city result.
-const cache = new Map() // lowercased city -> { best, bestDist } | null (geocode failed)
+// Pass 1: geocode each distinct (city, country) pair once, cache the result.
+const cache = new Map() // cacheKey(city, countryCode) -> { best, bestDist, second, secondDist, coords } | null
 let geocoded = 0
 let geocodeFailed = 0
-for (const city of uniqueCities) {
+for (const { city, countryCode } of uniquePairs) {
   // Nominatim's usage policy caps at 1 request/second — 1100ms gives margin.
-  // At 3026 distinct cities this pass alone takes ~55 minutes; unavoidable
+  // At ~3100 distinct pairs this pass alone takes ~55 minutes; unavoidable
   // for a free, policy-respecting provider at this volume.
   await new Promise((r) => setTimeout(r, 1100))
-  const coords = await geocodeCity(city).catch(() => undefined)
+  const key = cacheKey(city, countryCode)
+  const coords = await geocodeCity(city, countryCode).catch(() => undefined)
   if (!coords) {
-    cache.set(city, null)
+    cache.set(key, null)
     geocodeFailed++
     continue
   }
-  cache.set(city, { ...nearestOf(coords.lat, coords.lng), coords })
+  cache.set(key, { ...nearestOf(coords.lat, coords.lng), coords })
   geocoded++
-  if (geocoded % 25 === 0) console.log(`  ...geocoded ${geocoded}/${uniqueCities.length} distinct cities`)
+  if (geocoded % 25 === 0) console.log(`  ...geocoded ${geocoded}/${uniquePairs.length} distinct pairs`)
 }
-console.log(`\nGeocoding done: ${geocoded} resolved, ${geocodeFailed} failed, out of ${uniqueCities.length} distinct strings.\n`)
+console.log(`\nGeocoding done: ${geocoded} resolved, ${geocodeFailed} failed, out of ${uniquePairs.length} distinct pairs.\n`)
 
 // Pass 2: apply the cached result to every subscriber (DB write is cheap/batched
 // per unique city; Brevo still needs one call per subscriber — unavoidable,
@@ -170,7 +188,7 @@ let synced = 0
 let failed = 0
 
 for (const s of subscribers) {
-  const key = s.city.trim().toLowerCase()
+  const key = cacheKey(s.city, s.country_code)
   const hit = cache.get(key)
   if (!hit?.best) {
     failed++
