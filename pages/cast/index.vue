@@ -43,6 +43,21 @@ function monogram(p: Person): string {
         <p class="cast__intro">{{ t('cast.intro') }}</p>
       </header>
 
+      <!-- Cast -->
+      <section class="cast__section" aria-labelledby="cast-h">
+        <h2 id="cast-h" class="cast__heading">{{ t('cast.castHeading') }}</h2>
+        <p class="cast__note">{{ t('cast.castNote') }}</p>
+        <ul class="grid">
+          <li v-for="(p, i) in cast" :key="'a' + i" class="card">
+            <div class="card__photo" aria-hidden="true">
+              <span class="card__mono">{{ monogram(p) }}</span>
+            </div>
+            <p class="card__name">{{ p.name || t('cast.tba') }}</p>
+            <p class="card__role">{{ roleOf(p) }}</p>
+          </li>
+        </ul>
+      </section>
+
       <!-- Creative team -->
       <section class="cast__section" aria-labelledby="creative-h">
         <h2 id="creative-h" class="cast__heading">{{ t('cast.creativeHeading') }}</h2>
@@ -77,21 +92,6 @@ function monogram(p: Person): string {
               <p class="card__name">{{ p.name || t('cast.tba') }}</p>
               <p class="card__role">{{ roleOf(p) }}</p>
             </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- Cast -->
-      <section class="cast__section" aria-labelledby="cast-h">
-        <h2 id="cast-h" class="cast__heading">{{ t('cast.castHeading') }}</h2>
-        <p class="cast__note">{{ t('cast.castNote') }}</p>
-        <ul class="grid">
-          <li v-for="(p, i) in cast" :key="'a' + i" class="card">
-            <div class="card__photo" aria-hidden="true">
-              <span class="card__mono">{{ monogram(p) }}</span>
-            </div>
-            <p class="card__name">{{ p.name || t('cast.tba') }}</p>
-            <p class="card__role">{{ roleOf(p) }}</p>
           </li>
         </ul>
       </section>
