@@ -84,6 +84,7 @@ function monogram(p: Person): string {
       <!-- Cast -->
       <section class="cast__section" aria-labelledby="cast-h">
         <h2 id="cast-h" class="cast__heading">{{ t('cast.castHeading') }}</h2>
+        <p class="cast__note">{{ t('cast.castNote') }}</p>
         <ul class="grid">
           <li v-for="(p, i) in cast" :key="'a' + i" class="card">
             <div class="card__photo" aria-hidden="true">
@@ -171,6 +172,11 @@ function monogram(p: Person): string {
   padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(28, 15, 13, 0.12);
 }
+.cast__note {
+  color: rgba(28, 15, 13, 0.6);
+  font-size: 0.95rem;
+  margin: -1.25rem 0 1.5rem;
+}
 
 /* Card grid */
 /* Ella & Martin — featured row, bigger than the regular grid, side by side.
@@ -201,18 +207,16 @@ function monogram(p: Person): string {
   transform: translateY(-3px);
   border-color: rgba(244, 14, 4, 0.4);
 }
-/* Math: "and if we made the cast backdroud cream" — the backdrop behind
-   each headshot (not the outer card) switched from dark --ink-soft to
-   cream. */
+/* Math, 2026-10-18: "le background des photo devraient rester en noir et
+   blanc" — back to the dark --ink-soft backdrop (cream was tried 2026-10-16,
+   reverted). */
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
   border-radius: 11px;
   margin-bottom: 1.1rem;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(28, 15, 13, 0.08), transparent 65%),
-    var(--cream);
+  background: var(--ink-soft);
 }
 .featured-card__name {
   font-family: var(--font-display);
@@ -255,19 +259,16 @@ function monogram(p: Person): string {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(28, 15, 13, 0.08), transparent 65%),
-    var(--cream);
+  background: var(--ink-soft);
 }
 /* Subtle ladybug polka-dot texture — placeholder (no photo) only; a real
-   photo's transparent background reveals the plain gradient above instead,
-   so every headshot sits on the exact same clean backdrop. Dot color
-   flipped dark for visibility on the new cream backdrop. */
+   photo's transparent background reveals the plain dark backdrop above
+   instead, so every headshot sits on the exact same clean backdrop. */
 .card__photo::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(28, 15, 13, 0.1) 2px, transparent 2.5px);
+  background-image: radial-gradient(circle, rgba(243, 233, 216, 0.12) 2px, transparent 2.5px);
   background-size: 26px 26px;
 }
 .card__photo--photo::after { display: none; }

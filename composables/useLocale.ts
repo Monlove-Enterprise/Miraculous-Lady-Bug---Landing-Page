@@ -54,16 +54,17 @@ const messages: Record<Locale, Dict> = {
     'signup.microcopy':
       'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
-    'cast.title': 'Distribution & Équipe créative',
+    'cast.title': 'Casting & Équipe créative',
     'cast.metaDescription':
       'Découvre les artistes et l’équipe créative de Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
     'cast.back': "Retour à l’accueil",
     'cast.intro': 'Découvre les artistes et artisans qui donnent vie au spectacle sur scène.',
     'cast.creativeHeading': 'Équipe créative',
-    'cast.castHeading': 'Distribution',
+    'cast.castHeading': 'Casting',
+    'cast.castNote': 'Casting à venir.',
     'cast.tba': 'Casting à venir',
     'cast.tbaBio': 'Interprète bientôt annoncé·e.',
-    'cast.backToCast': 'Retour à Distribution & Équipe créative',
+    'cast.backToCast': 'Retour à Casting & Équipe créative',
     'cast.bioComingSoon': 'Biographie à venir.',
 
     'vip.title': 'Forfaits VIP',
@@ -100,9 +101,14 @@ const messages: Record<Locale, Dict> = {
 
     // Real brand copy from Math (2026-09-15) — EN is verbatim as provided.
     // FR is a straight translation, kept in the site's "tu" voice; flag for a
-    // brand check on the translation specifically before it's final.
+    // brand check on the translation specifically before it's final. Math,
+    // 2026-10-18: keep the show's English title untranslated here too
+    // ("Miraculous: Tales of Ladybug & Cat Noir"), matching how it's kept
+    // in English everywhere else on the site; also dropped "scénique" from
+    // "spectacle scénique spectaculaire" (redundant — a show already implies
+    // the stage).
     'story.intro':
-      'L’univers Miraculous s’agrandit : Miraculous : Les Aventures de Ladybug et Chat Noir prend vie sur scène ! Miraculous Corp et Monlove s’associent pour lancer en 2027 un spectacle scénique spectaculaire et rempli d’action, qui amène nos super-héros parisiens préférés devant des publics du monde entier.',
+      'L’univers Miraculous s’agrandit : Miraculous: Tales of Ladybug & Cat Noir prend vie sur scène ! Miraculous Corp et Monlove s’associent pour lancer en 2027 un spectacle spectaculaire et rempli d’action, qui amène nos super-héros parisiens préférés devant des publics du monde entier.',
     'story.mastermindsHeading': 'Les cerveaux créatifs derrière le spectacle',
     'story.mastermindsText':
       'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé derrière « Ice Age Live! », « Scooby-Doo! and The Lost City of Gold » et « All Systems Are Go! ». Grâce à leur passion pour la narration et une mise en scène à la pointe de l’innovation, cette production promet d’être unique en son genre.',
@@ -271,6 +277,7 @@ const messages: Record<Locale, Dict> = {
     'cast.intro': 'Meet the artists and artisans who bring the show to life on stage.',
     'cast.creativeHeading': 'Creative Team',
     'cast.castHeading': 'Cast',
+    'cast.castNote': 'Cast to be announced soon.',
     'cast.tba': 'Casting to be announced',
     'cast.tbaBio': 'Performer to be announced soon.',
     'cast.backToCast': 'Back to Cast & Creative',
