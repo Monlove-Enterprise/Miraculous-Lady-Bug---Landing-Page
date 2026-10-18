@@ -253,7 +253,9 @@ function copyTune() {
 
     <!-- ===================== TRAILER ===================== -->
     <!-- YouTube embed (CLAUDE.md: never self-hosted video) — Math,
-         2026-10-06, https://youtu.be/v7n0ZGZsahI -->
+         2026-10-18, swapped the desktop trailer for
+         https://youtu.be/OLCe-Vm62-E (same video used as the generic
+         on-sale email trailer, emails/build.mjs DEFAULT_VIDEO_URL) -->
     <section class="trailer-section">
       <div class="container">
         <h2 class="section-title">{{ t('trailer.heading') }}</h2>
@@ -277,7 +279,7 @@ function copyTune() {
         <div class="trailer-embed">
           <iframe
             class="trailer-embed__frame trailer-embed__frame--desktop"
-            src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
+            src="https://www.youtube-nocookie.com/embed/OLCe-Vm62-E"
             :title="t('trailer.heading')"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
