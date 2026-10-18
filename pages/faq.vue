@@ -1,13 +1,11 @@
 <script setup lang="ts">
-const { t } = useLocale()
+import { faqEn, faqFr } from '~/utils/faqData'
+
+const { t, locale } = useLocale()
 
 useHead(() => ({ title: `${t('faq.title')} — Miraculous Live` }))
 
-const items = computed(() =>
-  t('faq.questions')
-    .split('|')
-    .map((q, i) => ({ q, a: t('faq.answers').split('|')[i] })),
-)
+const categories = computed(() => (locale.value === 'fr' ? faqFr : faqEn))
 </script>
 
 <template>
@@ -21,12 +19,15 @@ const items = computed(() =>
         <h1 class="faq__title">{{ t('faq.title') }}</h1>
       </header>
 
-      <div class="faq__list">
-        <section v-for="item in items" :key="item.q" class="faq__item">
-          <h2 class="faq__question">{{ item.q }}</h2>
-          <p class="faq__answer">{{ item.a }}</p>
-        </section>
-      </div>
+      <section v-for="cat in categories" :key="cat.heading || 'all'" class="faq__category">
+        <h2 v-if="cat.heading" class="faq__category-heading">{{ cat.heading }}</h2>
+        <div class="faq__list">
+          <article v-for="item in cat.items" :key="item.q" class="faq__item">
+            <h3 class="faq__question">{{ item.q }}</h3>
+            <p class="faq__answer">{{ item.a }}</p>
+          </article>
+        </div>
+      </section>
     </div>
     <SiteFooter />
   </main>
@@ -64,6 +65,23 @@ const items = computed(() =>
   text-wrap: balance;
 }
 
+/* Math, 2026-10-18: "here are the updated FAQ" — the real FAQ document
+   groups questions into named sections (About the show, Tickets &
+   seating, VIP experiences...); the old flat list had none. The FR page
+   still has no real categories yet (no French version of the new FAQ
+   exists), so .faq__category-heading only renders when a category
+   actually has a heading (see faq.vue's v-if). */
+.faq__category { max-width: 760px; margin-bottom: 2.5rem; }
+.faq__category:last-child { margin-bottom: 0; }
+.faq__category-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+}
+
 /* Math, 2026-10-15: "same on the other pages, when there is content, no
    honeycomb" — opaque gap color so the page's bg-honeycomb can't bleed
    through the 1px dividers between items (same fix as villes/index.vue). */
@@ -71,7 +89,6 @@ const items = computed(() =>
   display: flex;
   flex-direction: column;
   gap: 1px;
-  max-width: 760px;
   background: var(--ink-panel);
   border-radius: 14px;
   overflow: hidden;
