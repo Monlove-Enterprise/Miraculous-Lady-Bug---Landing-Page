@@ -192,45 +192,179 @@ export const faqEn: FaqCategory[] = [
   },
 ]
 
-// No French version of the new FAQ has been provided yet — keeps the
-// shorter set of Q&As that were already live on the FR page (same content
-// previously stored as useLocale.ts 'faq.questions'/'faq.answers' pipe
-// strings), verbatim, in a single unheaded category.
+// Math, 2026-10-18: "can you translate it ?" — draft translation of the
+// full FAQ, matching the "tu" voice already used elsewhere on the FR
+// site. This is MY translation, not brand-supplied copy — per this
+// project's own rule ("ne pas inventer de wording final... circuit de
+// validation externe"), treat it as a draft that still needs a real
+// validation pass before launch, especially the policy-sensitive
+// sections (tickets, VIP packages, accessibility) where precise wording
+// matters. Flag any correction back here.
 export const faqFr: FaqCategory[] = [
   {
-    heading: '',
+    heading: 'À propos du spectacle',
     items: [
       {
         q: 'Qu’est-ce que Miraculous Ladybug & Cat Noir : Le Spectacle Live ?',
-        a: 'Une production scénique où Ladybug et Chat Noir affrontent une toute nouvelle menace. Porté par une histoire inédite et des chansons originales, le spectacle allie technologie de pointe, acrobaties, illusion, danse et marionnettes. Un spectacle pour toute la famille.',
+        a: 'Prépare-toi à vivre une aventure Miraculous comme jamais auparavant ! Cette toute nouvelle production théâtrale live donne vie aux super-héros préférés à travers une histoire inédite, des chansons originales, des acrobaties à couper le souffle, des effets visuels spectaculaires et une technologie de pointe. Rejoins Ladybug et Chat Noir pour une expérience inoubliable en famille !',
       },
       {
-        q: 'Est-ce la même histoire que la série ?',
-        a: 'Non. Le spectacle raconte une histoire inédite, écrite spécialement pour la scène, avec des chansons originales.',
+        q: 'Est-ce un nouveau spectacle Miraculous ?',
+        a: 'Oui ! Il s’agit d’une toute nouvelle production théâtrale avec une histoire inédite et une musique originale créées spécialement pour la scène.',
       },
       {
-        q: 'Qui a créé le spectacle ?',
-        a: 'Le spectacle a été créé pour la scène par Ella Louise Allaire et Martin Lord Ferguson de Monlove, le duo derrière Scooby-Doo! and The Lost City of Gold. Il est développé en partenariat avec Miraculous Corp, propriétaire de la franchise Miraculous, et produit par Monlove.',
+        q: 'Le spectacle est-il basé sur la série animée Miraculous ?',
+        a: 'Le spectacle s’inspire de la série animée Miraculous : Les Aventures de Ladybug et Chat Noir, avec des personnages familiers dans une toute nouvelle aventure créée spécialement pour la scène.',
       },
       {
-        q: 'À qui s’adresse le spectacle ?',
-        a: 'Le spectacle est conçu pour les familles et les fans de Miraculous de toutes les générations.',
+        q: 'Ladybug et Chat Noir seront-ils présents dans le spectacle ?',
+        a: 'Absolument ! Ladybug et Chat Noir sont au cœur de l’action dans une aventure trépidante remplie de moments héroïques, d’humour, de musique et de surprises.',
       },
       {
-        q: 'Quand commence la tournée ?',
-        a: 'La tournée mondiale débute au début de 2027.',
+        q: 'Dois-je connaître la série télévisée pour apprécier le spectacle ?',
+        a: 'Pas du tout ! Que tu sois fan de Miraculous de longue date ou que tu découvres Ladybug et Chat Noir pour la première fois, le spectacle est conçu pour divertir toute la famille.',
       },
       {
-        q: 'Quand les billets seront-ils mis en vente ?',
-        a: 'Les billets seront mis en vente le vendredi 23 octobre 2026.',
+        q: 'Qu’est-ce qui rend ce spectacle live si spécial ?',
+        a: 'Vis la magie de Miraculous comme jamais auparavant ! Alliant musique originale, acrobaties à couper le souffle, humour, marionnettes captivantes, technologie vidéo innovante et effets théâtraux spectaculaires, cette toute nouvelle production donne vie à l’univers extraordinaire de Ladybug et Chat Noir pour une expérience inoubliable en famille !',
+      },
+    ],
+  },
+  {
+    heading: 'Pour toute la famille',
+    items: [
+      {
+        q: 'À partir de quel âge le spectacle est-il recommandé ?',
+        a: 'Miraculous Ladybug & Cat Noir : Le Spectacle Live est une expérience de divertissement inoubliable conçue pour toute la famille ! Que tu sois jeune fan, adolescent ou adulte, il y en a pour tous les goûts.',
+      },
+      {
+        q: 'Le spectacle convient-il aux jeunes enfants ?',
+        a: 'Le spectacle est conçu pour un public familial et comprend des séquences d’action, de la musique, des effets théâtraux et des moments de suspense. Les parents voudront peut-être tenir compte de la sensibilité de leur enfant aux bruits forts, aux effets lumineux et aux scènes intenses.',
+      },
+      {
+        q: 'Les adolescents et les adultes vont-ils apprécier le spectacle ?',
+        a: 'Absolument ! Avec son histoire captivante, son humour, son action palpitante et ses performances spectaculaires, le spectacle offre une expérience inoubliable aux fans de Miraculous de toutes les générations.',
+      },
+      {
+        q: 'Les enfants peuvent-ils se déguiser en leurs personnages Miraculous préférés ?',
+        a: 'On adore voir les fans célébrer leurs super-héros préférés ! Les costumes sont les bienvenus, sous réserve des politiques de costumes et de sécurité propres à chaque salle.',
+      },
+    ],
+  },
+  {
+    heading: 'Informations sur la représentation',
+    items: [
+      {
+        q: 'Combien de temps dure le spectacle ?',
+        a: 'Le spectacle dure environ 80 minutes.',
+      },
+      {
+        q: 'Y aura-t-il un entracte ?',
+        a: 'Les informations sur l’entracte seront confirmées à l’approche des dates de représentation.',
+      },
+      {
+        q: 'Le spectacle est-il présenté en anglais ?',
+        a: 'La production nord-américaine est présentée en anglais.',
+      },
+      {
+        q: 'Y aura-t-il de la musique et du chant ?',
+        a: 'Oui ! Le spectacle comprend des chansons et une musique originales, créées spécialement pour cette production live.',
+      },
+      {
+        q: 'Y aura-t-il des acrobaties et des effets spéciaux ?',
+        a: 'Absolument ! Attends-toi à des acrobaties palpitantes, des effets visuels impressionnants et une technologie scénique innovante qui donnent vie à l’univers Miraculous.',
+      },
+    ],
+  },
+  {
+    heading: 'Billets et places',
+    items: [
+      {
+        q: 'Où puis-je acheter des billets ?',
+        a: 'Les billets sont disponibles sur les sites officiels des salles et auprès des partenaires billetterie autorisés. Visite le site officiel du spectacle pour trouver ta ville et acheter tes billets.',
+      },
+      {
+        q: 'Les enfants ont-ils besoin de leur propre billet ?',
+        a: 'Les exigences en matière de billets varient selon la salle. Consulte la politique billetterie de ta salle concernant les enfants et les nourrissons.',
+      },
+      {
+        q: 'Les places sont-elles assignées ?',
+        a: 'La plupart des représentations offrent des places réservées. Consulte le plan de salle au moment d’acheter tes billets.',
+      },
+      {
+        q: 'Des places accessibles sont-elles disponibles ?',
+        a: 'Des places accessibles sont proposées dans les salles participantes. Contacte directement ta salle pour obtenir des informations et de l’aide en matière d’accessibilité.',
+      },
+      {
+        q: 'Puis-je échanger ou me faire rembourser mes billets ?',
+        a: 'L’achat de billets est soumis aux politiques du fournisseur de billetterie et de la salle. Prends connaissance des conditions applicables avant d’acheter.',
+      },
+    ],
+  },
+  {
+    heading: 'Expériences VIP',
+    items: [
+      {
+        q: 'Des forfaits VIP sont-ils disponibles ?',
+        a: 'Oui ! Rends ton expérience Miraculous encore plus spéciale grâce à des forfaits VIP exclusifs offerts pour certaines représentations.',
+      },
+      {
+        q: 'Qu’est-ce qui est inclus dans le laissez-passer Ultimate VIP Pre-Party ?',
+        a: 'Le laissez-passer Ultimate VIP Pre-Party comprend un billet réservé premium, l’accès à une fête exclusive avant le spectacle, une rencontre et une séance photo avec Ladybug, des collations et des boissons, des articles exclusifs ainsi que d’autres avantages VIP. Consulte la description du forfait pour tous les détails.',
+      },
+      {
+        q: 'Qu’est-ce qui est inclus dans le forfait Premium VIP ?',
+        a: 'Le forfait Premium VIP comprend un billet réservé premium, des articles exclusifs, un laissez-passer VIP, un accès à la boutique sans file d’attente ainsi que d’autres avantages. Consulte la description du forfait pour tous les détails.',
+      },
+      {
+        q: 'Puis-je rencontrer Ladybug et Chat Noir ?',
+        a: 'Le laissez-passer Ultimate VIP Pre-Party comprend une rencontre et une séance photo avec Ladybug. Seules les apparitions de personnages explicitement mentionnées dans un forfait sont incluses.',
+      },
+      {
+        q: 'Les forfaits VIP sont-ils disponibles pour toutes les représentations ?',
+        a: 'La disponibilité des forfaits VIP varie selon la ville et la représentation. Les quantités sont limitées.',
+      },
+    ],
+  },
+  {
+    heading: 'À la salle',
+    items: [
+      {
+        q: 'Pouvons-nous prendre des photos ou des vidéos pendant la représentation ?',
+        a: 'Les politiques relatives à la photo et à la vidéo varient selon la salle et la production. Suis les consignes du personnel sur place.',
+      },
+      {
+        q: 'Des produits dérivés Miraculous seront-ils disponibles ?',
+        a: 'Des produits dérivés Miraculous officiels devraient être disponibles dans les salles participantes, selon les stocks.',
+      },
+      {
+        q: 'À quelle heure devrions-nous arriver ?',
+        a: 'Nous te recommandons d’arriver au moins 30 minutes avant le début du spectacle pour avoir le temps de te stationner, de passer la sécurité et de trouver ta place. Les invités VIP doivent suivre les consignes d’arrivée fournies avec leur forfait.',
+      },
+      {
+        q: 'Que se passe-t-il si nous arrivons en retard ?',
+        a: 'Le placement en cas de retard est soumis aux politiques de la salle et peut être retardé jusqu’à un moment approprié de la représentation.',
+      },
+    ],
+  },
+  {
+    heading: 'Infos tournée et mises à jour',
+    items: [
+      {
+        q: 'Où le spectacle est-il en tournée ?',
+        a: 'Visite le site officiel du spectacle pour connaître les dernières dates de tournée, les villes et les informations billetterie.',
       },
       {
         q: 'Le spectacle viendra-t-il dans ma ville ?',
-        a: 'Inscris-toi à la liste d’attente sur ce site (16 ans et plus) pour recevoir les nouvelles de la tournée par courriel.',
+        a: 'De nouvelles villes et dates de représentation pourraient être annoncées. Suis les réseaux sociaux officiels et inscris-toi pour recevoir les mises à jour et être parmi les premiers informés !',
       },
       {
-        q: 'Où puis-je suivre le spectacle ?',
-        a: 'Facebook et Instagram : @miraculousladybuglive. TikTok : @miraculousladybuglive_. X : @miraculouslive_. YouTube : @MiraculousLive.',
+        q: 'Y aura-t-il des représentations supplémentaires ?',
+        a: 'Des représentations supplémentaires pourraient être annoncées selon le calendrier de la tournée et les disponibilités.',
+      },
+      {
+        q: 'Comment puis-je rester informé ?',
+        a: 'Suis les réseaux sociaux officiels et abonne-toi à l’infolettre pour recevoir les annonces de tournée, du contenu exclusif en coulisses, des offres spéciales et les dernières nouvelles Miraculous !',
       },
     ],
   },
