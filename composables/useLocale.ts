@@ -9,7 +9,7 @@ const messages: Record<Locale, Dict> = {
     'nav.ariaLabel': 'Navigation du site',
     'nav.wordmark': 'Miraculous Live',
     'nav.home': 'Accueil',
-    'nav.cast': 'Distribution & Équipe créative',
+    'nav.cast': 'Casting & Équipe créative',
     'nav.cities': 'Villes',
     'nav.tickets': 'Billets',
     'nav.allCities': 'Tournée mondiale',
