@@ -312,7 +312,11 @@ function copyTune() {
   align-items: center;
   justify-content: center;
   gap: 1.2rem;
-  min-height: 100svh;
+  /* Matches .page's own 100dvh — a mismatched viewport-height unit between
+     parent and child (was 100svh here) could round to a different pixel
+     value during a live window resize, showing a sliver of the page's
+     background colour through the seam. */
+  min-height: 100dvh;
   padding: 3.5rem 1.5rem 2rem;
   overflow: hidden;
   /* Scarlet of the key-art assets (matches the Ladybug's suit so it melts into
@@ -629,7 +633,7 @@ function copyTune() {
 @media (max-width: 859px) {
   .hero {
     justify-content: center;
-    min-height: 100svh; /* CTA visible above the fold on phones too */
+    min-height: 100dvh; /* CTA visible above the fold on phones too */
     padding: 3.25rem 1rem 1.75rem;
     gap: 0.9rem;
   }
