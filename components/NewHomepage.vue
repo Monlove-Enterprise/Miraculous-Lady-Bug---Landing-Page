@@ -170,6 +170,11 @@ function copyTune() {
            that's already part of the official art), positioned to match
            where it sits in the source image (~18.5%, ~12% from the
            top-left). -->
+      <!-- Math, 2026-10-19: "mettre a jour le poster avec une mention
+           tickets on sale october 23rd" — sits above the key art rather
+           than baked into hero-poster.webp itself, so the date can change
+           later without a new export of the poster image. -->
+      <p class="hero__onsale-banner">{{ t('hero.onSaleBanner') }}</p>
       <div class="hero__poster-wrap">
         <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
         <div class="hero__poster-star" aria-hidden="true">
@@ -554,6 +559,25 @@ function copyTune() {
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__poster-star { animation: none; }
+}
+/* On-sale banner, straight bar above the poster art — Math, 2026-10-19:
+   "bof, pas sur aussi oblique" — dropped the rotated ribbon for a flat,
+   legible bar instead. */
+.hero__onsale-banner {
+  position: relative;
+  z-index: 3;
+  margin: 0 0 0.6rem;
+  padding: 0.5rem 1.4rem;
+  background: var(--cream);
+  color: #150a0b;
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 2vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5);
 }
 .hero__credit-img {
   position: relative;

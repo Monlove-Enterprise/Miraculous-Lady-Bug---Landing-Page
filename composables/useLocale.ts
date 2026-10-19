@@ -45,6 +45,7 @@ const messages: Record<Locale, Dict> = {
     'hero.cta': "Je m'inscris",
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
+    'hero.onSaleBanner': 'Billets en vente le 23 octobre',
 
     'signup.introTitleA': 'Aide-nous à amener',
     'signup.introTitleB': 'Miraculous Ladybug & Cat Noir',
@@ -261,6 +262,7 @@ const messages: Record<Locale, Dict> = {
     'hero.cta': 'Count me in',
     'hero.logoAlt': 'Miraculous: Ladybug & Cat Noir — The Live Stage Spectacular',
     'hero.scrollAria': 'Go to sign-up',
+    'hero.onSaleBanner': 'Tickets on sale October 23rd',
 
     'signup.introTitleA': 'Help bring Miraculous',
     'signup.introTitleB': 'Ladybug & Cat Noir',
