@@ -102,10 +102,14 @@ function copyTune() {
     <section class="hero" :style="tuning ? heroStyle : undefined">
       <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
 
-      <img class="hero__logo" src="/images/title-treatment.png" :alt="t('hero.logoAlt')" />
-
-      <div class="hero__art" aria-hidden="true">
-        <img src="/images/ladybug-hero.png" alt="" />
+      <!-- Math, 2026-10-19: "changer le cover art et ajouter la mention du
+           23 octobre" — the flat key-art poster (same asset as the new
+           site's hero, components/NewHomepage.vue) replaces the old
+           title-treatment + ladybug-hero pairing here, with the on-sale
+           banner sitting above it. -->
+      <p class="hero__onsale-banner">{{ t('hero.onSaleBanner') }}</p>
+      <div class="hero__poster-wrap">
+        <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
       </div>
 
       <div class="hero__lockup">
@@ -317,27 +321,35 @@ function copyTune() {
   filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
 }
 
-/* Ladybug portrait — in-flow, centred, stacked below the title at every width
-   (same arrangement as mobile). Width tunable via --art-w. */
-.hero__art {
-  align-self: center;
-  width: var(--art-w, clamp(230px, 19vw, 340px));
-  z-index: 1;
-  pointer-events: none;
+/* Flat poster art — same hero-poster.webp key art used on the new site
+   (components/NewHomepage.vue), swapped in here for the live landing page. */
+.hero__poster-wrap {
+  position: relative;
+  z-index: 2;
+  width: clamp(280px, 70vw, 480px);
 }
-.hero__art img {
+.hero__poster-img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-/* Title treatment */
-.hero__logo {
+/* On-sale banner, straight bar above the poster art. */
+.hero__onsale-banner {
   position: relative;
-  z-index: 2;
-  width: var(--title-w, clamp(280px, 28vw, 430px));
-  height: auto;
-  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
+  z-index: 3;
+  margin: 0 0 0.6rem;
+  padding: 0.5rem 1.4rem;
+  background: var(--cream);
+  color: #150a0b;
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 2vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5);
 }
 
 /* Tagline + CTA + credit, centred. Width-constrained so long lines (tagline,
@@ -597,14 +609,8 @@ function copyTune() {
     top: 1.1rem;
     left: 1.1rem;
   }
-  /* Title on top, then the Ladybug returns to flow below it (DOM order) */
-  .hero__logo {
-    width: min(76%, 330px);
-  }
-  .hero__art {
-    position: static;
-    width: min(60%, 250px);
-    align-self: center;
+  .hero__poster-wrap {
+    width: min(78%, 340px);
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
      width (measured), so scale the font with the viewport below ~560px where the
