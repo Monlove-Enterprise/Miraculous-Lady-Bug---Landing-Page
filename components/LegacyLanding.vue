@@ -326,7 +326,10 @@ function copyTune() {
 .hero__poster-wrap {
   position: relative;
   z-index: 2;
-  width: clamp(340px, 90vw, 600px);
+  /* Single fluid formula across every width (no separate mobile override) —
+     a jump between two different clamp() ranges right at the 859px
+     breakpoint read as a glitch when resizing the window. */
+  width: clamp(320px, 85vw, 600px);
 }
 .hero__poster-img {
   width: 100%;
@@ -608,9 +611,6 @@ function copyTune() {
     width: 34px; /* match the visual weight of the FR/EN toggle */
     top: 1.1rem;
     left: 1.1rem;
-  }
-  .hero__poster-wrap {
-    width: clamp(300px, 95vw, 480px);
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
      width (measured), so scale the font with the viewport below ~560px where the
