@@ -324,6 +324,13 @@ function copyTune() {
      her suit — so her whole suit stays on scarlet and only the CTA/credit band
      melts to dark. Same stacked layout + fade on desktop and mobile. */
   background: linear-gradient(180deg, var(--scarlet) 0%, var(--scarlet) 78%, var(--ink-soft) 100%);
+  /* Math, 2026-10-19: "ya un petite ligne glitch dans le dégradé" visible in
+     the tablet-width in-between zone while resizing — promotes the gradient
+     to its own GPU compositing layer so the browser doesn't re-rasterize it
+     into the surrounding layout on every reflow (the usual cause of a
+     visible seam/banding line in a gradient during resize). Purely a
+     rendering hint, no visual/layout change. */
+  transform: translateZ(0);
 }
 
 /* Miraculous ladybug emblem, top-left */
@@ -407,9 +414,14 @@ function copyTune() {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
 }
 
-/* Composer credit — centred under the CTA (part of the lockup). */
+/* Composer credit — centred, between the poster and the CTA lockup. */
 .hero__credit {
   width: 100%;
+  /* Math, 2026-10-19: moving this out of .hero__lockup (which caps at
+     680px) dropped that width guard — restoring it here. Without it, this
+     block could stretch to the hero's full (unconstrained) width, which
+     likely explains the resize glitch Math flagged right after this move. */
+  max-width: 680px;
   margin: 0.25rem 0 0;
   text-align: center;
   font-family: var(--font-display);
