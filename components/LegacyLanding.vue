@@ -1,6 +1,13 @@
 <script setup lang="ts">
+import { LAUNCH_AT } from '~/utils/launchGate'
+
 const { t, locale, toggle } = useLocale()
 const route = useRoute()
+
+// Math, 2026-10-19: "est ce qu'on peut mettre un countdown" — same target
+// instant the site itself auto-switches at (utils/launchGate.ts), so the
+// displayed countdown and the real cutover never disagree.
+const launchTarget = new Date(LAUNCH_AT).toISOString()
 
 function scrollToSignup() {
   document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })
@@ -102,22 +109,31 @@ function copyTune() {
     <section class="hero" :style="tuning ? heroStyle : undefined">
       <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
 
-      <img class="hero__logo" src="/images/title-treatment.png" :alt="t('hero.logoAlt')" />
-
-      <div class="hero__art" aria-hidden="true">
-        <img src="/images/ladybug-hero.png" alt="" />
+      <!-- Math, 2026-10-19: "changer le cover art et ajouter la mention du
+           23 octobre" — the flat key-art poster (same asset as the new
+           site's hero, components/NewHomepage.vue) replaces the old
+           title-treatment + ladybug-hero pairing here, with the on-sale
+           banner sitting above it. -->
+      <p class="hero__onsale-banner">{{ t('hero.onSaleBanner') }}</p>
+      <CityCountdown class="hero__countdown" :target="launchTarget" />
+      <div class="hero__poster-wrap">
+        <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
       </div>
 
+      <!-- Math, 2026-10-19: "switch the cover art elements like on the
+           eventual website" — matches components/NewHomepage.vue's order
+           (credit right under the poster, then CTA, then tagline). -->
+      <p class="hero__credit">
+        <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
+        <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
+      </p>
+
       <div class="hero__lockup">
-        <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <button class="cta" type="button" @click="scrollToSignup">
           {{ t('hero.cta') }}
           <span class="cta__arrow" aria-hidden="true">↓</span>
         </button>
-        <p class="hero__credit">
-          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
-          <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
-        </p>
+        <p class="hero__tagline">{{ t('hero.tagline') }}</p>
       </div>
     </section>
 
@@ -317,27 +333,52 @@ function copyTune() {
   filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
 }
 
-/* Ladybug portrait — in-flow, centred, stacked below the title at every width
-   (same arrangement as mobile). Width tunable via --art-w. */
-.hero__art {
-  align-self: center;
-  width: var(--art-w, clamp(230px, 19vw, 340px));
-  z-index: 1;
-  pointer-events: none;
+/* Flat poster art — same hero-poster.webp key art used on the new site
+   (components/NewHomepage.vue), swapped in here for the live landing page. */
+.hero__poster-wrap {
+  position: relative;
+  z-index: 2;
+  /* Single fluid formula across every width (no separate mobile override) —
+     a jump between two different clamp() ranges right at the 859px
+     breakpoint read as a glitch when resizing the window. */
+  width: clamp(320px, 85vw, 600px);
 }
-.hero__art img {
+.hero__poster-img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-/* Title treatment */
-.hero__logo {
+/* On-sale banner, straight bar above the poster art. */
+.hero__onsale-banner {
+  position: relative;
+  z-index: 3;
+  margin: 0 0 0.6rem;
+  padding: 0.5rem 1.4rem;
+  background: var(--cream);
+  color: #150a0b;
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 2vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5);
+}
+
+/* CityCountdown defaults its numbers to var(--red) for use on dark
+   backgrounds (pages/villes) — on this hero's own red background that's
+   invisible, so swap them to white here. */
+.hero__countdown {
   position: relative;
   z-index: 2;
-  width: var(--title-w, clamp(280px, 28vw, 430px));
-  height: auto;
-  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
+}
+.hero__countdown :deep(.countdown__num) {
+  color: #fff;
+}
+.hero__countdown :deep(.countdown__label) {
+  color: rgba(243, 233, 216, 0.85);
 }
 
 /* Tagline + CTA + credit, centred. Width-constrained so long lines (tagline,
@@ -596,15 +637,6 @@ function copyTune() {
     width: 34px; /* match the visual weight of the FR/EN toggle */
     top: 1.1rem;
     left: 1.1rem;
-  }
-  /* Title on top, then the Ladybug returns to flow below it (DOM order) */
-  .hero__logo {
-    width: min(76%, 330px);
-  }
-  .hero__art {
-    position: static;
-    width: min(60%, 250px);
-    align-self: center;
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
      width (measured), so scale the font with the viewport below ~560px where the

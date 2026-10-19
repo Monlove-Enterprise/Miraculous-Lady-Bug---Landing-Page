@@ -74,6 +74,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
   line-height: 1;
 }
 .countdown__label {
+  font-family: var(--font-display);
   margin-top: 0.3rem;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
