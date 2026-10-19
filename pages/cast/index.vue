@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { creative, cast, type Person } from '~/utils/castData'
+import { creative, type Person } from '~/utils/castData'
 
 const { t, locale } = useLocale()
 
@@ -44,18 +44,13 @@ function monogram(p: Person): string {
       </header>
 
       <!-- Cast -->
+      <!-- Math, 2026-10-19: "remove the place holders for the cast" — no
+         real cast announced yet, so the section is just the heading + note
+         until names are confirmed, instead of 4 empty "to be announced"
+         cards. -->
       <section class="cast__section" aria-labelledby="cast-h">
         <h2 id="cast-h" class="cast__heading">{{ t('cast.castHeading') }}</h2>
         <p class="cast__note">{{ t('cast.castNote') }}</p>
-        <ul class="grid">
-          <li v-for="(p, i) in cast" :key="'a' + i" class="card">
-            <div class="card__photo" aria-hidden="true">
-              <span class="card__mono">{{ monogram(p) }}</span>
-            </div>
-            <p class="card__name">{{ p.name || t('cast.tba') }}</p>
-            <p class="card__role">{{ roleOf(p) }}</p>
-          </li>
-        </ul>
       </section>
 
       <!-- Creative team -->
