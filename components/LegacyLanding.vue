@@ -326,7 +326,7 @@ function copyTune() {
 .hero__poster-wrap {
   position: relative;
   z-index: 2;
-  width: clamp(280px, 70vw, 480px);
+  width: clamp(340px, 90vw, 600px);
 }
 .hero__poster-img {
   width: 100%;
@@ -610,7 +610,7 @@ function copyTune() {
     left: 1.1rem;
   }
   .hero__poster-wrap {
-    width: min(78%, 340px);
+    width: clamp(300px, 95vw, 480px);
   }
   /* Keep the tagline on ONE line on phones: it needs ~26.5x its font-size in
      width (measured), so scale the font with the viewport below ~560px where the
