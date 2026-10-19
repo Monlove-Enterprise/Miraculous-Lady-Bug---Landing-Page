@@ -102,15 +102,15 @@ function monogram(p: Person): string {
 </template>
 
 <style scoped>
-/* Math, 2026-10-16: "for cast and creative the white background I mean
-   the background of the page not the people" — the PAGE background goes
-   white/cream; the headshot cards (dark .featured-card/.card panels) and
-   the photos inside them are untouched, so nothing about "the people"
-   moves or resizes. */
+/* Math, 2026-10-19: "on enleve le creme sur la page cast et creative, on
+   remet le font noir" — reverted back to the original dark page background
+   (tried cream 2026-10-16, reverted). */
 .cast {
   min-height: 100dvh;
   padding-bottom: 6rem;
-  background: var(--cream);
+  background:
+    radial-gradient(120% 85% at 50% 100%, rgba(243, 233, 216, 0.045), transparent 68%),
+    var(--ink);
 }
 .container { padding-top: 3rem; }
 
@@ -139,7 +139,7 @@ function monogram(p: Person): string {
 
 .back {
   display: inline-block;
-  color: rgba(28, 15, 13, 0.55);
+  color: var(--cream-dim);
   font-size: 0.9rem;
   margin-bottom: 2.5rem;
   transition: color 0.15s ease;
@@ -156,7 +156,7 @@ function monogram(p: Person): string {
   text-wrap: balance;
 }
 .cast__intro {
-  color: #1c0f0d;
+  color: var(--cream);
   font-size: clamp(1.05rem, 2.6vw, 1.3rem);
   margin-bottom: 1rem;
 }
@@ -165,15 +165,15 @@ function monogram(p: Person): string {
 .cast__section { margin-bottom: 3.5rem; }
 .cast__heading {
   font-size: clamp(1.4rem, 4vw, 2rem);
-  color: #1c0f0d;
+  color: var(--cream);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   margin-bottom: 1.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(28, 15, 13, 0.12);
+  border-bottom: 1px solid rgba(243, 233, 216, 0.12);
 }
 .cast__note {
-  color: rgba(28, 15, 13, 0.6);
+  color: var(--cream-dim);
   font-size: 0.95rem;
   margin: -1.25rem 0 1.5rem;
 }

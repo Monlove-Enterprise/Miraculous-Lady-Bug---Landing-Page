@@ -79,7 +79,23 @@ export const creative: Person[] = [
       'Il a également développé de nouvelles comédies musicales et opéras pour Yonge Street Theatricals (Toronto), Cambodia Living Arts (Phnom Penh), le Vancouver Opera, la Canadian Opera Company et la City Opera Vancouver.\n\n' +
       "En tant que formateur en art théâtral, Robert a enseigné et animé des ateliers pour l'Arte Studio à Mexico, la Shanghai Academy, le Royal Conservatoire de Glasgow, le HB Studio à New York, le Stratford Festival (Canada), Studio 58 à Vancouver, la Canadian Opera Company, le Vancouver Opera et Pacific Opera Victoria.",
   },
-  { slug: 'debra-brown', name: 'Debra Brown', roleFr: 'Chorégraphies Acrobatiques', roleEn: 'Acrobatic Choreography', photo: '/images/cast/debra-brown.webp' },
+  {
+    slug: 'debra-brown',
+    name: 'Debra Brown',
+    roleFr: 'Chorégraphies Acrobatiques',
+    roleEn: 'Acrobatic Choreography',
+    photo: '/images/cast/debra-brown.webp',
+    // Bio verbatim from Math (2026-10-19). FR is my translation, not
+    // brand-confirmed — flag for review before launch.
+    bioEn:
+      'Debra Lynne Brown is an internationally renowned Canadian choreographer celebrated for her groundbreaking contributions to Cirque du Soleil and her innovative fusion of dance, gymnastics, and circus arts. Over the course of her career, she has received numerous accolades, including an Emmy Award for Outstanding Choreography for her work on the 74th Annual Academy Awards.\n\n' +
+      'As Cirque du Soleil’s principal choreographer beginning in 1987, Brown helped shape the company’s signature style and movement vocabulary through iconic productions such as Alegría, Mystère, Quidam, La Nouba, “O,” Corteo, Amaluna, and Luzia. Her influence extends far beyond Cirque. She has worked with global superstars, creating aerial choreography for Madonna’s Drowned World Tour, staging performances for Aerosmith, Céline Dion, and Björk, and bringing her vision to films such as Catwoman and Van Helsing. She has also choreographed for leading opera houses, including the Metropolitan Opera, and created choreography for the Canadian Olympic synchronized swimming team.\n\n' +
+      'Brown’s artistry has earned her further recognition, including a Doctorate of Education from Nipissing University, the Bob Fosse Innovative Choreography Award, the Golden Clown at the World Circus Festival, and eight National Gymnastics Awards.',
+    bioFr:
+      "Debra Lynne Brown est une chorégraphe canadienne de renommée internationale, célébrée pour ses contributions novatrices au Cirque du Soleil et pour sa fusion originale de la danse, de la gymnastique et des arts du cirque. Au cours de sa carrière, elle a reçu de nombreuses distinctions, dont un Emmy Award de la meilleure chorégraphie pour son travail sur la 74e cérémonie des Oscars.\n\n" +
+      "Chorégraphe principale du Cirque du Soleil à partir de 1987, Brown a contribué à façonner le style signature et le vocabulaire gestuel de la compagnie à travers des productions emblématiques telles qu'Alegría, Mystère, Quidam, La Nouba, « O », Corteo, Amaluna et Luzia. Son influence dépasse largement le Cirque : elle a collaboré avec des superstars internationales, créant la chorégraphie aérienne du Drowned World Tour de Madonna, mettant en scène des performances pour Aerosmith, Céline Dion et Björk, et apportant sa vision à des films tels que Catwoman et Van Helsing. Elle a également chorégraphié pour de grandes maisons d'opéra, dont le Metropolitan Opera, et créé des chorégraphies pour l'équipe olympique canadienne de nage synchronisée.\n\n" +
+      "Le talent de Brown lui a valu d'autres distinctions, dont un doctorat honorifique en éducation de l'Université Nipissing, le Bob Fosse Innovative Choreography Award, le Clown d'or du Festival mondial du cirque et huit National Gymnastics Awards.",
+  },
   {
     slug: 'kassandra-boivin-cenelia',
     name: 'Kassandra Boivin-Cénélia',
@@ -121,7 +137,23 @@ export const creative: Person[] = [
       "This period, which lasted until the end of 2016, marked a clear turning point toward Nicolas's dedication to creating stage costumes.\n\n" +
       'Starting in January 2017, he continued this work in Canada with Scéno-Plus for MGM Macau. At the same time, he designed costumes for several Cirque du Soleil productions, including the Helene Fischer Tour 2017–2018, the ice show Axel, and the touring big top show Echo in 2023.',
   },
-  { slug: 'william-todd-jones', name: 'William Todd Jones', roleFr: 'Marionnettes', roleEn: 'Puppet Design', photo: '/images/cast/william-todd-jones.webp' },
+  {
+    slug: 'william-todd-jones',
+    name: 'William Todd-Jones',
+    roleFr: 'Marionnettes',
+    roleEn: 'Puppet Design',
+    photo: '/images/cast/william-todd-jones.webp',
+    // Bio verbatim from Math (2026-10-19). FR is my translation, not
+    // brand-confirmed — flag for review before launch.
+    bioEn:
+      'William Todd-Jones is a performer, puppet designer, movement consultant, and director with nearly four decades of experience in film, television, and theatre. Known professionally as Todd, he combines puppetry, physical performance, and technology to bring characters and creatures to life.\n\n' +
+      'Todd began his career building and performing puppets and creatures for Jim Henson’s Labyrinth. His subsequent credits include Who Framed Roger Rabbit, Batman, Harry Potter and the Order of the Phoenix, John Carter, and I Am Not a Serial Killer, with roles spanning puppetry, creature movement, and creature effects supervision. His theatre work includes Ice Age Live! A Mammoth Adventure.\n\n' +
+      'For the BBC/HBO series His Dark Materials, Todd established the creature effects department and served as its head and master puppeteer, overseeing the creation of puppets representing the series’ dæmons and full-size armoured bear rigs. Across his career, he has contributed to productions recognised with Academy Awards, Emmys, and BAFTAs.',
+    bioFr:
+      "William Todd-Jones est interprète, concepteur de marionnettes, consultant en mouvement et réalisateur, avec près de quatre décennies d'expérience au cinéma, à la télévision et au théâtre. Connu professionnellement sous le nom de Todd, il combine marionnettisme, performance physique et technologie pour donner vie à des personnages et des créatures.\n\n" +
+      "Todd a débuté sa carrière en construisant et en animant des marionnettes et des créatures pour Labyrinthe de Jim Henson. Parmi ses crédits ultérieurs figurent Qui veut la peau de Roger Rabbit, Batman, Harry Potter et l'Ordre du Phénix, John Carter et I Am Not a Serial Killer, avec des rôles allant du marionnettisme au mouvement de créatures en passant par la supervision des effets de créatures. Son travail au théâtre inclut Ice Age Live! A Mammoth Adventure.\n\n" +
+      "Pour la série BBC/HBO His Dark Materials (À la croisée des mondes), Todd a mis sur pied le département des effets de créatures et en a assuré la direction en tant que marionnettiste principal, supervisant la création des marionnettes représentant les dæmons de la série ainsi que les ours blindés grandeur nature. Tout au long de sa carrière, il a contribué à des productions récompensées par des Oscars, des Emmy et des BAFTA.",
+  },
   { slug: 'sarah-tremblay', name: 'Sarah Tremblay', roleFr: 'Perruques', roleEn: 'Wig Design', photo: '/images/cast/sarah-tremblay.webp' },
   {
     slug: 'serge-poupart',
@@ -142,6 +174,22 @@ export const creative: Person[] = [
       "Il a également supervisé des projets complexes de grande envergure, dont l'attraction Donjons & Dragons au Village Vacances Valcartier, des rénovations scéniques au Palais Montcalm, et le spectacle multimédia immersif Metaforia à Montréal et à Djeddah. Au-delà du divertissement, Serge collabore avec Airbus sur la conception d'échafaudages pour l'assemblage d'aéronefs.",
   },
   { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.webp' },
+  {
+    slug: 'real-by-fake',
+    name: 'REAL by FAKE',
+    // Math, 2026-10-19: a studio credit, not a person — role title derived
+    // from the bio's own description, not brand-confirmed.
+    roleFr: 'Effets visuels et postproduction',
+    roleEn: 'Visual Effects & Post-Production',
+    // Bio verbatim from Math (2026-10-19). FR is my translation, not
+    // brand-confirmed — flag for review before launch. No headshot (studio
+    // credit, not a person) — renders as the placeholder like other
+    // nameless/photo-less credits.
+    bioEn:
+      'REAL by FAKE is a Montréal-based post-production and visual effects company with offices in Los Angeles and Mexico City. Specialising in realistic visual effects for film, television, commercials, and music videos, the company offers integrated services from creative planning and VFX supervision to editing, colour grading, and final delivery. Its credits include Dallas Buyers Club, Wild, Big Little Lies, Sharp Objects, and The Morning Show, reflecting a commitment to combining technical expertise with visual storytelling.',
+    bioFr:
+      "REAL by FAKE est une entreprise montréalaise de postproduction et d'effets visuels, avec des bureaux à Los Angeles et à Mexico. Spécialisée dans les effets visuels réalistes pour le cinéma, la télévision, la publicité et les vidéoclips, l'entreprise offre des services intégrés allant de la planification créative et de la supervision des effets visuels jusqu'au montage, à l'étalonnage des couleurs et à la livraison finale. Parmi ses crédits figurent Dallas Buyers Club, Wild, Big Little Lies, Sharp Objects et The Morning Show, témoignant d'un engagement à allier expertise technique et narration visuelle.",
+  },
 ]
 
 export const cast: Person[] = [
