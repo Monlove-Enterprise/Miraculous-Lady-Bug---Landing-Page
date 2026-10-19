@@ -112,16 +112,20 @@ function copyTune() {
         <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
       </div>
 
+      <!-- Math, 2026-10-19: "switch the cover art elements like on the
+           eventual website" — matches components/NewHomepage.vue's order
+           (credit right under the poster, then CTA, then tagline). -->
+      <p class="hero__credit">
+        <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
+        <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
+      </p>
+
       <div class="hero__lockup">
-        <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <button class="cta" type="button" @click="scrollToSignup">
           {{ t('hero.cta') }}
           <span class="cta__arrow" aria-hidden="true">↓</span>
         </button>
-        <p class="hero__credit">
-          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
-          <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
-        </p>
+        <p class="hero__tagline">{{ t('hero.tagline') }}</p>
       </div>
     </section>
 
