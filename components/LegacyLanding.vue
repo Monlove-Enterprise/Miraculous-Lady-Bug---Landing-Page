@@ -1,6 +1,13 @@
 <script setup lang="ts">
+import { LAUNCH_AT } from '~/utils/launchGate'
+
 const { t, locale, toggle } = useLocale()
 const route = useRoute()
+
+// Math, 2026-10-19: "est ce qu'on peut mettre un countdown" — same target
+// instant the site itself auto-switches at (utils/launchGate.ts), so the
+// displayed countdown and the real cutover never disagree.
+const launchTarget = new Date(LAUNCH_AT).toISOString()
 
 function scrollToSignup() {
   document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })
@@ -108,6 +115,7 @@ function copyTune() {
            title-treatment + ladybug-hero pairing here, with the on-sale
            banner sitting above it. -->
       <p class="hero__onsale-banner">{{ t('hero.onSaleBanner') }}</p>
+      <CityCountdown class="hero__countdown" :target="launchTarget" />
       <div class="hero__poster-wrap">
         <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
       </div>
@@ -357,6 +365,20 @@ function copyTune() {
   text-transform: uppercase;
   border-radius: 999px;
   box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5);
+}
+
+/* CityCountdown defaults its numbers to var(--red) for use on dark
+   backgrounds (pages/villes) — on this hero's own red background that's
+   invisible, so swap them to white here. */
+.hero__countdown {
+  position: relative;
+  z-index: 2;
+}
+.hero__countdown :deep(.countdown__num) {
+  color: #fff;
+}
+.hero__countdown :deep(.countdown__label) {
+  color: rgba(243, 233, 216, 0.85);
 }
 
 /* Tagline + CTA + credit, centred. Width-constrained so long lines (tagline,
