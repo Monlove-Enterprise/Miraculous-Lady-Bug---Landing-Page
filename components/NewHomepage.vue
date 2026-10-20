@@ -7,6 +7,25 @@ import { toCityDisplayRows, formatCityDate } from '~/utils/cityDisplayRows'
 const { t, locale } = useLocale()
 const route = useRoute()
 
+// Mobile trailer tap-to-fullscreen — see template comment by trailer-embed__mobile-wrap.
+const MOBILE_TRAILER_ID = 'mIxEgeRMiag'
+const mobileTrailerSrc = ref(`https://www.youtube-nocookie.com/embed/${MOBILE_TRAILER_ID}`)
+const mobileTrailerFrame = ref<HTMLIFrameElement | null>(null)
+const showMobileTrailerTapHint = ref(true)
+
+async function playMobileTrailerFullscreen() {
+  showMobileTrailerTapHint.value = false
+  const el = mobileTrailerFrame.value
+  if (!el) return
+  try {
+    await el.requestFullscreen?.()
+  } catch {
+    // Not supported (e.g. iOS Safari on non-<video> elements) — video still
+    // autoplays inline below, viewer can use YouTube's own fullscreen button.
+  }
+  mobileTrailerSrc.value = `https://www.youtube-nocookie.com/embed/${MOBILE_TRAILER_ID}?autoplay=1&playsinline=1`
+}
+
 // Subscribe-band stars — Math, 2026-10-15: "the stars should shine a bit
 // more randomly". The old .bg-stars utility twinkles two layers of stars
 // in lockstep (all stars in a layer pulse together); these are real
@@ -282,19 +301,42 @@ function copyTune() {
             src="https://www.youtube-nocookie.com/embed/OLCe-Vm62-E"
             :title="t('trailer.heading')"
             frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
             allowfullscreen
             loading="lazy"
           />
-          <iframe
-            class="trailer-embed__frame trailer-embed__frame--mobile"
-            src="https://www.youtube-nocookie.com/embed/mIxEgeRMiag"
-            :title="t('trailer.heading')"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            loading="lazy"
-          />
+          <!-- Math, 2026-10-20: "when we click on the trailer on mobile can
+               it go full screen?" — a bare click on the YouTube iframe just
+               plays inline; the viewer still has to find YouTube's own
+               fullscreen icon afterwards. This invisible button sits over
+               the mobile embed only for the first tap: it starts the video
+               (autoplay) and requests fullscreen on the iframe element
+               itself in the same gesture, then gets out of the way so every
+               later tap (pause, seek, exit fullscreen) goes straight to
+               YouTube's own controls. iOS Safari doesn't support
+               Element.requestFullscreen() on non-<video> elements, so that
+               call silently no-ops there — the video still autoplays inline
+               and the viewer can use YouTube's own fullscreen button, same
+               as before. -->
+          <div class="trailer-embed__mobile-wrap">
+            <iframe
+              ref="mobileTrailerFrame"
+              class="trailer-embed__frame trailer-embed__frame--mobile"
+              :src="mobileTrailerSrc"
+              :title="t('trailer.heading')"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy"
+            />
+            <button
+              v-if="showMobileTrailerTapHint"
+              type="button"
+              class="trailer-embed__fs-tap"
+              :aria-label="t('trailer.heading')"
+              @click="playMobileTrailerFullscreen"
+            />
+          </div>
         </div>
         <img class="trailer-char trailer-char--cn" src="/images/trailer-catnoir.webp" alt="" aria-hidden="true" />
       </div>
@@ -1066,12 +1108,30 @@ function copyTune() {
   border: 0;
 }
 /* Desktop (16:9 trailer) shows by default; mobile (9:16 Short) swaps in
-   at the same breakpoint as the rest of the mobile trailer layout. */
+   at the same breakpoint as the rest of the mobile trailer layout. The
+   mobile iframe's own display is handled by its wrap below; it's never
+   hidden independently of it. */
 .trailer-embed__frame--desktop { display: block; }
-.trailer-embed__frame--mobile { display: none; }
+.trailer-embed__mobile-wrap { display: none; }
 @media (max-width: 640px) {
   .trailer-embed__frame--desktop { display: none; }
-  .trailer-embed__frame--mobile { display: block; }
+  .trailer-embed__mobile-wrap { display: block; position: relative; width: 100%; height: 100%; }
+}
+/* Invisible tap target over the mobile embed — see the template comment
+   next to trailer-embed__mobile-wrap. Removed from the DOM after first
+   tap so later taps (pause, seek, exit fullscreen) reach YouTube's own
+   controls underneath instead of this button. */
+.trailer-embed__fs-tap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .social-grid {
