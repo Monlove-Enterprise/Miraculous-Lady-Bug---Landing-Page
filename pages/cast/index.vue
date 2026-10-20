@@ -191,12 +191,15 @@ function monogram(p: Person): string {
 /* Ella & Martin — featured row, bigger than the regular grid, side by side.
    Math, 2026-10-15: "we can make them a bit smaller, that was very big" —
    max-width 760->520, name font scaled down a notch. */
+/* Math, 2026-10-20: "j'ai juste besoin que vous placiez les images au
+   centre de la page" — row centered within the section instead of pinned
+   to the left of the wider container. */
 .featured-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
-  margin-bottom: 2.5rem;
+  margin: 0 auto 2.5rem;
   max-width: 700px;
 }
 @media (max-width: 720px) {
@@ -219,15 +222,14 @@ function monogram(p: Person): string {
 /* Math, 2026-10-18: "le background des photo devraient rester en noir et
    blanc" — back to the dark --ink-soft backdrop (cream was tried 2026-10-16,
    reverted). */
-/* Math, 2026-10-20: "réduire un peu la taille des photos mais garder ça
-   sur deux lignes" — photo narrower than the card (not full-bleed), text
-   below keeps the card's full width so the two-line role still fits. */
+/* Math, 2026-10-20: "le framing était mieux avant" — back to full-bleed
+   (the 66%/82% narrower-frame experiments reverted); only the row itself
+   is centered on the page now, not the individual photos. */
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
-  width: 66%;
   border-radius: 11px;
-  margin: 0 auto 1.1rem;
+  margin-bottom: 1.1rem;
   overflow: hidden;
   background: var(--ink-soft);
 }
