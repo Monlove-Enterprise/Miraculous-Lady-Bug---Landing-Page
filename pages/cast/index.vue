@@ -61,7 +61,7 @@ function monogram(p: Person): string {
           <li v-for="(p, i) in featuredCreative" :key="'f' + i" class="featured-card">
             <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
               <div class="featured-card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
-                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" />
+                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img card__img--center" />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
               <p class="featured-card__name">{{ p.name || t('cast.tba') }}</p>
@@ -193,9 +193,9 @@ function monogram(p: Person): string {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin-bottom: 2.5rem;
-  max-width: 520px;
+  max-width: 700px;
 }
-@media (max-width: 560px) {
+@media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
 }
 /* Math, 2026-10-15: "there is missing the frames of their picture for ella
@@ -232,9 +232,9 @@ function monogram(p: Person): string {
 }
 .featured-card__role {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: pre-line;
 }
