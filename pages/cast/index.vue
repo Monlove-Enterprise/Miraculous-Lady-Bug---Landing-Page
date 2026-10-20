@@ -248,10 +248,14 @@ function monogram(p: Person): string {
   white-space: pre-line;
 }
 
+/* Math, 2026-10-20: "les noms des creatives soit sur une ligne également" —
+   "Kassandra Boivin-Cénélia" wrapped to 2 lines at the old 190px min; wider
+   cards (220px) keep every name on one line and the photos grow with the
+   card, matching the whole-card-resize approach used for Ella/Martin. */
 .grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
 }
 .card {
