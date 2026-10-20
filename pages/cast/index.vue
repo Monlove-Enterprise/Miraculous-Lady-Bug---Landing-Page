@@ -73,8 +73,18 @@ function monogram(p: Person): string {
         <ul class="grid">
           <li v-for="(p, i) in restCreative" :key="'c' + i" class="card">
             <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
-              <div class="card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
-                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" :class="{ 'card__img--center': p.slug === 'robert-mcqueen' }" />
+              <div
+                class="card__photo"
+                :class="{ 'card__photo--photo': p.photo, 'card__photo--logo': p.slug === 'real-by-fake' }"
+                aria-hidden="true"
+              >
+                <img
+                  v-if="p.photo"
+                  :src="p.photo"
+                  :alt="p.name"
+                  class="card__img"
+                  :class="{ 'card__img--center': p.slug === 'robert-mcqueen', 'card__img--logo': p.slug === 'real-by-fake' }"
+                />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
               <p class="card__name">{{ p.name || t('cast.tba') }}</p>
@@ -286,6 +296,20 @@ function monogram(p: Person): string {
 }
 .card__img--center {
   object-position: center center;
+}
+/* REAL by FAKE credit: a studio wordmark, not a headshot — show the whole
+   logo (contain, no crop, no grayscale) instead of the face-photo treatment. */
+.card__photo--logo {
+  display: grid;
+  place-items: center;
+  padding: 1.4rem;
+}
+.card__img--logo {
+  position: static;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: none;
 }
 .card__link {
   display: block;

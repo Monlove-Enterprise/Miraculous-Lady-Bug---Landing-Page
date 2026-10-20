@@ -182,9 +182,10 @@ export const creative: Person[] = [
     roleFr: 'Effets visuels et postproduction',
     roleEn: 'Visual Effects & Post-Production',
     // Bio verbatim from Math (2026-10-19). FR is my translation, not
-    // brand-confirmed — flag for review before launch. No headshot (studio
-    // credit, not a person) — renders as the placeholder like other
-    // nameless/photo-less credits.
+    // brand-confirmed — flag for review before launch. Logo (not a
+    // headshot) — shown via .card__photo--logo in pages/cast/index.vue,
+    // which switches to object-fit: contain, no grayscale.
+    photo: '/images/cast/real-by-fake.png',
     bioEn:
       'REAL by FAKE is a Montréal-based post-production and visual effects company with offices in Los Angeles and Mexico City. Specialising in realistic visual effects for film, television, commercials, and music videos, the company offers integrated services from creative planning and VFX supervision to editing, colour grading, and final delivery. Its credits include Dallas Buyers Club, Wild, Big Little Lies, Sharp Objects, and The Morning Show, reflecting a commitment to combining technical expertise with visual storytelling.',
     bioFr:
