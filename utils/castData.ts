@@ -212,7 +212,7 @@ export const creative: Person[] = [
 
 export const cast: Person[] = [
   { roleFr: 'Ladybug', roleEn: 'Ladybug' },
-  { roleFr: 'Cat Noir', roleEn: 'Cat Noir' },
+  { roleFr: 'Chat Noir', roleEn: 'Cat Noir' },
   { roleFr: 'Ensemble', roleEn: 'Ensemble' },
   { roleFr: 'Ensemble', roleEn: 'Ensemble' },
 ]
