@@ -19,15 +19,16 @@ export interface Person {
 // ("Original Concept & Creative Direction" / "Book, Music & Lyrics"),
 // replacing the earlier single-line "Creators & Creative Directors"
 // (2026-09-30). FR is my translation, not brand-confirmed — same caveat.
-// Math, 2026-10-20: "enlevons 'original' en français" — dropped "original"
-// from the FR line only (EN unchanged) so the card could shrink while
-// keeping the role text on two lines.
+// Math, 2026-10-20: "on va mettre sur trois lignes ... et réduire" — split
+// into three credit lines (Concept / Direction / Book&Lyrics) in both
+// languages so "original"/"Original" could come back while the card
+// shrinks further (each line is shorter than the old two-line version).
 export const creative: Person[] = [
   {
     slug: 'ella-louise-allaire',
     name: 'Ella Louise Allaire',
-    roleFr: 'Concept & direction artistique\nLivret, musique & paroles',
-    roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
+    roleFr: 'Concept original\nDirection artistique\nLivret, musique & paroles',
+    roleEn: 'Original Concept\nCreative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/ella-louise-allaire.webp',
     bioEn:
       'Ella Louise Allaire is an award-winning show creator, composer, librettist, lyricist and producer with nearly 20 years of experience creating large-scale live entertainment for international audiences.\n\n' +
@@ -45,8 +46,8 @@ export const creative: Person[] = [
   {
     slug: 'martin-lord-ferguson',
     name: 'Martin Lord Ferguson',
-    roleFr: 'Concept & direction artistique\nLivret, musique & paroles',
-    roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
+    roleFr: 'Concept original\nDirection artistique\nLivret, musique & paroles',
+    roleEn: 'Original Concept\nCreative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/martin-lord-ferguson.webp',
     bioEn:
       'Martin Lord Ferguson is a Canadian show creator/producer, sound engineer, scriptwriter, composer and lyricist. His credits include co-writing the book, music and lyrics for the mega success Ice Age Live! A Mammoth Adventure (20th Century Fox, Stage Entertainment), with record audiences in Paris (over 60,000 spectators in a 5-day run) and Hamburg (over 30,000 spectators in a single weekend), beating acts like Coldplay and U2.\n\n' +
@@ -180,6 +181,15 @@ export const creative: Person[] = [
       "Il a également supervisé des projets complexes de grande envergure, dont l'attraction Donjons & Dragons au Village Vacances Valcartier, des rénovations scéniques au Palais Montcalm, et le spectacle multimédia immersif Metaforia à Montréal et à Djeddah. Au-delà du divertissement, Serge collabore avec Airbus sur la conception d'échafaudages pour l'assemblage d'aéronefs.",
   },
   { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.webp' },
+  // Math, 2026-10-20: added Mathieu Bourassa. FR role is my translation,
+  // not brand-confirmed — flag for review before launch.
+  {
+    slug: 'mathieu-bourassa',
+    name: 'Mathieu Bourassa',
+    roleFr: 'Responsable du marketing numérique et du contenu',
+    roleEn: 'Head of Digital Marketing and Content',
+    photo: '/images/cast/mathieu-bourassa.jpg',
+  },
   {
     slug: 'real-by-fake',
     name: 'REAL by FAKE',

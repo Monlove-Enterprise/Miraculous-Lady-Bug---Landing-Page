@@ -202,7 +202,7 @@ function monogram(p: Person): string {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin: 0 auto 2.5rem;
-  max-width: 680px;
+  max-width: 520px;
 }
 @media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
