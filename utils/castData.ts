@@ -166,11 +166,11 @@ export const creative: Person[] = [
     photo: '/images/cast/serge-poupart.webp',
     bioEn:
       'Serge brings over 25 years of experience in technical direction, international productions, and major events, working with organizations including Monlove, Cirque du Soleil, the Formula 1 Grand Prix of Canada, and Just for Laughs.\n\n' +
-      'His technical management credits span touring productions and live experiences, including the Backstreet Boys, Scooby-Doo and the Lost City of Gold, All Systems Are Go! A NASA–Peanuts Experience, Mary Poppins, Rick & Morty, and Les Ballets Jazz de Montréal.\n\n' +
+      'His technical management credits span touring productions and live experiences, including the Backstreet Boys, Scooby-Doo and the Lost City of Gold, All Systems Are Go! A NASA Peanuts Adventure, Mary Poppins, Rick & Morty, and Les Ballets Jazz de Montréal.\n\n' +
       'He has also overseen complex, large-scale projects, including the Dungeons & Dragons attraction at Village Vacances Valcartier, scenic renovations at Palais Montcalm, and the immersive multimedia show Metaforia in Montreal and Jeddah. Beyond entertainment, Serge collaborates with Airbus on scaffolding design for aircraft assembly.',
     bioFr:
       "Serge cumule plus de 25 ans d'expérience en direction technique, productions internationales et grands événements, ayant collaboré avec des organisations telles que Monlove, le Cirque du Soleil, le Grand Prix de Formule 1 du Canada et Juste pour rire.\n\n" +
-      'Sa feuille de route en gestion technique couvre des productions en tournée et des expériences live, notamment les Backstreet Boys, Scooby-Doo et la Cité perdue de l\'or, All Systems Are Go! A NASA–Peanuts Experience, Mary Poppins, Rick & Morty, ainsi que Les Ballets Jazz de Montréal.\n\n' +
+      'Sa feuille de route en gestion technique couvre des productions en tournée et des expériences live, notamment les Backstreet Boys, Scooby-Doo et la Cité perdue de l\'or, All Systems Are Go! A NASA Peanuts Adventure, Mary Poppins, Rick & Morty, ainsi que Les Ballets Jazz de Montréal.\n\n' +
       "Il a également supervisé des projets complexes de grande envergure, dont l'attraction Donjons & Dragons au Village Vacances Valcartier, des rénovations scéniques au Palais Montcalm, et le spectacle multimédia immersif Metaforia à Montréal et à Djeddah. Au-delà du divertissement, Serge collabore avec Airbus sur la conception d'échafaudages pour l'assemblage d'aéronefs.",
   },
   { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.webp' },

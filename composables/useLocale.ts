@@ -123,7 +123,7 @@ const messages: Record<Locale, Dict> = {
       'Avec le destin de Paris en jeu, Ladybug et Chat Noir doivent découvrir que leur plus grande force vient du fait d’être plus forts ensemble.',
     'story.mastermindsHeading': 'Les cerveaux créatifs derrière le spectacle',
     'story.mastermindsText':
-      'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé derrière Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold et All Systems Are Go! A NASA–Peanuts Experience. Grâce à leur passion pour la narration et une mise en scène à la pointe de l’innovation, cette production promet d’être unique en son genre.',
+      'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé derrière Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold et All Systems Are Go! A NASA Peanuts Adventure. Grâce à leur passion pour la narration et une mise en scène à la pointe de l’innovation, cette production promet d’être unique en son genre.',
     'story.spectacleHeading': 'Un vrai spectacle Miraculous',
     'story.spectacleText':
       'Imagine une acrobatie à couper le souffle, des chorégraphies aériennes éblouissantes, des illusions renversantes, de la danse énergique et des marionnettes inventives, le tout tissé dans une toute nouvelle comédie musicale originale mettant en vedette Ladybug et Chat Noir. Avec des chansons originales et une interaction scène-vidéo spectaculaire, c’est une expérience Miraculous pour tous les âges.',
@@ -345,13 +345,11 @@ const messages: Record<Locale, Dict> = {
       'As Paris prepares for a spectacular Fashion Week, a mysterious villain threatens to turn dreams into nightmares.\n\n' +
       'With the fate of Paris at stake, Ladybug and Cat Noir must discover that their greatest power comes from being stronger together.',
     'story.mastermindsHeading': 'Meet the Masterminds',
-    // Brand copy, verbatim, except the "All Systems Are Go!" subtitle: kept
-    // as "A NASA–Peanuts Experience" to match the title already used
-    // elsewhere on the site (Serge Poupart's bio, utils/castData.ts) rather
-    // than this note's "A NASA Peanuts Adventure" — flag to Math to confirm
-    // the official subtitle.
+    // Brand copy, verbatim (Math, 2026-10-20: "utilise ce que je viens de
+    // coller" — confirmed "A NASA Peanuts Adventure" as the official
+    // subtitle; also updated in Serge Poupart's bio, utils/castData.ts).
     'story.mastermindsText':
-      'The show is driven by the creative genius of Ella Louise Allaire and Martin Lord Ferguson, the award-winning duo behind Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold, and All Systems Are Go! A NASA–Peanuts Experience. With their passion for storytelling and cutting-edge stagecraft, this production promises to be unlike anything fans have ever seen.',
+      'The show is driven by the creative genius of Ella Louise Allaire and Martin Lord Ferguson, the award-winning duo behind Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold, and All Systems Are Go! A NASA Peanuts Adventure. With their passion for storytelling and cutting-edge stagecraft, this production promises to be unlike anything fans have ever seen.',
     'story.spectacleHeading': 'A True Miraculous Spectacular',
     'story.spectacleText':
       'Imagine breathtaking acrobatics, dazzling aerial choreography, jaw-dropping illusions, energetic dance, and inventive puppetry, all woven into an all-new, original musical starring Ladybug and Cat Noir. With original songs and spectacular stage-to-video interaction, this is a Miraculous experience for all ages.',
