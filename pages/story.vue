@@ -25,6 +25,11 @@ useHead(() => ({
       </header>
 
       <section class="story__section">
+        <h2 class="story__heading">{{ t('story.theStoryHeading') }}</h2>
+        <p class="story__text">{{ t('story.theStoryText') }}</p>
+      </section>
+
+      <section class="story__section">
         <h2 class="story__heading">{{ t('story.mastermindsHeading') }}</h2>
         <p class="story__text">{{ t('story.mastermindsText') }}</p>
       </section>
@@ -123,6 +128,7 @@ useHead(() => ({
   color: var(--cream-dim);
   line-height: 1.7;
   font-size: 1rem;
+  white-space: pre-line;
 }
 
 .story__cta {

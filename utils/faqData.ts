@@ -131,16 +131,18 @@ export const faqEn: FaqCategory[] = [
         a: 'Yes! Make your Miraculous experience even more special with exclusive VIP packages available at select performances.',
       },
       {
+        // Math, 2026-10-20: "notes que j'ai reçues" — brand copy, verbatim,
+        // replacing the earlier summarized answer.
         q: 'What is included in the Ultimate VIP Pre-Party Pass?',
-        a: 'The Ultimate VIP Pre-Party Pass includes a premium reserved ticket, access to an exclusive pre-show party, a meet-and-greet and photo opportunity with Ladybug, snacks and beverages, exclusive merchandise, and additional VIP benefits. Please review the package description for full details.',
+        a: 'Our Ultimate VIP Pre-Party Pass includes VIP reserved seating, an on-site VIP host, exclusive access to the VIP pre-show party, a meet-and-greet and photo opportunity with Ladybug and/or Cat Noir, snacks and beverages, an exclusive Ultimate VIP merchandise item, an official VIP tote bag, a limited-edition VIP laminate, and crowd-free merchandise shopping!\n\nAt select venues, the Ultimate VIP experience may be offered as an add-on to a separately purchased show ticket.\n\nAll VIP activities take place before the show.',
       },
       {
         q: 'What is included in the Premium VIP Package?',
-        a: 'The Premium VIP Package includes a premium reserved ticket, exclusive merchandise, VIP credentials, crowd-free merchandise shopping, and additional benefits. Please review the package description for full details.',
+        a: 'Our Premium VIP Package includes VIP reserved seating, an on-site VIP host, an exclusive Premium VIP merchandise item, a limited-edition VIP laminate, and crowd-free merchandise shopping!\n\nAll VIP activities take place before the show.',
       },
       {
         q: 'Can I meet Ladybug and Cat Noir?',
-        a: 'The Ultimate VIP Pre-Party Pass includes a meet-and-greet and photo opportunity with Ladybug. Only the character appearances specifically listed in a package are included.',
+        a: 'The Ultimate VIP Pre-Party Pass includes a meet-and-greet and photo opportunity with Ladybug and/or Cat Noir. Only the character appearances specifically listed in a package are included.',
       },
       {
         q: 'Are VIP packages available for every performance?',
@@ -309,16 +311,18 @@ export const faqFr: FaqCategory[] = [
         a: 'Oui ! Rends ton expérience Miraculous encore plus spéciale grâce à des forfaits VIP exclusifs offerts pour certaines représentations.',
       },
       {
+        // Math, 2026-10-20: "notes que j'ai reçues" (brand copy, EN only) —
+        // FR is my translation, not brand-confirmed.
         q: 'Qu’est-ce qui est inclus dans le laissez-passer Ultimate VIP Pre-Party ?',
-        a: 'Le laissez-passer Ultimate VIP Pre-Party comprend un billet réservé premium, l’accès à une fête exclusive avant le spectacle, une rencontre et une séance photo avec Ladybug, des collations et des boissons, des articles exclusifs ainsi que d’autres avantages VIP. Consulte la description du forfait pour tous les détails.',
+        a: 'Notre laissez-passer Ultimate VIP Pre-Party comprend une place réservée VIP, un hôte VIP sur place, l’accès exclusif à la fête VIP avant le spectacle, une rencontre et une séance photo avec Ladybug et/ou Chat Noir, des collations et des boissons, un article exclusif aux forfaits Ultimate VIP, un sac fourre-tout VIP officiel, un laminé VIP édition limitée, ainsi que l’accès à la boutique sans file d’attente!\n\nDans certains lieux, l’expérience Ultimate VIP peut être offerte en supplément à un billet de spectacle acheté séparément.\n\nToutes les activités VIP ont lieu avant le spectacle.',
       },
       {
         q: 'Qu’est-ce qui est inclus dans le forfait Premium VIP ?',
-        a: 'Le forfait Premium VIP comprend un billet réservé premium, des articles exclusifs, un laissez-passer VIP, un accès à la boutique sans file d’attente ainsi que d’autres avantages. Consulte la description du forfait pour tous les détails.',
+        a: 'Notre forfait Premium VIP comprend une place réservée VIP, un hôte VIP sur place, un article exclusif aux forfaits Premium VIP, un laminé VIP édition limitée, ainsi que l’accès à la boutique sans file d’attente!\n\nToutes les activités VIP ont lieu avant le spectacle.',
       },
       {
         q: 'Puis-je rencontrer Ladybug et Chat Noir ?',
-        a: 'Le laissez-passer Ultimate VIP Pre-Party comprend une rencontre et une séance photo avec Ladybug. Seules les apparitions de personnages explicitement mentionnées dans un forfait sont incluses.',
+        a: 'Le laissez-passer Ultimate VIP Pre-Party comprend une rencontre et une séance photo avec Ladybug et/ou Chat Noir. Seules les apparitions de personnages explicitement mentionnées dans un forfait sont incluses.',
       },
       {
         q: 'Les forfaits VIP sont-ils disponibles pour toutes les représentations ?',

@@ -70,24 +70,28 @@ const messages: Record<Locale, Dict> = {
     'vip.title': 'Forfaits VIP',
     'vip.metaDescription': 'Forfaits VIP pour Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
     'vip.intro': 'Vis le spectacle autrement avec un accès VIP exclusif.',
+    // Math, 2026-10-20: "notes que j'ai reçues" — brand-provided VIP copy,
+    // replacing the earlier draft. FR is my translation (not brand-confirmed),
+    // kept consistent with tier1.name/tier2.name's "VIP Ultime"/"VIP Premium"
+    // naming already used on this page.
     'vip.allPreShow': 'Toutes les activités ont lieu avant le spectacle.',
     'vip.tier1.name': 'Forfait VIP Ultime — Pré-fête',
     'vip.tier1.cta': 'Acheter VIP Ultime',
     'vip.tier1.perks': [
-      'Un billet réservé ultime dans les rangées VIP',
+      'Un billet réservé VIP Ultime dans la section VIP',
       'Hôte VIP sur place',
       'Accès exclusif à la pré-fête VIP',
-      'Rencontre et séance photo avec Ladybug',
+      'Rencontre et séance photo avec Ladybug et/ou Chat Noir',
       'Collations et boissons',
       'Article de produits dérivés exclusif aux forfaits VIP Ultime',
-      'Insigne officiel membre VIP',
+      'Sac fourre-tout VIP officiel',
       'Laminé VIP édition limitée',
       'Magasinage de produits dérivés sans file d’attente',
     ].join('|'),
     'vip.tier2.name': 'Forfait VIP Premium',
     'vip.tier2.cta': 'Acheter VIP Premium',
     'vip.tier2.perks': [
-      'Un billet réservé premium dans les rangées VIP',
+      'Un billet réservé VIP Premium dans la section VIP',
       'Hôte VIP sur place',
       'Article de produits dérivés exclusif aux forfaits VIP Premium',
       'Laminé VIP édition limitée',
@@ -109,15 +113,23 @@ const messages: Record<Locale, Dict> = {
     // the stage).
     'story.intro':
       'L’univers Miraculous s’agrandit : Miraculous: Tales of Ladybug & Cat Noir prend vie sur scène ! Miraculous Corp et Monlove s’associent pour lancer en 2027 un spectacle spectaculaire et rempli d’action, qui amène nos super-héros parisiens préférés devant des publics du monde entier.',
+    // Math, 2026-10-20: "notes que j'ai reçues" — new synopsis section, not
+    // previously on the page. FR is my translation, not brand-confirmed.
+    'story.theStoryHeading': 'Synopsis',
+    'story.theStoryText':
+      'Au cœur de Paris, deux adolescents ordinaires mènent une double vie extraordinaire. Marinette rêve de devenir styliste, tandis qu’Adrien aspire à échapper aux attentes de son père célèbre. Mais quand le danger frappe, ils se transforment en Ladybug et Chat Noir, les super-héros bien-aimés de la ville.\n\n' +
+      'Partenaires au combat, ignorant la véritable identité l’un de l’autre, ils se retrouvent pris dans une histoire d’amour compliquée.\n\n' +
+      'Alors que Paris se prépare pour une Fashion Week spectaculaire, un mystérieux vilain menace de transformer les rêves en cauchemars.\n\n' +
+      'Avec le destin de Paris en jeu, Ladybug et Chat Noir doivent découvrir que leur plus grande force vient du fait d’être plus forts ensemble.',
     'story.mastermindsHeading': 'Les cerveaux créatifs derrière le spectacle',
     'story.mastermindsText':
-      'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé derrière « Ice Age Live! », « Scooby-Doo! and The Lost City of Gold » et « All Systems Are Go! ». Grâce à leur passion pour la narration et une mise en scène à la pointe de l’innovation, cette production promet d’être unique en son genre.',
+      'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé derrière Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold et All Systems Are Go! A NASA–Peanuts Experience. Grâce à leur passion pour la narration et une mise en scène à la pointe de l’innovation, cette production promet d’être unique en son genre.',
     'story.spectacleHeading': 'Un vrai spectacle Miraculous',
     'story.spectacleText':
-      'Imagine de l’acrobatie, des chorégraphies aériennes éblouissantes, des illusions à couper le souffle, de la danse énergique et même des marionnettes, le tout tissé dans une toute nouvelle aventure originale où Ladybug et Chat Noir affrontent une nouvelle menace palpitante ! Avec des interactions scène-vidéo et des chansons exclusives, ce sera une expérience Miraculous pour les générations.',
+      'Imagine une acrobatie à couper le souffle, des chorégraphies aériennes éblouissantes, des illusions renversantes, de la danse énergique et des marionnettes inventives, le tout tissé dans une toute nouvelle comédie musicale originale mettant en vedette Ladybug et Chat Noir. Avec des chansons originales et une interaction scène-vidéo spectaculaire, c’est une expérience Miraculous pour tous les âges.',
     'story.nextHeading': 'Et ensuite ?',
     'story.nextText':
-      'Les détails sur les villes, les salles et la mise en vente des billets seront dévoilés cette année. Reste à l’affût juste ici sur Miraculousladybug.com pour les dernières nouvelles — ne manque pas ta chance de voir Ladybug et Chat Noir passer de l’écran à la scène ! Les détails seront mis à jour chaque semaine.',
+      'Reste à l’affût juste ici sur Miraculousladybuglive.com pour les dernières nouvelles sur les villes et les salles. Ne manque pas ta chance de voir Ladybug et Chat Noir passer de l’écran à la scène ! De nouveaux détails seront ajoutés chaque semaine.',
     'story.ctaKicker': 'Sois Miraculous',
     'story.closing':
       'Prêt·e à vivre Miraculous LIVE ? Partage ton enthousiasme et reste à l’affût pour d’autres nouvelles exclusives sur le spectacle sur scène de Miraculous Ladybug !',
@@ -286,24 +298,28 @@ const messages: Record<Locale, Dict> = {
     'vip.title': 'VIP Packages',
     'vip.metaDescription': 'VIP packages for Miraculous Ladybug & Cat Noir: The Live Stage Spectacular.',
     'vip.intro': 'Experience the show differently with exclusive VIP access.',
-    'vip.allPreShow': 'All activities occur pre-show.',
+    // Math, 2026-10-20: "notes que j'ai reçues" — brand-provided VIP copy,
+    // verbatim, replacing the earlier draft (fixed: meet & greet is with
+    // Ladybug AND/OR Cat Noir, and the Ultimate item is a tote bag, not a
+    // badge).
+    'vip.allPreShow': 'All activities occur before the show.',
     'vip.tier1.name': 'Ultimate VIP Pre-Party Pass',
     'vip.tier1.cta': 'Buy Ultimate VIP',
     'vip.tier1.perks': [
-      'One ultimate reserved ticket in VIP rows',
+      'One Ultimate VIP reserved ticket in the VIP section',
       'On-site VIP host',
       'Exclusive access to the VIP pre-show party',
-      'Meet & greet and photo opportunity with Ladybug',
+      'Meet-and-greet and photo opportunity with Ladybug &/or Cat Noir',
       'Snacks and beverages',
-      'Merchandise item exclusive to ultimate VIP packages',
-      'Official VIP member badge',
+      'Merchandise item exclusive to Ultimate VIP packages',
+      'Official VIP tote bag',
       'Limited-edition VIP laminate',
       'Crowd-free merchandise shopping',
     ].join('|'),
     'vip.tier2.name': 'Premium VIP Package',
     'vip.tier2.cta': 'Buy Premium VIP',
     'vip.tier2.perks': [
-      'One premium reserved ticket in VIP rows',
+      'One Premium VIP reserved ticket in the VIP section',
       'On-site VIP host',
       'Merchandise item exclusive to Premium VIP packages',
       'Limited-edition VIP laminate',
@@ -320,15 +336,28 @@ const messages: Record<Locale, Dict> = {
     // Real brand copy from Math (2026-09-15), verbatim.
     'story.intro':
       'The Miraculous universe is expanding, Miraculous: Tales of Ladybug & Cat Noir is going LIVE! Miraculous Corp and Monlove are teaming up to launch a jaw-dropping, action-packed stage show in 2027, bringing our favorite Parisian superheroes to audiences around the globe.',
+    // Math, 2026-10-20: "notes que j'ai reçues" — brand copy, verbatim. New
+    // synopsis section, not previously on the page.
+    'story.theStoryHeading': 'Synopsis',
+    'story.theStoryText':
+      'In the heart of Paris, two ordinary teenagers lead extraordinary secret lives. Marinette dreams of becoming a fashion designer, while Adrien longs to escape the expectations of his famous father. But when danger strikes, they transform into Ladybug and Cat Noir, the city’s beloved superheroes.\n\n' +
+      'Partners in battle, unaware of each other’s true identity, they find themselves caught in a complicated love story.\n\n' +
+      'As Paris prepares for a spectacular Fashion Week, a mysterious villain threatens to turn dreams into nightmares.\n\n' +
+      'With the fate of Paris at stake, Ladybug and Cat Noir must discover that their greatest power comes from being stronger together.',
     'story.mastermindsHeading': 'Meet the Masterminds',
+    // Brand copy, verbatim, except the "All Systems Are Go!" subtitle: kept
+    // as "A NASA–Peanuts Experience" to match the title already used
+    // elsewhere on the site (Serge Poupart's bio, utils/castData.ts) rather
+    // than this note's "A NASA Peanuts Adventure" — flag to Math to confirm
+    // the official subtitle.
     'story.mastermindsText':
-      'The show will be driven by the creative genius of Ella Louise Allaire and Martin Lord Ferguson, the award-winning duo behind “Ice Age Live!”, “Scooby-Doo! and The Lost City of Gold”, and “All Systems Are Go!”. With their passion for storytelling and cutting-edge stagecraft, this production promises to be unlike anything fans have ever seen.',
+      'The show is driven by the creative genius of Ella Louise Allaire and Martin Lord Ferguson, the award-winning duo behind Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold, and All Systems Are Go! A NASA–Peanuts Experience. With their passion for storytelling and cutting-edge stagecraft, this production promises to be unlike anything fans have ever seen.',
     'story.spectacleHeading': 'A True Miraculous Spectacular',
     'story.spectacleText':
-      'Imagine acrobatics, dazzling aerial choreography, jaw-dropping illusions, energetic dance, and even puppetry, all woven into an all-new, original adventure featuring Ladybug and Cat Noir as they face an exciting new threat! With stage-to-video interaction and exclusive songs, this will be a Miraculous experience for the ages.',
+      'Imagine breathtaking acrobatics, dazzling aerial choreography, jaw-dropping illusions, energetic dance, and inventive puppetry, all woven into an all-new, original musical starring Ladybug and Cat Noir. With original songs and spectacular stage-to-video interaction, this is a Miraculous experience for all ages.',
     'story.nextHeading': 'What’s Next?',
     'story.nextText':
-      'Details on cities, venues, and ticket sales will be revealed this year. Stay tuned right here on Miraculousladybug.com for the latest updates, don’t miss your chance to see Ladybug and Cat Noir leap from screen to stage! Details will be updated weekly.',
+      'Stay tuned right here on Miraculousladybuglive.com for the latest updates on cities and venues. Don’t miss your chance to see Ladybug and Cat Noir leap from screen to stage! New details will be added weekly.',
     'story.ctaKicker': 'Be Miraculous',
     'story.closing':
       'Are you ready to be Miraculous LIVE? Share your excitement and keep watching this space for more exclusive news on the Miraculous Ladybug live stage show!',
