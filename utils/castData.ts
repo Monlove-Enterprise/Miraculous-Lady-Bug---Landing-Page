@@ -19,11 +19,14 @@ export interface Person {
 // ("Original Concept & Creative Direction" / "Book, Music & Lyrics"),
 // replacing the earlier single-line "Creators & Creative Directors"
 // (2026-09-30). FR is my translation, not brand-confirmed — same caveat.
+// Math, 2026-10-20: "enlevons 'original' en français" — dropped "original"
+// from the FR line only (EN unchanged) so the card could shrink while
+// keeping the role text on two lines.
 export const creative: Person[] = [
   {
     slug: 'ella-louise-allaire',
     name: 'Ella Louise Allaire',
-    roleFr: 'Concept original & direction artistique\nLivret, musique & paroles',
+    roleFr: 'Concept & direction artistique\nLivret, musique & paroles',
     roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/ella-louise-allaire.webp',
     bioEn:
@@ -42,7 +45,7 @@ export const creative: Person[] = [
   {
     slug: 'martin-lord-ferguson',
     name: 'Martin Lord Ferguson',
-    roleFr: 'Concept original & direction artistique\nLivret, musique & paroles',
+    roleFr: 'Concept & direction artistique\nLivret, musique & paroles',
     roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/martin-lord-ferguson.webp',
     bioEn:
