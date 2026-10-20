@@ -191,16 +191,18 @@ function monogram(p: Person): string {
 /* Ella & Martin — featured row, bigger than the regular grid, side by side.
    Math, 2026-10-15: "we can make them a bit smaller, that was very big" —
    max-width 760->520, name font scaled down a notch. */
-/* Math, 2026-10-20: "j'ai juste besoin que vous placiez les images au
-   centre de la page" — row centered within the section instead of pinned
-   to the left of the wider container. */
+/* Math, 2026-10-20: "réduire toute la carte (photo + texte ensemble)" —
+   shrinking just the photo left dead space around it that read as a
+   different crop; shrinking the whole card instead keeps the photo
+   full-bleed (identical framing, just smaller) and stays centered on
+   the page. */
 .featured-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin: 0 auto 2.5rem;
-  max-width: 700px;
+  max-width: 560px;
 }
 @media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
@@ -222,30 +224,26 @@ function monogram(p: Person): string {
 /* Math, 2026-10-18: "le background des photo devraient rester en noir et
    blanc" — back to the dark --ink-soft backdrop (cream was tried 2026-10-16,
    reverted). */
-/* Math, 2026-10-20: "je veux leurs cadres au centre" — photo narrower than
-   the card and centered within it (not full-bleed); text below keeps the
-   card's full width so the two-line role still fits. */
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
-  width: 61%;
   border-radius: 11px;
-  margin: 0 auto 1.1rem;
+  margin-bottom: 1.1rem;
   overflow: hidden;
   background: var(--ink-soft);
 }
 .featured-card__name {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  font-size: clamp(1.1rem, 2.4vw, 1.3rem);
   color: var(--cream);
   line-height: 1.1;
   margin-bottom: 0.4rem;
 }
 .featured-card__role {
   color: var(--red);
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   text-transform: uppercase;
   white-space: pre-line;
 }
