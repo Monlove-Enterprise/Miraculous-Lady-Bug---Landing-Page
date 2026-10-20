@@ -228,7 +228,7 @@ function monogram(p: Person): string {
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
-  width: 55%;
+  width: 66%;
   border-radius: 11px;
   margin: 0 auto 1.1rem;
   overflow: hidden;
