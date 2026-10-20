@@ -141,7 +141,7 @@ function onPointerUp() {
       class="worldmap__tooltip"
       :style="{ left: ((p.x - vb.x) / vb.w) * 100 + '%', top: ((p.y - vb.y) / vb.h) * 100 + '%' }"
     >
-      {{ p.city }}
+      {{ p.city }}{{ p.region ? `, ${p.region}` : '' }}
     </div>
 
     <div class="worldmap__zoom">

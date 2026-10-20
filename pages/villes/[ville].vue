@@ -88,7 +88,7 @@ const calendarEvents = computed(() =>
 
       <header class="ville__head">
         <span v-if="status !== 'confirmee'" class="badge" :class="`badge--${status}`">{{ t(`villes.status.${status}`) }}</span>
-        <h1 class="ville__title">{{ city.city }}</h1>
+        <h1 class="ville__title">{{ city.city }}{{ city.region ? `, ${city.region}` : '' }}</h1>
         <p class="ville__country">{{ countryName() }}</p>
         <p v-if="city.venue" class="ville__venue">{{ city.venue }}</p>
         <p v-for="d in datesLines()" :key="d" class="ville__dates">{{ d }}</p>

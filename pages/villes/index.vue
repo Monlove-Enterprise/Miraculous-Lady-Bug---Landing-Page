@@ -52,7 +52,7 @@ function openingLabel(c: CityDisplayRow) {
       <ul class="list">
         <li v-for="c in cities" :key="c.rowKey" class="row" :class="`row--${c.status}`">
           <NuxtLink :to="`/villes/${c.slug}`" class="row__place">
-            <p class="row__city">{{ c.city }}</p>
+            <p class="row__city">{{ c.city }}{{ c.region ? `, ${c.region}` : '' }}</p>
             <p class="row__country">{{ countryName(c) }}</p>
           </NuxtLink>
 

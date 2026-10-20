@@ -224,7 +224,7 @@ function copyTune() {
         <ul v-if="upcomingCities.length" class="city-list">
           <li v-for="c in upcomingCities" :key="c.rowKey" class="city-row">
             <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
-              <p class="city-row__city">{{ c.city }}</p>
+              <p class="city-row__city">{{ c.city }}{{ c.region ? `, ${c.region}` : '' }}</p>
               <p class="city-row__country">{{ countryName(c) }}</p>
             </NuxtLink>
             <div class="city-row__details">
