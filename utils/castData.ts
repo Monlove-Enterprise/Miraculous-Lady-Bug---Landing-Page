@@ -186,8 +186,8 @@ export const creative: Person[] = [
   {
     slug: 'mathieu-bourassa',
     name: 'Mathieu Bourassa',
-    roleFr: 'Responsable du marketing numérique et du contenu',
-    roleEn: 'Head of Digital Marketing and Content',
+    roleFr: 'Responsable du marketing numérique et de la stratégie de contenu',
+    roleEn: 'Head of Digital Marketing and Content Strategy',
     photo: '/images/cast/mathieu-bourassa.jpg',
   },
   {
