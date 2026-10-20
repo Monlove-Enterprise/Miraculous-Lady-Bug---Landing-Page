@@ -202,7 +202,7 @@ function monogram(p: Person): string {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin: 0 auto 2.5rem;
-  max-width: 560px;
+  max-width: 800px;
 }
 @media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
@@ -241,9 +241,9 @@ function monogram(p: Person): string {
 }
 .featured-card__role {
   color: var(--red);
-  font-size: 0.63rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: pre-line;
 }
