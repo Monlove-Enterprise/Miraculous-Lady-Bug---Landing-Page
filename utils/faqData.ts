@@ -207,7 +207,7 @@ export const faqFr: FaqCategory[] = [
     heading: 'À propos du spectacle',
     items: [
       {
-        q: 'Qu’est-ce que Miraculous Ladybug & Cat Noir : Le Spectacle Live ?',
+        q: 'Qu’est-ce que Miraculous Ladybug & Chat Noir : Le Spectacle Live ?',
         a: 'Prépare-toi à vivre une aventure Miraculous comme jamais auparavant ! Cette toute nouvelle production théâtrale live donne vie aux super-héros préférés à travers une histoire inédite, des chansons originales, des acrobaties à couper le souffle, des effets visuels spectaculaires et une technologie de pointe. Rejoins Ladybug et Chat Noir pour une expérience inoubliable en famille !',
       },
       {
@@ -237,7 +237,7 @@ export const faqFr: FaqCategory[] = [
     items: [
       {
         q: 'À partir de quel âge le spectacle est-il recommandé ?',
-        a: 'Miraculous Ladybug & Cat Noir : Le Spectacle Live est une expérience de divertissement inoubliable conçue pour toute la famille ! Que tu sois jeune fan, adolescent ou adulte, il y en a pour tous les goûts.',
+        a: 'Miraculous Ladybug & Chat Noir : Le Spectacle Live est une expérience de divertissement inoubliable conçue pour toute la famille ! Que tu sois jeune fan, adolescent ou adulte, il y en a pour tous les goûts.',
       },
       {
         q: 'Le spectacle convient-il aux jeunes enfants ?',

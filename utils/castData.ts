@@ -181,12 +181,13 @@ export const creative: Person[] = [
       "Il a également supervisé des projets complexes de grande envergure, dont l'attraction Donjons & Dragons au Village Vacances Valcartier, des rénovations scéniques au Palais Montcalm, et le spectacle multimédia immersif Metaforia à Montréal et à Djeddah. Au-delà du divertissement, Serge collabore avec Airbus sur la conception d'échafaudages pour l'assemblage d'aéronefs.",
   },
   { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.webp' },
-  // Math, 2026-10-20: added Mathieu Bourassa. FR role is my translation,
-  // not brand-confirmed — flag for review before launch.
   {
     slug: 'mathieu-bourassa',
     name: 'Mathieu Bourassa',
-    roleFr: 'Responsable du marketing numérique et de la stratégie de contenu',
+    // Math, 2026-10-20: his own real title, given directly ("voici mon
+    // nouveau titre"), replacing the earlier placeholder translation. EN
+    // left as-is — not asked to change it ("l'anglais on touche pas").
+    roleFr: 'Direction du marketing numérique et de la stratégie de contenu',
     roleEn: 'Head of Digital Marketing and Content Strategy',
     photo: '/images/cast/mathieu-bourassa.jpg',
   },
