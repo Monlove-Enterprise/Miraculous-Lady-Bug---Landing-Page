@@ -196,14 +196,15 @@ function monogram(p: Person): string {
    different crop; shrinking the whole card instead keeps the photo
    full-bleed (identical framing, just smaller) and stays centered on
    the page. Bumped back up a notch same day ("make ella and martin a
-   tad bigger") — still fits the 3-line FR/EN credit at 560px. */
+   tad bigger"); kept subtle after Math flagged the regular grid growing
+   too — 535px, still fits the 3-line FR/EN credit. */
 .featured-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin: 0 auto 2.5rem;
-  max-width: 560px;
+  max-width: 535px;
 }
 @media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
@@ -242,24 +243,27 @@ function monogram(p: Person): string {
 }
 .featured-card__role {
   color: var(--red);
-  font-size: 0.72rem;
+  font-size: 0.64rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: pre-line;
 }
 
 /* Math, 2026-10-20: "les noms des creatives soit sur une ligne également" —
    "Kassandra Boivin-Cénélia" wrapped to 2 lines at the old 190px min; wider
-   cards keep every name on one line and the photos grow with the card,
-   matching the whole-card-resize approach used for Ella/Martin. Bumped
-   again same day ("serge title should be on two lines") to 280px so Serge
-   Poupart's 2-line credit (FR "Production et direction technique" is the
-   long pole) doesn't wrap to 3. */
+   cards (220px) keep every name on one line and the photos grow with the
+   card, matching the whole-card-resize approach used for Ella/Martin.
+   Serge's 2-line credit (FR "Production et direction technique" is the
+   long pole) needed 280px to stop wrapping to 3 — Math flagged that as
+   too big a jump ("you made the other bigger... reverse please and more
+   subtle"), so instead of widening further, .card__role/.featured-card__role
+   got a touch smaller (0.72rem/0.08em -> 0.64rem/0.02em) which fits Serge
+   on 2 lines back at 220px. */
 .grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
 }
 .card {
@@ -343,9 +347,9 @@ function monogram(p: Person): string {
 }
 .card__role {
   color: var(--red);
-  font-size: 0.72rem;
+  font-size: 0.64rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: pre-line;
 }
