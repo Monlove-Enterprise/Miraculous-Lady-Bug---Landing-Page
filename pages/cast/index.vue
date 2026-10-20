@@ -219,11 +219,15 @@ function monogram(p: Person): string {
 /* Math, 2026-10-18: "le background des photo devraient rester en noir et
    blanc" — back to the dark --ink-soft backdrop (cream was tried 2026-10-16,
    reverted). */
+/* Math, 2026-10-20: "réduire un peu la taille des photos mais garder ça
+   sur deux lignes" — photo narrower than the card (not full-bleed), text
+   below keeps the card's full width so the two-line role still fits. */
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
+  width: 82%;
   border-radius: 11px;
-  margin-bottom: 1.1rem;
+  margin: 0 auto 1.1rem;
   overflow: hidden;
   background: var(--ink-soft);
 }
