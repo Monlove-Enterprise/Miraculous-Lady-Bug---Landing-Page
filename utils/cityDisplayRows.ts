@@ -27,9 +27,16 @@ export function toCityDisplayRows(cities: CityRow[]): CityDisplayRow[] {
 
 export function formatCityDate(d: string | null, locale: string): string {
   if (!d) return ''
+  // Math, 2026-10-20: a viewer in Montreal saw Feb 26 for a Feb 27 show —
+  // `d` is a plain calendar date (no time), but without timeZone:'UTC' here
+  // it's parsed as UTC midnight then rendered in the *viewer's* local zone,
+  // rolling back a day for anyone west of UTC (Paris, east of UTC, never
+  // saw it). timeZone:'UTC' makes the displayed date match the stored date
+  // for every viewer, regardless of where they are.
   return new Date(d).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+    timeZone: 'UTC',
   })
 }

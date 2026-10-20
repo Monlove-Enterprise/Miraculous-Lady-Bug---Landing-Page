@@ -38,11 +38,15 @@ function onCountdownZero() {
 function datesLines(): string[] {
   const c = city.value
   if (!c.startDate) return []
+  // timeZone: 'UTC' — see utils/cityDisplayRows.ts formatCityDate for why
+  // (a plain calendar date parsed without it rolls back a day for any
+  // viewer west of UTC, e.g. Montreal).
   const fmt = (d: string) =>
     new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
+      timeZone: 'UTC',
     })
   if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
   if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]

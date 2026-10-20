@@ -73,10 +73,14 @@ function toNearestCity(row: CityGeoRow): NearestCity {
   return {
     slug: row.slug,
     display: [row.city, row.region].filter(Boolean).join(', '),
+    // timeZone: 'UTC' — see utils/cityDisplayRows.ts formatCityDate for why
+    // (a plain calendar date parsed without it rolls back a day for any
+    // viewer west of UTC, e.g. Montreal).
     dateDisplay: new Date(row.start_date!).toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric',
+      timeZone: 'UTC',
     }),
     ticketUrl: row.ticket_url,
   }
@@ -86,6 +90,12 @@ function toNearestCity(row: CityGeoRow): NearestCity {
  * Nearest (and, if genuinely close, second-nearest) tour-format city with a
  * known lat/lng and a start_date, closest first. Returns undefined if the
  * subscriber has no coordinates, or no eligible city exists yet.
+ *
+ * Excludes 'envisagee' (not yet confirmed) cities as well as 'epuisee' (sold
+ * out) ones — Math, 2026-10-18: "Doha n'est pas 100% confirmée encore, ne me
+ * mettez pas ça dans la mailing", caught live after Doha started showing up
+ * as NEAREST_CITY for real Gulf-region signups. Same exclusion applied in
+ * scripts/backfill-nearest-city.mjs and scripts/rematch-nearest-city.mjs.
  */
 export async function findNearestCity(
   lat: number | undefined,
@@ -101,7 +111,7 @@ export async function findNearestCity(
     WHERE format = 'tournee'
       AND lat IS NOT NULL AND lng IS NOT NULL
       AND start_date IS NOT NULL
-      AND status != 'epuisee'
+      AND status NOT IN ('epuisee', 'envisagee')
   `
   if (!rows.length) return undefined
 
