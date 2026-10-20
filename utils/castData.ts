@@ -27,7 +27,7 @@ export const creative: Person[] = [
   {
     slug: 'ella-louise-allaire',
     name: 'Ella Louise Allaire',
-    roleFr: 'Concept original\nDirection artistique\nLivret, musique & paroles',
+    roleFr: 'Idéation et direction de création\nDirection artistique\nLivret, musique & paroles',
     roleEn: 'Original Concept\nCreative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/ella-louise-allaire.webp',
     bioEn:
@@ -46,7 +46,7 @@ export const creative: Person[] = [
   {
     slug: 'martin-lord-ferguson',
     name: 'Martin Lord Ferguson',
-    roleFr: 'Concept original\nDirection artistique\nLivret, musique & paroles',
+    roleFr: 'Idéation et direction de création\nDirection artistique\nLivret, musique & paroles',
     roleEn: 'Original Concept\nCreative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/martin-lord-ferguson.webp',
     bioEn:
