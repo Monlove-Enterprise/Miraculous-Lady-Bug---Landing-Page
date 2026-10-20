@@ -197,14 +197,15 @@ function monogram(p: Person): string {
    full-bleed (identical framing, just smaller) and stays centered on
    the page. Bumped back up a notch same day ("make ella and martin a
    tad bigger"); kept subtle after Math flagged the regular grid growing
-   too — 535px, still fits the 3-line FR/EN credit. */
+   too, then bumped again ("ella and martin needs to be a bit bigger") —
+   600px, still fits the 3-line FR/EN credit. */
 .featured-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin: 0 auto 2.5rem;
-  max-width: 535px;
+  max-width: 600px;
 }
 @media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
