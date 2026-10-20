@@ -241,7 +241,7 @@ function monogram(p: Person): string {
 }
 .featured-card__role {
   color: var(--red);
-  font-size: 0.58rem;
+  font-size: 0.63rem;
   font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
