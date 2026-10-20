@@ -195,14 +195,15 @@ function monogram(p: Person): string {
    shrinking just the photo left dead space around it that read as a
    different crop; shrinking the whole card instead keeps the photo
    full-bleed (identical framing, just smaller) and stays centered on
-   the page. */
+   the page. Bumped back up a notch same day ("make ella and martin a
+   tad bigger") — still fits the 3-line FR/EN credit at 560px. */
 .featured-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin: 0 auto 2.5rem;
-  max-width: 520px;
+  max-width: 560px;
 }
 @media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
@@ -250,12 +251,15 @@ function monogram(p: Person): string {
 
 /* Math, 2026-10-20: "les noms des creatives soit sur une ligne également" —
    "Kassandra Boivin-Cénélia" wrapped to 2 lines at the old 190px min; wider
-   cards (220px) keep every name on one line and the photos grow with the
-   card, matching the whole-card-resize approach used for Ella/Martin. */
+   cards keep every name on one line and the photos grow with the card,
+   matching the whole-card-resize approach used for Ella/Martin. Bumped
+   again same day ("serge title should be on two lines") to 280px so Serge
+   Poupart's 2-line credit (FR "Production et direction technique" is the
+   long pole) doesn't wrap to 3. */
 .grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 .card {
