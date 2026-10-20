@@ -119,7 +119,7 @@ const calendarEvents = computed(() =>
         <p v-else-if="status === 'en_vente'" class="ville__panel-text">{{ t('villes.detail.enVenteText') }}</p>
         <div class="ville__cta-row">
           <a :href="ticketHref" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
-          <NuxtLink to="/vip" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</NuxtLink>
+          <a :href="ticketHref" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
         </div>
       </section>
 

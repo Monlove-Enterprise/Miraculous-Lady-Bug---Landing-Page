@@ -238,7 +238,7 @@ function copyTune() {
               <span v-if="c.status !== 'confirmee' && c.status !== 'en_vente'" class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
               <template v-else>
                 <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
-                <NuxtLink to="/vip" class="city-btn city-btn--vip">{{ t('nav.vip') }}</NuxtLink>
+                <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--vip">{{ t('nav.vip') }}</a>
               </template>
             </div>
           </li>
