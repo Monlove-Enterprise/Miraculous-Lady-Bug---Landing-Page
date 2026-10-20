@@ -244,9 +244,9 @@ function monogram(p: Person): string {
 }
 .featured-card__role {
   color: var(--red);
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: pre-line;
 }
@@ -255,12 +255,13 @@ function monogram(p: Person): string {
    "Kassandra Boivin-Cénélia" wrapped to 2 lines at the old 190px min; wider
    cards (220px) keep every name on one line and the photos grow with the
    card, matching the whole-card-resize approach used for Ella/Martin.
-   Serge's 2-line credit (FR "Production et direction technique" is the
-   long pole) needed 280px to stop wrapping to 3 — Math flagged that as
-   too big a jump ("you made the other bigger... reverse please and more
-   subtle"), so instead of widening further, .card__role/.featured-card__role
-   got a touch smaller (0.72rem/0.08em -> 0.64rem/0.02em) which fits Serge
-   on 2 lines back at 220px. */
+   Serge's 2-line credit used to need a wider grid (and a smaller
+   .card__role/.featured-card__role) to stop wrapping to 3 lines — Math
+   flagged that grid growth as unwanted ("reverse please and more subtle").
+   Re-wording his title ("set design production and then technical
+   direction on the other line" — regrouped in castData.ts) made the long
+   line short enough that both the 220px grid and the original 0.72rem/
+   0.08em role-text size work again, so both got reverted. */
 .grid {
   list-style: none;
   display: grid;
@@ -348,9 +349,9 @@ function monogram(p: Person): string {
 }
 .card__role {
   color: var(--red);
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: pre-line;
 }
