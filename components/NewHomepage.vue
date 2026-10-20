@@ -854,9 +854,21 @@ function copyTune() {
    embed_height = 0.90 * min(0.40vw, 640px) = min(0.36vw, 576px);
    embed_width = embed_height * 9/16 = min(0.2025vw, 324px); half of
    that is min(10.1%, 162px). */
+/* Math, 2026-10-20: "on mobile the trailer player comes out too small" /
+   "can we readapt to 9x16 phone please" — root cause: .trailer-banner's
+   height was still the desktop formula (min(40vw, 640px)), sized around
+   a wide 16:9 video. On a phone, vw is small, so that banner was barely
+   tall enough to hold the vertical 9:16 Short at any real size. Gave
+   mobile its own banner height, built around the 9:16 video itself
+   (banner = video-height / 0.90, video-width = video-height * 9/16),
+   instead of inheriting a width-driven number meant for the landscape
+   desktop cut. Character gap math recomputed for the new, larger
+   embed width. Checked bounds at 320-640px: narrowest margin ~46px at
+   320px between a character's image and the screen edge. */
 @media (max-width: 640px) {
-  .trailer-char--lb { right: calc(50% + min(10.1%, 162px) + 3%); }
-  .trailer-char--cn { left: calc(50% + min(10.1%, 162px) + 3%); }
+  .trailer-banner { height: min(83vw, 480px); }
+  .trailer-char--lb { right: calc(50% + min(21vw, 121px) + 3%); }
+  .trailer-char--cn { left: calc(50% + min(21vw, 121px) + 3%); }
   .trailer-embed {
     width: auto;
     height: 90%;
