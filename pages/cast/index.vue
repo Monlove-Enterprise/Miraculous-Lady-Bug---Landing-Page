@@ -83,7 +83,11 @@ function monogram(p: Person): string {
                   :src="p.photo"
                   :alt="p.name"
                   class="card__img"
-                  :class="{ 'card__img--center': p.slug === 'robert-mcqueen', 'card__img--logo': p.slug === 'real-by-fake' }"
+                  :class="{
+                    'card__img--center': p.slug === 'robert-mcqueen',
+                    'card__img--logo': p.slug === 'real-by-fake',
+                    'card__img--zoomout': p.slug === 'vincent-fournier',
+                  }"
                 />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
@@ -296,6 +300,14 @@ function monogram(p: Person): string {
 }
 .card__img--center {
   object-position: center center;
+}
+/* Vincent Fournier's headshot is a tight close-up crop vs. the others —
+   Math, 2026-10-20: "diminuer la photo de vincent" — scale it down so his
+   face reads at the same size as the rest of the grid instead of filling
+   the whole card. */
+.card__img--zoomout {
+  object-position: center center;
+  transform: scale(0.88);
 }
 /* REAL by FAKE credit: a studio wordmark, not a headshot — show the whole
    logo (contain, no crop, no grayscale) instead of the face-photo treatment. */
