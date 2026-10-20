@@ -103,36 +103,40 @@ const messages: Record<Locale, Dict> = {
     // document's categories (see pages/faq.vue).
     'faq.title': 'Foire aux questions',
 
-    // Real brand copy from Math (2026-09-15) — EN is verbatim as provided.
-    // FR is a straight translation, kept in the site's "tu" voice; flag for a
-    // brand check on the translation specifically before it's final. Math,
-    // 2026-10-18: keep the show's English title untranslated here too
-    // ("Miraculous: Tales of Ladybug & Cat Noir"), matching how it's kept
-    // in English everywhere else on the site; also dropped "scénique" from
-    // "spectacle scénique spectaculaire" (redundant — a show already implies
-    // the stage).
+    // Real, brand-validated copy from Math (2026-10-20, replaces the earlier
+    // machine-translated FR draft — see git history if that wording is ever
+    // needed again). Pasted verbatim as provided, including its "vous" voice,
+    // which doesn't match the "tu" voice used elsewhere on the site (signup
+    // form, waitlist copy) — flagged to Math, not resolved unilaterally.
+    // Also note: this version translates the show's title ("Les Aventures de
+    // Ladybug et Chat Noir") where the 2026-10-18 decision had kept it in
+    // English — followed the new brand text as given since it supersedes
+    // that earlier placeholder call.
     'story.intro':
-      'L’univers Miraculous s’agrandit : Miraculous: Tales of Ladybug & Cat Noir prend vie sur scène ! Miraculous Corp et Monlove s’associent pour lancer en 2027 un spectacle spectaculaire et rempli d’action, qui amène nos super-héros parisiens préférés devant des publics du monde entier.',
-    // Math, 2026-10-20: "notes que j'ai reçues" — new synopsis section, not
-    // previously on the page. FR is my translation, not brand-confirmed.
+      'L’univers de Miraculous prend une nouvelle dimension : Miraculous : Les Aventures de Ladybug et Chat Noir prend vie sur scène !\n\n' +
+      'Miraculous Corp et MONLOVE unissent leurs forces pour présenter, dès 2027, un spectacle époustouflant, rempli d’action et de rebondissements, qui fera découvrir nos super-héros parisiens préférés aux spectateurs du monde entier.',
     'story.theStoryHeading': 'Synopsis',
     'story.theStoryText':
-      'Au cœur de Paris, deux adolescents ordinaires mènent une double vie extraordinaire. Marinette rêve de devenir styliste, tandis qu’Adrien aspire à échapper aux attentes de son père célèbre. Mais quand le danger frappe, ils se transforment en Ladybug et Chat Noir, les super-héros bien-aimés de la ville.\n\n' +
-      'Partenaires au combat, ignorant la véritable identité l’un de l’autre, ils se retrouvent pris dans une histoire d’amour compliquée.\n\n' +
-      'Alors que Paris se prépare pour une Fashion Week spectaculaire, un mystérieux vilain menace de transformer les rêves en cauchemars.\n\n' +
-      'Avec le destin de Paris en jeu, Ladybug et Chat Noir doivent découvrir que leur plus grande force vient du fait d’être plus forts ensemble.',
-    'story.mastermindsHeading': 'Les cerveaux créatifs derrière le spectacle',
+      'Au cœur de Paris, deux adolescents ordinaires mènent une double vie extraordinaire. Marinette rêve de devenir créatrice de mode, tandis qu’Adrien aspire à s’affranchir des attentes de son célèbre père. Mais lorsque le danger menace, ils se transforment en Ladybug et Chat Noir, les super-héros adorés de Paris.\n\n' +
+      'Partenaires dans leurs combats, mais ignorant leurs véritables identités respectives, ils se retrouvent au cœur d’une histoire d’amour compliquée.\n\n' +
+      'Alors que Paris se prépare à vivre une Fashion Week spectaculaire, un mystérieux super-vilain menace de transformer les rêves en cauchemars.\n\n' +
+      'Le destin de Paris étant en jeu, Ladybug et Chat Noir devront découvrir que leur plus grand pouvoir réside dans leur capacité à unir leurs forces.',
+    'story.mastermindsHeading': 'Rencontrez les créateurs',
     'story.mastermindsText':
-      'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé derrière Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold et All Systems Are Go! A NASA Peanuts Adventure. Grâce à leur passion pour la narration et une mise en scène à la pointe de l’innovation, cette production promet d’être unique en son genre.',
-    'story.spectacleHeading': 'Un vrai spectacle Miraculous',
+      'Le spectacle est porté par le génie créatif d’Ella Louise Allaire et Martin Lord Ferguson, le duo primé à l’origine de Ice Age Live! A Mammoth Adventure, Scooby-Doo! and The Lost City of Gold et All Systems Are Go! A NASA Peanuts Adventure.\n\n' +
+      'Animés par leur passion pour les histoires captivantes et les technologies scéniques de pointe, ils promettent une production comme les fans de Miraculous n’en ont encore jamais vue.',
+    'story.spectacleHeading': 'Un spectacle Miraculous grandiose !',
     'story.spectacleText':
-      'Imagine une acrobatie à couper le souffle, des chorégraphies aériennes éblouissantes, des illusions renversantes, de la danse énergique et des marionnettes inventives, le tout tissé dans une toute nouvelle comédie musicale originale mettant en vedette Ladybug et Chat Noir. Avec des chansons originales et une interaction scène-vidéo spectaculaire, c’est une expérience Miraculous pour tous les âges.',
-    'story.nextHeading': 'Et ensuite ?',
+      'Imaginez des acrobaties à couper le souffle, des chorégraphies aériennes éblouissantes, des illusions spectaculaires, des danses électrisantes et des marionnettes ingénieuses, le tout réuni dans une toute nouvelle comédie musicale originale mettant en vedette Ladybug et Chat Noir.\n\n' +
+      'Avec des chansons inédites et des interactions spectaculaires entre la scène et les projections vidéo, cette expérience Miraculous promet d’émerveiller les spectateurs de tous âges.',
+    'story.nextHeading': 'Et maintenant ?',
     'story.nextText':
-      'Reste à l’affût juste ici sur Miraculousladybuglive.com pour les dernières nouvelles sur les villes et les salles. Ne manque pas ta chance de voir Ladybug et Chat Noir passer de l’écran à la scène ! De nouveaux détails seront ajoutés chaque semaine.',
-    'story.ctaKicker': 'Sois Miraculous',
+      'Restez à l’affût des dernières nouvelles sur Miraculousladybuglive.com pour découvrir les villes et les salles qui accueilleront le spectacle.\n\n' +
+      'Ne manquez pas votre chance de voir Ladybug et Chat Noir passer de l’écran à la scène ! De nouvelles informations seront dévoilées chaque semaine.',
+    'story.ctaKicker': 'Soyez Miraculous !',
     'story.closing':
-      'Prêt·e à vivre Miraculous LIVE ? Partage ton enthousiasme et reste à l’affût pour d’autres nouvelles exclusives sur le spectacle sur scène de Miraculous Ladybug !',
+      'Êtes-vous prêts à vivre Miraculous en direct ?\n\n' +
+      'Partagez votre enthousiasme et revenez régulièrement pour découvrir des nouvelles exclusives sur le spectacle Miraculous Ladybug !',
 
     'villes.title': 'Le spectacle près de chez toi',
     'villes.metaDescription':
