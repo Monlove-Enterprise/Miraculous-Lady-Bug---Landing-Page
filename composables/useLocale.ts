@@ -22,7 +22,7 @@ const messages: Record<Locale, Dict> = {
     'nav.faq': 'FAQ',
     'stub.comingSoon': 'Contenu à venir — page en construction.',
     'news.title': 'Presse',
-    'news.metaDescription': 'Les dernières nouvelles et articles sur Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
+    'news.metaDescription': 'Les dernières nouvelles et articles sur Miraculous Ladybug & Chat Noir : The Live Stage Spectacular.',
     'news.intro': 'Retrouve les dernières mentions et articles sur le spectacle.',
     'news.empty': 'Aucun article pour l’instant — reviens bientôt.',
     'news.readMore': 'Lire l’article',
@@ -43,20 +43,20 @@ const messages: Record<Locale, Dict> = {
     'hero.tagline': 'Tes héros préférés prennent enfin vie sur scène.',
     'hero.musicalBy': 'Une comédie musicale par',
     'hero.cta': "Je m'inscris",
-    'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
+    'hero.logoAlt': 'Miraculous : Ladybug & Chat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
     'signup.introTitleA': 'Aide-nous à amener',
-    'signup.introTitleB': 'Miraculous Ladybug & Cat Noir',
+    'signup.introTitleB': 'Miraculous Ladybug & Chat Noir',
     'signup.introTitleC': 'dans ta ville',
     'signup.introText':
-      'Envie de voir Miraculous Ladybug & Cat Noir: The Live Stage Spectacular dans ta ville? Abonne-toi pour manifester ton intérêt et être parmi les premiers informés de la mise en vente des billets et des annonces spéciales.',
+      'Envie de voir Miraculous Ladybug & Chat Noir: The Live Stage Spectacular dans ta ville? Abonne-toi pour manifester ton intérêt et être parmi les premiers informés de la mise en vente des billets et des annonces spéciales.',
     'signup.microcopy':
       'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
     'cast.title': 'Casting & Équipe créative',
     'cast.metaDescription':
-      'Découvre les artistes et l’équipe créative de Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
+      'Découvre les artistes et l’équipe créative de Miraculous Ladybug & Chat Noir : The Live Stage Spectacular.',
     'cast.back': "Retour à l’accueil",
     'cast.intro': 'Découvre les artistes et artisans qui donnent vie au spectacle sur scène.',
     'cast.creativeHeading': 'Équipe créative',
@@ -68,7 +68,7 @@ const messages: Record<Locale, Dict> = {
     'cast.bioComingSoon': 'Biographie à venir.',
 
     'vip.title': 'Forfaits VIP',
-    'vip.metaDescription': 'Forfaits VIP pour Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.',
+    'vip.metaDescription': 'Forfaits VIP pour Miraculous Ladybug & Chat Noir : The Live Stage Spectacular.',
     'vip.intro': 'Vis le spectacle autrement avec un accès VIP exclusif.',
     // Math, 2026-10-20: "notes que j'ai reçues" — brand-provided VIP copy,
     // replacing the earlier draft. FR is my translation (not brand-confirmed),
@@ -140,7 +140,7 @@ const messages: Record<Locale, Dict> = {
 
     'villes.title': 'Le spectacle près de chez toi',
     'villes.metaDescription':
-      'Toutes les villes où Miraculous Ladybug & Cat Noir: The Live Stage Spectacular pourrait se produire.',
+      'Toutes les villes où Miraculous Ladybug & Chat Noir: The Live Stage Spectacular pourrait se produire.',
     'villes.back': "Retour à l’accueil",
     'villes.status.envisagee': 'À l’étude',
     'villes.status.confirmee': 'Confirmée',
