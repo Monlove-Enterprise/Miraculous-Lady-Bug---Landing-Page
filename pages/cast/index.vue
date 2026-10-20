@@ -234,7 +234,7 @@ function monogram(p: Person): string {
 }
 .featured-card__name {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
   color: var(--cream);
   line-height: 1.1;
   margin-bottom: 0.4rem;
