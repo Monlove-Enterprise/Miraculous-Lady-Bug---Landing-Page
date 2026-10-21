@@ -5,33 +5,70 @@ import postgres from 'postgres'
 let sql: ReturnType<typeof postgres> | null = null
 let schemaReady: Promise<void> | null = null
 
+function createClient() {
+  const url = process.env.DATABASE_URL
+  if (!url) throw new Error('DATABASE_URL manquante côté serveur.')
+  return postgres(url, {
+    prepare: false,
+    idle_timeout: 20,
+    connect_timeout: 10,
+    max: 1,
+    // Math, 2026-10-21: a query got wedged against Supabase's
+    // transaction-mode pooler and, because every cold serverless instance
+    // runs ensureSchema()'s ALTER TABLE chain, took the whole site down —
+    // every request queued behind that one stuck session forever. This
+    // alone turned out not to be enough (session-level params aren't
+    // reliably honored by a transaction-mode pooler — the hang recurred
+    // after this shipped), kept anyway as a first line of defense; see
+    // withDbTimeout() below for the real backstop.
+    connection: { statement_timeout: 10_000 },
+    onnotice: (notice) => {
+      // The idempotent schema setup (CREATE TABLE/INDEX IF NOT EXISTS, ADD
+      // COLUMN IF NOT EXISTS) emits harmless "already exists, skipping"
+      // NOTICEs on every cold start. Drop those (42P07 duplicate table/index,
+      // 42701 duplicate column); surface anything else.
+      if (notice.code === '42P07' || notice.code === '42701') return
+      console.warn('[db notice]', notice.message)
+    },
+  })
+}
+
 export function getSql() {
-  if (!sql) {
-    const url = process.env.DATABASE_URL
-    if (!url) throw new Error('DATABASE_URL manquante côté serveur.')
-    sql = postgres(url, {
-      prepare: false,
-      idle_timeout: 20,
-      connect_timeout: 10,
-      max: 1,
-      // Math, 2026-10-21: a query got wedged against Supabase's
-      // transaction-mode pooler and, because every cold serverless instance
-      // runs ensureSchema()'s ALTER TABLE chain, took the whole site down —
-      // every request queued behind that one stuck session forever. A hard
-      // statement timeout means the worst case is one failed request, never
-      // a site-wide hang.
-      connection: { statement_timeout: 10_000 },
-      onnotice: (notice) => {
-        // The idempotent schema setup (CREATE TABLE/INDEX IF NOT EXISTS, ADD
-        // COLUMN IF NOT EXISTS) emits harmless "already exists, skipping"
-        // NOTICEs on every cold start. Drop those (42P07 duplicate table/index,
-        // 42701 duplicate column); surface anything else.
-        if (notice.code === '42P07' || notice.code === '42701') return
-        console.warn('[db notice]', notice.message)
-      },
-    })
-  }
+  if (!sql) sql = createClient()
   return sql
+}
+
+// Discards the cached connection so the next call to getSql() starts a
+// fresh one — used after a timeout, since a wedged connection stays wedged
+// for every future query otherwise (max: 1 means one instance reuses the
+// same socket for its whole lifetime).
+function resetConnection() {
+  const stale = sql
+  sql = null
+  schemaReady = null
+  if (stale) void stale.end({ timeout: 1 }).catch(() => {})
+}
+
+// Races any DB call against a hard deadline. Math, 2026-10-21: twice now a
+// single query has hung indefinitely against Supabase's pooler and taken
+// the entire site down, because every request on a warm instance shares
+// one cached connection — once it's wedged, everything queues behind it
+// forever. This guarantees the worst case is one failed request (the
+// caller gets a rejected promise to handle) instead of a site-wide hang,
+// and self-heals by discarding the bad connection for the next request.
+export async function withDbTimeout<T>(promise: Promise<T>, label: string, ms = 8000): Promise<T> {
+  let timer: ReturnType<typeof setTimeout>
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`[db] ${label} timed out after ${ms}ms`)), ms)
+  })
+  try {
+    return await Promise.race([promise, timeout])
+  } catch (err) {
+    resetConnection()
+    throw err
+  } finally {
+    clearTimeout(timer!)
+  }
 }
 
 /**
@@ -176,11 +213,11 @@ export function ensureSchema(): Promise<void> {
       await db`ALTER TABLE news ENABLE ROW LEVEL SECURITY`
       await db`DROP POLICY IF EXISTS news_public_read ON news`
       await db`CREATE POLICY news_public_read ON news FOR SELECT USING (true)`
-    })().catch((err) => {
-      // Reset so a later request can retry schema creation.
-      schemaReady = null
-      throw err
-    })
+    })()
+    // withDbTimeout resets both schemaReady and the cached connection on
+    // failure/timeout, so a later request retries with a fresh connection
+    // instead of reusing whatever got it stuck.
+    schemaReady = withDbTimeout(schemaReady, 'ensureSchema')
   }
   return schemaReady
 }

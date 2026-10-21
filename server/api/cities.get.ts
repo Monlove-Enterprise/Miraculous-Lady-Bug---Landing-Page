@@ -1,4 +1,4 @@
-import { getSql, ensureSchema } from '../utils/db'
+import { getSql, ensureSchema, withDbTimeout } from '../utils/db'
 
 export interface CityRow {
   id: number
@@ -26,13 +26,16 @@ export interface CityRow {
 export default defineEventHandler(async (): Promise<CityRow[]> => {
   await ensureSchema()
   const db = getSql()
-  const rows = await db<any[]>`
-    SELECT id, slug, city, region, country_code, venue, format, status,
-           start_date, end_date, start_time, end_time, opening_at, ticket_url,
-           start_ticket_url, end_ticket_url, lat, lng
-    FROM cities
-    ORDER BY start_date NULLS LAST, city ASC
-  `
+  const rows = await withDbTimeout(
+    db<any[]>`
+      SELECT id, slug, city, region, country_code, venue, format, status,
+             start_date, end_date, start_time, end_time, opening_at, ticket_url,
+             start_ticket_url, end_ticket_url, lat, lng
+      FROM cities
+      ORDER BY start_date NULLS LAST, city ASC
+    `,
+    'GET /api/cities',
+  )
   return rows.map((r) => ({
     id: r.id,
     slug: r.slug,

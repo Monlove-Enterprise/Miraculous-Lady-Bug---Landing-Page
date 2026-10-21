@@ -1,4 +1,4 @@
-import { getSql, ensureSchema } from '../../utils/db'
+import { getSql, ensureSchema, withDbTimeout } from '../../utils/db'
 import type { CityRow } from '../cities.get'
 
 export interface PerformanceRow {
@@ -15,12 +15,15 @@ export default defineEventHandler(async (event): Promise<{ city: CityRow; perfor
   await ensureSchema()
   const db = getSql()
 
-  const [row] = await db<any[]>`
-    SELECT id, slug, city, region, country_code, venue, format, status,
-           start_date, end_date, start_time, end_time, opening_at, ticket_url,
-           start_ticket_url, end_ticket_url, lat, lng
-    FROM cities WHERE slug = ${slug}
-  `
+  const [row] = await withDbTimeout(
+    db<any[]>`
+      SELECT id, slug, city, region, country_code, venue, format, status,
+             start_date, end_date, start_time, end_time, opening_at, ticket_url,
+             start_ticket_url, end_ticket_url, lat, lng
+      FROM cities WHERE slug = ${slug}
+    `,
+    'GET /api/cities/[slug]',
+  )
   if (!row) {
     throw createError({ statusCode: 404, statusMessage: 'Ville introuvable', fatal: false })
   }
@@ -48,11 +51,14 @@ export default defineEventHandler(async (event): Promise<{ city: CityRow; perfor
 
   let performances: PerformanceRow[] = []
   if (city.format === 'residence') {
-    const perfRows = await db<any[]>`
-      SELECT id, starts_at, sold_out, ticket_url
-      FROM performances WHERE city_id = ${city.id}
-      ORDER BY starts_at ASC
-    `
+    const perfRows = await withDbTimeout(
+      db<any[]>`
+        SELECT id, starts_at, sold_out, ticket_url
+        FROM performances WHERE city_id = ${city.id}
+        ORDER BY starts_at ASC
+      `,
+      'GET /api/cities/[slug] performances',
+    )
     performances = perfRows.map((p) => ({
       id: p.id,
       startsAt: p.starts_at,
