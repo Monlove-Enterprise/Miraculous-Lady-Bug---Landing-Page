@@ -345,9 +345,9 @@ const messages: Record<Locale, Dict> = {
     // synopsis section, not previously on the page.
     'story.theStoryHeading': 'Synopsis',
     'story.theStoryText':
-      'In the heart of Paris, two ordinary teenagers lead extraordinary secret lives. Marinette dreams of becoming a fashion designer, while Adrien longs to escape the expectations of his famous father. But when danger strikes, they transform into Ladybug and Cat Noir, the city’s beloved superheroes.\n\n' +
-      'Partners in battle, unaware of each other’s true identity, they find themselves caught in a complicated love story.\n\n' +
-      'As Paris prepares for a spectacular Fashion Week, a mysterious villain threatens to turn dreams into nightmares.\n\n' +
+      'In the heart of Paris, two ordinary teenagers lead extraordinary secret lives. Marinette dreams of becoming a fashion designer, while Adrien longs to escape the expectations of his famous father. But when danger strikes, they transform into Ladybug and Cat Noir, the city’s beloved superheroes. ' +
+      'Partners in battle, unaware of each other’s true identity, they find themselves caught in a complicated love story. ' +
+      'As Paris prepares for a spectacular Fashion Week, a mysterious villain threatens to turn dreams into nightmares. ' +
       'With the fate of Paris at stake, Ladybug and Cat Noir must discover that their greatest power comes from being stronger together.',
     'story.mastermindsHeading': 'Meet the Masterminds',
     // Brand copy, verbatim (Math, 2026-10-20: "utilise ce que je viens de
