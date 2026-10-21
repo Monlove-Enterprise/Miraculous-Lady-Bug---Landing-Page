@@ -7,6 +7,13 @@ import { toCityDisplayRows, formatCityDate } from '~/utils/cityDisplayRows'
 const { t, locale } = useLocale()
 const route = useRoute()
 
+// General on-sale countdown banner — Math, 2026-10-21: "the on sale...
+// october 23rd at 10am ET". Explicit -04:00 offset (EDT, in effect in
+// October) so this instant is correct regardless of the visitor's own
+// timezone, same reasoning as the per-city countdown target.
+const ON_SALE_AT = '2026-10-23T10:00:00-04:00'
+const onSaleReached = ref(false)
+
 // Mobile trailer tap-to-fullscreen — see template comment by trailer-embed__mobile-wrap.
 const MOBILE_TRAILER_ID = 'mIxEgeRMiag'
 const mobileTrailerSrc = ref(`https://www.youtube-nocookie.com/embed/${MOBILE_TRAILER_ID}`)
@@ -147,6 +154,12 @@ function copyTune() {
 <template>
   <div class="page">
     <SiteHeader />
+
+    <!-- ===================== ON-SALE BANNER ===================== -->
+    <section v-if="!onSaleReached" class="onsale-banner">
+      <p class="onsale-banner__text">{{ t('hero.onSaleBanner') }}</p>
+      <CityCountdown :target="ON_SALE_AT" @reached-zero="onSaleReached = true" />
+    </section>
 
     <!-- Live layout tuner — add ?tune=1 to the URL to show it (desktop hero) -->
     <div v-if="tuning" class="tuner">
@@ -482,6 +495,31 @@ function copyTune() {
 }
 
 /* ------------------------------- HERO ------------------------------- */
+.onsale-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem 1.6rem;
+  padding: 0.9rem 1.5rem;
+  background: var(--ink-soft);
+  border-bottom: 1px solid rgba(243, 233, 216, 0.08);
+}
+.onsale-banner__text {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin: 0;
+}
+.onsale-banner :deep(.countdown) {
+  gap: 0.9rem;
+}
+.onsale-banner :deep(.countdown__num) {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
 .hero {
   position: relative;
   display: flex;
