@@ -4,7 +4,7 @@ import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
 import { toCityDisplayRows, formatCityDate } from '~/utils/cityDisplayRows'
 
-const { t, locale } = useLocale()
+const { t, locale, citiesPath, cityPath } = useLocale()
 const route = useRoute()
 
 // General on-sale countdown banner — Math, 2026-10-21: "the on sale...
@@ -219,7 +219,7 @@ function copyTune() {
         <div class="hero__ctas">
           <!-- Single hero CTA per Math — the waitlist sign-up now lives in its
                own section/page (subscribe band + /signup), not competing here. -->
-          <NuxtLink to="/villes" class="cta">
+          <NuxtLink :to="citiesPath()" class="cta">
             {{ t('villes.cta.buy') }}
           </NuxtLink>
         </div>
@@ -255,7 +255,7 @@ function copyTune() {
              (subscribe band). -->
         <ul v-if="upcomingCities.length" class="city-list">
           <li v-for="c in upcomingCities" :key="c.rowKey" class="city-row">
-            <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
+            <NuxtLink :to="cityPath(c.slug)" class="city-row__place">
               <p class="city-row__city">{{ c.city }}{{ c.region ? `, ${c.region}` : '' }}</p>
               <p class="city-row__country">{{ countryName(c) }}</p>
             </NuxtLink>
@@ -278,7 +278,7 @@ function copyTune() {
         <p v-else class="section-lead">{{ t('upcoming.empty') }}</p>
 
         <div class="upcoming__more">
-          <NuxtLink to="/villes" class="btn btn--outline">{{ t('upcoming.seeAll') }}</NuxtLink>
+          <NuxtLink :to="citiesPath()" class="btn btn--outline">{{ t('upcoming.seeAll') }}</NuxtLink>
         </div>
       </div>
     </section>
@@ -1049,6 +1049,7 @@ function copyTune() {
   color: #1c0f0d;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 .city-row__country { color: rgba(28, 15, 13, 0.55); font-size: 0.85rem; }
 .city-row__details { color: rgba(28, 15, 13, 0.6); font-size: 0.9rem; }

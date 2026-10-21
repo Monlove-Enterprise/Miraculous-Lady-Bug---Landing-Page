@@ -3,8 +3,11 @@ import { countryNameByCode } from '~/utils/countries'
 import type { CityRow } from '~/server/api/cities.get'
 import type { PerformanceRow } from '~/server/api/cities/[slug].get'
 
+// English visitors use /cities/:slug instead of /villes/:slug — Math, 2026-10-21.
+definePageMeta({ alias: ['/cities/:ville()'] })
+
 const route = useRoute()
-const { t, locale } = useLocale()
+const { t, locale, citiesPath } = useLocale()
 const slug = String(route.params.ville)
 
 const { data } = await useFetch<{ city: CityRow; performances: PerformanceRow[] }>(
@@ -88,7 +91,7 @@ const calendarEvents = computed(() =>
     <SiteHeader />
 
     <div class="container">
-      <NuxtLink to="/villes" class="back">← {{ t('villes.backToList') }}</NuxtLink>
+      <NuxtLink :to="citiesPath()" class="back">← {{ t('villes.backToList') }}</NuxtLink>
 
       <header class="ville__head">
         <span v-if="status !== 'confirmee'" class="badge" :class="`badge--${status}`">{{ t(`villes.status.${status}`) }}</span>

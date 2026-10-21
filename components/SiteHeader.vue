@@ -4,7 +4,7 @@
 // hamburger, centred, at every screen size (per Math) — opens the same flat
 // link list + language toggle on desktop and mobile alike, rather than
 // separate desktop dropdowns vs. mobile flat menu.
-const { t, locale, toggle } = useLocale()
+const { t, locale, toggle, citiesPath } = useLocale()
 const route = useRoute()
 
 const mobileOpen = ref(false)
@@ -41,7 +41,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
       </button>
 
       <div class="siteheader__right">
-        <NuxtLink to="/villes" class="siteheader__tickets">{{ t('villes.cta.buy') }}</NuxtLink>
+        <NuxtLink :to="citiesPath()" class="siteheader__tickets">{{ t('villes.cta.buy') }}</NuxtLink>
       </div>
     </div>
 
@@ -49,7 +49,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
          hamburger. -->
     <div v-if="mobileOpen" class="siteheader__mobile">
       <NuxtLink to="/" class="siteheader__mobile-link">{{ t('nav.home') }}</NuxtLink>
-      <NuxtLink to="/villes" class="siteheader__mobile-link">{{ t('nav.allCities') }}</NuxtLink>
+      <NuxtLink :to="citiesPath()" class="siteheader__mobile-link">{{ t('nav.allCities') }}</NuxtLink>
       <NuxtLink to="/vip" class="siteheader__mobile-link">{{ t('nav.vip') }}</NuxtLink>
       <NuxtLink to="/story" class="siteheader__mobile-link">{{ t('nav.story') }}</NuxtLink>
       <NuxtLink to="/cast" class="siteheader__mobile-link">{{ t('nav.cast') }}</NuxtLink>

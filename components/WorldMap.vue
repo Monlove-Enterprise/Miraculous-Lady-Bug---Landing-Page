@@ -9,7 +9,7 @@ import { COUNTRY_BORDERS_PATH, US_STATE_BORDERS_PATH } from '~/utils/worldMapBor
 import type { CityRow } from '~/server/api/cities.get'
 
 const props = defineProps<{ cities: CityRow[] }>()
-const { t } = useLocale()
+const { t, cityPath } = useLocale()
 
 const pins = computed(() =>
   props.cities
@@ -120,7 +120,7 @@ function onPointerUp() {
         vector-effect="non-scaling-stroke"
       />
       <g v-for="p in pins" :key="p.id">
-        <NuxtLink :to="`/villes/${p.slug}`" class="worldmap__pin-link">
+        <NuxtLink :to="cityPath(p.slug)" class="worldmap__pin-link">
           <circle
             :cx="p.x"
             :cy="p.y"

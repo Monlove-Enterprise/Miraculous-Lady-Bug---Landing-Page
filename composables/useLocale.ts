@@ -477,5 +477,12 @@ export function useLocale() {
     locale.value = locale.value === 'fr' ? 'en' : 'fr'
   }
 
-  return { locale, t, toggle }
+  // Math, 2026-10-21: "it should be slash cities no ?" — the villes/[ville]
+  // route tree keeps its French path for FR visitors, but English visitors
+  // get the English-named /cities URL instead (both aliases render the same
+  // page — see the `alias` in pages/villes/index.vue and [ville].vue).
+  const citiesPath = (): string => (locale.value === 'en' ? '/cities' : '/villes')
+  const cityPath = (slug: string): string => `${citiesPath()}/${slug}`
+
+  return { locale, t, toggle, citiesPath, cityPath }
 }

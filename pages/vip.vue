@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { t } = useLocale()
+const { t, citiesPath } = useLocale()
 
 useHead(() => ({
   title: `${t('vip.title')} — Miraculous Live`,
@@ -31,7 +31,7 @@ const tiers = computed(() => [
             <li v-for="perk in tier.perks" :key="perk">{{ perk }}</li>
           </ul>
           <p class="tier__footnote">{{ t('vip.allPreShow') }}</p>
-          <NuxtLink to="/villes" class="btn btn--buy">{{ tier.cta }}</NuxtLink>
+          <NuxtLink :to="citiesPath()" class="btn btn--buy">{{ tier.cta }}</NuxtLink>
         </section>
       </div>
     </div>

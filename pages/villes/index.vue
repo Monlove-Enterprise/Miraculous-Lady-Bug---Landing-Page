@@ -4,7 +4,10 @@ import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
 import { toCityDisplayRows, formatCityDate, type CityDisplayRow } from '~/utils/cityDisplayRows'
 import type { CityRow } from '~/server/api/cities.get'
 
-const { t, locale } = useLocale()
+// English visitors use /cities instead of /villes — Math, 2026-10-21.
+definePageMeta({ alias: ['/cities'] })
+
+const { t, locale, cityPath } = useLocale()
 
 useHead(() => ({
   title: `${t('villes.title')} — Miraculous Live`,
@@ -51,7 +54,7 @@ function openingLabel(c: CityDisplayRow) {
 
       <ul class="list">
         <li v-for="c in cities" :key="c.rowKey" class="row" :class="`row--${c.status}`">
-          <NuxtLink :to="`/villes/${c.slug}`" class="row__place">
+          <NuxtLink :to="cityPath(c.slug)" class="row__place">
             <p class="row__city">{{ c.city }}{{ c.region ? `, ${c.region}` : '' }}</p>
             <p class="row__country">{{ countryName(c) }}</p>
           </NuxtLink>
@@ -161,6 +164,7 @@ function openingLabel(c: CityDisplayRow) {
   color: #1c0f0d;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 .row__country {
   color: rgba(28, 15, 13, 0.55);

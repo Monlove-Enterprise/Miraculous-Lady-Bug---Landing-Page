@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Multi-column footer (reference: Wicked's Tickets/About/Translate columns)
 // — used on every page instead of each page carrying its own minimal footer.
-const { t, locale, toggle } = useLocale()
+const { t, locale, toggle, citiesPath } = useLocale()
 </script>
 
 <template>
@@ -44,7 +44,7 @@ const { t, locale, toggle } = useLocale()
 
       <div class="sitefooter__col">
         <h3>{{ t('footer.ticketsHeading') }}</h3>
-        <NuxtLink to="/villes">{{ t('nav.allCities') }}</NuxtLink>
+        <NuxtLink :to="citiesPath()">{{ t('nav.allCities') }}</NuxtLink>
         <NuxtLink to="/vip">{{ t('nav.vip') }}</NuxtLink>
       </div>
 
