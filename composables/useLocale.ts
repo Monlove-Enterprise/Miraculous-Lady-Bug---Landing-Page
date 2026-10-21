@@ -364,7 +364,7 @@ const messages: Record<Locale, Dict> = {
       'Stay tuned right here on Miraculousladybuglive.com for the latest updates on cities and venues. Don’t miss your chance to see Ladybug and Cat Noir leap from screen to stage! New details will be added weekly.',
     'story.ctaKicker': 'Be Miraculous',
     'story.closing':
-      'Are you ready to be Miraculous LIVE? Share your excitement and keep watching this space for more exclusive news on the Miraculous Ladybug live stage show!',
+      'Are you ready to be Miraculous LIVE? Share your excitement and keep watching this space for more exclusive news about Miraculous Ladybug & Cat Noir: The Live Stage Spectacular!',
 
     'villes.title': 'Where the show is going',
     'villes.metaDescription':

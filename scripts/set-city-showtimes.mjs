@@ -43,6 +43,7 @@ const TIMES = {
   'newport-news-va': { start_time: '18:00', end_time: '18:00' },
   'jacksonville-fl': { start_time: '18:30', end_time: '18:30' },
   'wilmington-nc': { start_time: '18:30', end_time: '18:30' },
+  'washington-dc': { start_time: '17:00', end_time: '17:00' },
 }
 
 const sql = postgres(url, { prepare: false, max: 1 })
@@ -62,7 +63,7 @@ for (const [slug, t] of Object.entries(TIMES)) {
 if (missing.length) {
   console.log(`\nSlugs not found in DB (skipped): ${missing.join(', ')}`)
 }
-console.log(`\nCities still needing showtimes (not in this list): lansing-mi, austin-tx, new-orleans-la, san-antonio-tx, and Washington DC (not yet seeded — needs a date)`)
+console.log(`\nCities still needing showtimes (not in this list): lansing-mi, austin-tx, new-orleans-la, san-antonio-tx`)
 
 if (!COMMIT) {
   console.log('\n(DRY-RUN — rien écrit. Relancer avec --commit.)')
