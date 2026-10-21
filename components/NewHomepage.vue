@@ -2,7 +2,7 @@
 import type { CityRow } from '~/server/api/cities.get'
 import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
-import { toCityDisplayRows, formatCityDate } from '~/utils/cityDisplayRows'
+import { toCityDisplayRows, formatCityDate, formatCityTime } from '~/utils/cityDisplayRows'
 
 const { t, locale, citiesPath, cityPath } = useLocale()
 const route = useRoute()
@@ -261,7 +261,9 @@ function copyTune() {
             </NuxtLink>
             <div class="city-row__details">
               <p v-if="c.venue" class="city-row__venue">{{ c.venue }}</p>
-              <p class="city-row__dates">{{ formatCityDate(c.displayDate, locale) }}</p>
+              <p class="city-row__dates">
+                {{ formatCityDate(c.displayDate, locale) }}<span v-if="c.displayTime"> — {{ formatCityTime(c.displayTime, locale) }}</span>
+              </p>
             </div>
             <div class="city-row__action">
               <!-- Math, 2026-10-15: "remove the confirmed and add buy

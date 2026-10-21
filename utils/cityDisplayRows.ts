@@ -10,18 +10,37 @@ import type { CityRow } from '~/server/api/cities.get'
 export interface CityDisplayRow extends CityRow {
   rowKey: string
   displayDate: string | null
+  displayTime: string | null
 }
 
 export function toCityDisplayRows(cities: CityRow[]): CityDisplayRow[] {
   return cities.flatMap((c) => {
     if (c.format === 'tournee' && c.endDate && c.endDate !== c.startDate) {
-      return [c.startDate, c.endDate].map((d, i) => ({
+      return [
+        [c.startDate, c.startTime],
+        [c.endDate, c.endTime],
+      ].map(([d, time], i) => ({
         ...c,
         rowKey: `${c.slug}-${i}`,
         displayDate: d,
+        displayTime: time,
       }))
     }
-    return [{ ...c, rowKey: c.slug, displayDate: c.startDate }]
+    return [{ ...c, rowKey: c.slug, displayDate: c.startDate, displayTime: c.startTime }]
+  })
+}
+
+// `time` is a Postgres `time` value serialized as "HH:MM:SS", venue-local —
+// never converted, same principle as formatCityDate's timeZone:'UTC' (a
+// showtime is a fact about the venue, not about the viewer).
+export function formatCityTime(time: string | null, locale: string): string {
+  if (!time) return ''
+  const [h, m] = time.split(':').map(Number)
+  const d = new Date(Date.UTC(2000, 0, 1, h, m))
+  return d.toLocaleTimeString(locale === 'fr' ? 'fr-FR' : 'en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'UTC',
   })
 }
 

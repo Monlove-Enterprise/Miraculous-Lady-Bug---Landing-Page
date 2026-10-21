@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS cities (
     CHECK (status IN ('envisagee', 'confirmee', 'en_vente', 'epuisee')),
   start_date date,
   end_date date,
+  start_time time,            -- showtime, venue-local — e.g. 19:00, never converted
+  end_time time,               -- showtime for end_date when it's a second distinct night
   opening_at timestamptz,     -- ticket sale opening (UTC) — drives the countdown
   ticket_url text,
   lat numeric,

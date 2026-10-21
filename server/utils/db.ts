@@ -116,6 +116,10 @@ export function ensureSchema(): Promise<void> {
           updated_at   timestamptz NOT NULL DEFAULT now()
         )
       `
+      // Showtime, venue-local, never converted — Math, 2026-10-21: "can we
+      // add the time of the show" beside the date on the city list.
+      await db`ALTER TABLE cities ADD COLUMN IF NOT EXISTS start_time time`
+      await db`ALTER TABLE cities ADD COLUMN IF NOT EXISTS end_time time`
       await db`
         CREATE TABLE IF NOT EXISTS performances (
           id         serial PRIMARY KEY,

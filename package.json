@@ -15,6 +15,7 @@
     "libphonenumber-js": "^1.13.13",
     "nuxt": "^3.15.4",
     "postgres": "^3.4.9",
+    "tz-lookup": "^6.1.25",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   }

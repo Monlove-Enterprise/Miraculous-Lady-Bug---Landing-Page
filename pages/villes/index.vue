@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
-import { toCityDisplayRows, formatCityDate, type CityDisplayRow } from '~/utils/cityDisplayRows'
+import { toCityDisplayRows, formatCityDate, formatCityTime, type CityDisplayRow } from '~/utils/cityDisplayRows'
 import type { CityRow } from '~/server/api/cities.get'
 
 // English visitors use /cities instead of /villes — Math, 2026-10-21.
@@ -61,7 +61,9 @@ function openingLabel(c: CityDisplayRow) {
 
           <div class="row__details">
             <p v-if="c.venue" class="row__venue">{{ c.venue }}</p>
-            <p class="row__dates">{{ formatCityDate(c.displayDate, locale) }}</p>
+            <p class="row__dates">
+              {{ formatCityDate(c.displayDate, locale) }}<span v-if="c.displayTime"> — {{ formatCityTime(c.displayTime, locale) }}</span>
+            </p>
             <p v-if="c.status === 'confirmee' && c.openingAt" class="row__opening">{{ openingLabel(c) }}</p>
           </div>
 

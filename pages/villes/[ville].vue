@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { countryNameByCode } from '~/utils/countries'
+import { formatCityTime } from '~/utils/cityDisplayRows'
 import type { CityRow } from '~/server/api/cities.get'
 import type { PerformanceRow } from '~/server/api/cities/[slug].get'
 
@@ -44,16 +45,18 @@ function datesLines(): string[] {
   // timeZone: 'UTC' — see utils/cityDisplayRows.ts formatCityDate for why
   // (a plain calendar date parsed without it rolls back a day for any
   // viewer west of UTC, e.g. Montreal).
-  const fmt = (d: string) =>
-    new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
+  const fmt = (d: string, time: string | null) => {
+    const date = new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
       timeZone: 'UTC',
     })
-  if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
-  if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
-  return [`${fmt(c.startDate)} – ${fmt(c.endDate)}`]
+    return time ? `${date} — ${formatCityTime(time, locale.value)}` : date
+  }
+  if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate, c.startTime)]
+  if (c.format === 'tournee') return [fmt(c.startDate, c.startTime), fmt(c.endDate, c.endTime)]
+  return [`${fmt(c.startDate, c.startTime)} – ${fmt(c.endDate, c.endTime)}`]
 }
 // Ticket links always carry UTM so ticketing-platform traffic is attributable.
 function withUtm(url: string): string {
