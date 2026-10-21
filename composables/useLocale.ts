@@ -118,9 +118,9 @@ const messages: Record<Locale, Dict> = {
       'Miraculous Corp et MONLOVE unissent leurs forces pour présenter, dès 2027, un spectacle époustouflant, rempli d’action et de rebondissements, qui fera découvrir nos super-héros parisiens préférés aux spectateurs du monde entier.',
     'story.theStoryHeading': 'Synopsis',
     'story.theStoryText':
-      'Au cœur de Paris, deux adolescents ordinaires mènent une double vie extraordinaire. Marinette rêve de devenir créatrice de mode, tandis qu’Adrien aspire à s’affranchir des attentes de son célèbre père. Mais lorsque le danger menace, ils se transforment en Ladybug et Chat Noir, les super-héros adorés de Paris.\n\n' +
-      'Partenaires dans leurs combats, mais ignorant leurs véritables identités respectives, ils se retrouvent au cœur d’une histoire d’amour compliquée.\n\n' +
-      'Alors que Paris se prépare à vivre une Fashion Week spectaculaire, un mystérieux super-vilain menace de transformer les rêves en cauchemars.\n\n' +
+      'Au cœur de Paris, deux adolescents ordinaires mènent une double vie extraordinaire. Marinette rêve de devenir créatrice de mode, tandis qu’Adrien aspire à s’affranchir des attentes de son célèbre père. Mais lorsque le danger menace, ils se transforment en Ladybug et Chat Noir, les super-héros adorés de Paris. ' +
+      'Partenaires dans leurs combats, mais ignorant leurs véritables identités respectives, ils se retrouvent au cœur d’une histoire d’amour compliquée. ' +
+      'Alors que Paris se prépare à vivre une Fashion Week spectaculaire, un mystérieux super-vilain menace de transformer les rêves en cauchemars. ' +
       'Le destin de Paris étant en jeu, Ladybug et Chat Noir devront découvrir que leur plus grand pouvoir réside dans leur capacité à unir leurs forces.',
     'story.mastermindsHeading': 'Rencontrez les créateurs',
     'story.mastermindsText':
