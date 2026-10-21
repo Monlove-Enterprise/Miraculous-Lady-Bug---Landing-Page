@@ -3,7 +3,7 @@
 // countdown paramétré par la date, bascule auto à zéro vers en_vente"). Purely
 // date-driven — never the visitor's IP/timezone — so it agrees for everyone.
 // Emits `reached-zero` once so the parent can flip its displayed status.
-const props = defineProps<{ target: string }>()
+const props = defineProps<{ target: string | number }>()
 const emit = defineEmits<{ 'reached-zero': [] }>()
 
 const { t } = useLocale()

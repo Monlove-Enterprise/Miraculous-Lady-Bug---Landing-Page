@@ -3,15 +3,15 @@ import type { CityRow } from '~/server/api/cities.get'
 import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
 import { toCityDisplayRows, formatCityDate, formatCityTime } from '~/utils/cityDisplayRows'
+import { GENERAL_ON_SALE_AT } from '~/utils/presaleWindow'
 
 const { t, locale, citiesPath, cityPath } = useLocale()
 const route = useRoute()
 
 // General on-sale countdown banner — Math, 2026-10-21: "the on sale...
-// october 23rd at 10am ET". Explicit -04:00 offset (EDT, in effect in
-// October) so this instant is correct regardless of the visitor's own
-// timezone, same reasoning as the per-city countdown target.
-const ON_SALE_AT = '2026-10-23T10:00:00-04:00'
+// october 23rd at 10am ET". GENERAL_ON_SALE_AT is the single source of
+// truth, shared with the server-side presale-code email gate
+// (server/api/subscribe.post.ts) so they can't drift apart.
 const onSaleReached = ref(false)
 
 // Mobile trailer tap-to-fullscreen — see template comment by trailer-embed__mobile-wrap.
@@ -166,7 +166,7 @@ function copyTune() {
     <!-- ===================== ON-SALE BANNER ===================== -->
     <section v-if="!onSaleReached" class="onsale-banner">
       <p class="onsale-banner__text">{{ t('hero.onSaleBanner') }}</p>
-      <CityCountdown :target="ON_SALE_AT" @reached-zero="onSaleReached = true" />
+      <CityCountdown :target="GENERAL_ON_SALE_AT" @reached-zero="onSaleReached = true" />
     </section>
 
     <!-- Live layout tuner — add ?tune=1 to the URL to show it (desktop hero) -->

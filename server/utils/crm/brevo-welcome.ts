@@ -28,3 +28,31 @@ export async function sendBrevoWelcomeEmail(opts: {
     },
   })
 }
+
+// Sends the "Presale Open" template (same one used for the presale blast) to
+// a brand-new subscriber, so joining after the campaign already went out
+// doesn't mean missing the presale code — Math, 2026-10-21: "now when people
+// are subscribing since the presale is open can we send them another email
+// with the presale code". Gated server-side by isPresaleActive() so it stops
+// firing on its own once general on-sale opens (utils/presaleWindow.ts).
+// Best-effort, same as the welcome email — a failed send must never block
+// sign-up.
+export async function sendBrevoPresaleEmail(opts: {
+  apiKey: string
+  templateId: number
+  email: string
+  firstName?: string
+}): Promise<void> {
+  await $fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': opts.apiKey,
+      'content-type': 'application/json',
+      accept: 'application/json',
+    },
+    body: {
+      templateId: opts.templateId,
+      to: [{ email: opts.email, ...(opts.firstName ? { name: opts.firstName } : {}) }],
+    },
+  })
+}

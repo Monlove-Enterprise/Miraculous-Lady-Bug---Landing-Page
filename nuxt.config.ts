@@ -117,6 +117,11 @@ export default defineNuxtConfig({
     // Transactional "welcome" email sent on sign-up (Brevo template id 5:
     // "Welcome - Confirmation Email"). Empty disables the send.
     brevoWelcomeTemplateId: process.env.BREVO_WELCOME_TEMPLATE_ID || '5',
+    // Transactional "presale code" email, sent on sign-up only while the
+    // presale is still open (utils/presaleWindow.ts) — Brevo template id 12
+    // ("Presale Open"), the same one used for the presale campaign blast.
+    // Empty disables the send.
+    brevoPresaleTemplateId: process.env.BREVO_PRESALE_TEMPLATE_ID || '12',
     klaviyoApiKey: process.env.KLAVIYO_API_KEY || '',
     // TikTok Events API (server-side conversions). Token is a secret (Vercel env).
     tiktokAccessToken: process.env.TIKTOK_ACCESS_TOKEN || '',

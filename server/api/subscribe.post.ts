@@ -19,7 +19,8 @@ import {
   type SubscriberInput,
 } from '../utils/subscribers'
 import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
-import { sendBrevoWelcomeEmail } from '../utils/crm/brevo-welcome'
+import { sendBrevoWelcomeEmail, sendBrevoPresaleEmail } from '../utils/crm/brevo-welcome'
+import { isPresaleActive } from '../../utils/presaleWindow'
 import { resolveCountryForCity } from '../utils/geocode'
 import { findNearestCity } from '../utils/nearestCity'
 import { nameToCode } from '../utils/countryCode'
@@ -248,6 +249,24 @@ export default defineEventHandler(async (event) => {
     } catch (err: any) {
       const msg = err?.data?.message || err?.message || String(err)
       console.error('[subscribe] Welcome email failed (non-fatal):', msg)
+    }
+  }
+
+  // ---- 2c. Best-effort presale-code email — only while the presale is open ----
+  // Math, 2026-10-21: "now when people are subscribing since the presale is
+  // open can we send them another email with the presale code". Stops firing
+  // on its own once isPresaleActive() flips false (utils/presaleWindow.ts).
+  if (config.brevoApiKey && config.brevoPresaleTemplateId && isPresaleActive()) {
+    try {
+      await sendBrevoPresaleEmail({
+        apiKey: config.brevoApiKey,
+        templateId: Number(config.brevoPresaleTemplateId),
+        email,
+        firstName: subscriber.firstName,
+      })
+    } catch (err: any) {
+      const msg = err?.data?.message || err?.message || String(err)
+      console.error('[subscribe] Presale email failed (non-fatal):', msg)
     }
   }
 
