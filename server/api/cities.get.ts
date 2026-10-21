@@ -15,6 +15,8 @@ export interface CityRow {
   endTime: string | null
   openingAt: string | null
   ticketUrl: string | null
+  startTicketUrl: string | null
+  endTicketUrl: string | null
   lat: number | null
   lng: number | null
 }
@@ -26,7 +28,8 @@ export default defineEventHandler(async (): Promise<CityRow[]> => {
   const db = getSql()
   const rows = await db<any[]>`
     SELECT id, slug, city, region, country_code, venue, format, status,
-           start_date, end_date, start_time, end_time, opening_at, ticket_url, lat, lng
+           start_date, end_date, start_time, end_time, opening_at, ticket_url,
+           start_ticket_url, end_ticket_url, lat, lng
     FROM cities
     ORDER BY start_date NULLS LAST, city ASC
   `
@@ -45,6 +48,8 @@ export default defineEventHandler(async (): Promise<CityRow[]> => {
     endTime: r.end_time,
     openingAt: r.opening_at,
     ticketUrl: r.ticket_url,
+    startTicketUrl: r.start_ticket_url,
+    endTicketUrl: r.end_ticket_url,
     lat: r.lat !== null ? Number(r.lat) : null,
     lng: r.lng !== null ? Number(r.lng) : null,
   }))

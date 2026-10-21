@@ -71,8 +71,8 @@ function openingLabel(c: CityDisplayRow) {
             <span v-if="c.status !== 'confirmee'" class="badge" :class="`badge--${c.status}`">{{ statusLabel(c) }}</span>
 
             <template v-if="c.status === 'en_vente' || c.status === 'confirmee'">
-              <a :href="c.ticketUrl || '/signup'" class="btn btn--buy">{{ t('villes.cta.buy') }}</a>
-              <a :href="c.ticketUrl || '/signup'" class="btn btn--vip">{{ t('nav.vip') }}</a>
+              <a :href="c.displayTicketUrl || '/signup'" class="btn btn--buy">{{ t('villes.cta.buy') }}</a>
+              <a :href="c.displayTicketUrl || '/signup'" class="btn btn--vip">{{ t('nav.vip') }}</a>
             </template>
             <NuxtLink v-else-if="c.status === 'envisagee'" to="/signup" class="btn btn--interest">
               {{ t('villes.cta.interest') }}

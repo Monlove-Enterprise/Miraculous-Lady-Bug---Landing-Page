@@ -84,6 +84,26 @@ function withUtm(url: string): string {
 }
 const ticketHref = computed(() => (city.value.ticketUrl ? withUtm(city.value.ticketUrl) : '/signup'))
 
+// Two distinct nights can sell through two different ticketing-platform
+// events (e.g. Kitchener: separate Evenue IDs for Mar 6 and Mar 7) — Math,
+// 2026-10-21. Falls back to the shared ticketUrl when no per-date override
+// is set, so every other multi/single-night city is unaffected.
+const hasTwoNights = computed(() => {
+  const c = city.value
+  return c.format === 'tournee' && !!c.endDate && c.endDate !== c.startDate
+})
+function dateLabel(d: string | null, time: string | null): string {
+  if (!d) return ''
+  const date = formatCityDate(d, locale.value)
+  return time ? `${date} — ${formatCityTime(time, locale.value)}` : date
+}
+const ticketHrefStart = computed(() =>
+  city.value.startTicketUrl || city.value.ticketUrl ? withUtm(city.value.startTicketUrl || city.value.ticketUrl!) : '/signup',
+)
+const ticketHrefEnd = computed(() =>
+  city.value.endTicketUrl || city.value.ticketUrl ? withUtm(city.value.endTicketUrl || city.value.ticketUrl!) : '/signup',
+)
+
 // Performances -> generic calendar events (showtime as the label).
 const calendarEvents = computed(() =>
   performances.value.map((p) => ({
@@ -138,7 +158,19 @@ const calendarEvents = computed(() =>
           <CityCountdown :target="city.openingAt" @reached-zero="onCountdownZero" />
         </template>
         <p v-else-if="status === 'en_vente'" class="ville__panel-text">{{ t('villes.detail.enVenteText') }}</p>
-        <div class="ville__cta-row">
+        <template v-if="hasTwoNights">
+          <div class="ville__cta-row">
+            <span class="ville__cta-date">{{ dateLabel(city.startDate, city.startTime) }}</span>
+            <a :href="ticketHrefStart" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
+            <a :href="ticketHrefStart" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
+          </div>
+          <div class="ville__cta-row">
+            <span class="ville__cta-date">{{ dateLabel(city.endDate, city.endTime) }}</span>
+            <a :href="ticketHrefEnd" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
+            <a :href="ticketHrefEnd" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
+          </div>
+        </template>
+        <div v-else class="ville__cta-row">
           <a :href="ticketHref" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
           <a :href="ticketHref" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
         </div>
@@ -238,7 +270,12 @@ const calendarEvents = computed(() =>
 .btn--vip { background: var(--cream); color: #150a0b; }
 .btn--vip:hover { background: #fff; transform: translateY(-1px); }
 .btn--lg { padding: 0.9rem 2rem; font-size: 1.05rem; }
-.ville__cta-row { display: flex; flex-wrap: wrap; gap: 1rem; }
+.ville__cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.ville__cta-row:not(:last-child) { margin-bottom: 1rem; }
+.ville__cta-date { font-weight: 600; color: var(--cream); min-width: 100%; }
+@media (min-width: 520px) {
+  .ville__cta-date { min-width: 0; margin-right: 0.25rem; }
+}
 .btn--interest { background: transparent; border: 1px solid rgba(243, 233, 216, 0.3); color: var(--cream); }
 .btn--interest:hover { border-color: var(--red); color: var(--red); }
 

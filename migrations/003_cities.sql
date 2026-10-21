@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS cities (
   end_time time,               -- showtime for end_date when it's a second distinct night
   opening_at timestamptz,     -- ticket sale opening (UTC) — drives the countdown
   ticket_url text,
+  start_ticket_url text,      -- overrides ticket_url for start_date when each night sells separately (e.g. Kitchener's two distinct Evenue event IDs)
+  end_ticket_url text,        -- overrides ticket_url for end_date, same reasoning
   lat numeric,
   lng numeric,
   created_at timestamptz NOT NULL DEFAULT now(),

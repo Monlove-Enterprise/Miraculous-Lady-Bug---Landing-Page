@@ -120,6 +120,10 @@ export function ensureSchema(): Promise<void> {
       // add the time of the show" beside the date on the city list.
       await db`ALTER TABLE cities ADD COLUMN IF NOT EXISTS start_time time`
       await db`ALTER TABLE cities ADD COLUMN IF NOT EXISTS end_time time`
+      // Per-date ticket link override — Math, 2026-10-21: Kitchener sells its
+      // two nights through separate Evenue event IDs, each its own URL.
+      await db`ALTER TABLE cities ADD COLUMN IF NOT EXISTS start_ticket_url text`
+      await db`ALTER TABLE cities ADD COLUMN IF NOT EXISTS end_ticket_url text`
       await db`
         CREATE TABLE IF NOT EXISTS performances (
           id         serial PRIMARY KEY,

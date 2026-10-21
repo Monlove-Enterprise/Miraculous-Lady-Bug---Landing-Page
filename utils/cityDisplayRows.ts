@@ -11,22 +11,32 @@ export interface CityDisplayRow extends CityRow {
   rowKey: string
   displayDate: string | null
   displayTime: string | null
+  displayTicketUrl: string | null
 }
 
 export function toCityDisplayRows(cities: CityRow[]): CityDisplayRow[] {
   return cities.flatMap((c) => {
     if (c.format === 'tournee' && c.endDate && c.endDate !== c.startDate) {
       return [
-        [c.startDate, c.startTime],
-        [c.endDate, c.endTime],
-      ].map(([d, time], i) => ({
+        [c.startDate, c.startTime, c.startTicketUrl ?? c.ticketUrl],
+        [c.endDate, c.endTime, c.endTicketUrl ?? c.ticketUrl],
+      ].map(([d, time, url], i) => ({
         ...c,
         rowKey: `${c.slug}-${i}`,
         displayDate: d,
         displayTime: time,
+        displayTicketUrl: url,
       }))
     }
-    return [{ ...c, rowKey: c.slug, displayDate: c.startDate, displayTime: c.startTime }]
+    return [
+      {
+        ...c,
+        rowKey: c.slug,
+        displayDate: c.startDate,
+        displayTime: c.startTime,
+        displayTicketUrl: c.startTicketUrl ?? c.ticketUrl,
+      },
+    ]
   })
 }
 

@@ -17,7 +17,8 @@ export default defineEventHandler(async (event): Promise<{ city: CityRow; perfor
 
   const [row] = await db<any[]>`
     SELECT id, slug, city, region, country_code, venue, format, status,
-           start_date, end_date, start_time, end_time, opening_at, ticket_url, lat, lng
+           start_date, end_date, start_time, end_time, opening_at, ticket_url,
+           start_ticket_url, end_ticket_url, lat, lng
     FROM cities WHERE slug = ${slug}
   `
   if (!row) {
@@ -39,6 +40,8 @@ export default defineEventHandler(async (event): Promise<{ city: CityRow; perfor
     endTime: row.end_time,
     openingAt: row.opening_at,
     ticketUrl: row.ticket_url,
+    startTicketUrl: row.start_ticket_url,
+    endTicketUrl: row.end_ticket_url,
     lat: row.lat !== null ? Number(row.lat) : null,
     lng: row.lng !== null ? Number(row.lng) : null,
   }

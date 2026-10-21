@@ -279,8 +279,8 @@ function copyTune() {
                    treatment as pages/villes/index.vue. -->
               <span v-if="c.status !== 'confirmee' && c.status !== 'en_vente'" class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
               <template v-else>
-                <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
-                <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--vip">{{ t('nav.vip') }}</a>
+                <a :href="c.displayTicketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
+                <a :href="c.displayTicketUrl || '/signup'" class="city-btn city-btn--vip">{{ t('nav.vip') }}</a>
               </template>
             </div>
           </li>
