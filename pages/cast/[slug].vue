@@ -10,10 +10,16 @@ if (!person) {
   throw createError({ statusCode: 404, statusMessage: 'Person not found', fatal: false })
 }
 
-useHead(() => ({ title: `${person!.name} — Miraculous Live` }))
-
 const role = computed(() => (locale.value === 'fr' ? person!.roleFr : person!.roleEn))
 const bio = computed(() => (locale.value === 'fr' ? person!.bioFr : person!.bioEn))
+
+// Real bio + headshot for the share card instead of the generic site
+// default — Math, 2026-10-21 SEO audit.
+usePageMeta({
+  title: () => `${person!.name} — Miraculous Live`,
+  description: () => bio.value?.slice(0, 160),
+  image: () => (person!.photo ? `https://miraculousladybuglive.com${person!.photo}` : undefined),
+})
 function monogram(): string {
   if (!person!.name) return '🐞'
   return person!.name

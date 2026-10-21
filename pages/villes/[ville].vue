@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { countryNameByCode } from '~/utils/countries'
-import { formatCityTime } from '~/utils/cityDisplayRows'
+import { formatCityTime, formatCityDate } from '~/utils/cityDisplayRows'
 import type { CityRow } from '~/server/api/cities.get'
 import type { PerformanceRow } from '~/server/api/cities/[slug].get'
 
@@ -22,7 +22,18 @@ if (!data.value) {
 const city = computed(() => data.value!.city)
 const performances = computed(() => data.value!.performances)
 
-useHead(() => ({ title: `${city.value.city} — Miraculous Live` }))
+// Real per-city description (venue + date) instead of the generic site
+// default, so sharing a city's ticket link shows that city, not the
+// homepage — Math, 2026-10-21 SEO audit.
+usePageMeta({
+  title: () => `${city.value.city} — Miraculous Live`,
+  description: () => {
+    const c = city.value
+    const details = [c.venue, c.startDate ? formatCityDate(c.startDate, locale.value) : null].filter(Boolean)
+    const place = `${c.city}${c.region ? ', ' + c.region : ''}`
+    return details.length ? `${place} — ${details.join(' — ')}` : t('villes.metaDescription')
+  },
+})
 
 // Local, possibly-flipped status: the countdown reaching zero switches the
 // displayed state to "en_vente" for everyone at the same instant (date-driven,

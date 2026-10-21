@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const { t, citiesPath } = useLocale()
 
-useHead(() => ({
-  title: `${t('vip.title')} — Miraculous Live`,
-  meta: [{ name: 'description', content: t('vip.metaDescription') }],
-}))
+usePageMeta({
+  title: () => `${t('vip.title')} — Miraculous Live`,
+  description: () => t('vip.metaDescription'),
+})
 
 const tiers = computed(() => [
   { name: t('vip.tier1.name'), perks: t('vip.tier1.perks').split('|'), cta: t('vip.tier1.cta'), featured: true },

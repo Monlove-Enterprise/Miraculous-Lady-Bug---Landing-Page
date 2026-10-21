@@ -3,10 +3,10 @@ import type { NewsRow } from '~/server/api/news.get'
 
 const { t, locale } = useLocale()
 
-useHead(() => ({
-  title: `${t('news.title')} — Miraculous Live`,
-  meta: [{ name: 'description', content: t('news.metaDescription') }],
-}))
+usePageMeta({
+  title: () => `${t('news.title')} — Miraculous Live`,
+  description: () => t('news.metaDescription'),
+})
 
 const { data } = await useFetch<NewsRow[]>('/api/news')
 const articles = computed(() => data.value ?? [])

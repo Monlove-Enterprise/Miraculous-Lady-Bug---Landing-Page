@@ -3,7 +3,7 @@ import { faqEn, faqFr } from '~/utils/faqData'
 
 const { t, locale } = useLocale()
 
-useHead(() => ({ title: `${t('faq.title')} — Miraculous Live` }))
+usePageMeta({ title: () => `${t('faq.title')} — Miraculous Live` })
 
 const categories = computed(() => (locale.value === 'fr' ? faqFr : faqEn))
 </script>

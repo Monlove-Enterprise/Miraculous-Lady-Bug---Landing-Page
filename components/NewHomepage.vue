@@ -155,6 +155,14 @@ function copyTune() {
   <div class="page">
     <SiteHeader />
 
+    <!-- Visually hidden — the hero itself is a poster image, so the page had
+         no real <h1> anywhere (Math, 2026-10-21 SEO audit: "whats a proper
+         h1" / "can we make it hidden, I dont want the site to change
+         visually"). Same .visually-hidden utility used elsewhere, not
+         display:none, so it stays readable to search engines and screen
+         readers. -->
+    <h1 class="visually-hidden">{{ t('hero.logoAlt') }}</h1>
+
     <!-- ===================== ON-SALE BANNER ===================== -->
     <section v-if="!onSaleReached" class="onsale-banner">
       <p class="onsale-banner__text">{{ t('hero.onSaleBanner') }}</p>

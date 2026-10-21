@@ -9,10 +9,10 @@ definePageMeta({ alias: ['/cities'] })
 
 const { t, locale, cityPath } = useLocale()
 
-useHead(() => ({
-  title: `${t('villes.title')} — Miraculous Live`,
-  meta: [{ name: 'description', content: t('villes.metaDescription') }],
-}))
+usePageMeta({
+  title: () => `${t('villes.title')} — Miraculous Live`,
+  description: () => t('villes.metaDescription'),
+})
 
 const { data } = await useFetch<CityRow[]>('/api/cities')
 // A tour stop with two distinct nights (e.g. Kitchener: Mar 6 AND Mar 7) is

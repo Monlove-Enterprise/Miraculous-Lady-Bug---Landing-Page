@@ -8,10 +8,10 @@ const { t, locale } = useLocale()
 const featuredCreative = computed(() => creative.slice(0, 2))
 const restCreative = computed(() => creative.slice(2))
 
-useHead(() => ({
-  title: `${t('cast.title')} — Miraculous Live`,
-  meta: [{ name: 'description', content: t('cast.metaDescription') }],
-}))
+usePageMeta({
+  title: () => `${t('cast.title')} — Miraculous Live`,
+  description: () => t('cast.metaDescription'),
+})
 
 function roleOf(p: Person): string {
   return locale.value === 'fr' ? p.roleFr : p.roleEn

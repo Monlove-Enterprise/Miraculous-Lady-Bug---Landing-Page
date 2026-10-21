@@ -1,9 +1,7 @@
 <script setup lang="ts">
 const { t } = useLocale()
 
-useHead(() => ({
-  title: `${t('form.title')} — Miraculous Live`,
-}))
+usePageMeta({ title: () => `${t('form.title')} — Miraculous Live` })
 </script>
 
 <template>

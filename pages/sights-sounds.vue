@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const { t } = useLocale()
 
-useHead(() => ({
-  title: `${t('nav.sightsSounds')} — Miraculous Live`,
-  meta: [{ name: 'description', content: t('sightsSounds.intro') }],
-}))
+usePageMeta({
+  title: () => `${t('nav.sightsSounds')} — Miraculous Live`,
+  description: () => t('sightsSounds.intro'),
+})
 
 // Behind-the-scenes clips from Math (2026-10-06), real YouTube titles used
 // as captions rather than guessing who's on camera in each one.

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const { t } = useLocale()
 
-useHead(() => ({
-  title: `${t('nav.story')} — Miraculous Live`,
-  meta: [{ name: 'description', content: t('story.intro').slice(0, 160) }],
-}))
+usePageMeta({
+  title: () => `${t('nav.story')} — Miraculous Live`,
+  description: () => t('story.intro').slice(0, 160),
+})
 </script>
 
 <template>
