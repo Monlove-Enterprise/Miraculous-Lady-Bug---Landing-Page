@@ -10,14 +10,14 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'fr' },
-      title: 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
+      title: 'Miraculous : Ladybug & Chat Noir — Le Spectacle Live',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
           content:
-            'Miraculous : Ladybug & Cat Noir — The Live Stage Spectacular. Le spectacle musical arrive sur scène. Rejoignez la liste d’attente officielle pour être les premiers informés des dates et de la billetterie.',
+            'Miraculous : Ladybug & Chat Noir — Le Spectacle Live. Le spectacle musical arrive sur scène. Rejoignez la liste d’attente officielle pour être les premiers informés des dates et de la billetterie.',
         },
         { name: 'theme-color', content: '#f40e04' },
         { name: 'robots', content: 'index, follow' },
@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         { property: 'og:locale:alternate', content: 'en_US' },
         {
           property: 'og:title',
-          content: 'Miraculous : Ladybug & Cat Noir — The Live Stage Spectacular',
+          content: 'Miraculous : Ladybug & Chat Noir — Le Spectacle Live',
         },
         {
           property: 'og:description',
@@ -48,13 +48,13 @@ export default defineNuxtConfig({
         { property: 'og:image:height', content: '630' },
         {
           property: 'og:image:alt',
-          content: 'Miraculous : Ladybug & Cat Noir — The Live Stage Spectacular',
+          content: 'Miraculous : Ladybug & Chat Noir — Le Spectacle Live',
         },
         // Twitter / X card
         { name: 'twitter:card', content: 'summary_large_image' },
         {
           name: 'twitter:title',
-          content: 'Miraculous : Ladybug & Cat Noir — The Live Stage Spectacular',
+          content: 'Miraculous : Ladybug & Chat Noir — Le Spectacle Live',
         },
         {
           name: 'twitter:description',
@@ -82,7 +82,7 @@ export default defineNuxtConfig({
                 '@type': 'WebSite',
                 '@id': 'https://miraculousladybuglive.com/#website',
                 url: 'https://miraculousladybuglive.com/',
-                name: 'Miraculous : Ladybug & Cat Noir — The Live Stage Spectacular',
+                name: 'Miraculous : Ladybug & Chat Noir — Le Spectacle Live',
                 inLanguage: ['fr', 'en'],
                 publisher: { '@id': 'https://miraculousladybuglive.com/#org' },
               },
