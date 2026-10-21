@@ -19,12 +19,16 @@ export interface Person {
 // ("Original Concept & Creative Direction" / "Book, Music & Lyrics"),
 // replacing the earlier single-line "Creators & Creative Directors"
 // (2026-09-30). FR is my translation, not brand-confirmed — same caveat.
+// Math, 2026-10-20: "on va mettre sur trois lignes ... et réduire" — split
+// into three credit lines (Concept / Direction / Book&Lyrics) in both
+// languages so "original"/"Original" could come back while the card
+// shrinks further (each line is shorter than the old two-line version).
 export const creative: Person[] = [
   {
     slug: 'ella-louise-allaire',
     name: 'Ella Louise Allaire',
-    roleFr: 'Concept original & direction artistique\nLivret, musique & paroles',
-    roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
+    roleFr: 'Idéation\ndirection de création\nLivret, musique & paroles',
+    roleEn: 'Original Concept\nCreative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/ella-louise-allaire.webp',
     bioEn:
       'Ella Louise Allaire is an award-winning show creator, composer, librettist, lyricist and producer with nearly 20 years of experience creating large-scale live entertainment for international audiences.\n\n' +
@@ -42,8 +46,8 @@ export const creative: Person[] = [
   {
     slug: 'martin-lord-ferguson',
     name: 'Martin Lord Ferguson',
-    roleFr: 'Concept original & direction artistique\nLivret, musique & paroles',
-    roleEn: 'Original Concept & Creative Direction\nBook, Music & Lyrics',
+    roleFr: 'Idéation\ndirection de création\nLivret, musique & paroles',
+    roleEn: 'Original Concept\nCreative Direction\nBook, Music & Lyrics',
     photo: '/images/cast/martin-lord-ferguson.webp',
     bioEn:
       'Martin Lord Ferguson is a Canadian show creator/producer, sound engineer, scriptwriter, composer and lyricist. His credits include co-writing the book, music and lyrics for the mega success Ice Age Live! A Mammoth Adventure (20th Century Fox, Stage Entertainment), with record audiences in Paris (over 60,000 spectators in a 5-day run) and Hamburg (over 30,000 spectators in a single weekend), beating acts like Coldplay and U2.\n\n' +
@@ -52,7 +56,7 @@ export const creative: Person[] = [
       "His music has been heard on many international productions, including Cirque du Soleil: Worlds Away, a 3D film co-produced by James Cameron and directed by Andrew Adamson (Shrek, Narnia…), Conan the Barbarian (2011), the 2010 Winter Olympic Games, The Scorpion King 2, The Huntsman: Winter's War, Dateline NBC, The Cleveland Show, NFL Films and the video game Spider-Man: Shattered Dimensions.",
     bioFr:
       "Martin Lord Ferguson est un créateur/producteur de spectacles, ingénieur du son, scénariste, compositeur et parolier canadien. Parmi ses crédits, on compte la co-écriture du livret, de la musique et des paroles du méga-succès Ice Age Live! A Mammoth Adventure (20th Century Fox, Stage Entertainment), qui a établi des records d'audience à Paris (plus de 60 000 spectateurs en 5 jours) et à Hambourg (plus de 30 000 spectateurs en un seul week-end), devançant des artistes comme Coldplay et U2.\n\n" +
-      "Martin est également co-créateur et co-producteur de comédies musicales familiales telles que The Nut Job Live & Friends, Scooby-Doo! and the Lost City of Gold, ainsi que du prochain spectacle Miraculous Ladybug & Cat Noir: The Live Stage Spectacular. Il a également créé l'expérience éducative immersive All Systems Are Go! sur la mission Artemis de la NASA, présentée pendant deux ans au Kennedy Space Center Visitor Complex, en Floride.\n\n" +
+      "Martin est également co-créateur et co-producteur de comédies musicales familiales telles que The Nut Job Live & Friends, Scooby-Doo! and the Lost City of Gold, ainsi que du prochain spectacle Miraculous Ladybug & Chat Noir: The Live Stage Spectacular. Il a également créé l'expérience éducative immersive All Systems Are Go! sur la mission Artemis de la NASA, présentée pendant deux ans au Kennedy Space Center Visitor Complex, en Floride.\n\n" +
       "Martin a débuté comme producteur et ingénieur musical, produisant plus de 30 albums, notamment pour le Cirque du Soleil, Holiday on Ice, Roch Voisine, Ginette Reno, Mitsou et Élise Velle. Depuis plus de 20 ans, il œuvre dans tous les domaines de l'industrie : théâtre et spectacles grand format, publicité, séries télévisées et longs métrages, ainsi que l'écriture de chansons. Il a composé la musique de White Skin, récompensé au Canada par le prix du « Meilleur nouveau réalisateur » au Festival du film de Toronto et du « Meilleur premier film » aux Prix Génie, ainsi que celle de la série télévisée Fortier qui, avec 60 % de parts de marché, est devenue la plus grande série dramatique de l'histoire de la télévision canadienne-française.\n\n" +
       "Sa musique a été entendue dans de nombreuses productions internationales, dont Cirque du Soleil: Worlds Away, un film 3D coproduit par James Cameron et réalisé par Andrew Adamson (Shrek, Narnia…), Conan the Barbarian (2011), les Jeux olympiques d'hiver de 2010, The Scorpion King 2, The Huntsman: Winter's War, Dateline NBC, The Cleveland Show, NFL Films, ainsi que le jeu vidéo Spider-Man: Shattered Dimensions.",
   },
@@ -79,7 +83,23 @@ export const creative: Person[] = [
       'Il a également développé de nouvelles comédies musicales et opéras pour Yonge Street Theatricals (Toronto), Cambodia Living Arts (Phnom Penh), le Vancouver Opera, la Canadian Opera Company et la City Opera Vancouver.\n\n' +
       "En tant que formateur en art théâtral, Robert a enseigné et animé des ateliers pour l'Arte Studio à Mexico, la Shanghai Academy, le Royal Conservatoire de Glasgow, le HB Studio à New York, le Stratford Festival (Canada), Studio 58 à Vancouver, la Canadian Opera Company, le Vancouver Opera et Pacific Opera Victoria.",
   },
-  { slug: 'debra-brown', name: 'Debra Brown', roleFr: 'Chorégraphies Acrobatiques', roleEn: 'Acrobatic Choreography', photo: '/images/cast/debra-brown.webp' },
+  {
+    slug: 'debra-brown',
+    name: 'Debra Brown',
+    roleFr: 'Chorégraphies Acrobatiques',
+    roleEn: 'Acrobatic Choreography',
+    photo: '/images/cast/debra-brown.webp',
+    // Bio verbatim from Math (2026-10-19). FR is my translation, not
+    // brand-confirmed — flag for review before launch.
+    bioEn:
+      'Debra Lynne Brown is an internationally renowned Canadian choreographer celebrated for her groundbreaking contributions to Cirque du Soleil and her innovative fusion of dance, gymnastics, and circus arts. Over the course of her career, she has received numerous accolades, including an Emmy Award for Outstanding Choreography for her work on the 74th Annual Academy Awards.\n\n' +
+      'As Cirque du Soleil’s principal choreographer beginning in 1987, Brown helped shape the company’s signature style and movement vocabulary through iconic productions such as Alegría, Mystère, Quidam, La Nouba, “O,” Corteo, Amaluna, and Luzia. Her influence extends far beyond Cirque. She has worked with global superstars, creating aerial choreography for Madonna’s Drowned World Tour, staging performances for Aerosmith, Céline Dion, and Björk, and bringing her vision to films such as Catwoman and Van Helsing. She has also choreographed for leading opera houses, including the Metropolitan Opera, and created choreography for the Canadian Olympic synchronized swimming team.\n\n' +
+      'Brown’s artistry has earned her further recognition, including a Doctorate of Education from Nipissing University, the Bob Fosse Innovative Choreography Award, the Golden Clown at the World Circus Festival, and eight National Gymnastics Awards.',
+    bioFr:
+      "Debra Lynne Brown est une chorégraphe canadienne de renommée internationale, célébrée pour ses contributions novatrices au Cirque du Soleil et pour sa fusion originale de la danse, de la gymnastique et des arts du cirque. Au cours de sa carrière, elle a reçu de nombreuses distinctions, dont un Emmy Award de la meilleure chorégraphie pour son travail sur la 74e cérémonie des Oscars.\n\n" +
+      "Chorégraphe principale du Cirque du Soleil à partir de 1987, Brown a contribué à façonner le style signature et le vocabulaire gestuel de la compagnie à travers des productions emblématiques telles qu'Alegría, Mystère, Quidam, La Nouba, « O », Corteo, Amaluna et Luzia. Son influence dépasse largement le Cirque : elle a collaboré avec des superstars internationales, créant la chorégraphie aérienne du Drowned World Tour de Madonna, mettant en scène des performances pour Aerosmith, Céline Dion et Björk, et apportant sa vision à des films tels que Catwoman et Van Helsing. Elle a également chorégraphié pour de grandes maisons d'opéra, dont le Metropolitan Opera, et créé des chorégraphies pour l'équipe olympique canadienne de nage synchronisée.\n\n" +
+      "Le talent de Brown lui a valu d'autres distinctions, dont un doctorat honorifique en éducation de l'Université Nipissing, le Bob Fosse Innovative Choreography Award, le Clown d'or du Festival mondial du cirque et huit National Gymnastics Awards.",
+  },
   {
     slug: 'kassandra-boivin-cenelia',
     name: 'Kassandra Boivin-Cénélia',
@@ -121,33 +141,78 @@ export const creative: Person[] = [
       "This period, which lasted until the end of 2016, marked a clear turning point toward Nicolas's dedication to creating stage costumes.\n\n" +
       'Starting in January 2017, he continued this work in Canada with Scéno-Plus for MGM Macau. At the same time, he designed costumes for several Cirque du Soleil productions, including the Helene Fischer Tour 2017–2018, the ice show Axel, and the touring big top show Echo in 2023.',
   },
-  { slug: 'william-todd-jones', name: 'William Todd Jones', roleFr: 'Marionnettes', roleEn: 'Puppet Design', photo: '/images/cast/william-todd-jones.webp' },
+  {
+    slug: 'william-todd-jones',
+    name: 'William Todd-Jones',
+    roleFr: 'Marionnettes',
+    roleEn: 'Puppet Design',
+    photo: '/images/cast/william-todd-jones.webp',
+    // Bio updated by Math (2026-10-20), verbatim ("Petits changements dans
+    // la bio de Todd"), replacing the 2026-10-19 version. FR is my
+    // translation, not brand-confirmed — flag for review before launch.
+    bioEn:
+      'William “Todd” Todd-Jones is a Welsh master puppeteer, creature designer, performer and movement director whose career began more than four decades ago in Jim Henson’s Creature Shop on Labyrinth.\n\n' +
+      'Since then, he has brought creatures and characters to life through puppetry, physical performance, animatronics and motion capture. Whatever the technology, Todd believes the real magic happens in the audience’s imagination, the moment when a costume disappears and a character is alive.\n\n' +
+      'His screen credits include Who Framed Roger Rabbit, Batman, Harry Potter and the Order of the Phoenix, John Carter and His Dark Materials. In live entertainment, he toured internationally as master puppeteer and Manny performer in Ice Age Live! performing on ice to over 2.5 million people. His relationship with MONLOVE continued through The Nut Job Live, for which he established and oversaw the puppet workshop from creature concept to the first performances, and the development of MONLOVE’s remarkably convincing Scooby-Doo.\n\n' +
+      'For the BBC/HBO series His Dark Materials, Todd established the creature effects department and served as its head and master puppeteer, overseeing the creation of puppets representing the series’ dæmons and full-size armoured bear rigs. Across his career, he has contributed to productions recognised with Academy Awards, Emmys, and BAFTAs.',
+    bioFr:
+      "William « Todd » Todd-Jones est un marionnettiste maître gallois, concepteur de créatures, interprète et directeur de mouvement dont la carrière a débuté il y a plus de quatre décennies au Creature Shop de Jim Henson sur Labyrinthe.\n\n" +
+      "Depuis, il a donné vie à des créatures et des personnages grâce au marionnettisme, à la performance physique, à l'animatronique et à la capture de mouvement. Quelle que soit la technologie, Todd croit que la vraie magie se produit dans l'imagination du public, au moment où le costume disparaît et où le personnage prend vie.\n\n" +
+      "Ses crédits à l'écran incluent Qui veut la peau de Roger Rabbit, Batman, Harry Potter et l'Ordre du Phénix, John Carter et À la croisée des mondes (His Dark Materials). Dans le domaine du spectacle vivant, il a fait une tournée internationale comme marionnettiste principal et interprète de Manny dans Ice Age Live!, se produisant sur glace devant plus de 2,5 millions de spectateurs. Sa relation avec MONLOVE s'est poursuivie avec The Nut Job Live, pour lequel il a mis sur pied et supervisé l'atelier de marionnettes, du concept des créatures jusqu'aux premières représentations, ainsi que le développement du Scooby-Doo remarquablement convaincant de MONLOVE.\n\n" +
+      "Pour la série BBC/HBO His Dark Materials (À la croisée des mondes), Todd a mis sur pied le département des effets de créatures et en a assuré la direction en tant que marionnettiste principal, supervisant la création des marionnettes représentant les dæmons de la série ainsi que les ours blindés grandeur nature. Tout au long de sa carrière, il a contribué à des productions récompensées par des Oscars, des Emmy et des BAFTA.",
+  },
   { slug: 'sarah-tremblay', name: 'Sarah Tremblay', roleFr: 'Perruques', roleEn: 'Wig Design', photo: '/images/cast/sarah-tremblay.webp' },
   {
     slug: 'serge-poupart',
     name: 'Serge Poupart',
-    // Math, 2026-10-15: two-line title like Ella/Martin's — "SET DESIGN"
-    // / "PRODUCTION & TECHNICAL DIRECTION". FR is my translation, not
-    // brand-confirmed.
-    roleFr: 'Scénographie\nProduction et direction technique',
-    roleEn: 'Set Design\nProduction & Technical Direction',
+    // Math, 2026-10-15: two-line title like Ella/Martin's. Math, 2026-10-20:
+    // "set design production" with no punctuation between the two words /
+    // "Technical Direction". FR is my translation, not brand-confirmed.
+    roleFr: 'Scénographie production\nDirection technique',
+    roleEn: 'Set Design Production\nTechnical Direction',
     photo: '/images/cast/serge-poupart.webp',
     bioEn:
       'Serge brings over 25 years of experience in technical direction, international productions, and major events, working with organizations including Monlove, Cirque du Soleil, the Formula 1 Grand Prix of Canada, and Just for Laughs.\n\n' +
-      'His technical management credits span touring productions and live experiences, including the Backstreet Boys, Scooby-Doo and the Lost City of Gold, All Systems Are Go! A NASA–Peanuts Experience, Mary Poppins, Rick & Morty, and Les Ballets Jazz de Montréal.\n\n' +
+      'His technical management credits span touring productions and live experiences, including the Backstreet Boys, Scooby-Doo and the Lost City of Gold, All Systems Are Go! A NASA Peanuts Adventure, Mary Poppins, Rick & Morty, and Les Ballets Jazz de Montréal.\n\n' +
       'He has also overseen complex, large-scale projects, including the Dungeons & Dragons attraction at Village Vacances Valcartier, scenic renovations at Palais Montcalm, and the immersive multimedia show Metaforia in Montreal and Jeddah. Beyond entertainment, Serge collaborates with Airbus on scaffolding design for aircraft assembly.',
     bioFr:
       "Serge cumule plus de 25 ans d'expérience en direction technique, productions internationales et grands événements, ayant collaboré avec des organisations telles que Monlove, le Cirque du Soleil, le Grand Prix de Formule 1 du Canada et Juste pour rire.\n\n" +
-      'Sa feuille de route en gestion technique couvre des productions en tournée et des expériences live, notamment les Backstreet Boys, Scooby-Doo et la Cité perdue de l\'or, All Systems Are Go! A NASA–Peanuts Experience, Mary Poppins, Rick & Morty, ainsi que Les Ballets Jazz de Montréal.\n\n' +
+      'Sa feuille de route en gestion technique couvre des productions en tournée et des expériences live, notamment les Backstreet Boys, Scooby-Doo et la Cité perdue de l\'or, All Systems Are Go! A NASA Peanuts Adventure, Mary Poppins, Rick & Morty, ainsi que Les Ballets Jazz de Montréal.\n\n' +
       "Il a également supervisé des projets complexes de grande envergure, dont l'attraction Donjons & Dragons au Village Vacances Valcartier, des rénovations scéniques au Palais Montcalm, et le spectacle multimédia immersif Metaforia à Montréal et à Djeddah. Au-delà du divertissement, Serge collabore avec Airbus sur la conception d'échafaudages pour l'assemblage d'aéronefs.",
   },
   { slug: 'vincent-fournier', name: 'Vincent Fournier', roleFr: 'Lumières', roleEn: 'Lighting Design', photo: '/images/cast/vincent-fournier.webp' },
-  { roleFr: 'Son', roleEn: 'Sound Design' }, // TBD — no name yet
+  {
+    slug: 'mathieu-bourassa',
+    name: 'Mathieu Bourassa',
+    // Math, 2026-10-20: his own real title, given directly ("voici mon
+    // nouveau titre"), replacing the earlier placeholder translation. EN
+    // left as-is — not asked to change it ("l'anglais on touche pas").
+    roleFr: 'Direction du marketing numérique et de la stratégie de contenu',
+    roleEn: 'Head of Digital Marketing and Content Strategy',
+    photo: '/images/cast/mathieu-bourassa.jpg',
+  },
+  {
+    slug: 'real-by-fake',
+    name: 'REAL by FAKE',
+    // Math, 2026-10-19: a studio credit, not a person — role title derived
+    // from the bio's own description, not brand-confirmed.
+    roleFr: 'Effets visuels et postproduction',
+    roleEn: 'Visual Effects & Post-Production',
+    // Bio verbatim from Math (2026-10-19). FR is my translation, not
+    // brand-confirmed — flag for review before launch. Logo (not a
+    // headshot) — shown via .card__photo--logo in pages/cast/index.vue,
+    // which switches to object-fit: contain, no grayscale.
+    photo: '/images/cast/real-by-fake.png',
+    bioEn:
+      'REAL by FAKE is a Montréal-based post-production and visual effects company with offices in Los Angeles and Mexico City. Specialising in realistic visual effects for film, television, commercials, and music videos, the company offers integrated services from creative planning and VFX supervision to editing, colour grading, and final delivery. Its credits include Dallas Buyers Club, Wild, Big Little Lies, Sharp Objects, and The Morning Show, reflecting a commitment to combining technical expertise with visual storytelling.',
+    bioFr:
+      "REAL by FAKE est une entreprise montréalaise de postproduction et d'effets visuels, avec des bureaux à Los Angeles et à Mexico. Spécialisée dans les effets visuels réalistes pour le cinéma, la télévision, la publicité et les vidéoclips, l'entreprise offre des services intégrés allant de la planification créative et de la supervision des effets visuels jusqu'au montage, à l'étalonnage des couleurs et à la livraison finale. Parmi ses crédits figurent Dallas Buyers Club, Wild, Big Little Lies, Sharp Objects et The Morning Show, témoignant d'un engagement à allier expertise technique et narration visuelle.",
+  },
 ]
 
 export const cast: Person[] = [
   { roleFr: 'Ladybug', roleEn: 'Ladybug' },
-  { roleFr: 'Cat Noir', roleEn: 'Cat Noir' },
+  { roleFr: 'Chat Noir', roleEn: 'Cat Noir' },
   { roleFr: 'Ensemble', roleEn: 'Ensemble' },
   { roleFr: 'Ensemble', roleEn: 'Ensemble' },
 ]

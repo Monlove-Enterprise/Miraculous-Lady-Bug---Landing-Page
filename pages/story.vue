@@ -25,6 +25,11 @@ useHead(() => ({
       </header>
 
       <section class="story__section">
+        <h2 class="story__heading">{{ t('story.theStoryHeading') }}</h2>
+        <p class="story__text">{{ t('story.theStoryText') }}</p>
+      </section>
+
+      <section class="story__section">
         <h2 class="story__heading">{{ t('story.mastermindsHeading') }}</h2>
         <p class="story__text">{{ t('story.mastermindsText') }}</p>
       </section>
@@ -109,6 +114,7 @@ useHead(() => ({
   color: var(--cream);
   font-size: clamp(1.05rem, 2.2vw, 1.25rem);
   line-height: 1.6;
+  white-space: pre-line;
 }
 
 .story__section { max-width: 720px; margin-bottom: 2.6rem; }
@@ -123,6 +129,7 @@ useHead(() => ({
   color: var(--cream-dim);
   line-height: 1.7;
   font-size: 1rem;
+  white-space: pre-line;
 }
 
 .story__cta {
@@ -132,7 +139,7 @@ useHead(() => ({
   border-radius: 16px;
   background: var(--ink-panel);
 }
-.story__closing { color: var(--cream); margin-bottom: 1.4rem; line-height: 1.6; }
+.story__closing { color: var(--cream); margin-bottom: 1.4rem; line-height: 1.6; white-space: pre-line; }
 .story__cta-kicker {
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 3.2vw, 1.9rem);

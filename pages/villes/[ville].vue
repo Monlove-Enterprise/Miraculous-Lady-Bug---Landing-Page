@@ -38,11 +38,15 @@ function onCountdownZero() {
 function datesLines(): string[] {
   const c = city.value
   if (!c.startDate) return []
+  // timeZone: 'UTC' — see utils/cityDisplayRows.ts formatCityDate for why
+  // (a plain calendar date parsed without it rolls back a day for any
+  // viewer west of UTC, e.g. Montreal).
   const fmt = (d: string) =>
     new Date(d).toLocaleDateString(locale.value === 'fr' ? 'fr-FR' : 'en-US', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
+      timeZone: 'UTC',
     })
   if (!c.endDate || c.endDate === c.startDate) return [fmt(c.startDate)]
   if (c.format === 'tournee') return [fmt(c.startDate), fmt(c.endDate)]
@@ -88,7 +92,7 @@ const calendarEvents = computed(() =>
 
       <header class="ville__head">
         <span v-if="status !== 'confirmee'" class="badge" :class="`badge--${status}`">{{ t(`villes.status.${status}`) }}</span>
-        <h1 class="ville__title">{{ city.city }}</h1>
+        <h1 class="ville__title">{{ city.city }}{{ city.region ? `, ${city.region}` : '' }}</h1>
         <p class="ville__country">{{ countryName() }}</p>
         <p v-if="city.venue" class="ville__venue">{{ city.venue }}</p>
         <p v-for="d in datesLines()" :key="d" class="ville__dates">{{ d }}</p>
@@ -119,7 +123,7 @@ const calendarEvents = computed(() =>
         <p v-else-if="status === 'en_vente'" class="ville__panel-text">{{ t('villes.detail.enVenteText') }}</p>
         <div class="ville__cta-row">
           <a :href="ticketHref" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
-          <NuxtLink to="/vip" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</NuxtLink>
+          <a :href="ticketHref" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
         </div>
       </section>
 

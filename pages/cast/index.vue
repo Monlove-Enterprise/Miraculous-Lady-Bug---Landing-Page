@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { creative, cast, type Person } from '~/utils/castData'
+import { creative, type Person } from '~/utils/castData'
 
 const { t, locale } = useLocale()
 
@@ -43,6 +43,16 @@ function monogram(p: Person): string {
         <p class="cast__intro">{{ t('cast.intro') }}</p>
       </header>
 
+      <!-- Cast -->
+      <!-- Math, 2026-10-19: "remove the place holders for the cast" — no
+         real cast announced yet, so the section is just the heading + note
+         until names are confirmed, instead of 4 empty "to be announced"
+         cards. -->
+      <section class="cast__section" aria-labelledby="cast-h">
+        <h2 id="cast-h" class="cast__heading">{{ t('cast.castHeading') }}</h2>
+        <p class="cast__note">{{ t('cast.castNote') }}</p>
+      </section>
+
       <!-- Creative team -->
       <section class="cast__section" aria-labelledby="creative-h">
         <h2 id="creative-h" class="cast__heading">{{ t('cast.creativeHeading') }}</h2>
@@ -51,7 +61,7 @@ function monogram(p: Person): string {
           <li v-for="(p, i) in featuredCreative" :key="'f' + i" class="featured-card">
             <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
               <div class="featured-card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
-                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" />
+                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img card__img--center" />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
               <p class="featured-card__name">{{ p.name || t('cast.tba') }}</p>
@@ -63,8 +73,22 @@ function monogram(p: Person): string {
         <ul class="grid">
           <li v-for="(p, i) in restCreative" :key="'c' + i" class="card">
             <NuxtLink v-if="p.slug" :to="`/cast/${p.slug}`" class="card__link">
-              <div class="card__photo" :class="{ 'card__photo--photo': p.photo }" aria-hidden="true">
-                <img v-if="p.photo" :src="p.photo" :alt="p.name" class="card__img" :class="{ 'card__img--center': p.slug === 'robert-mcqueen' }" />
+              <div
+                class="card__photo"
+                :class="{ 'card__photo--photo': p.photo, 'card__photo--logo': p.slug === 'real-by-fake' }"
+                aria-hidden="true"
+              >
+                <img
+                  v-if="p.photo"
+                  :src="p.photo"
+                  :alt="p.name"
+                  class="card__img"
+                  :class="{
+                    'card__img--center': p.slug === 'robert-mcqueen',
+                    'card__img--logo': p.slug === 'real-by-fake',
+                    'card__img--zoomout': p.slug === 'vincent-fournier',
+                  }"
+                />
                 <span v-else class="card__mono">{{ monogram(p) }}</span>
               </div>
               <p class="card__name">{{ p.name || t('cast.tba') }}</p>
@@ -81,26 +105,15 @@ function monogram(p: Person): string {
         </ul>
       </section>
 
-      <!-- Cast -->
-      <section class="cast__section" aria-labelledby="cast-h">
-        <h2 id="cast-h" class="cast__heading">{{ t('cast.castHeading') }}</h2>
-        <ul class="grid">
-          <li v-for="(p, i) in cast" :key="'a' + i" class="card">
-            <div class="card__photo" aria-hidden="true">
-              <span class="card__mono">{{ monogram(p) }}</span>
-            </div>
-            <p class="card__name">{{ p.name || t('cast.tba') }}</p>
-            <p class="card__role">{{ roleOf(p) }}</p>
-          </li>
-        </ul>
-      </section>
-
     </div>
     <SiteFooter />
   </main>
 </template>
 
 <style scoped>
+/* Math, 2026-10-19: "on enleve le creme sur la page cast et creative, on
+   remet le font noir" — reverted back to the original dark page background
+   (tried cream 2026-10-16, reverted). */
 .cast {
   min-height: 100dvh;
   padding-bottom: 6rem;
@@ -168,20 +181,33 @@ function monogram(p: Person): string {
   padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(243, 233, 216, 0.12);
 }
+.cast__note {
+  color: var(--cream-dim);
+  font-size: 0.95rem;
+  margin: -1.25rem 0 1.5rem;
+}
 
 /* Card grid */
 /* Ella & Martin — featured row, bigger than the regular grid, side by side.
    Math, 2026-10-15: "we can make them a bit smaller, that was very big" —
    max-width 760->520, name font scaled down a notch. */
+/* Math, 2026-10-20: "réduire toute la carte (photo + texte ensemble)" —
+   shrinking just the photo left dead space around it that read as a
+   different crop; shrinking the whole card instead keeps the photo
+   full-bleed (identical framing, just smaller) and stays centered on
+   the page. Bumped back up a notch same day ("make ella and martin a
+   tad bigger"); kept subtle after Math flagged the regular grid growing
+   too, then bumped again ("ella and martin needs to be a bit bigger") —
+   600px, still fits the 3-line FR/EN credit. */
 .featured-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
-  margin-bottom: 2.5rem;
-  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  max-width: 600px;
 }
-@media (max-width: 560px) {
+@media (max-width: 720px) {
   .featured-grid { grid-template-columns: 1fr; }
 }
 /* Math, 2026-10-15: "there is missing the frames of their picture for ella
@@ -198,39 +224,48 @@ function monogram(p: Person): string {
   transform: translateY(-3px);
   border-color: rgba(244, 14, 4, 0.4);
 }
-/* Math: "and if we made the cast backdroud cream" — the backdrop behind
-   each headshot (not the outer card) switched from dark --ink-soft to
-   cream. */
+/* Math, 2026-10-18: "le background des photo devraient rester en noir et
+   blanc" — back to the dark --ink-soft backdrop (cream was tried 2026-10-16,
+   reverted). */
 .featured-card__photo {
   position: relative;
   aspect-ratio: 3 / 4;
   border-radius: 11px;
   margin-bottom: 1.1rem;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(28, 15, 13, 0.08), transparent 65%),
-    var(--cream);
+  background: var(--ink-soft);
 }
 .featured-card__name {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
   color: var(--cream);
   line-height: 1.1;
   margin-bottom: 0.4rem;
 }
 .featured-card__role {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: pre-line;
 }
 
+/* Math, 2026-10-20: "les noms des creatives soit sur une ligne également" —
+   "Kassandra Boivin-Cénélia" wrapped to 2 lines at the old 190px min; wider
+   cards (220px) keep every name on one line and the photos grow with the
+   card, matching the whole-card-resize approach used for Ella/Martin.
+   Serge's 2-line credit used to need a wider grid (and a smaller
+   .card__role/.featured-card__role) to stop wrapping to 3 lines — Math
+   flagged that grid growth as unwanted ("reverse please and more subtle").
+   Re-wording his title ("set design production and then technical
+   direction on the other line" — regrouped in castData.ts) made the long
+   line short enough that both the 220px grid and the original 0.72rem/
+   0.08em role-text size work again, so both got reverted. */
 .grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
 }
 .card {
@@ -252,19 +287,16 @@ function monogram(p: Person): string {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(28, 15, 13, 0.08), transparent 65%),
-    var(--cream);
+  background: var(--ink-soft);
 }
 /* Subtle ladybug polka-dot texture — placeholder (no photo) only; a real
-   photo's transparent background reveals the plain gradient above instead,
-   so every headshot sits on the exact same clean backdrop. Dot color
-   flipped dark for visibility on the new cream backdrop. */
+   photo's transparent background reveals the plain dark backdrop above
+   instead, so every headshot sits on the exact same clean backdrop. */
 .card__photo::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(28, 15, 13, 0.1) 2px, transparent 2.5px);
+  background-image: radial-gradient(circle, rgba(243, 233, 216, 0.12) 2px, transparent 2.5px);
   background-size: 26px 26px;
 }
 .card__photo--photo::after { display: none; }
@@ -287,6 +319,28 @@ function monogram(p: Person): string {
 }
 .card__img--center {
   object-position: center center;
+}
+/* Vincent Fournier's headshot is a tight close-up crop vs. the others —
+   Math, 2026-10-20: "diminuer la photo de vincent" — scale it down so his
+   face reads at the same size as the rest of the grid instead of filling
+   the whole card. */
+.card__img--zoomout {
+  object-position: center center;
+  transform: scale(0.88);
+}
+/* REAL by FAKE credit: a studio wordmark, not a headshot — show the whole
+   logo (contain, no crop, no grayscale) instead of the face-photo treatment. */
+.card__photo--logo {
+  display: grid;
+  place-items: center;
+  padding: 1.4rem;
+}
+.card__img--logo {
+  position: static;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: none;
 }
 .card__link {
   display: block;
@@ -319,7 +373,7 @@ function monogram(p: Person): string {
 .cast__footer {
   margin-top: 4rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(243, 233, 216, 0.1);
+  border-top: 1px solid rgba(28, 15, 13, 0.1);
   text-align: center;
 }
 .cast__footer-links {
@@ -327,14 +381,14 @@ function monogram(p: Person): string {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  color: var(--cream-dim);
+  color: rgba(28, 15, 13, 0.55);
   font-size: 0.85rem;
   margin-bottom: 0.75rem;
 }
 .cast__footer-links a { text-decoration: underline; }
 .cast__footer-links a:hover { color: var(--red); }
 .cast__footer-license {
-  color: rgba(203, 192, 174, 0.5);
+  color: rgba(28, 15, 13, 0.4);
   font-size: 0.75rem;
 }
 </style>

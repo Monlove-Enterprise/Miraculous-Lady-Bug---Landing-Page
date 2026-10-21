@@ -108,5 +108,6 @@ const categories = computed(() => (locale.value === 'fr' ? faqFr : faqEn))
   color: var(--cream-dim);
   line-height: 1.7;
   font-size: 0.98rem;
+  white-space: pre-line;
 }
 </style>

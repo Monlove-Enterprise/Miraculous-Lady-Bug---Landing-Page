@@ -19,6 +19,11 @@ const { t, locale, toggle } = useLocale()
               <circle cx="18.41" cy="5.59" r="1.44" />
             </svg>
           </a>
+          <a href="https://x.com/Miraculouslive_" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+            </svg>
+          </a>
           <a href="https://www.facebook.com/miraculousladybuglive/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z" />
@@ -79,7 +84,9 @@ const { t, locale, toggle } = useLocale()
         <a href="https://www.monlove.com" target="_blank" rel="noopener noreferrer">
           <img class="sitefooter__partner-logo sitefooter__partner-logo--monlove" src="/images/monlove-logo.png" alt="MONLOVE" />
         </a>
-        <img class="sitefooter__partner-logo sitefooter__partner-logo--corp" src="/images/miraculous-corp.png" alt="Miraculous Corp" />
+        <a href="https://miraculous.com/" target="_blank" rel="noopener noreferrer">
+          <img class="sitefooter__partner-logo sitefooter__partner-logo--corp" src="/images/miraculous-corp.png" alt="Miraculous Corp" />
+        </a>
       </div>
     </div>
   </footer>

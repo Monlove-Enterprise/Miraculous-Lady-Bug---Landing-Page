@@ -31,7 +31,7 @@ const tiers = computed(() => [
             <li v-for="perk in tier.perks" :key="perk">{{ perk }}</li>
           </ul>
           <p class="tier__footnote">{{ t('vip.allPreShow') }}</p>
-          <NuxtLink to="/signup" class="btn btn--buy">{{ tier.cta }}</NuxtLink>
+          <NuxtLink to="/villes" class="btn btn--buy">{{ tier.cta }}</NuxtLink>
         </section>
       </div>
     </div>

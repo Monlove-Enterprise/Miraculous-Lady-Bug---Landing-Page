@@ -7,6 +7,32 @@ import { toCityDisplayRows, formatCityDate } from '~/utils/cityDisplayRows'
 const { t, locale } = useLocale()
 const route = useRoute()
 
+// General on-sale countdown banner — Math, 2026-10-21: "the on sale...
+// october 23rd at 10am ET". Explicit -04:00 offset (EDT, in effect in
+// October) so this instant is correct regardless of the visitor's own
+// timezone, same reasoning as the per-city countdown target.
+const ON_SALE_AT = '2026-10-23T10:00:00-04:00'
+const onSaleReached = ref(false)
+
+// Mobile trailer tap-to-fullscreen — see template comment by trailer-embed__mobile-wrap.
+const MOBILE_TRAILER_ID = 'mIxEgeRMiag'
+const mobileTrailerSrc = ref(`https://www.youtube-nocookie.com/embed/${MOBILE_TRAILER_ID}`)
+const mobileTrailerFrame = ref<HTMLIFrameElement | null>(null)
+const showMobileTrailerTapHint = ref(true)
+
+async function playMobileTrailerFullscreen() {
+  showMobileTrailerTapHint.value = false
+  const el = mobileTrailerFrame.value
+  if (!el) return
+  try {
+    await el.requestFullscreen?.()
+  } catch {
+    // Not supported (e.g. iOS Safari on non-<video> elements) — video still
+    // autoplays inline below, viewer can use YouTube's own fullscreen button.
+  }
+  mobileTrailerSrc.value = `https://www.youtube-nocookie.com/embed/${MOBILE_TRAILER_ID}?autoplay=1&playsinline=1`
+}
+
 // Subscribe-band stars — Math, 2026-10-15: "the stars should shine a bit
 // more randomly". The old .bg-stars utility twinkles two layers of stars
 // in lockstep (all stars in a layer pulse together); these are real
@@ -49,13 +75,17 @@ const mapCities = computed(() => cities.value.filter((c) => !HIDDEN_CITY_SLUGS.h
 // Expanded to one row PER PERFORMANCE (toCityDisplayRows), not per city —
 // Math, 2026-10-15: "Kitchener needs two entire lines... not two dates on
 // the same line" — so a two-night stop like Kitchener takes two full rows
-// here, same as the villes listing, and the slice(0, 6) counts performances.
+// here, same as the villes listing, and the slice counts performances.
+// Math, 2026-10-16: "condense that section so we can add more cities on
+// mobile" — rows are now much more compact on mobile (see .city-row's
+// max-width: 719px block below), so 6 -> 10 fits in roughly the same
+// scroll length it used to take to show 6.
 const upcomingCities = computed(() =>
   toCityDisplayRows(
     cities.value.filter((c) => c.format === 'tournee' && c.startDate && !HIDDEN_CITY_SLUGS.has(c.slug)),
   )
     .sort((a, b) => new Date(a.displayDate!).getTime() - new Date(b.displayDate!).getTime())
-    .slice(0, 6),
+    .slice(0, 10),
 )
 
 function countryName(c: CityRow) {
@@ -125,6 +155,12 @@ function copyTune() {
   <div class="page">
     <SiteHeader />
 
+    <!-- ===================== ON-SALE BANNER ===================== -->
+    <section v-if="!onSaleReached" class="onsale-banner">
+      <p class="onsale-banner__text">{{ t('hero.onSaleBanner') }}</p>
+      <CityCountdown :target="ON_SALE_AT" @reached-zero="onSaleReached = true" />
+    </section>
+
     <!-- Live layout tuner — add ?tune=1 to the URL to show it (desktop hero) -->
     <div v-if="tuning" class="tuner">
       <strong>Réglages hero (desktop)</strong>
@@ -168,7 +204,9 @@ function copyTune() {
            top-left). -->
       <div class="hero__poster-wrap">
         <img class="hero__poster-img" src="/images/hero-poster.webp" :alt="t('hero.logoAlt')" />
-        <span class="hero__poster-star" aria-hidden="true" />
+        <div class="hero__poster-star" aria-hidden="true">
+          <img class="hero__poster-star-img" src="/images/hero-poster.webp" alt="" />
+        </div>
       </div>
 
       <img
@@ -218,7 +256,7 @@ function copyTune() {
         <ul v-if="upcomingCities.length" class="city-list">
           <li v-for="c in upcomingCities" :key="c.rowKey" class="city-row">
             <NuxtLink :to="`/villes/${c.slug}`" class="city-row__place">
-              <p class="city-row__city">{{ c.city }}</p>
+              <p class="city-row__city">{{ c.city }}{{ c.region ? `, ${c.region}` : '' }}</p>
               <p class="city-row__country">{{ countryName(c) }}</p>
             </NuxtLink>
             <div class="city-row__details">
@@ -232,7 +270,7 @@ function copyTune() {
               <span v-if="c.status !== 'confirmee' && c.status !== 'en_vente'" class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
               <template v-else>
                 <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
-                <NuxtLink to="/vip" class="city-btn city-btn--vip">{{ t('nav.vip') }}</NuxtLink>
+                <a :href="c.ticketUrl || '/signup'" class="city-btn city-btn--vip">{{ t('nav.vip') }}</a>
               </template>
             </div>
           </li>
@@ -247,29 +285,73 @@ function copyTune() {
 
     <!-- ===================== TRAILER ===================== -->
     <!-- YouTube embed (CLAUDE.md: never self-hosted video) — Math,
-         2026-10-06, https://youtu.be/v7n0ZGZsahI -->
+         2026-10-18, swapped the desktop trailer for
+         https://youtu.be/OLCe-Vm62-E (same video used as the generic
+         on-sale email trailer, emails/build.mjs DEFAULT_VIDEO_URL) -->
     <section class="trailer-section">
       <div class="container">
         <h2 class="section-title">{{ t('trailer.heading') }}</h2>
       </div>
-      <!-- Math: "here is a new background for the trailer section can you
-           make it fit so the video arrives in between lady bug and
-           catnoir" — full-width banner (Ladybug left, Cat Noir right,
-           empty "stage" gap between them), sized to the image's own
-           aspect ratio so it's never cropped/distorted; the video sits
-           positioned in that gap (measured from the source art: the gap
-           runs ~36.5%-65% of the image width, centered ~50.7%). -->
+      <!-- Math, 2026-10-16: "can we make the player bigger so it fits under
+           the player" + sent Ladybug and Cat Noir as separate cutouts
+           ("they are in backgrounds") — the old flattened banner image
+           locked the characters and the video gap to one fixed baked-in
+           layout, so none of the three could grow independently. Rebuilt
+           with the plain gradient (.trailer-section's own background
+           shows through — no image here anymore) and the two characters
+           as their own layered, independently-sized images, flanking a
+           bigger centered video. -->
       <div class="trailer-banner">
+        <img class="trailer-char trailer-char--lb" src="/images/trailer-ladybug.webp" alt="" aria-hidden="true" />
+        <!-- Math, 2026-10-16: sent a native 9:16 Short
+             (youtube.com/shorts/mIxEgeRMiag) to use on mobile instead of
+             cropping/squeezing the 16:9 trailer — two iframes, toggled by
+             CSS media query (.trailer-embed--desktop/--mobile below), so
+             each breakpoint gets the video cut actually made for it. -->
         <div class="trailer-embed">
           <iframe
-            src="https://www.youtube-nocookie.com/embed/v7n0ZGZsahI"
+            class="trailer-embed__frame trailer-embed__frame--desktop"
+            src="https://www.youtube-nocookie.com/embed/OLCe-Vm62-E"
             :title="t('trailer.heading')"
             frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
             allowfullscreen
             loading="lazy"
           />
+          <!-- Math, 2026-10-20: "when we click on the trailer on mobile can
+               it go full screen?" — a bare click on the YouTube iframe just
+               plays inline; the viewer still has to find YouTube's own
+               fullscreen icon afterwards. This invisible button sits over
+               the mobile embed only for the first tap: it starts the video
+               (autoplay) and requests fullscreen on the iframe element
+               itself in the same gesture, then gets out of the way so every
+               later tap (pause, seek, exit fullscreen) goes straight to
+               YouTube's own controls. iOS Safari doesn't support
+               Element.requestFullscreen() on non-<video> elements, so that
+               call silently no-ops there — the video still autoplays inline
+               and the viewer can use YouTube's own fullscreen button, same
+               as before. -->
+          <div class="trailer-embed__mobile-wrap">
+            <iframe
+              ref="mobileTrailerFrame"
+              class="trailer-embed__frame trailer-embed__frame--mobile"
+              :src="mobileTrailerSrc"
+              :title="t('trailer.heading')"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy"
+            />
+            <button
+              v-if="showMobileTrailerTapHint"
+              type="button"
+              class="trailer-embed__fs-tap"
+              :aria-label="t('trailer.heading')"
+              @click="playMobileTrailerFullscreen"
+            />
+          </div>
         </div>
+        <img class="trailer-char trailer-char--cn" src="/images/trailer-catnoir.webp" alt="" aria-hidden="true" />
       </div>
     </section>
 
@@ -413,6 +495,31 @@ function copyTune() {
 }
 
 /* ------------------------------- HERO ------------------------------- */
+.onsale-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem 1.6rem;
+  padding: 0.9rem 1.5rem;
+  background: var(--ink-soft);
+  border-bottom: 1px solid rgba(243, 233, 216, 0.08);
+}
+.onsale-banner__text {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin: 0;
+}
+.onsale-banner :deep(.countdown) {
+  gap: 0.9rem;
+}
+.onsale-banner :deep(.countdown__num) {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
 .hero {
   position: relative;
   display: flex;
@@ -463,24 +570,70 @@ function copyTune() {
   height: auto;
   display: block;
 }
-/* Glow overlay matching the sparkle's position in the source art
-   (~18.5%, ~12% from the top-left), animated so it reads as shining. */
+/* Math, 2026-10-16 (round 2): "the start on the covert art blinking does
+   not work at all. It has to be the design that shines not a new light" —
+   two problems with the first attempt. First, the window's position/size
+   (18.5%/11.9%, 7.5% square) was measured wrong — a pixel scan of the real
+   hero-poster.webp (not the old key art) puts the sparkle's actual
+   bounding box at 17.3–23.0% horizontally / 7.6–15.8% vertically, taller
+   than it is wide, so the old square window only ever covered its
+   bottom-right corner. Second, brightness/blend-mode:screen on an
+   already-near-white graphic is a no-op (screen(white, x) = white) and so
+   is animating the overlay's opacity, because the SAME white sparkle is
+   always sitting underneath it in the base poster image at full strength
+   — changing the copy on top changes nothing visible. The only way for
+   literally this artwork to visibly "shine" is to let the copy grow
+   larger than its own resting footprint, so it's still exactly the same
+   sparkle, just periodically bigger — no added shape, no new light
+   source, just this star pulsing size the way a twinkle actually reads. */
 .hero__poster-star {
   position: absolute;
-  left: 18.5%;
-  top: 11.9%;
-  width: 7.5%;
-  aspect-ratio: 1 / 1;
+  left: 15.338%;
+  top: 4.75%;
+  width: 9.602%;
+  height: 13.975%;
+  overflow: hidden;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse, black 40%, transparent 85%);
+  mask-image: radial-gradient(ellipse, black 40%, transparent 85%);
   animation: hero-star-shine 2.2s ease-in-out infinite;
+  transform-origin: center;
 }
+.hero__poster-star-img {
+  /* Re-offsets this copy of hero-poster.webp so it lines up pixel-for-
+     pixel with the one underneath, inside this smaller window: width is
+     1 / 0.09602 = 1041.47% of the window's own width to bring the full
+     poster back to its natural size, shifted by -(0.15338/0.09602) and
+     -(0.0475/0.13975) to re-center the sparkle under the window. */
+  position: absolute;
+  left: -159.74%;
+  top: -33.99%;
+  width: 1041.466%;
+  /* Global `img { max-width: 100% }` (main.css) would otherwise clamp this
+     back down to the window's own tiny width, shrinking the whole poster
+     into the crop instead of showing a 1:1 zoomed-in slice of it. */
+  max-width: none;
+  height: auto;
+}
+/* Math, 2026-10-16: "and the start is animated but can it shine ?" — the
+   size pulse alone read as the star growing, not glinting. Added a soft
+   white drop-shadow synced to the same peak (not a separate always-on
+   light): filter:drop-shadow follows this element's own masked shape
+   and isn't clipped by its own overflow:hidden, so the glow bleeds
+   outward from the star's silhouette right as it grows, then fades back
+   out with it — still this star's own flash, timed to its own motion. */
 @keyframes hero-star-shine {
-  0%, 100% { opacity: 0.35; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1.25); }
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  50% {
+    transform: scale(1.5);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 14px rgba(255, 255, 255, 0.6));
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero__poster-star { animation: none; opacity: 0.8; }
+  .hero__poster-star { animation: none; }
 }
 .hero__credit-img {
   position: relative;
@@ -578,6 +731,13 @@ function copyTune() {
 .map-section,
 .dates-section,
 .trailer-section,
+/* Math, 2026-10-16: went through several rounds of a blue glow/grid
+   treatment for this section (radial glow, square grid, bolder glow,
+   grid-only) referencing miraculous.com/games/'s green floor-grid —
+   ended with "lets remove the grids I dont like it thanks for trying" —
+   back to the plain flat --ink background, nothing else. The social
+   tiles' own neon-blue border/glow (added in the same round) wasn't
+   called out as unwanted, so it's untouched. */
 .social-section {
   padding: 4rem 0;
   background: var(--ink);
@@ -639,43 +799,162 @@ function copyTune() {
    section instead of title-on-black above a colorful image. */
 .trailer-section {
   padding-bottom: 0;
-  /* Exact edge colors sampled from the banner image itself (left #ff0100,
-     right #fd0a87), not an eyeballed approximation — Math: "the band
-     color is not exactly the same". */
-  background: linear-gradient(90deg, #ff0100, #fd0a87);
+  /* Math, 2026-10-16: "the band color is not exactly the same" — a plain
+     2-stop gradient between the edge colors doesn't match because the
+     banner's own gradient isn't linear (flat red for the first ~25%, flat
+     pink for the last ~10%, curved between). These stops are sampled
+     directly off design-source/Backgrounds/Background_trailer.png at 10%
+     increments across its width, so the CSS curve matches the image's
+     curve, not just its two endpoints. */
+  background: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #ff0000 20%,
+    #ff0029 30%,
+    #ff0042 40%,
+    #ff0054 50%,
+    #ff0064 60%,
+    #ff0073 70%,
+    #fe0581 80%,
+    #fd0a87 90%,
+    #fd0a87 100%
+  );
 }
 .trailer-section .section-title {
   color: var(--cream);
 }
+/* Math, 2026-10-16: "lady bug and cat noir and the player could be bigger"
+   — no longer one flattened image, so none of the three is locked to a
+   baked-in layout anymore. Characters are flex items pinned to the
+   banner's own bottom edge (space-between keeps them at the outer
+   edges). Height uses min(vw, cap) rather than a fixed-floor clamp()
+   specifically so it keeps shrinking smoothly with the viewport down to
+   the mobile breakpoint — a floor here left a band of mid-width
+   viewports (~640-950px) where the banner's height stayed constant while
+   it kept getting narrower, which pushed Cat Noir (wider per unit height
+   than Ladybug, 1.875:1 vs 2.391:1) into the video.
+   Then: "if you make ladybug and cat noir bigger the player has to be
+   bigger... would it work so it lines up with them" — characters bumped
+   94% -> 100% of the banner's height, and the video moved from a
+   separately centered, absolutely-positioned layer (vertically centered,
+   so it floated above the characters' feet) to sitting on the same
+   bottom edge as the characters ("lines up with them"), and widened to
+   keep pace (38% -> 42%, 620px -> 680px cap). Checked for overlap at a
+   spread of viewport widths (641-2560px) with the new sizes: narrowest
+   gap is ~30px at 641px.
+   Then: "the player is not centered between ladybug and cat noir" —
+   flex's justify-content:space-between puts EQUAL GAPS on each side of
+   the embed, not an equal DISTANCE from each container edge; since Cat
+   Noir is wider per unit height than Ladybug (1.875:1 vs 2.391:1), equal
+   gaps left the embed's midpoint shifted toward Ladybug's side. First
+   fix attempt (grid-template-columns: 1fr auto 1fr) traded that bug for
+   a worse one: the embed's own `width: min(42%, 680px)` is a percentage,
+   and a percentage width on the single item inside an "auto"-sized grid
+   track is circular (the track needs the item's size to size itself, the
+   item needs the track's size to resolve its percentage) — browsers fall
+   back to a tiny indeterminate size instead (rendered ~126px instead of
+   ~800px).
+   Then: "we need to align the preview with the characters and the
+   preview has to be centered in the section" — true section-centering
+   alone wasn't enough: pinning Ladybug/Cat Noir to equal OUTER padding
+   (3% from each edge) left their INNER edges (facing the video)
+   asymmetric, since Cat Noir is wider — so the video's gap to Ladybug
+   read as bigger than its gap to Cat Noir even though the video itself
+   sat dead-center. Fixed by positioning all three purely relative to the
+   video instead of to the section's edges: the video is absolutely
+   centered (left:50%/translateX(-50%)), and each character's INNER edge
+   is pinned a fixed distance (half the video's width + a small gap) from
+   that same center — so both characters now sit exactly as far from the
+   video as each other, by construction, regardless of their own
+   differing widths. Checked bounds at 641-2560px: both characters stay
+   comfortably inside the viewport at every width (narrowest margin
+   ~66px at 641px). */
 .trailer-banner {
   position: relative;
   width: 100%;
-  /* Matches the source art's own ratio (7842x1847) exactly, so cover never
-     has to crop or upscale it — same "keep it crisp, don't distort"
-     reasoning as the Story page background. */
-  aspect-ratio: 7842 / 1847;
+  height: min(40vw, 640px);
   margin-top: 2.5rem;
-  background-image: url('/images/trailer-bg.webp');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 }
-/* Math: "can you make the player bigger so it touches ladybug and cat
-   noir" — widened to the gap's full measured width (28.51% of the
-   banner); since the banner scales as one locked-aspect-ratio unit, this
-   percentage holds at every viewport width, so no separate mobile value
-   is needed. */
+.trailer-char {
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+  pointer-events: none;
+  user-select: none;
+}
+/* Math, 2026-10-16: "it can be a tad bigger so it barely touches the two
+   characters" — embed grown 42%/680px -> 48%/760px, and the gap to each
+   character shrunk from 2% to 0.5% to match. Half-width here (min(24%,
+   380px)) must stay in sync with the embed's own width below. */
+.trailer-char--lb { right: calc(50% + min(24%, 380px) + 0.5%); }
+.trailer-char--cn { left: calc(50% + min(24%, 380px) + 0.5%); }
 .trailer-embed {
   position: absolute;
-  left: 50.7%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 28.51%;
+  left: 50%;
+  /* Math, 2026-10-16: "the player has to be higher" — was bottom:0,
+     flush with the characters' feet. Raised to 20%, then "even higher
+     the player" — raised again to 32%. */
+  bottom: 32%;
+  transform: translateX(-50%);
+  width: min(48%, 760px);
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
   background: var(--ink-panel);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+/* Math, 2026-10-16: "the scaling of the lady bug and cat noir on the
+   trailer section is not optimized in mobile the player is also very
+   small" — fitting all three side by side the same way as desktop left
+   barely any width per element once the viewport got narrow. First fix
+   stacked them instead (video full-width on top, characters in a row
+   below). Then, once the video grew to "barely touch" the characters on
+   desktop: "on mobile the character falls below the player can they
+   stay left and right and can we reduce the player more on mobile so
+   the characters stays on the side" — back to side-by-side, reusing the
+   same center-pinned positioning as desktop, with a smaller 16:9 video.
+   Then Math sent a native 9:16 Short (mIxEgeRMiag) for mobile — switched
+   from width-driven sizing to height-driven (height:95% of the banner,
+   aspect-ratio 9/16 derives the width), same logic as the characters,
+   since a tall narrow video needs much less horizontal room than a wide
+   one for the same visual size. Character position math recomputed for
+   the new derived width: embed_height = 0.95 * min(0.40vw, 640px) =
+   min(0.38vw, 608px); embed_width = embed_height * 9/16 = min(0.2138vw,
+   342px); half of that is min(10.69%, 171px). Checked bounds at
+   320-640px: narrowest margin ~48px at 320px (wide room to spare, since
+   the vertical video is much narrower than the old 16:9 crop was).
+   Bug found after shipping: "the player goes in front of the trailer
+   title" — desktop's bottom:32% was still in effect, and combined with
+   height:95% that's 127% of the banner's own height, so the video's top
+   27% spilled out above .trailer-banner into the title above it (which
+   has no overflow:hidden to catch it). Added a mobile-specific
+   bottom:3% so bottom + height stays under 100% (93%), and recomputed
+   the character math for the resulting slightly smaller width:
+   embed_height = 0.90 * min(0.40vw, 640px) = min(0.36vw, 576px);
+   embed_width = embed_height * 9/16 = min(0.2025vw, 324px); half of
+   that is min(10.1%, 162px). */
+/* Math, 2026-10-20: "on mobile the trailer player comes out too small" /
+   "can we readapt to 9x16 phone please" — root cause: .trailer-banner's
+   height was still the desktop formula (min(40vw, 640px)), sized around
+   a wide 16:9 video. On a phone, vw is small, so that banner was barely
+   tall enough to hold the vertical 9:16 Short at any real size. Gave
+   mobile its own banner height, built around the 9:16 video itself
+   (banner = video-height / 0.90, video-width = video-height * 9/16),
+   instead of inheriting a width-driven number meant for the landscape
+   desktop cut. Character gap math recomputed for the new, larger
+   embed width. Checked bounds at 320-640px: narrowest margin ~46px at
+   320px between a character's image and the screen edge. */
+@media (max-width: 640px) {
+  .trailer-banner { height: min(83vw, 480px); }
+  .trailer-char--lb { right: calc(50% + min(21vw, 121px) + 3%); }
+  .trailer-char--cn { left: calc(50% + min(21vw, 121px) + 3%); }
+  .trailer-embed {
+    width: auto;
+    height: 90%;
+    bottom: 3%;
+    aspect-ratio: 9 / 16;
+  }
 }
 
 .section-title {
@@ -808,6 +1087,39 @@ function copyTune() {
 .city-btn--buy:hover { background: #ff1f4a; transform: translateY(-1px); }
 .city-btn--vip { background: #1c0f0d; color: var(--cream); }
 .city-btn--vip:hover { background: #000; transform: translateY(-1px); }
+/* Math, 2026-10-16: "the dates are also very big the lines, condense that
+   section so we can add more cities on mobile" — below 720px each row was
+   three full-width stacked blocks (city+country, venue+date, badge+button)
+   at full desktop padding/font-size, so very few rows fit on screen.
+   Pulled city+country and venue+date onto one line each (baseline-aligned,
+   a bullet between venue and date) and shrunk padding/gaps/font-sizes.
+   Placed after the base .city-row__* / .city-badge / .city-btn rules
+   (not right after the min-width:720px block above) so it actually wins
+   the cascade — same specificity, later source wins, and the base rules
+   used to come after it and silently override it. */
+@media (max-width: 719px) {
+  .city-row { padding: 0.75rem 1rem; gap: 0.3rem; }
+  .city-row__place {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .city-row__city { font-size: 1.1rem; }
+  .city-row__country { font-size: 0.7rem; }
+  .city-row__details {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+  }
+  .city-row__venue { margin-bottom: 0; }
+  .city-row__dates::before { content: '•'; margin-right: 0.4rem; color: rgba(28, 15, 13, 0.35); }
+  .city-row__action { gap: 0.5rem; }
+  .city-badge { padding: 0.2rem 0.55rem; font-size: 0.6rem; }
+  .city-btn { padding: 0.38rem 0.85rem; font-size: 0.72rem; }
+}
 
 .upcoming__more { display: flex; justify-content: center; margin-top: 2rem; }
 .btn {
@@ -828,11 +1140,36 @@ function copyTune() {
 }
 .btn--outline:hover { border-color: var(--red); color: var(--red); }
 
-.trailer-embed iframe {
+.trailer-embed__frame {
   width: 100%;
   height: 100%;
   border: 0;
-  display: block;
+}
+/* Desktop (16:9 trailer) shows by default; mobile (9:16 Short) swaps in
+   at the same breakpoint as the rest of the mobile trailer layout. The
+   mobile iframe's own display is handled by its wrap below; it's never
+   hidden independently of it. */
+.trailer-embed__frame--desktop { display: block; }
+.trailer-embed__mobile-wrap { display: none; }
+@media (max-width: 640px) {
+  .trailer-embed__frame--desktop { display: none; }
+  .trailer-embed__mobile-wrap { display: block; position: relative; width: 100%; height: 100%; }
+}
+/* Invisible tap target over the mobile embed — see the template comment
+   next to trailer-embed__mobile-wrap. Removed from the DOM after first
+   tap so later taps (pause, seek, exit fullscreen) reach YouTube's own
+   controls underneath instead of this button. */
+.trailer-embed__fs-tap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .social-grid {
@@ -848,9 +1185,19 @@ function copyTune() {
   border-radius: 8px;
   background: linear-gradient(135deg, rgba(244, 14, 4, 0.14), rgba(243, 233, 216, 0.06));
   overflow: hidden;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  /* Math, 2026-10-16: "I want something more bold" (Follow Us section) —
+     a thin neon-blue border + glow, echoing the glowing card borders on
+     miraculous.com/games/. */
+  border: 1px solid rgba(70, 140, 255, 0.45);
+  box-shadow: 0 0 16px rgba(50, 120, 255, 0.3);
+  transition: transform 0.15s ease, opacity 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.social-grid__tile:hover { transform: translateY(-2px); opacity: 0.85; }
+.social-grid__tile:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+  border-color: rgba(110, 170, 255, 0.85);
+  box-shadow: 0 0 26px rgba(80, 150, 255, 0.55);
+}
 .social-grid__tile img {
   width: 100%;
   height: 100%;

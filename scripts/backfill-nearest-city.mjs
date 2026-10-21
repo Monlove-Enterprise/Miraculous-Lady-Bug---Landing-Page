@@ -115,7 +115,7 @@ const tourCities = await sql`
   WHERE format = 'tournee'
     AND lat IS NOT NULL AND lng IS NOT NULL
     AND start_date IS NOT NULL
-    AND status != 'epuisee'
+    AND status NOT IN ('epuisee', 'envisagee')
 `
 
 // Many subscribers share the same free-text city ("New York" x hundreds) —

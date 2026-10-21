@@ -33,8 +33,13 @@ function monogram(): string {
       <NuxtLink to="/cast" class="back">← {{ t('cast.backToCast') }}</NuxtLink>
 
       <div class="person__layout">
-        <div class="person__photo">
-          <img v-if="person.photo" :src="person.photo" :alt="person.name" :class="{ 'person__img--center': slug === 'robert-mcqueen' }" />
+        <div class="person__photo" :class="{ 'person__photo--logo': slug === 'real-by-fake' }">
+          <img
+            v-if="person.photo"
+            :src="person.photo"
+            :alt="person.name"
+            :class="{ 'person__img--center': slug === 'robert-mcqueen', 'person__img--logo': slug === 'real-by-fake' }"
+          />
           <span v-else class="person__mono">{{ monogram() }}</span>
         </div>
 
@@ -97,6 +102,15 @@ function monogram(): string {
 }
 .person__photo img.person__img--center {
   object-position: center center;
+}
+/* REAL by FAKE: studio wordmark, not a headshot — show it whole. */
+.person__photo--logo { padding: 2rem; }
+.person__photo img.person__img--logo {
+  position: static;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: none;
 }
 .person__mono {
   font-family: var(--font-display);
