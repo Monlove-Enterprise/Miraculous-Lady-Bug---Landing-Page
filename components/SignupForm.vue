@@ -184,6 +184,9 @@ async function submit() {
       },
     })
     done.value = true
+    // So SubscribePopup.vue never nags someone who already signed up on this
+    // device/browser.
+    if (typeof localStorage !== 'undefined') localStorage.setItem('mlb-subscribed', '1')
     // Report the sign-up to the ad pixels (no-op unless consented to).
     trackLead(eventId)
     trackRegistration(eventId)

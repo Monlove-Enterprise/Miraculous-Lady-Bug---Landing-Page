@@ -236,6 +236,12 @@ const messages: Record<Locale, Dict> = {
     'cookie.gpcNotice':
       'Signal « Global Privacy Control » détecté — nous respectons ton choix : aucun cookie publicitaire n’est chargé.',
     'cookie.close': 'Fermer',
+
+    'subscribePopup.kicker': 'La prévente est ouverte',
+    'subscribePopup.text': 'Accède en avant-première aux billets.',
+    'subscribePopup.cta': 'Je m’inscris',
+    'subscribePopup.dismiss': 'Non merci',
+    'subscribePopup.close': 'Fermer',
   },
   en: {
     'nav.ariaLabel': 'Site navigation',
@@ -463,6 +469,12 @@ const messages: Record<Locale, Dict> = {
     'cookie.gpcNotice':
       'Global Privacy Control signal detected — we respect your choice: no advertising cookies are loaded.',
     'cookie.close': 'Close',
+
+    'subscribePopup.kicker': 'The presale is open',
+    'subscribePopup.text': 'Get early access to tickets.',
+    'subscribePopup.cta': 'Sign me up',
+    'subscribePopup.dismiss': 'No thanks',
+    'subscribePopup.close': 'Close',
   },
 }
 

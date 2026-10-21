@@ -35,4 +35,5 @@ useHead({
   <NuxtRouteAnnouncer />
   <NuxtPage />
   <CookieBanner />
+  <SubscribePopup />
 </template>
