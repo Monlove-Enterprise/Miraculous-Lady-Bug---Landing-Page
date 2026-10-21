@@ -136,8 +136,7 @@ const messages: Record<Locale, Dict> = {
       'Ne manquez pas votre chance de voir Ladybug et Chat Noir passer de l’écran à la scène ! De nouvelles informations seront dévoilées chaque semaine.',
     'story.ctaKicker': 'Soyez Miraculous',
     'story.closing':
-      'Êtes-vous prêts à vivre Miraculous en direct ?\n\n' +
-      'Partagez votre enthousiasme et revenez régulièrement pour découvrir des nouvelles exclusives sur Miraculous Ladybug & Chat Noir : Le Spectacle Live !',
+      'Êtes-vous prêts à vivre Miraculous en direct ? Partagez votre enthousiasme et revenez régulièrement pour découvrir des nouvelles exclusives sur Miraculous Ladybug & Chat Noir : Le Spectacle Live !',
 
     'villes.title': 'Le spectacle près de chez toi',
     'villes.metaDescription':
