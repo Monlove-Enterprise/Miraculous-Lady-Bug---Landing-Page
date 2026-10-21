@@ -1,8 +1,10 @@
 <script setup lang="ts">
-// Soft, dismissible nudge to subscribe — shown once per visitor, triggered by
-// exit-intent (desktop) or a timed fallback (touch devices have no mouse to
-// leave the window from). Math, 2026-10-21: "a soft page to encourage people
-// to subscribe. Something they can exit."
+// Soft, dismissible nudge to subscribe — shown once per visitor, a few
+// seconds after the page loads (exit-intent still fires sooner if the mouse
+// leaves first). Math, 2026-10-21: "a soft page to encourage people to
+// subscribe. Something they can exit." Math, 2026-10-21: "it comes later it
+// seem. Can it arrive when people get on the site. Like 5 seconds after the
+// page loads" — was a 30s touch-device fallback, now the primary trigger.
 import { isPresaleActive } from '~/utils/presaleWindow'
 
 const { t } = useLocale()
@@ -10,7 +12,7 @@ const route = useRoute()
 
 const STORAGE_KEY = 'mlb-subscribe-popup-dismissed'
 const SNOOZE_DAYS = 7
-const FALLBACK_DELAY_MS = 30_000
+const FALLBACK_DELAY_MS = 5_000
 
 const show = ref(false)
 let fallbackTimer: ReturnType<typeof setTimeout> | undefined
