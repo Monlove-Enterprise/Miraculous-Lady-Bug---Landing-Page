@@ -137,7 +137,7 @@ const messages: Record<Locale, Dict> = {
     'story.ctaKicker': 'Soyez Miraculous !',
     'story.closing':
       'Êtes-vous prêts à vivre Miraculous en direct ?\n\n' +
-      'Partagez votre enthousiasme et revenez régulièrement pour découvrir des nouvelles exclusives sur le spectacle Miraculous Ladybug & Chat Noir : Le Spectacle Live !',
+      'Partagez votre enthousiasme et revenez régulièrement pour découvrir des nouvelles exclusives sur Miraculous Ladybug & Chat Noir : Le Spectacle Live !',
 
     'villes.title': 'Le spectacle près de chez toi',
     'villes.metaDescription':
