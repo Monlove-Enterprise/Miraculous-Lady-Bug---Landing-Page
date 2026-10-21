@@ -12,7 +12,15 @@ export function getSql() {
     sql = postgres(url, {
       prepare: false,
       idle_timeout: 20,
+      connect_timeout: 10,
       max: 1,
+      // Math, 2026-10-21: a query got wedged against Supabase's
+      // transaction-mode pooler and, because every cold serverless instance
+      // runs ensureSchema()'s ALTER TABLE chain, took the whole site down —
+      // every request queued behind that one stuck session forever. A hard
+      // statement timeout means the worst case is one failed request, never
+      // a site-wide hang.
+      connection: { statement_timeout: 10_000 },
       onnotice: (notice) => {
         // The idempotent schema setup (CREATE TABLE/INDEX IF NOT EXISTS, ADD
         // COLUMN IF NOT EXISTS) emits harmless "already exists, skipping"
