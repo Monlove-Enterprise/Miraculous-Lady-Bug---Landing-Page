@@ -40,9 +40,12 @@ const rows = [
   { slug: 'lansing-mi', city: 'Lansing', region: 'MI', country_code: 'US', venue: null, promoter: null, format: 'tournee', status: 'confirmee', start_date: '2027-03-05', end_date: '2027-03-05', lat: 42.7325, lng: -84.5555 },
   { slug: 'newport-news-va', city: 'Newport News', region: 'VA', country_code: 'US', venue: 'Ferguson Center', promoter: null, format: 'tournee', status: 'confirmee', start_date: '2027-03-16', end_date: '2027-03-16', lat: 36.9780, lng: -76.4284 },
   { slug: 'wilmington-nc', city: 'Wilmington', region: 'NC', country_code: 'US', venue: 'Wilson Center', promoter: null, format: 'tournee', status: 'confirmee', start_date: '2027-03-19', end_date: '2027-03-19', lat: 34.2257, lng: -77.9447 },
-  { slug: 'austin-tx', city: 'Austin', region: 'TX', country_code: 'US', venue: 'Bass Concert Hall', promoter: null, format: 'tournee', status: 'confirmee', start_date: '2027-03-21', end_date: '2027-03-21', lat: 30.2672, lng: -97.7431 },
-  { slug: 'new-orleans-la', city: 'New Orleans', region: 'LA', country_code: 'US', venue: 'Mahalia Jackson Theater', promoter: null, format: 'tournee', status: 'confirmee', start_date: '2027-03-25', end_date: '2027-03-25', lat: 29.9511, lng: -90.0715 },
-  { slug: 'san-antonio-tx', city: 'San Antonio', region: 'TX', country_code: 'US', venue: 'Majestic Theatre', promoter: null, format: 'tournee', status: 'confirmee', start_date: '2027-03-28', end_date: '2027-03-28', lat: 29.4241, lng: -98.4936 },
+  // Austin, New Orleans, San Antonio: removed, Math 2026-10-22 — not actual
+  // tour stops. (They'd been sitting unused in this array since the original
+  // seed, then wrongly re-added to the live `cities` table on 2026-10-21
+  // during an SEO audit that assumed "in this array but missing from the DB"
+  // meant "accidentally never seeded" rather than "never meant to go live."
+  // Don't re-add without confirming with Math first.)
   // Venue not yet finalized — country only, per Math (2026-09-14).
   { slug: 'qatar-2027', city: 'À déterminer', region: null, country_code: 'QA', venue: null, promoter: 'Events & Entertainment Enterprises', format: 'tournee', status: 'confirmee', start_date: '2027-05-17', end_date: '2027-05-17', lat: null, lng: null },
   // Permanent residency — venue not yet confirmed (Math, 2026-10-06: remove
