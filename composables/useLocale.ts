@@ -238,7 +238,7 @@ const messages: Record<Locale, Dict> = {
     'cookie.close': 'Fermer',
 
     'subscribePopup.kicker': 'Reste informé·e',
-    'subscribePopup.text': 'Abonne-toi à notre liste pour les dates de tournée et les annonces de billets.',
+    'subscribePopup.text': 'Abonne-toi à notre liste pour les dates de tournée, les annonces de billets et du contenu exclusif.',
     'subscribePopup.cta': 'Je m’inscris',
     'subscribePopup.dismiss': 'Non merci',
     'subscribePopup.close': 'Fermer',
@@ -471,7 +471,7 @@ const messages: Record<Locale, Dict> = {
     'cookie.close': 'Close',
 
     'subscribePopup.kicker': 'Stay in the loop',
-    'subscribePopup.text': 'Subscribe to our mailing list for tour dates and ticket announcements.',
+    'subscribePopup.text': 'Subscribe to our mailing list for tour dates, ticket announcements, and exclusive content.',
     'subscribePopup.cta': 'Sign me up',
     'subscribePopup.dismiss': 'No thanks',
     'subscribePopup.close': 'Close',
