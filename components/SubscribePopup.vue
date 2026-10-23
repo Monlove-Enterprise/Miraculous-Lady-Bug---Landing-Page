@@ -5,8 +5,9 @@
 // subscribe. Something they can exit." Math, 2026-10-21: "it comes later it
 // seem. Can it arrive when people get on the site. Like 5 seconds after the
 // page loads" — was a 30s touch-device fallback, now the primary trigger.
-import { isPresaleActive } from '~/utils/presaleWindow'
-
+// Math, 2026-10-23: copy switched from presale-specific to a generic mailing
+// list nudge, so it no longer needs to hide itself once general on-sale
+// opens (isPresaleActive()) — it's eligible everywhere except /signup.
 const { t } = useLocale()
 const route = useRoute()
 
@@ -46,9 +47,8 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && show.value) close(true)
 }
 
-// Never on the signup page itself, and never once general on-sale has
-// started (the copy specifically promises presale access).
-const eligible = computed(() => route.path !== '/signup' && isPresaleActive())
+// Never on the signup page itself.
+const eligible = computed(() => route.path !== '/signup')
 
 onMounted(() => {
   if (!eligible.value || alreadyHandled()) return
