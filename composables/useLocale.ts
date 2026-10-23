@@ -237,8 +237,8 @@ const messages: Record<Locale, Dict> = {
       'Signal « Global Privacy Control » détecté — nous respectons ton choix : aucun cookie publicitaire n’est chargé.',
     'cookie.close': 'Fermer',
 
-    'subscribePopup.kicker': 'Reste informé·e',
-    'subscribePopup.text': 'Abonne-toi à notre liste pour les dates de tournée, les annonces de billets et du contenu exclusif.',
+    'subscribePopup.kicker': 'Profite du contenu exclusif',
+    'subscribePopup.text': 'Abonne-toi et sois parmi les premiers informés des annonces de billets, des nouveautés et du contenu exclusif du spectacle.',
     'subscribePopup.cta': 'Je m’inscris',
     'subscribePopup.dismiss': 'Non merci',
     'subscribePopup.close': 'Fermer',
@@ -470,8 +470,8 @@ const messages: Record<Locale, Dict> = {
       'Global Privacy Control signal detected — we respect your choice: no advertising cookies are loaded.',
     'cookie.close': 'Close',
 
-    'subscribePopup.kicker': 'Stay in the loop',
-    'subscribePopup.text': 'Subscribe to our mailing list for tour dates, ticket announcements, and exclusive content.',
+    'subscribePopup.kicker': 'Get Exclusive Content',
+    'subscribePopup.text': 'Subscribe and be among the first to hear about ticket announcements, show updates, and exclusive content.',
     'subscribePopup.cta': 'Sign me up',
     'subscribePopup.dismiss': 'No thanks',
     'subscribePopup.close': 'Close',
