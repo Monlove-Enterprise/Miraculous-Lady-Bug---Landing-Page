@@ -19,7 +19,7 @@ import {
   type SubscriberInput,
 } from '../utils/subscribers'
 import { syncSubscriberToBrevo, listForConsent } from '../utils/crm/brevo-sync'
-import { sendBrevoWelcomeEmail, sendBrevoPresaleEmail } from '../utils/crm/brevo-welcome'
+import { sendBrevoWelcomeEmail, sendBrevoPresaleEmail, sendBrevoOnsaleEmail } from '../utils/crm/brevo-welcome'
 import { isPresaleActive } from '../../utils/presaleWindow'
 import { resolveCountryForCity } from '../utils/geocode'
 import { findNearestCity } from '../utils/nearestCity'
@@ -267,6 +267,28 @@ export default defineEventHandler(async (event) => {
     } catch (err: any) {
       const msg = err?.data?.message || err?.message || String(err)
       console.error('[subscribe] Presale email failed (non-fatal):', msg)
+    }
+  }
+
+  // ---- 2d. Best-effort "tickets on sale" email — once the presale has ended ----
+  // Math, 2026-10-26: keep the welcome email, but once the presale window
+  // closes (isPresaleActive() false), tell new subscribers tickets are on
+  // sale instead. US/CA gets the domestic template, everyone else the
+  // rest-of-world one.
+  const onsaleTemplateId = countryCode === 'US' || countryCode === 'CA'
+    ? config.brevoOnsaleTemplateId
+    : config.brevoOnsaleIntlTemplateId
+  if (config.brevoApiKey && onsaleTemplateId && !isPresaleActive()) {
+    try {
+      await sendBrevoOnsaleEmail({
+        apiKey: config.brevoApiKey,
+        templateId: Number(onsaleTemplateId),
+        email,
+        firstName: subscriber.firstName,
+      })
+    } catch (err: any) {
+      const msg = err?.data?.message || err?.message || String(err)
+      console.error('[subscribe] Onsale email failed (non-fatal):', msg)
     }
   }
 

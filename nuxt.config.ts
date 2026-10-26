@@ -122,6 +122,15 @@ export default defineNuxtConfig({
     // ("Presale Open"), the same one used for the presale campaign blast.
     // Empty disables the send.
     brevoPresaleTemplateId: process.env.BREVO_PRESALE_TEMPLATE_ID || '12',
+    // Transactional "tickets on sale" email, sent on sign-up once the presale
+    // has ended (utils/presaleWindow.ts) — picks the US/CA template (id 11,
+    // "On Sale Now") or the rest-of-world template (id 22, "On Sale Now
+    // (Rest of World)") based on the subscriber's country_code. Empty
+    // disables the send. Math, 2026-10-26: keep the welcome email, but once
+    // the presale window closes, tell new subscribers tickets are on sale
+    // instead of sending them a presale code that no longer applies.
+    brevoOnsaleTemplateId: process.env.BREVO_ONSALE_TEMPLATE_ID || '11',
+    brevoOnsaleIntlTemplateId: process.env.BREVO_ONSALE_INTL_TEMPLATE_ID || '22',
     klaviyoApiKey: process.env.KLAVIYO_API_KEY || '',
     // TikTok Events API (server-side conversions). Token is a secret (Vercel env).
     tiktokAccessToken: process.env.TIKTOK_ACCESS_TOKEN || '',

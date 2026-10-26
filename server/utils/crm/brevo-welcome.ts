@@ -56,3 +56,30 @@ export async function sendBrevoPresaleEmail(opts: {
     },
   })
 }
+
+// Sends the "tickets are on sale" template to a brand-new subscriber once the
+// presale window has closed — picks the US/CA or rest-of-world template id
+// (caller resolves which) so someone joining after the on-sale campaigns
+// already went out still hears tickets are on sale. Math, 2026-10-26: "keep
+// the welcome email and then send them an email saying the tickets are on
+// sale" for future subscribers, now that the presale is over. Best-effort,
+// same as the other transactional sends.
+export async function sendBrevoOnsaleEmail(opts: {
+  apiKey: string
+  templateId: number
+  email: string
+  firstName?: string
+}): Promise<void> {
+  await $fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': opts.apiKey,
+      'content-type': 'application/json',
+      accept: 'application/json',
+    },
+    body: {
+      templateId: opts.templateId,
+      to: [{ email: opts.email, ...(opts.firstName ? { name: opts.firstName } : {}) }],
+    },
+  })
+}
