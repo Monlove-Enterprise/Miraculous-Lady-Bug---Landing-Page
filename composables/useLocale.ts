@@ -242,6 +242,11 @@ const messages: Record<Locale, Dict> = {
     'subscribePopup.cta': 'Je m’inscris',
     'subscribePopup.dismiss': 'Non merci',
     'subscribePopup.close': 'Fermer',
+
+    'followUs.heading': 'Suis le spectacle',
+    'followUs.text': 'Pour les coulisses, les nouvelles dates et plus encore.',
+    'followUs.instagram': 'Instagram',
+    'followUs.tiktok': 'TikTok',
   },
   en: {
     'nav.ariaLabel': 'Site navigation',
@@ -475,6 +480,11 @@ const messages: Record<Locale, Dict> = {
     'subscribePopup.cta': 'Sign me up',
     'subscribePopup.dismiss': 'No thanks',
     'subscribePopup.close': 'Close',
+
+    'followUs.heading': 'Follow the show',
+    'followUs.text': 'For behind-the-scenes, new dates, and more.',
+    'followUs.instagram': 'Instagram',
+    'followUs.tiktok': 'TikTok',
   },
 }
 

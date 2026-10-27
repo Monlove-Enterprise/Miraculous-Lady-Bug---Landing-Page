@@ -303,6 +303,7 @@ async function submit() {
       <h2 class="form__title">{{ t('form.doneTitle') }}</h2>
       <p class="form__lead">{{ t('form.doneText') }}</p>
       <div class="done__mark" aria-hidden="true">🐞</div>
+      <FollowUs class="done__follow" />
     </div>
   </div>
 </template>
@@ -508,5 +509,10 @@ async function submit() {
 .done__mark {
   font-size: 3rem;
   margin-top: 1rem;
+}
+.done__follow {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(243, 233, 216, 0.12);
 }
 </style>

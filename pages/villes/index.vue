@@ -85,6 +85,7 @@ function openingLabel(c: CityDisplayRow) {
         </li>
       </ul>
 
+      <FollowUs class="villes__follow" />
     </div>
     <SiteFooter />
   </main>
@@ -133,6 +134,7 @@ function openingLabel(c: CityDisplayRow) {
   overflow: hidden;
   margin-bottom: 4rem;
 }
+.villes__follow { margin-bottom: 4rem; }
 /* Math, 2026-10-15: "same thing on where the show is going... I want all
    the dates in cream please" — same cream-card treatment as the homepage's
    city-row, text/badges/VIP button flipped to dark ink for legibility.
