@@ -11,6 +11,7 @@ usePageMeta({
 const videos = [
   { id: 'tTXJ5sU0WDg', title: "MARINETTE's Passion for Fashion — BTS" },
   { id: 'DD4fon4D3II', title: 'What Drives Gabriel Agreste? — BTS' },
+  { id: 'tVMGanFiJbM', title: 'A special tour visit to Miraculous headquarters in Paris' },
 ]
 </script>
 
