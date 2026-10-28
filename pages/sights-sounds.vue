@@ -9,7 +9,7 @@ usePageMeta({
 // Behind-the-scenes clips from Math (2026-10-06), real YouTube titles used
 // as captions rather than guessing who's on camera in each one.
 const videos = [
-  { id: 'tVMGanFiJbM', title: 'A special tour visit to Miraculous headquarters in Paris' },
+  { id: 'tVMGanFiJbM', title: 'A special visit to Miraculous headquarters in Paris!' },
   { id: 'nEGhiHBExFk', title: 'Miraculous Live — Tour Announcement' },
   { id: 'tTXJ5sU0WDg', title: "MARINETTE's Passion for Fashion — BTS" },
   { id: 'DD4fon4D3II', title: 'What Drives Gabriel Agreste? — BTS' },
