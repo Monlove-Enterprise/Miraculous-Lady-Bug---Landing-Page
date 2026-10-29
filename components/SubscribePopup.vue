@@ -8,12 +8,15 @@
 // Math, 2026-10-23: copy switched from presale-specific to a generic mailing
 // list nudge, so it no longer needs to hide itself once general on-sale
 // opens (isPresaleActive()) — it's eligible everywhere except /signup.
+// Math, 2026-10-29: back to a 30s delay — "give them time to find their
+// city" before the nudge appears. Exit-intent still fires immediately
+// regardless of this delay.
 const { t } = useLocale()
 const route = useRoute()
 
 const STORAGE_KEY = 'mlb-subscribe-popup-dismissed'
 const SNOOZE_DAYS = 7
-const FALLBACK_DELAY_MS = 5_000
+const FALLBACK_DELAY_MS = 30_000
 
 const show = ref(false)
 let fallbackTimer: ReturnType<typeof setTimeout> | undefined
