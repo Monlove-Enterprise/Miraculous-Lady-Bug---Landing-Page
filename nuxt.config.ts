@@ -7,6 +7,12 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  // Short marketing redirect — /buytickets is meant for bios/ads/links, not a
+  // real page. 301 so it's treated as permanent by crawlers and link shorteners.
+  routeRules: {
+    '/buytickets': { redirect: { to: '/villes', statusCode: 301 } },
+  },
+
   app: {
     head: {
       htmlAttrs: { lang: 'fr' },
