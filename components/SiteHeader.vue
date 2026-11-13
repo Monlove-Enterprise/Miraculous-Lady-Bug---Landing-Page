@@ -5,7 +5,15 @@
 // link list + language toggle on desktop and mobile alike, rather than
 // separate desktop dropdowns vs. mobile flat menu.
 const { t, locale, toggle, citiesPath } = useLocale()
+const { trackBuyTickets } = useMetaPixel()
 const route = useRoute()
+
+// Links to the cities list, not a specific city's ticket page — no real
+// city/venue to attach (Math, 2026-11-13: "pull from existing tour data, no
+// hardcoding" — there's genuinely none here).
+function onBuyTicketsClick() {
+  trackBuyTickets({ placement: 'nav' })
+}
 
 const mobileOpen = ref(false)
 watch(
@@ -41,7 +49,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
       </button>
 
       <div class="siteheader__right">
-        <NuxtLink :to="citiesPath()" class="siteheader__tickets">{{ t('villes.cta.buy') }}</NuxtLink>
+        <NuxtLink :to="citiesPath()" class="siteheader__tickets" @click="onBuyTicketsClick">{{ t('villes.cta.buy') }}</NuxtLink>
       </div>
     </div>
 

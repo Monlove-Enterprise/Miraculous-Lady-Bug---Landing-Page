@@ -2,6 +2,10 @@
 //
 // enable()  → injects the base pixel snippet once, then fires PageView.
 // trackLead() → fires the sign-up conversion (only if the pixel is loaded).
+// trackBuyTickets() → custom event on every "Buy Tickets" click, Math,
+// 2026-11-13: tickets sell through third-party platforms we get no
+// webhook/Purchase signal from, so this is the best available
+// click-through-intent signal for ad optimization.
 //
 // The standard Meta snippet ships a <noscript><img> fallback that fires
 // unconditionally; it is deliberately omitted here so nothing tracks without
@@ -49,5 +53,14 @@ export function useMetaPixel() {
     }
   }
 
-  return { enable, trackLead }
+  /** Fire the "Buy Tickets" click custom event. No-op if consent was not accepted. */
+  function trackBuyTickets(params: { city?: string; venue?: string; placement: 'home' | 'city_page' | 'nav' }) {
+    if (typeof window === 'undefined') return
+    const f = window as any
+    if (injected && f.fbq) {
+      f.fbq('trackCustom', 'BuyTicketsClick', params)
+    }
+  }
+
+  return { enable, trackLead, trackBuyTickets }
 }

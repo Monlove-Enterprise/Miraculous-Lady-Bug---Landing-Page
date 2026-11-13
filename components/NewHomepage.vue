@@ -2,11 +2,26 @@
 import type { CityRow } from '~/server/api/cities.get'
 import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
-import { toCityDisplayRows, formatCityDate, formatCityTime } from '~/utils/cityDisplayRows'
+import { toCityDisplayRows, formatCityDate, formatCityTime, type CityDisplayRow } from '~/utils/cityDisplayRows'
 import { GENERAL_ON_SALE_AT } from '~/utils/presaleWindow'
+import { withBuyTicketsUtm } from '~/utils/ticketUtm'
 
 const { t, locale, citiesPath, cityPath } = useLocale()
+const { trackBuyTickets } = useMetaPixel()
 const route = useRoute()
+
+function buyTicketsHref(c: CityDisplayRow) {
+  return c.displayTicketUrl ? withBuyTicketsUtm(c.displayTicketUrl, c.slug) : '/signup'
+}
+function onBuyTicketsClick(c: CityDisplayRow, placement: 'home') {
+  trackBuyTickets({ city: c.slug, venue: c.venue ?? undefined, placement })
+}
+// Hero CTA links to the cities list, not a specific city's ticket page —
+// no real city/venue to attach (Math: "pull from existing tour data, no
+// hardcoding" — there's genuinely none here).
+function onGenericBuyTicketsClick() {
+  trackBuyTickets({ placement: 'home' })
+}
 
 // General on-sale countdown banner — Math, 2026-10-21: "the on sale...
 // october 23rd at 10am ET". GENERAL_ON_SALE_AT is the single source of
@@ -227,7 +242,7 @@ function copyTune() {
         <div class="hero__ctas">
           <!-- Single hero CTA per Math — the waitlist sign-up now lives in its
                own section/page (subscribe band + /signup), not competing here. -->
-          <NuxtLink :to="citiesPath()" class="cta">
+          <NuxtLink :to="citiesPath()" class="cta" @click="onGenericBuyTicketsClick">
             {{ t('villes.cta.buy') }}
           </NuxtLink>
         </div>
@@ -279,7 +294,7 @@ function copyTune() {
                    treatment as pages/villes/index.vue. -->
               <span v-if="c.status !== 'confirmee' && c.status !== 'en_vente'" class="city-badge" :class="`city-badge--${c.status}`">{{ t(`villes.status.${c.status}`) }}</span>
               <template v-else>
-                <a :href="c.displayTicketUrl || '/signup'" class="city-btn city-btn--buy">{{ t('villes.cta.buy') }}</a>
+                <a :href="buyTicketsHref(c)" class="city-btn city-btn--buy" @click="onBuyTicketsClick(c, 'home')">{{ t('villes.cta.buy') }}</a>
                 <a :href="c.displayTicketUrl || '/signup'" class="city-btn city-btn--vip">{{ t('nav.vip') }}</a>
               </template>
             </div>

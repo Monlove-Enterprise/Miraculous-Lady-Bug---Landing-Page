@@ -9,6 +9,7 @@ definePageMeta({ alias: ['/cities/:ville()'] })
 
 const route = useRoute()
 const { t, locale, citiesPath } = useLocale()
+const { trackBuyTickets } = useMetaPixel()
 const slug = String(route.params.ville)
 
 const { data } = await useFetch<{ city: CityRow; performances: PerformanceRow[] }>(
@@ -103,6 +104,9 @@ const ticketHrefStart = computed(() =>
 const ticketHrefEnd = computed(() =>
   city.value.endTicketUrl || city.value.ticketUrl ? withUtm(city.value.endTicketUrl || city.value.ticketUrl!) : '/signup',
 )
+function onBuyTicketsClick() {
+  trackBuyTickets({ city: city.value.slug, venue: city.value.venue ?? undefined, placement: 'city_page' })
+}
 
 // Performances -> generic calendar events (showtime as the label).
 const calendarEvents = computed(() =>
@@ -161,17 +165,17 @@ const calendarEvents = computed(() =>
         <template v-if="hasTwoNights">
           <div class="ville__cta-row">
             <span class="ville__cta-date">{{ dateLabel(city.startDate, city.startTime) }}</span>
-            <a :href="ticketHrefStart" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
+            <a :href="ticketHrefStart" class="btn btn--buy btn--lg" @click="onBuyTicketsClick">{{ t('villes.cta.buy') }}</a>
             <a :href="ticketHrefStart" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
           </div>
           <div class="ville__cta-row">
             <span class="ville__cta-date">{{ dateLabel(city.endDate, city.endTime) }}</span>
-            <a :href="ticketHrefEnd" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
+            <a :href="ticketHrefEnd" class="btn btn--buy btn--lg" @click="onBuyTicketsClick">{{ t('villes.cta.buy') }}</a>
             <a :href="ticketHrefEnd" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
           </div>
         </template>
         <div v-else class="ville__cta-row">
-          <a :href="ticketHref" class="btn btn--buy btn--lg">{{ t('villes.cta.buy') }}</a>
+          <a :href="ticketHref" class="btn btn--buy btn--lg" @click="onBuyTicketsClick">{{ t('villes.cta.buy') }}</a>
           <a :href="ticketHref" class="btn btn--vip btn--lg">{{ t('nav.vip') }}</a>
         </div>
       </section>

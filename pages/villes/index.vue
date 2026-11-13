@@ -2,12 +2,14 @@
 import { countryNameByCode } from '~/utils/countries'
 import { HIDDEN_CITY_SLUGS } from '~/utils/hiddenCities'
 import { toCityDisplayRows, formatCityDate, formatCityTime, type CityDisplayRow } from '~/utils/cityDisplayRows'
+import { withBuyTicketsUtm } from '~/utils/ticketUtm'
 import type { CityRow } from '~/server/api/cities.get'
 
 // English visitors use /cities instead of /villes — Math, 2026-10-21.
 definePageMeta({ alias: ['/cities'] })
 
 const { t, locale, cityPath } = useLocale()
+const { trackBuyTickets } = useMetaPixel()
 
 usePageMeta({
   title: () => `${t('villes.title')} — Miraculous Live`,
@@ -38,6 +40,12 @@ function openingLabel(c: CityDisplayRow) {
     { day: 'numeric', month: 'long', year: 'numeric' },
   )
   return t('villes.openingOn').replace('{date}', formatted)
+}
+function buyTicketsHref(c: CityDisplayRow) {
+  return c.displayTicketUrl ? withBuyTicketsUtm(c.displayTicketUrl, c.slug) : '/signup'
+}
+function onBuyTicketsClick(c: CityDisplayRow) {
+  trackBuyTickets({ city: c.slug, venue: c.venue ?? undefined, placement: 'city_page' })
 }
 </script>
 
@@ -71,7 +79,7 @@ function openingLabel(c: CityDisplayRow) {
             <span v-if="c.status !== 'confirmee'" class="badge" :class="`badge--${c.status}`">{{ statusLabel(c) }}</span>
 
             <template v-if="c.status === 'en_vente' || c.status === 'confirmee'">
-              <a :href="c.displayTicketUrl || '/signup'" class="btn btn--buy">{{ t('villes.cta.buy') }}</a>
+              <a :href="buyTicketsHref(c)" class="btn btn--buy" @click="onBuyTicketsClick(c)">{{ t('villes.cta.buy') }}</a>
               <a :href="c.displayTicketUrl || '/signup'" class="btn btn--vip">{{ t('nav.vip') }}</a>
             </template>
             <NuxtLink v-else-if="c.status === 'envisagee'" to="/signup" class="btn btn--interest">
